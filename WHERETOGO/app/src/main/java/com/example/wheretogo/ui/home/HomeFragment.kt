@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+
 import androidx.viewpager2.widget.ViewPager2
 import com.example.wheretogo.R
 import com.example.wheretogo.databinding.FragmentHomeBinding
@@ -12,6 +13,7 @@ import com.example.wheretogo.databinding.FragmentHomeBinding
 class HomeFragment : Fragment() {
 
     lateinit var binding: FragmentHomeBinding
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,6 +35,8 @@ class HomeFragment : Fragment() {
         //속성값들
         binding.homeBannerVp.adapter = bannerAdapter
         binding.homeBannerVp.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+
+
 
         return binding.root
     }

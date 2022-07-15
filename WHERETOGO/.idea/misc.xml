@@ -12,9 +12,16 @@
         <entry key="..\:/Users/Gahyun/AndroidStudioProjects/WHERETOGO/app/src/main/res/layout/fragment_mypage.xml" value="0.20625" />
         <entry key="..\:/Users/Gahyun/AndroidStudioProjects/WHERETOGO/app/src/main/res/layout/fragment_search.xml" value="0.20625" />
         <entry key="..\:/Users/Gahyun/AndroidStudioProjects/WHERETOGO/app/src/main/res/menu/navi_menu.xml" value="0.20989583333333334" />
+        <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/app/src/main/res/drawable/home_banner_ic_off.xml" value="0.1388888888888889" />
+        <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/app/src/main/res/drawable/home_banner_ic_on.xml" value="0.1388888888888889" />
+        <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/app/src/main/res/drawable/indicator_dot_off.xml" value="0.1" />
+        <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/app/src/main/res/drawable/indicator_dot_on.xml" value="0.1" />
+        <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/app/src/main/res/drawable/mypage_like_border.xml" value="0.23020833333333332" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/app/src/main/res/layout/activity_main.xml" value="0.20989583333333334" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/app/src/main/res/layout/fragment_banner.xml" value="0.20989583333333334" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/app/src/main/res/layout/fragment_home.xml" value="0.1" />
+        <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/app/src/main/res/layout/fragment_mypage.xml" value="0.10460251046025104" />
+        <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/app/src/main/res/layout/item_mypage_like.xml" value="0.1" />
       </map>
     </option>
   </component>
