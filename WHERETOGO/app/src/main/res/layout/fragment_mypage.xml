@@ -1,70 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<androidx.constraintlayout.widget.ConstraintLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginTop="?actionBarSize"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/mypage_profile_iv"
-        android:layout_width="61dp"
-        android:layout_height="61dp"
-        android:layout_marginTop="82dp"
-        android:layout_marginStart="43dp"
-        android:src="@drawable/mypage_profile_img"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-    <TextView
-        android:id="@+id/mypage_nickname_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="21dp"
-        android:layout_marginTop="89dp"
-        android:text="닉네임 님"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@id/mypage_profile_iv"/>
-    <ImageView
-        android:layout_width="15dp"
-        android:layout_height="17dp"
-        android:layout_marginTop="90dp"
-        android:layout_marginLeft="10dp"
-        android:src="@drawable/mypage_more_btn"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@id/mypage_nickname_tv"/>
-    <TextView
-        android:id="@+id/mypage_email_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="13dp"
-        android:layout_marginStart="21dp"
-        android:layout_marginTop="5dp"
-        android:textSize="11dp"
-        android:text="email@gmail.com"
-        app:layout_constraintTop_toBottomOf="@id/mypage_nickname_tv"
-        app:layout_constraintStart_toEndOf="@id/mypage_profile_iv"/>
-    <TextView
-        android:id="@+id/mypage_like_explain_tv"
-        android:layout_width="147dp"
-        android:layout_height="17dp"
-        android:text="내가 찜한 행사들이에요."
-        android:layout_marginTop="76dp"
-        android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/mypage_email_tv"/>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/mypage_like_rv"
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/mypage_profile_iv"
+            android:layout_width="61dp"
+            android:layout_height="61dp"
+            android:layout_marginTop="22dp"
+            android:layout_marginStart="43dp"
+            android:src="@drawable/mypage_profile_img"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+        <TextView
+            android:id="@+id/mypage_nickname_tv"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginTop="15dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="21dp"
+            android:layout_marginTop="29dp"
+            android:textSize="15sp"
+            android:text="닉네임 님"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/mypage_profile_iv"/>
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="17dp"
+            android:layout_marginTop="29dp"
+            android:layout_marginStart="10dp"
+            android:src="@drawable/mypage_more_btn"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/mypage_nickname_tv"/>
+        <TextView
+            android:id="@+id/mypage_email_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="13dp"
+            android:layout_marginStart="21dp"
+            android:layout_marginTop="5dp"
+            android:textSize="11sp"
+            android:text="email@gmail.com"
+            app:layout_constraintTop_toBottomOf="@id/mypage_nickname_tv"
+            app:layout_constraintStart_toEndOf="@id/mypage_profile_iv"/>
+        <TextView
+            android:id="@+id/mypage_like_explain_tv"
+            android:layout_width="147dp"
+            android:layout_height="17dp"
+            android:text="내가 찜한 행사들이에요."
+            android:layout_marginTop="76dp"
+            android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/mypage_like_explain_tv"
-            tools:listitem="@layout/item_mypage_like" />
+            app:layout_constraintTop_toBottomOf="@id/mypage_email_tv"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/mypage_like_rv"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginTop="15dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/mypage_like_explain_tv"
+                tools:listitem="@layout/item_mypage_like" />
 
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

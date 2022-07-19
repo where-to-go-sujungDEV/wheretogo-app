@@ -97,7 +97,7 @@
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/detail_event_check_btn"
             android:layout_width="35dp"
-            android:layout_height="33dp"
+            android:layout_height="35dp"
             android:layout_marginStart="35dp"
             android:layout_marginTop="16dp"
             android:src="@drawable/btn_check_click"
