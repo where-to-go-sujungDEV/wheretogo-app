@@ -22,7 +22,13 @@ class DetailFragment : Fragment() {
     ): View? {
         binding = FragmentDetailBinding.inflate(inflater, container, false)
 
+        initLayout()
+        initClickListener()
 
+        return binding.root
+    }
+
+    private fun initLayout(){
         val bannerAdapter = DetailVPAdapter(this)
         //추가할 프래그먼트를 넣어줌
         bannerAdapter.addFragment(DetailBannerFragment(R.drawable.img_detail_banner))
@@ -35,6 +41,10 @@ class DetailFragment : Fragment() {
         binding.detailBannerVp.adapter = bannerAdapter
         binding.detailBannerVp.orientation = ViewPager2.ORIENTATION_HORIZONTAL
 
+        setBannerIndicator()
+    }
+
+    private fun setBannerIndicator(){
         val viewPager2 = binding.detailBannerVp
         val tabLayout = binding.detailTabLayout
 
@@ -47,7 +57,27 @@ class DetailFragment : Fragment() {
             p.setMargins(0, 0, 20, 0)
             tab.requestLayout()
         }
+    }
 
-        return binding.root
+    private fun initClickListener(){
+        binding.detailEventUncheckBtn.setOnClickListener{
+            binding.detailEventCheckBtn.visibility = View.VISIBLE
+            binding.detailEventUncheckBtn.visibility = View.INVISIBLE
+        }
+
+        binding.detailEventCheckBtn.setOnClickListener{
+            binding.detailEventCheckBtn.visibility = View.INVISIBLE
+            binding.detailEventUncheckBtn.visibility = View.VISIBLE
+        }
+
+        binding.detailEventDislikeBtn.setOnClickListener{
+            binding.detailEventLikeBtn.visibility = View.VISIBLE
+            binding.detailEventDislikeBtn.visibility = View.INVISIBLE
+        }
+
+        binding.detailEventLikeBtn.setOnClickListener{
+            binding.detailEventLikeBtn.visibility = View.INVISIBLE
+            binding.detailEventDislikeBtn.visibility = View.VISIBLE
+        }
     }
 }
