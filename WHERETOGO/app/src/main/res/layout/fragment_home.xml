@@ -14,7 +14,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         />
-    
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/home_tab_layout"
+        android:layout_width="80dp"
+        android:layout_height="10dp"
+        android:layout_marginTop="19dp"
+        app:tabBackground="@drawable/home_tab_selector"
+        app:tabIndicatorHeight="0dp"
+        app:tabPaddingStart="5dp"
+        android:background="@color/transparent"
+        app:layout_constraintTop_toBottomOf="@id/home_banner_vp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
     <TextView
         android:id="@+id/home_tag_title_tv"
         android:layout_width="wrap_content"

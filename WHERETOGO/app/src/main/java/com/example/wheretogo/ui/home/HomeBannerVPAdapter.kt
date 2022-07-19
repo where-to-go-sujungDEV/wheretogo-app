@@ -3,7 +3,7 @@ package com.example.wheretogo.ui.home
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 //프래그먼트 안에 이미지를 넣음-->여러 프래그먼트 넘김
-class BannerVPAdapter(fragment: Fragment) : FragmentStateAdapter(fragment){
+class HomeBannerVPAdapter(fragment: Fragment) : FragmentStateAdapter(fragment){
 
     private val fragmentlist : ArrayList<Fragment> = ArrayList() //리스트 타입: 프래그먼트
 
