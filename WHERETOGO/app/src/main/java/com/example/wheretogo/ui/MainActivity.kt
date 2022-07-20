@@ -2,6 +2,7 @@ package com.example.wheretogo.ui
 
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -28,5 +29,14 @@ class MainActivity: AppCompatActivity() {
 
         }
 
+    fun controlBottomNavVisibility(){
+        if (binding.mainBottomNavigation.visibility == View.VISIBLE){
+            binding.mainBottomNavigation.visibility = View.GONE
+        }
+        else {
+            binding.mainBottomNavigation.visibility = View.VISIBLE
+        }
     }
+
+}
 

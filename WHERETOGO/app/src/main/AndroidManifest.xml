@@ -11,6 +11,9 @@
         android:theme="@style/Theme.WHERETOGO"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ui.guide.GuideActivity"
+            android:exported="true" />
+        <activity
             android:name=".ui.MainActivity"
             android:exported="true">
             <intent-filter>
