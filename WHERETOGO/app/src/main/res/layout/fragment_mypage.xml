@@ -58,16 +58,27 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/mypage_email_tv"/>
+<!--        <com.google.android.material.tabs.TabLayout-->
+<!--            android:id="@+id/home_tab_layout"-->
+<!--            android:layout_width="80dp"-->
+<!--            android:layout_height="10dp"-->
+<!--            android:layout_marginTop="19dp"-->
+<!--            app:tabBackground="@drawable/home_tab_selector"-->
+<!--            app:tabIndicatorHeight="0dp"-->
+<!--            app:tabPaddingStart="5dp"-->
+<!--            android:background="@color/transparent"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/home_banner_vp"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"/>-->
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/mypage_like_rv"
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/mypage_vp"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/mypage_like_explain_tv"
-            tools:listitem="@layout/item_mypage_like" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
 
 

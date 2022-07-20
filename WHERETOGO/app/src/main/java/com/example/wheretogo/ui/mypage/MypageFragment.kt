@@ -5,14 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.wheretogo.R
-import com.example.wheretogo.data.userSavedEvent
+import androidx.viewpager2.widget.ViewPager2
 import com.example.wheretogo.databinding.FragmentMypageBinding
+import com.example.wheretogo.ui.home.HomeBannerVPAdapter
 
 class MypageFragment : Fragment() {
     lateinit var binding: FragmentMypageBinding
-    private var savedEventDatas = ArrayList<userSavedEvent>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -21,20 +19,14 @@ class MypageFragment : Fragment() {
     ): View? {
         binding = FragmentMypageBinding.inflate(inflater, container, false)
 
-        savedEventDatas.apply{
-            add(userSavedEvent(R.drawable.img_mypage_panel,"#지금_인기있는 #서울시 #자연","궁중문화축전","05/10~05/22"))
-            add(userSavedEvent(R.drawable.img_mypage_panel,"밤 #공연관람 #무료","2022 SAC FESTA 밤도깨비","07/02~08/13"))
-            add(userSavedEvent(R.drawable.img_mypage_panel,"밤 #공연관람 #무료","2022 SAC FESTA 밤도깨비","07/02~08/13"))
-            add(userSavedEvent(R.drawable.img_mypage_panel,"밤 #공연관람 #무료","2022 SAC FESTA 밤도깨비","07/02~08/13"))
+        val bannerAdapter = HomeBannerVPAdapter(this)
+        //추가할 프래그먼트를 넣어줌
+        bannerAdapter.addFragment(MypageLikeFragment())
+        bannerAdapter.addFragment(MypageVisitedFragment())
 
-
-        }
-
-        val savedEventRVAdapter = UserSavedEventRVAdapter(savedEventDatas)
-        //리사이클러뷰에 어댑터 연결
-        binding.mypageLikeRv.adapter = savedEventRVAdapter
-        binding.mypageLikeRv.layoutManager = LinearLayoutManager(context,
-            LinearLayoutManager.VERTICAL,false)
+        //속성값들
+        binding.mypageVp.adapter = bannerAdapter
+        binding.mypageVp.orientation = ViewPager2.ORIENTATION_HORIZONTAL
 
         return binding.root
     }
