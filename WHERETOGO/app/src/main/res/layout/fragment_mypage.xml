@@ -59,15 +59,15 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/mypage_email_tv"/>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/mypage_like_rv"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_marginTop="15dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/mypage_like_explain_tv"
-                tools:listitem="@layout/item_mypage_like" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/mypage_like_rv"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginTop="15dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mypage_like_explain_tv"
+            tools:listitem="@layout/item_mypage_like" />
 
 
 

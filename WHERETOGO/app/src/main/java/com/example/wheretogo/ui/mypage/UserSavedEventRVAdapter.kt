@@ -13,6 +13,7 @@ class UserSavedEventRVAdapter (private val SavedEventList: ArrayList<userSavedEv
     }
 
     private lateinit var mItemClickListener: OnItemClickListener
+
     fun setMyItemClickListener(itemClickListener: OnItemClickListener) {
         mItemClickListener = itemClickListener
     }
