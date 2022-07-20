@@ -11,7 +11,7 @@ import com.example.wheretogo.data.userSavedEvent
 import com.example.wheretogo.databinding.FragmentMypageBannerBinding
 import com.example.wheretogo.databinding.FragmentMypageBinding
 
-class MypageVisitedFragment : Fragment(){
+class MypageVisitedFragment(val explain : String) : Fragment(){
     lateinit var binding: FragmentMypageBannerBinding
     private var savedEventDatas = ArrayList<userSavedEvent>()
 
@@ -36,6 +36,8 @@ class MypageVisitedFragment : Fragment(){
         binding.mypageLikeRv.adapter = savedEventRVAdapter
         binding.mypageLikeRv.layoutManager = LinearLayoutManager(context,
             LinearLayoutManager.VERTICAL,false)
+
+        binding.mypageExplainTv.text = explain
 
         return binding.root
     }
