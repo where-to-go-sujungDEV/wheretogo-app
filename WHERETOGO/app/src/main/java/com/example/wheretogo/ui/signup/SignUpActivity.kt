@@ -11,15 +11,22 @@ import com.example.wheretogo.R
 import com.example.wheretogo.databinding.ActivitySignupBinding
 import com.example.wheretogo.ui.BaseActivity
 import android.widget.TextView
+import com.example.wheretogo.data.entities.User
+import com.example.wheretogo.data.remote.AuthService
+import com.example.wheretogo.data.remote.SignUpView
 
 
-
-
-class SignUpActivity: BaseActivity<ActivitySignupBinding>(ActivitySignupBinding::inflate){
+class SignUpActivity: BaseActivity<ActivitySignupBinding>(ActivitySignupBinding::inflate),SignUpView{
     val gender = arrayOf("여성","남성","선택 안함")
     val age: Array<Int> = Array(99) { i -> i+1 }
     override fun initAfterBinding() {
+        initSpinner()
+        binding.signUpBtn.setOnClickListener {
+            signUp()
+        }
+    }
 
+    private fun initSpinner(){
         val spinner = findViewById<Spinner>(R.id.sign_up_gender_spinner)
         val arrayAdapter = ArrayAdapter(this,android.R.layout.simple_spinner_dropdown_item,gender)
         spinner.adapter = arrayAdapter
@@ -35,8 +42,6 @@ class SignUpActivity: BaseActivity<ActivitySignupBinding>(ActivitySignupBinding:
             }
 
         }
-        for(i: Int in 3..100)
-            age.plus(i)
 
         val spinnerAge = findViewById<Spinner>(R.id.sign_up_age_spinner)
         val arrayAdapterAge = ArrayAdapter(this,android.R.layout.simple_spinner_dropdown_item,age)
@@ -53,6 +58,47 @@ class SignUpActivity: BaseActivity<ActivitySignupBinding>(ActivitySignupBinding:
             }
 
         }
+    }
+
+    private fun getUser() : User {
+        val email: String =  binding.signUpEmailEt.text.toString() + "@" + binding.signUpDirectInputEt.text.toString()
+        val pwd: String = binding.signUpPwdEt.text.toString()
+        var name: String = binding.signUpNicknameEt.text.toString()
+
+        return User(email, pwd,name)
+    }
+
+
+    private fun signUp(){
+
+        if (binding.signUpNicknameEt.text.toString().isEmpty()) {
+            Toast.makeText(this, "이름 형식이 잘못되었습니다.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        if (binding.signUpEmailEt.text.toString().isEmpty() || binding.signUpDirectInputEt.text.toString().isEmpty()) {
+            Toast.makeText(this, "이메일 형식이 잘못되었습니다.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        if (binding.signUpPwdEt.text.toString() != binding.signUpPwdCheckEt.text.toString()) {
+            Toast.makeText(this, "비밀번호가 일치하지 않습니다.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+
+        val authService = AuthService()
+        authService.setSignUpView(this)
+
+        authService.signUp(getUser()) //api호출
+    }
+
+    override fun onSignUpSuccess() {
+        finish()
+    }
+
+    override fun onSignUpFailure() {
+
     }
 
 

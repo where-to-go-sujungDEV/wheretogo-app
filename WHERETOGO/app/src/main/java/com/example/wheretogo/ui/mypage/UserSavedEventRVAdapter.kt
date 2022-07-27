@@ -3,7 +3,7 @@ package com.example.wheretogo.ui.mypage
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.wheretogo.data.userSavedEvent
+import com.example.wheretogo.data.entities.userSavedEvent
 import com.example.wheretogo.databinding.ItemMypageLikeBinding
 
 class UserSavedEventRVAdapter (private val SavedEventList: ArrayList<userSavedEvent>) : RecyclerView.Adapter<UserSavedEventRVAdapter.ViewHolder>() {

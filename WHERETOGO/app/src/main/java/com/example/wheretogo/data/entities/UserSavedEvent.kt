@@ -1,4 +1,4 @@
-package com.example.wheretogo.data
+package com.example.wheretogo.data.entities
 
 
 data class userSavedEvent(

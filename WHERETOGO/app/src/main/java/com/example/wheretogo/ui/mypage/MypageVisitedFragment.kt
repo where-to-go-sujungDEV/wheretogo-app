@@ -7,9 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.wheretogo.R
-import com.example.wheretogo.data.userSavedEvent
+import com.example.wheretogo.data.entities.userSavedEvent
 import com.example.wheretogo.databinding.FragmentMypageBannerBinding
-import com.example.wheretogo.databinding.FragmentMypageBinding
 
 class MypageVisitedFragment(val explain : String) : Fragment(){
     lateinit var binding: FragmentMypageBannerBinding
