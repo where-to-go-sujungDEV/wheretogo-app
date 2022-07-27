@@ -12,6 +12,8 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.wheretogo.R
 import com.example.wheretogo.databinding.FragmentEventBannerBinding
 import com.example.wheretogo.databinding.FragmentHomeBinding
+import com.example.wheretogo.ui.MainActivity
+import com.example.wheretogo.ui.detail.DetailActivity
 
 import com.example.wheretogo.ui.guide.GuideActivity
 import com.google.android.material.tabs.TabLayoutMediator
@@ -19,8 +21,6 @@ import com.google.android.material.tabs.TabLayoutMediator
 class HomeFragment : Fragment() {
 
     lateinit var binding: FragmentHomeBinding
-    lateinit var binding2: FragmentEventBannerBinding
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -104,6 +104,10 @@ class HomeFragment : Fragment() {
     private fun initClickListener(){
         binding.homeTitle1Tv.setOnClickListener {
             startActivity(Intent(context, GuideActivity::class.java))
+        }
+        binding.homeTagTitle1Tv.setOnClickListener{
+            startActivity(Intent(context, DetailActivity::class.java))
+
         }
     }
 

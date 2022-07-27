@@ -4,18 +4,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="?attr/actionBarSize">
+    android:layout_height="wrap_content">
+
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/detail_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <ImageView
+            android:id="@+id/detail_back_btn"
+            android:layout_width="20dp"
+            android:layout_height="15dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/img_guide_back"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/detail_banner_vp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/detail_back_btn"
             />
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/detail_tab_layout"
@@ -177,7 +188,7 @@
             android:layout_marginTop="15dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/detail_event_time_data"
-            android:text="시간"/>
+            android:text="장소"/>
         <TextView
             android:id="@+id/detail_event_place_data"
             android:layout_width="wrap_content"
@@ -251,8 +262,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/detail_event_introduce"
             android:text="2015년부터 봄 햇살과 함께 찾아오는 궁중문화 축전.\n2022년에도 우리 궁궐을 더욱 깊이 보고 느낄 수 있는 프로그램으로 준비했습니다."/>
-
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

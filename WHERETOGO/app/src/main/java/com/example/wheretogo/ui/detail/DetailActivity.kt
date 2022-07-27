@@ -1,31 +1,28 @@
 package com.example.wheretogo.ui.detail
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.example.wheretogo.R
-import com.example.wheretogo.databinding.FragmentDetailBinding
+import com.example.wheretogo.databinding.ActivityDetailBinding
 import com.google.android.material.tabs.TabLayoutMediator
 
-class DetailFragment : Fragment() {
 
-    lateinit var binding: FragmentDetailBinding
+class DetailActivity: AppCompatActivity() {
+    lateinit var binding: ActivityDetailBinding
 
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentDetailBinding.inflate(inflater, container, false)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityDetailBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         initLayout()
         initClickListener()
 
-        return binding.root
+
     }
 
     private fun initLayout(){
@@ -63,21 +60,35 @@ class DetailFragment : Fragment() {
         binding.detailEventUncheckBtn.setOnClickListener{
             binding.detailEventCheckBtn.visibility = View.VISIBLE
             binding.detailEventUncheckBtn.visibility = View.INVISIBLE
+            Toast.makeText(this,R.string.visited_on, Toast.LENGTH_SHORT).show()
         }
 
         binding.detailEventCheckBtn.setOnClickListener{
             binding.detailEventCheckBtn.visibility = View.INVISIBLE
             binding.detailEventUncheckBtn.visibility = View.VISIBLE
+            Toast.makeText(this, R.string.visited_off, Toast.LENGTH_SHORT).show()
         }
 
         binding.detailEventDislikeBtn.setOnClickListener{
             binding.detailEventLikeBtn.visibility = View.VISIBLE
             binding.detailEventDislikeBtn.visibility = View.INVISIBLE
+            Toast.makeText(this, R.string.like_on, Toast.LENGTH_SHORT).show()
         }
 
         binding.detailEventLikeBtn.setOnClickListener{
             binding.detailEventLikeBtn.visibility = View.INVISIBLE
             binding.detailEventDislikeBtn.visibility = View.VISIBLE
+            Toast.makeText(this, R.string.like_off, Toast.LENGTH_SHORT).show()
+        }
+
+        binding.detailBackBtn.setOnClickListener {
+            finish()
         }
     }
+
+
+
 }
+
+
+

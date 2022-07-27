@@ -1,5 +1,6 @@
 package com.example.wheretogo.ui.mypage
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -39,6 +40,7 @@ class MypageLikeFragment(val explain : String) : Fragment() {
             LinearLayoutManager.VERTICAL,false)
 
         binding.mypageExplainTv.text = explain
+
 
         return binding.root
     }

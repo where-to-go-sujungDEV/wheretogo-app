@@ -1,14 +1,18 @@
 package com.example.wheretogo.ui.mypage
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.example.wheretogo.databinding.FragmentMypageBannerBinding
 import com.example.wheretogo.databinding.FragmentMypageBinding
+import com.example.wheretogo.ui.detail.DetailActivity
 import com.example.wheretogo.ui.home.HomeBannerVPAdapter
+import com.example.wheretogo.ui.login.LoginActivity
 import com.google.android.material.tabs.TabLayoutMediator
 
 class MypageFragment : Fragment() {
@@ -26,6 +30,8 @@ class MypageFragment : Fragment() {
         binding = FragmentMypageBinding.inflate(inflater, container, false)
         initLayout()
         setIndicator()
+
+        initClickListener()
 
         return binding.root
     }
@@ -49,4 +55,16 @@ class MypageFragment : Fragment() {
         }.attach()
 
     }
+
+    private fun initClickListener(){
+        binding.mypageLogin.setOnClickListener {
+            startActivity(Intent(context, LoginActivity::class.java))
+        }
+    }
+
+
+
+
+
+
 }

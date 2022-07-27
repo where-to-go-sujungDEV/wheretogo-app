@@ -3,7 +3,7 @@ package com.example.wheretogo.ui.detail
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 
-class DetailVPAdapter (fragment: Fragment) : FragmentStateAdapter(fragment) {
+class DetailVPAdapter(fragment: DetailActivity) : FragmentStateAdapter(fragment) {
 
     private val detailImgList : ArrayList<Fragment> = ArrayList()
 
