@@ -41,6 +41,11 @@
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/app/src/main/res/layout/item_mypage_like.xml" value="0.1" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/app/src/main/res/menu/navi_menu.xml" value="0.1" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.11458333333333333" />
+        <entry key="..\:/project/WTG/WHERETOGO/Client/app/src/main/res/drawable/search_bar.xml" value="0.1" />
+        <entry key="..\:/project/WTG/WHERETOGO/Client/app/src/main/res/drawable/search_event_banner_background.xml" value="0.1" />
+        <entry key="..\:/project/WTG/WHERETOGO/Client/app/src/main/res/layout/fragment_calendar.xml" value="0.1" />
+        <entry key="..\:/project/WTG/WHERETOGO/Client/app/src/main/res/layout/fragment_search.xml" value="0.1" />
+        <entry key="..\:/project/WTG/WHERETOGO/Client/app/src/main/res/layout/item_recycle_event.xml" value="0.10185185185185185" />
       </map>
     </option>
   </component>
