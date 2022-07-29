@@ -9,20 +9,12 @@ import bodyParser from "body-parser";
 import multer from "multer";
 
 // import routes
-import postRouter from "./routers/postRoutes.js";
-import userRouter from "./routers/userRoutes.js";
+//import eventRouter from "./routers/eventRouter.js";
+//import userRouter from "./routers/userRouter.js";
 import authRouter from "./routers/authRouter.js";
-import catRouter from "./routers/categoryRoutes.js";
-import commRouter from "./routers/commentRoutes.js";
-import followRouter from "./routers/followRoutes.js";
-import CSRouter from "./routers/csBoardRouter.js";
-import commLikeRouter from "./routers/commLikeRouter.js";
+//import keywordRouter from "./routers/keywordRouter.js";
+//import searchRouter from "./routers/searchRouter.js";
 
-import MPRouter from "./routers/myPageRouter.js";
-import indexRouter from "./routers/indexRoutes.js";
-import rankRouter from "./routers/rankingRoutes.js";
-import likeRouter from "./routers/likeRouter.js";
-import reportRouter from "./routers/reportRoutes.js";
 
 import dotenv from "dotenv";
 
@@ -44,19 +36,19 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
 // use router
-app.use("/post", postRouter);
-app.use("/user", userRouter);
+//app.use("/post", postRouter);
+//app.use("/user", userRouter);
 app.use("/auth", authRouter);
-app.use("/cat", catRouter);
-app.use("/comm", commRouter);
-app.use("/foll", followRouter);
-app.use("/cs", CSRouter);
-app.use("/", indexRouter);
-app.use("/rank", rankRouter);
-app.use("/mypage", MPRouter);
-app.use("/like", likeRouter);
-app.use("/report", reportRouter);
-app.use("/commLike", commLikeRouter);
+//app.use("/cat", catRouter);
+//app.use("/comm", commRouter);
+//app.use("/foll", followRouter);
+//app.use("/cs", CSRouter);
+//app.use("/", indexRouter);
+//app.use("/rank", rankRouter);
+//app.use("/mypage", MPRouter);
+//app.use("/like", likeRouter);
+//app.use("/report", reportRouter);
+//app.use("/commLike", commLikeRouter);
 
 // Handling Errors
 app.use((err, req, res, next) => {
