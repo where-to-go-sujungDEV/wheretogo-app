@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/home_event_frame"
+    android:layout_width="326dp"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp">
+    <ImageView
+        android:id="@+id/home_event_iv"
+        android:layout_width="326dp"
+        android:layout_height="165dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/img_mypage_panel"
+        android:background="@drawable/mypage_like_border"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+    <TextView
+        android:id="@+id/home_event_tag_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="13sp"
+        android:textColor="@color/white"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="40dp"
+        android:text="#지금_인기있는 #서울시 #자연"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+    <TextView
+        android:id="@+id/home_event_title_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="98dp"
+        android:textSize="25sp"
+        android:textColor="@color/white"
+        android:text="포항국제불빛축제"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+    <TextView
+        android:id="@+id/home_event_date_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="3dp"
+        android:text="05/10~05/22"
+        app:layout_constraintTop_toBottomOf="@+id/home_event_title_tv"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/home_event_check_btn"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginStart="250dp"
+        android:src="@drawable/btn_check_click"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/home_event_title_tv"/>
+
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/home_event_btn"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="3dp"
+        android:src="@drawable/btn_like_click"
+        app:layout_constraintStart_toEndOf="@id/home_event_check_btn"
+        app:layout_constraintTop_toBottomOf="@+id/home_event_title_tv"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
