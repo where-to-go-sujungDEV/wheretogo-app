@@ -12,6 +12,17 @@
         <entry key="..\:/Users/Gahyun/AndroidStudioProjects/WHERETOGO/app/src/main/res/layout/fragment_mypage.xml" value="0.20625" />
         <entry key="..\:/Users/Gahyun/AndroidStudioProjects/WHERETOGO/app/src/main/res/layout/fragment_search.xml" value="0.20625" />
         <entry key="..\:/Users/Gahyun/AndroidStudioProjects/WHERETOGO/app/src/main/res/menu/navi_menu.xml" value="0.20989583333333334" />
+        <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/activity_guide.xml" value="0.20989583333333334" />
+        <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/activity_login.xml" value="0.20989583333333334" />
+        <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/activity_main.xml" value="0.20989583333333334" />
+        <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/fragment_calendar.xml" value="0.20989583333333334" />
+        <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/fragment_mypage.xml" value="0.20989583333333334" />
+        <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/fragment_mypage_banner.xml" value="0.20989583333333334" />
+        <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/fragment_search.xml" value="0.20989583333333334" />
+        <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/item_mypage_like.xml" value="0.20989583333333334" />
+        <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/item_recycle_event.xml" value="0.20989583333333334" />
+        <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/item_recycle_event_like.xml" value="0.20989583333333334" />
+        <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/menu/navi_menu.xml" value="0.20989583333333334" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/app/src/main/res/drawable/btn_login_login.xml" value="0.14539473684210527" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/app/src/main/res/drawable/btn_sign_in_login.xml" value="0.14539473684210527" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/app/src/main/res/drawable/detail_tag_border.xml" value="0.23020833333333332" />
@@ -41,11 +52,6 @@
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/app/src/main/res/layout/item_mypage_like.xml" value="0.1" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/app/src/main/res/menu/navi_menu.xml" value="0.1" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.11458333333333333" />
-        <entry key="..\:/project/WTG/WHERETOGO/Client/app/src/main/res/drawable/search_bar.xml" value="0.1" />
-        <entry key="..\:/project/WTG/WHERETOGO/Client/app/src/main/res/drawable/search_event_banner_background.xml" value="0.1" />
-        <entry key="..\:/project/WTG/WHERETOGO/Client/app/src/main/res/layout/fragment_calendar.xml" value="0.1" />
-        <entry key="..\:/project/WTG/WHERETOGO/Client/app/src/main/res/layout/fragment_search.xml" value="0.1" />
-        <entry key="..\:/project/WTG/WHERETOGO/Client/app/src/main/res/layout/item_recycle_event.xml" value="0.10185185185185185" />
       </map>
     </option>
   </component>
