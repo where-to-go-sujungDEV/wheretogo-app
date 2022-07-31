@@ -2,7 +2,6 @@ package com.example.wheretogo.ui.signup
 
 
 import android.graphics.Color
-import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -92,12 +91,10 @@ class SignUpActivity: BaseActivity<ActivitySignupBinding>(ActivitySignupBinding:
         authService.setSignUpView(this)
 
         authService.signUp(getUser()) //api호출
-        showToast(getUser().toString())
-        Log.d("userInfo",getUser().toString())
     }
 
     override fun onSignUpSuccess() {
-        //finish()
+        finish()
     }
 
     override fun onSignUpFailure() {

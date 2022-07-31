@@ -47,7 +47,6 @@ class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::in
         authService.setLoginView(this)
 
         authService.login(User(email,pwd,""))
-        Log.d("userInfo",User(email,pwd,"").toString())
 
     }
 
