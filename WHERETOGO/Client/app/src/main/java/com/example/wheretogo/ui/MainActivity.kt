@@ -23,9 +23,9 @@ class MainActivity: AppCompatActivity() {
         navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment_container) as NavHostFragment
         val navController: NavController = navHostFragment.findNavController()
-
         binding.mainBottomNavigation.itemIconTintList = null
         binding.mainBottomNavigation.setupWithNavController(navController)
+        setTheme(R.style.Theme_WHERETOGO)
 
         }
 
