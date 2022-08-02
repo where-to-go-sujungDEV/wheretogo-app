@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.wheretogo.data.entities.userSavedEvent
 import com.example.wheretogo.databinding.ItemMypageVisitedBinding
 
-class UserVisitedEventRVAdapter (private val SavedEventList: ArrayList<userSavedEvent>) : RecyclerView.Adapter<UserVisitedEventRVAdapter.ViewHolder>() {
+class UserVisitedEventRVAdapter (private val VisitedEventList: ArrayList<userSavedEvent>) : RecyclerView.Adapter<UserVisitedEventRVAdapter.ViewHolder>() {
 
     interface OnItemClickListener {
         fun onItemClick(tempReadBookData: userSavedEvent)
@@ -26,13 +26,15 @@ class UserVisitedEventRVAdapter (private val SavedEventList: ArrayList<userSaved
     }
 
     override fun onBindViewHolder(holder: UserVisitedEventRVAdapter.ViewHolder, position: Int) {
-        holder.bind(SavedEventList[position]) //position=indexid 받아온 뷰홀더에 바인딩을 해주기 위해 해당 포지션의 데이터를 던져줌
+        holder.bind(VisitedEventList[position]) //position=indexid 받아온 뷰홀더에 바인딩을 해주기 위해 해당 포지션의 데이터를 던져줌
         holder.binding.itemMypageLikeFrame.setOnClickListener {
-            mItemClickListener.onItemClick(SavedEventList[position])
+            mItemClickListener.onItemClick(VisitedEventList[position])
         }
     }
 
-    override fun getItemCount(): Int = SavedEventList.size
+    override fun getItemCount(): Int {
+        return VisitedEventList.size
+    }
 
     inner class ViewHolder(val binding: ItemMypageVisitedBinding): RecyclerView.ViewHolder(binding.root){
 

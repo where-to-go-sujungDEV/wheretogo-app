@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.wheretogo.data.entities.userSavedEvent
 import com.example.wheretogo.databinding.ItemMypageLikeBinding
 
-class UserLikedEventRVAdapter (private val SavedEventList: ArrayList<userSavedEvent>) : RecyclerView.Adapter<UserLikedEventRVAdapter.ViewHolder>() {
+class UserLikedEventRVAdapter (private val LikedEventList: ArrayList<userSavedEvent>) : RecyclerView.Adapter<UserLikedEventRVAdapter.ViewHolder>() {
 
     interface OnItemClickListener {
         fun onItemClick(tempReadBookData: userSavedEvent)
@@ -26,13 +26,15 @@ class UserLikedEventRVAdapter (private val SavedEventList: ArrayList<userSavedEv
     }
 
     override fun onBindViewHolder(holder: UserLikedEventRVAdapter.ViewHolder, position: Int) {
-        holder.bind(SavedEventList[position]) //position=indexid 받아온 뷰홀더에 바인딩을 해주기 위해 해당 포지션의 데이터를 던져줌
+        holder.bind(LikedEventList[position]) //position=indexid 받아온 뷰홀더에 바인딩을 해주기 위해 해당 포지션의 데이터를 던져줌
         holder.binding.itemMypageLikeFrame.setOnClickListener {
-            mItemClickListener.onItemClick(SavedEventList[position])
+            mItemClickListener.onItemClick(LikedEventList[position])
         }
     }
 
-    override fun getItemCount(): Int = SavedEventList.size
+    override fun getItemCount(): Int {
+        return LikedEventList.size
+    }
 
     inner class ViewHolder(val binding: ItemMypageLikeBinding): RecyclerView.ViewHolder(binding.root){
 
