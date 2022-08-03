@@ -13,6 +13,7 @@ import com.example.wheretogo.databinding.FragmentMypageBinding
 import com.example.wheretogo.ui.detail.DetailActivity
 import com.example.wheretogo.ui.home.HomeBannerVPAdapter
 import com.example.wheretogo.ui.login.LoginActivity
+import com.example.wheretogo.ui.setting.SettingActivity
 import com.google.android.material.tabs.TabLayoutMediator
 
 class MypageFragment : Fragment() {
@@ -59,6 +60,10 @@ class MypageFragment : Fragment() {
     private fun initClickListener(){
         binding.mypageLogin.setOnClickListener {
             startActivity(Intent(context, LoginActivity::class.java))
+        }
+
+        binding.mypageSettingIv.setOnClickListener {
+            startActivity(Intent(context, SettingActivity::class.java))
         }
     }
 
