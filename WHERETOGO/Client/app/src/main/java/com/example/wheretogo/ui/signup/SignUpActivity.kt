@@ -18,7 +18,8 @@ import com.example.wheretogo.data.remote.SignUpView
 
 class SignUpActivity: BaseActivity<ActivitySignupBinding>(ActivitySignupBinding::inflate),SignUpView{
     val gender = arrayOf("여성","남성","선택 안함")
-    val age: Array<Int> = Array(99) { i -> i+1 }
+    val age: Array<Int> = arrayOf(10,20,30,40,50,60,70,80,90)
+
     override fun initAfterBinding() {
         initSpinner()
         binding.signUpBtn.setOnClickListener {
@@ -60,15 +61,18 @@ class SignUpActivity: BaseActivity<ActivitySignupBinding>(ActivitySignupBinding:
         }
     }
 
+
     private fun getUser() : User {
-        val email: String =  binding.signUpEmailEt.text.toString() + "@" + binding.signUpDirectInputEt.text.toString()
+        val email: String =  binding.signUpEmailEt.text.toString()
         val pwd: String = binding.signUpPwdEt.text.toString()
-        var name: String = binding.signUpNicknameEt.text.toString()
+        val name: String = binding.signUpNicknameEt.text.toString()
+        val sex: String = binding.signUpGenderSpinner.selectedItem.toString()
+        val age: Int = binding.signUpAgeSpinner.selectedItemPosition
 
-        return User(email, pwd,name)
+        return User(email, pwd,name,sex,age)
     }
-
-
+//
+//
     private fun signUp(){
 
         if (binding.signUpNicknameEt.text.toString().isEmpty()) {
@@ -76,7 +80,7 @@ class SignUpActivity: BaseActivity<ActivitySignupBinding>(ActivitySignupBinding:
             return
         }
 
-        if (binding.signUpEmailEt.text.toString().isEmpty() || binding.signUpDirectInputEt.text.toString().isEmpty()) {
+        if (binding.signUpEmailEt.text.toString().isEmpty()) {
             Toast.makeText(this, "이메일 형식이 잘못되었습니다.", Toast.LENGTH_SHORT).show()
             return
         }
@@ -93,12 +97,12 @@ class SignUpActivity: BaseActivity<ActivitySignupBinding>(ActivitySignupBinding:
         authService.signUp(getUser()) //api호출
     }
 
-    override fun onSignUpSuccess() {
-        finish()
+    override fun onSignUpSuccess(message: String) {
+        showToast(message)
     }
 
-    override fun onSignUpFailure() {
-
+    override fun onSignUpFailure(message: String) {
+        showToast(message)
     }
 
 
