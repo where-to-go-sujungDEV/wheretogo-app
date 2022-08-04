@@ -12,8 +12,8 @@ import multer from "multer";
 import eventRouter from "./routers/eventRouter.js";
 //import userRouter from "./routers/userRouter.js";
 import authRouter from "./routers/authRouter.js";
-//import keywordRouter from "./routers/keywordRouter.js";
-//import searchRouter from "./routers/searchRouter.js";
+import keywordRouter from "./routers/keywordRouter.js";
+import searchRouter from "./routers/searchRouter.js";
 
 
 import dotenv from "dotenv";
@@ -39,7 +39,8 @@ app.use(express.static("public"));
 app.use("/event", eventRouter);
 //app.use("/user", userRouter);
 app.use("/auth", authRouter);
-//app.use("/cat", catRouter);
+app.use("/search", searchRouter);
+app.use("/keyword", keywordRouter);
 //app.use("/comm", commRouter);
 //app.use("/foll", followRouter);
 //app.use("/cs", CSRouter);
