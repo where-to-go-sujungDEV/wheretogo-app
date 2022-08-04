@@ -24,6 +24,8 @@
         app:layout_constraintTop_toBottomOf="@id/sign_up_title"
         android:text="회원가입"
         android:textSize="18sp"/>
+
+
     <EditText
         android:id="@+id/sign_up_nickname_et"
         android:layout_width="0dp"
@@ -49,9 +51,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sign_up_nickname_et"
         app:layout_constraintEnd_toEndOf="parent"/>
+
+
+
     <EditText
         android:id="@+id/sign_up_email_et"
-        android:layout_width="110dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="30dp"
@@ -60,55 +65,28 @@
         android:hint="이메일*"
         android:inputType="text"
         android:textSize="16sp"
-        app:layout_constraintEnd_toStartOf="@+id/sign_up_email_mid"
-        app:layout_constraintStart_toStartOf="@+id/sign_up_nickname_underscore_view"
-        app:layout_constraintTop_toBottomOf="@+id/sign_up_nickname_underscore_view" />
+        app:layout_constraintStart_toStartOf="@+id/sign_up_email_underscore_view"
+        app:layout_constraintTop_toBottomOf="@id/sign_up_nickname_underscore_view" />
 
     <View
         android:id="@+id/sign_up_email_underscore_view"
-        android:layout_width="100dp"
+        android:layout_width="280dp"
         android:layout_height="1px"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
         android:background="#a8a8a8"
-        app:layout_constraintEnd_toEndOf="@+id/sign_up_email_et"
-        app:layout_constraintStart_toStartOf="@+id/sign_up_email_et"
-        app:layout_constraintTop_toBottomOf="@+id/sign_up_email_et"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sign_up_email_et"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
-    <TextView
-        android:id="@+id/sign_up_email_mid"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="\@"
-        android:textColor="@color/black"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/sign_up_email_et"
-        app:layout_constraintEnd_toEndOf="@+id/sign_up_sign_up_tv"
-        app:layout_constraintStart_toStartOf="@+id/sign_up_sign_up_tv"
-        app:layout_constraintTop_toTopOf="@+id/sign_up_email_et" />
 
-    <EditText
-        android:id="@+id/sign_up_direct_input_et"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:background="@null"
-        android:hint="직접입력"
-        android:inputType="textWebEmailAddress"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@+id/sign_up_email_et"
-        app:layout_constraintStart_toEndOf="@+id/sign_up_email_mid"
-        app:layout_constraintTop_toTopOf="@+id/sign_up_email_mid" />
 
-    <View
-        android:id="@+id/sign_up_address_underscore_view"
-        android:layout_width="0dp"
-        android:layout_height="1px"
-        android:layout_marginTop="15dp"
-        android:background="#a8a8a8"
-        app:layout_constraintEnd_toEndOf="@+id/sign_up_direct_input_et"
-        app:layout_constraintStart_toStartOf="@+id/sign_up_direct_input_et"
-        app:layout_constraintTop_toBottomOf="@+id/sign_up_direct_input_et"/>
+
+
+
+
+
 
     <EditText
         android:id="@+id/sign_up_pwd_et"
@@ -178,13 +156,13 @@
         android:layout_marginTop="28dp"
         app:layout_constraintEnd_toEndOf="@id/sign_up_pwd_underscore_view"
         app:layout_constraintTop_toBottomOf="@+id/sign_up_pwd_check_underscore_view"/>
+
     <Spinner
         android:id="@+id/sign_up_age_spinner"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="0dp"
         app:layout_constraintEnd_toEndOf="@id/sign_up_pwd_underscore_view"
-        app:layout_constraintTop_toBottomOf="@id/sign_up_gender_spinner"/>
+        app:layout_constraintTop_toBottomOf="@id/sign_up_gender_spinner" />
 
     <TextView
         android:id="@+id/sign_up_age_tv"
