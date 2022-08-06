@@ -31,10 +31,10 @@
         android:id="@+id/mypage_login"
         android:layout_width="15dp"
         android:layout_height="17dp"
-        android:layout_marginTop="12dp"
         android:layout_marginStart="10dp"
         android:src="@drawable/mypage_more_btn"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@id/mypage_nickname_tv"
+        app:layout_constraintBottom_toBottomOf="@id/mypage_nickname_tv"
         app:layout_constraintStart_toEndOf="@id/mypage_nickname_tv"/>
     <ImageView
         android:id="@+id/mypage_setting_iv"
