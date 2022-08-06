@@ -2,6 +2,7 @@ package com.example.wheretogo.ui.signup
 
 
 import android.graphics.Color
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -13,7 +14,9 @@ import com.example.wheretogo.ui.BaseActivity
 import android.widget.TextView
 import com.example.wheretogo.data.entities.User
 import com.example.wheretogo.data.remote.AuthService
+import com.example.wheretogo.data.remote.SignUpInfo
 import com.example.wheretogo.data.remote.SignUpView
+import com.example.wheretogo.ui.MainActivity
 
 
 class SignUpActivity: BaseActivity<ActivitySignupBinding>(ActivitySignupBinding::inflate),SignUpView{
@@ -62,21 +65,22 @@ class SignUpActivity: BaseActivity<ActivitySignupBinding>(ActivitySignupBinding:
     }
 
 
-    private fun getUser() : User {
+
+    private fun getSignUpInfo() : SignUpInfo {
+        val sex : String
         val email: String =  binding.signUpEmailEt.text.toString()
         val pwd: String = binding.signUpPwdEt.text.toString()
-        val name: String = binding.signUpNicknameEt.text.toString()
-        val sex: String
+        val nickname: String = binding.signUpNicknameEt.text.toString()
         if (binding.signUpGenderSpinner.selectedItem.toString()=="여성")
             sex = "w"
         else
             sex = "m"
         val age: Int = binding.signUpAgeSpinner.selectedItemPosition
 
-        return User(email, pwd,name,sex,age)
+        return SignUpInfo(email, pwd,nickname,sex,age)
     }
-//
-//
+
+
     private fun signUp(){
 
         if (binding.signUpNicknameEt.text.toString().isEmpty()) {
@@ -98,15 +102,15 @@ class SignUpActivity: BaseActivity<ActivitySignupBinding>(ActivitySignupBinding:
         val authService = AuthService()
         authService.setSignUpView(this)
 
-        authService.signUp(getUser()) //api호출
+        authService.signUp(getSignUpInfo()) //api호출
     }
 
-    override fun onSignUpSuccess(message: String) {
-        showToast(message)
+    override fun onSignUpSuccess() {
+        startNextActivity(MainActivity::class.java)
     }
 
-    override fun onSignUpFailure(message: String) {
-        showToast(message)
+    override fun onSignUpFailure() {
+
     }
 
 

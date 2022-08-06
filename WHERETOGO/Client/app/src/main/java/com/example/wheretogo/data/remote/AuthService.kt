@@ -1,8 +1,6 @@
 package com.example.wheretogo.data.remote
 
 import android.util.Log
-import com.example.wheretogo.ApplicationClass.Companion.retrofit
-import com.example.wheretogo.data.entities.User
 import com.example.wheretogo.ui.login.LoginActivity
 import retrofit2.Call
 import retrofit2.Callback
@@ -20,17 +18,18 @@ class AuthService { //signupview 변수 받음
     fun setLoginView(loginView: LoginActivity){
         this.loginView = loginView
     }
-    fun signUp(user : User){
-        authService.signUp(user).enqueue(object: Callback<SignUpResponse> {
+    fun signUp(signUpInfo: SignUpInfo){
+        authService.signUp(signUpInfo).enqueue(object: Callback<SignUpResponse> {
             override fun onResponse(call: Call<SignUpResponse>, response: Response<SignUpResponse>) {
                 Log.d("SIGNUP/SUCCESS",response.toString())
                 val resp: SignUpResponse = response.body()!!
-                when(resp.message){
-                    "the user has been registered with us!" ->signUpView.onSignUpSuccess(resp.message)
+                when(resp.msg){
+                    "the user has been registered with us!" ->signUpView.onSignUpSuccess()
                     else ->{
-                        signUpView.onSignUpFailure(resp.message)
+                        signUpView.onSignUpFailure()
                     }
                 }
+                Log.d("resp",resp.msg)
             }
 
             override fun onFailure(call: Call<SignUpResponse>, t: Throwable) {
