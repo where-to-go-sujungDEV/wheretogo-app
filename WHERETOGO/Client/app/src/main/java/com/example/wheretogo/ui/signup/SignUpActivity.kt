@@ -66,7 +66,11 @@ class SignUpActivity: BaseActivity<ActivitySignupBinding>(ActivitySignupBinding:
         val email: String =  binding.signUpEmailEt.text.toString()
         val pwd: String = binding.signUpPwdEt.text.toString()
         val name: String = binding.signUpNicknameEt.text.toString()
-        val sex: String = binding.signUpGenderSpinner.selectedItem.toString()
+        val sex: String
+        if (binding.signUpGenderSpinner.selectedItem.toString()=="여성")
+            sex = "w"
+        else
+            sex = "m"
         val age: Int = binding.signUpAgeSpinner.selectedItemPosition
 
         return User(email, pwd,name,sex,age)
