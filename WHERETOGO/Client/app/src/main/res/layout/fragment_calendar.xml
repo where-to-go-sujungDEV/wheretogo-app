@@ -12,13 +12,14 @@
     <com.prolificinteractive.materialcalendarview.MaterialCalendarView
         android:id="@+id/materialCalendar"
         android:layout_marginTop="10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:mcv_tileHeight="80dp"
+
         app:mcv_showOtherDates="other_months"
 
         app:mcv_selectionColor="@color/transparent"
-
         />
+
 
 </LinearLayout>
