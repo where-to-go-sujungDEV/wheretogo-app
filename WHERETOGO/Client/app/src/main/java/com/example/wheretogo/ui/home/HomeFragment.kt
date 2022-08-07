@@ -21,7 +21,6 @@ import com.google.android.material.tabs.TabLayoutMediator
 class HomeFragment : Fragment() {
 
     lateinit var binding: FragmentHomeBinding
-    private var imgRes:Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,

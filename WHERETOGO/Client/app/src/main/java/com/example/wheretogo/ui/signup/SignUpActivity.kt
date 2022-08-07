@@ -12,7 +12,6 @@ import com.example.wheretogo.R
 import com.example.wheretogo.databinding.ActivitySignupBinding
 import com.example.wheretogo.ui.BaseActivity
 import android.widget.TextView
-import com.example.wheretogo.data.entities.User
 import com.example.wheretogo.data.remote.AuthService
 import com.example.wheretogo.data.remote.SignUpInfo
 import com.example.wheretogo.data.remote.SignUpView
@@ -20,8 +19,8 @@ import com.example.wheretogo.ui.MainActivity
 
 
 class SignUpActivity: BaseActivity<ActivitySignupBinding>(ActivitySignupBinding::inflate),SignUpView{
-    val gender = arrayOf("여성","남성","선택 안함")
-    val age: Array<Int> = arrayOf(10,20,30,40,50,60,70,80,90)
+    private val gender = arrayOf("여성","남성","선택 안함")
+    private val age: Array<Int> = arrayOf(10,20,30,40,50,60,70,80,90)
 
     override fun initAfterBinding() {
         initSpinner()
@@ -75,7 +74,7 @@ class SignUpActivity: BaseActivity<ActivitySignupBinding>(ActivitySignupBinding:
             sex = "w"
         else
             sex = "m"
-        val age: Int = binding.signUpAgeSpinner.selectedItemPosition
+        val age: Int = binding.signUpAgeSpinner.selectedItemPosition+1
 
         return SignUpInfo(email, pwd,nickname,sex,age)
     }
@@ -103,14 +102,16 @@ class SignUpActivity: BaseActivity<ActivitySignupBinding>(ActivitySignupBinding:
         authService.setSignUpView(this)
 
         authService.signUp(getSignUpInfo()) //api호출
+        Log.d("SIGNUP/",getSignUpInfo().toString())
     }
 
-    override fun onSignUpSuccess() {
+    override fun onSignUpSuccess(msg: String) {
+        showToast(msg)
         startNextActivity(MainActivity::class.java)
     }
 
-    override fun onSignUpFailure() {
-
+    override fun onSignUpFailure(msg: String) {
+        showToast(msg)
     }
 
 

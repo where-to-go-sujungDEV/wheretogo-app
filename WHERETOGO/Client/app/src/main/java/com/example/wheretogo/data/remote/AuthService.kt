@@ -24,9 +24,10 @@ class AuthService { //signupview 변수 받음
                 Log.d("SIGNUP/SUCCESS",response.toString())
                 val resp: SignUpResponse = response.body()!!
                 when(resp.msg){
-                    "the user has been registered with us!" ->signUpView.onSignUpSuccess()
+                    "The user has been registerd with us!" ->signUpView.onSignUpSuccess(resp.msg)
                     else ->{
-                        signUpView.onSignUpFailure()
+                        signUpView.onSignUpFailure(resp.msg)
+                        Log.d("SIGNUP/",resp.msg)
                     }
                 }
                 Log.d("resp",resp.msg)
