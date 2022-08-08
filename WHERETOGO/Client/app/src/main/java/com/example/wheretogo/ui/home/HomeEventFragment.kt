@@ -6,11 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.example.wheretogo.R
 import com.example.wheretogo.databinding.FragmentEventBannerBinding
 import com.example.wheretogo.ui.detail.DetailActivity
 import com.example.wheretogo.ui.guide.GuideActivity
 
-class HomeEventFragment(val imgRes : Int, val hashtag : String, val title : String, val date: String) : Fragment() {
+class HomeEventFragment() : Fragment() {
     lateinit var binding : FragmentEventBannerBinding
 
     override fun onCreateView(
@@ -20,10 +21,10 @@ class HomeEventFragment(val imgRes : Int, val hashtag : String, val title : Stri
     ): View? {
         binding = FragmentEventBannerBinding.inflate(inflater,container,false)
 
-        binding.homeEventIv.setImageResource(imgRes)
-        binding.homeEventTagTv.text=hashtag
-        binding.homeEventTitleTv.text=title
-        binding.homeEventDateTv.text = date
+        binding.homeEventIv.setImageResource(R.drawable.img_detail_place)
+        binding.homeEventTagTv.text="#지금 인기있는"
+        binding.homeEventTitleTv.text="궁중문화축전"
+        binding.homeEventDateTv.text = "05/10-05/22"
 
 
         binding.homeEventIv.setOnClickListener {

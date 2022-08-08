@@ -39,11 +39,11 @@ class HomeFragment : Fragment() {
     private fun initLayout(){
         val bannerAdapter = HomeBannerVPAdapter(this)
         //추가할 프래그먼트를 넣어줌
-        bannerAdapter.addFragment(HomeBannerFragment(R.drawable.img_home_banner1))
-        bannerAdapter.addFragment(HomeBannerFragment(R.drawable.img_home_banner1))
-        bannerAdapter.addFragment(HomeBannerFragment(R.drawable.img_home_banner1))
-        bannerAdapter.addFragment(HomeBannerFragment(R.drawable.img_home_banner1))
-        bannerAdapter.addFragment(HomeBannerFragment(R.drawable.img_home_banner1))
+        bannerAdapter.addFragment(HomeBannerFragment())
+        bannerAdapter.addFragment(HomeBannerFragment())
+        bannerAdapter.addFragment(HomeBannerFragment())
+        bannerAdapter.addFragment(HomeBannerFragment())
+        bannerAdapter.addFragment(HomeBannerFragment())
 
         //속성값들
         binding.homeBannerVp.adapter = bannerAdapter
@@ -58,12 +58,9 @@ class HomeFragment : Fragment() {
     private fun initLayout2(){
         val event1Adapter = HomeBannerVPAdapter(this)
         //추가할 프래그먼트를 넣어줌
-        event1Adapter.addFragment(HomeEventFragment(R.drawable.img_detail_place,"#지금 인기있는",
-                "궁중문화축전","05/10-05/22"))
-        event1Adapter.addFragment(HomeEventFragment(R.drawable.img_detail_place,"#공연관람",
-            "2022 SAC FESTA 밤도깨비","07/02-08/26"))
-        event1Adapter.addFragment(HomeEventFragment(R.drawable.img_detail_place,"#지금 인기있는",
-            "궁중문화축전","05/10-05/22"))
+        event1Adapter.addFragment(HomeEventFragment())
+        event1Adapter.addFragment(HomeEventFragment())
+        event1Adapter.addFragment(HomeEventFragment())
 
         //속성값들
         binding.homeEvent1Vp.adapter = event1Adapter
@@ -73,14 +70,10 @@ class HomeFragment : Fragment() {
     private fun initLayout3(){
         val event1Adapter = HomeBannerVPAdapter(this)
         //추가할 프래그먼트를 넣어줌
-        event1Adapter.addFragment(HomeEventFragment(R.drawable.img_detail_place,"#공연관람",
-            "2022 SAC FESTA 밤도깨비","07/02-08/26"))
-        event1Adapter.addFragment(HomeEventFragment(R.drawable.img_detail_place,"#지금 인기있는",
-            "궁중문화축전","05/10-05/22"))
-        event1Adapter.addFragment(HomeEventFragment(R.drawable.img_detail_place,"#공연관람",
-            "2022 SAC FESTA 밤도깨비","07/02-08/26"))
-        event1Adapter.addFragment(HomeEventFragment(R.drawable.img_detail_place,"#지금 인기있는",
-            "궁중문화축전","05/10-05/22"))
+        event1Adapter.addFragment(HomeEventFragment())
+        event1Adapter.addFragment(HomeEventFragment())
+        event1Adapter.addFragment(HomeEventFragment())
+        event1Adapter.addFragment(HomeEventFragment())
 
         //속성값들
         binding.homeEvent2Vp.adapter = event1Adapter

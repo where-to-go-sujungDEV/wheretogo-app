@@ -4,6 +4,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.example.wheretogo.data.entities.User
+import com.example.wheretogo.data.local.AppDatabase
 import com.example.wheretogo.data.remote.AuthService
 import com.example.wheretogo.data.remote.LoginInfo
 import com.example.wheretogo.data.remote.LoginView
@@ -12,13 +13,16 @@ import com.example.wheretogo.databinding.ActivityLoginBinding
 
 import com.example.wheretogo.ui.BaseActivity
 import com.example.wheretogo.ui.MainActivity
+import com.example.wheretogo.ui.detail.DetailActivity
 import com.example.wheretogo.ui.signup.SignUpActivity
 
 
 class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::inflate),LoginView{
 
     override fun initAfterBinding() {
-
+        val AppDB = AppDatabase.getInstance(this)!!
+        val users = AppDB.userDao().getUserList()
+        Log.d("userlist",users.toString())
         initClickListener()
     }
 
@@ -29,6 +33,14 @@ class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::in
         binding.loginSignInBtn.setOnClickListener {
             startNextActivity(SignUpActivity::class.java)
         }
+    }
+
+    private fun saveIdx(userIdx: Int){
+        val spf = getSharedPreferences("userInfo", MODE_PRIVATE)
+        val editor = spf.edit()
+
+        editor.putInt("userIdx",userIdx)
+        editor.apply()
     }
 
     private fun getLoginInfo(): LoginInfo {
@@ -54,9 +66,16 @@ class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::in
 
         authService.login(getLoginInfo())
 
+
     }
 
     override fun onLoginSuccess(result: UserResult) {
+        Log.d("login/","dddddd")
+        val AppDB = AppDatabase.getInstance(this)!!
+        if(!AppDB.userDao().isUserExist(result.userID))
+            AppDB.userDao().insert(User(result.userID,result.email,result.nickName,result.password,result.sex,result.age))
+
+        saveIdx(result.userID)
         finish()
     }
 
@@ -64,16 +83,6 @@ class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::in
         binding.loginErrorTv.text = message
         binding.loginErrorTv.visibility = View.VISIBLE
     }
-//
-//    private fun saveJwt2(jwt:String){
-//        val spf = getSharedPreferences("auth2", MODE_PRIVATE)
-//        val editor = spf.edit()
-//
-//        editor.putString("jwt",jwt)
-//        editor.apply()
-//    }
-
-
 
 
 }

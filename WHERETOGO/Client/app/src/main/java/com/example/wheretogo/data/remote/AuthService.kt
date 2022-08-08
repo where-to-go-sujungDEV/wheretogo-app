@@ -46,12 +46,11 @@ class AuthService { //signupview 변수 받음
 
             override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
                 val resp: LoginResponse = response.body()!!
-                Log.d("login/SUCCESS",response.toString())
+                Log.d("login/S", resp.msg)
                 when(resp.msg){
                     "Logged in!" ->{
                         Log.d("login/S", resp.msg)
-                        loginView.onLoginSuccess(resp.user!!)
-                        Log.d("login/Success", response.body()!!.toString())}//액티비티에서 상태 처리
+                        loginView.onLoginSuccess(resp.user!!)}
                     else ->{
                         Log.d("login/F", resp.msg)
                         loginView.onLoginFailure(resp.msg)

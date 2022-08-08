@@ -13,7 +13,7 @@ import com.example.wheretogo.databinding.FragmentMypageBannerBinding
 import com.example.wheretogo.ui.detail.DetailActivity
 import com.google.gson.Gson
 
-class MypageLikeFragment(val explain : String) : Fragment() {
+class MypageLikeFragment() : Fragment() {
     lateinit var binding: FragmentMypageBannerBinding
     private var savedLikeDatas = ArrayList<userSavedEvent>()
 
@@ -32,7 +32,7 @@ class MypageLikeFragment(val explain : String) : Fragment() {
         binding.mypageLikeRv.layoutManager = LinearLayoutManager(context,
             LinearLayoutManager.VERTICAL,false)
 
-        binding.mypageExplainTv.text = explain
+        binding.mypageExplainTv.text = "내가 찜한 행사들이에요."
 
 
         adapter.setMyItemClickListener(object : UserLikedEventRVAdapter.OnItemClickListener {

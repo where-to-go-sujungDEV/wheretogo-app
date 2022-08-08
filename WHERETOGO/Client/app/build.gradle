@@ -1,7 +1,11 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-kapt'
 }
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
 
 android {
     compileSdk 32
@@ -57,8 +61,8 @@ dependencies {
 
 
     //  RoomDB
-    implementation 'androidx.room:room-ktx:2.4.2'
-    implementation 'androidx.room:room-runtime:2.4.2'
+    implementation "androidx.room:room-runtime:$roomdb_version"
+    kapt "androidx.room:room-compiler:$roomdb_version"
 
     //Retrofit
     implementation "com.squareup.retrofit2:retrofit:2.9.0"

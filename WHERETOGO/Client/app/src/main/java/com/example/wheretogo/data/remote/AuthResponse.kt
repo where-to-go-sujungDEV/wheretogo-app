@@ -22,6 +22,7 @@ class LoginResponse(
 )
 
 data class UserResult (
+    @SerializedName(value = "userID")val userID : Int,
     @SerializedName(value = "email")val email : String,
     @SerializedName(value = "nickName")val nickName : String,
     @SerializedName(value = "password")val password: String,

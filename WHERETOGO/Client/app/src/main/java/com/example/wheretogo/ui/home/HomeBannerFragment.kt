@@ -11,7 +11,7 @@ import com.example.wheretogo.databinding.FragmentHomeBannerBinding
 import com.example.wheretogo.ui.guide.GuideActivity
 
 
-class HomeBannerFragment(val imgRes : Int) : Fragment() {
+class HomeBannerFragment() : Fragment() {
     lateinit var binding : FragmentHomeBannerBinding
 
     override fun onCreateView(
@@ -21,10 +21,9 @@ class HomeBannerFragment(val imgRes : Int) : Fragment() {
     ): View? {
         binding = FragmentHomeBannerBinding.inflate(inflater,container,false)
 
-        binding.bannerImageIv.setImageResource(imgRes) //인자값으로 받은 이미지 src로 변경
+        binding.bannerImageIv.setImageResource(R.drawable.img_home_banner1) //인자값으로 받은 이미지 src로 변경
 
         binding.bannerImageIv.setOnClickListener {
-            if (imgRes== R.drawable.img_home_banner1)
                 startActivity(Intent(context, GuideActivity::class.java))
 
         }

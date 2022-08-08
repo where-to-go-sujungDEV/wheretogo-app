@@ -12,7 +12,7 @@ import com.example.wheretogo.data.entities.userSavedEvent
 import com.example.wheretogo.databinding.FragmentMypageBannerBinding
 import com.example.wheretogo.ui.detail.DetailActivity
 
-class MypageVisitedFragment(val explain : String) : Fragment(){
+class MypageVisitedFragment() : Fragment(){
     lateinit var binding: FragmentMypageBannerBinding
     private var savedVisitedDatas = ArrayList<userSavedEvent>()
 
@@ -32,7 +32,7 @@ class MypageVisitedFragment(val explain : String) : Fragment(){
         binding.mypageLikeRv.layoutManager = LinearLayoutManager(context,
             LinearLayoutManager.VERTICAL,false)
 
-        binding.mypageExplainTv.text = explain
+        binding.mypageExplainTv.text = "내가 다녀온 행사들이에요."
 
         adapter.setMyItemClickListener(object : UserVisitedEventRVAdapter.OnItemClickListener {
             override fun onItemClick(tempReadBookData: userSavedEvent) {

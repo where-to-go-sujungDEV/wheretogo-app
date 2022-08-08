@@ -5,8 +5,17 @@ buildscript {
         mavenCentral()
         maven { url 'https://jitpack.io' }
     }
+
+    ext{
+        kotlin_version = "1.4.32"
+        retrofit_version = "2.9.0"
+        okHttp_version = "4.9.0"
+        roomdb_version = "2.3.0"
+        glide_version = "4.11.0"
+    }
+
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.1.0'
+        classpath "com.android.tools.build:gradle:7.0.4"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.20"
 
         // NOTE: Do not place your application dependencies here; they belong
