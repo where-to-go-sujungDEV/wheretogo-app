@@ -8,6 +8,6 @@ import {getSearch} from "../controllers/searchController.js";
 const searchRouter = express.Router();
   
 
-eventRouter.get('/', getSearch);
+searchRouter.get('/', getSearch);
 
 export default searchRouter;

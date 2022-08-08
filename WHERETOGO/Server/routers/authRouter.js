@@ -14,7 +14,7 @@ router.post('/sign-up', [
   check('password', 'Password must be 6 or more characters').isLength({ min: 6 })
 ], (req, res, next) => {
   db.query(
-    `SELECT * FROM userTBL WHERE LOWER(email) = LOWER(${db.escape(req.body.email)});`,
+    `SELECT count(*) FROM userTBL WHERE LOWER(email) = LOWER(${db.escape(req.body.email)});`,
       (err, result) => {
         if (result.length > 0) {
           return res.status(409).send({

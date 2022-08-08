@@ -1,5 +1,5 @@
 import db from "../config/dbConnection.js";
-insertKeyword, getUserKeywordByID, putUserKeywordByID, deleteUserKeywordByID, getIfKeywordExist
+
 export const insertKeyword = (kw, result) => {
     db.query("insert into keywordTBL (content) VALUES (?);", [kw], (err, results) => {             
         if(err) {
@@ -34,7 +34,7 @@ export const putUserKeywordByID = (uid, kid, result) => {
     });   
 }
 
-export const deleteUserKeyword = (uid, kid, result) => {
+export const deleteUserKeywordByID = (uid, kid, result) => {
     db.query("delete from userKeywordTBL where userID = ? and keywordID = ?;", [uid, kid], (err, results) => {             
         if(err) {
             console.log(err);
@@ -45,7 +45,7 @@ export const deleteUserKeyword = (uid, kid, result) => {
     });   
 }
 
-export const getKeywordExist = (kw, result) => {
+export const getIfKeywordExist = (kw, result) => {
     db.query("select * from keywordTBL where content = '?';", [kw], (err, results) => {             
         if(err) {
             console.log(err);
