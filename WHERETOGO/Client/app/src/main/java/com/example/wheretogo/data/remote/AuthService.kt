@@ -41,26 +41,30 @@ class AuthService { //signupview 변수 받음
         Log.d("SIGNUP","HELLO")
     }
 
-//    fun login(user : User){
-//        //레트로핏, 서비스 객체 생성, api 호출
-//        val authService = getRetrofit().create(AuthRetrofitInterface::class.java)
-//        authService.login(user).enqueue(object: Callback<AuthResponse> {
-//            override fun onResponse(call: Call<AuthResponse>, response: Response<AuthResponse>) {
-//                Log.d("LOGIN/SUCCESS",response.toString())
-//                val resp: AuthResponse = response.body()!!
-//                when(val code =resp.code){
-//                    1000-> loginView.onLoginSuccess(code, resp.result!!)
-//                    else -> loginView.onLoginFailure(code, resp.result!!)
-//                }
-//            }
-//
-//            override fun onFailure(call: Call<AuthResponse>, t: Throwable) {
-//                Log.d("LOGIN/FAILURE", t.message.toString())
-//            }
-//
-//        })
-//        Log.d("LOGIN","HELLO")
-//    }
+    fun login(appLoginInfo: LoginInfo){
+        authService.login(appLoginInfo).enqueue(object: Callback<LoginResponse>{
+
+            override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
+                val resp: LoginResponse = response.body()!!
+                Log.d("login/SUCCESS",response.toString())
+                when(resp.msg){
+                    "Logged in!" ->{
+                        Log.d("login/S", resp.msg)
+                        loginView.onLoginSuccess(resp.user!!)
+                        Log.d("login/Success", response.body()!!.toString())}//액티비티에서 상태 처리
+                    else ->{
+                        Log.d("login/F", resp.msg)
+                        loginView.onLoginFailure(resp.msg)
+                    }
+                }
+
+            }
+
+            override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
+                Log.d("login/Failure", "fail")
+            }
+        })
+    }
 
 
 }

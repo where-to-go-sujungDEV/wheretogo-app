@@ -8,4 +8,7 @@ interface AuthRetrofitInterface {
     @POST("/auth/sign-up")
     fun signUp(@Body signUpInfo: SignUpInfo): Call<SignUpResponse>
 
+    @POST("/auth/login")
+    fun login(@Body appLoginInfo:LoginInfo): Call<LoginResponse>
+
 }

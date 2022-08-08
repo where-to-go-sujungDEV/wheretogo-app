@@ -11,23 +11,19 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.wheretogo.R
 import com.example.wheretogo.databinding.ActivityMainBinding
 
-class MainActivity: AppCompatActivity() {
-    lateinit var binding: ActivityMainBinding
+class MainActivity: BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
     private lateinit var navHostFragment: NavHostFragment
 
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    override fun initAfterBinding() {
         navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment_container) as NavHostFragment
         val navController: NavController = navHostFragment.findNavController()
         binding.mainBottomNavigation.itemIconTintList = null
         binding.mainBottomNavigation.setupWithNavController(navController)
-        setTheme(R.style.Theme_WHERETOGO)
 
-        }
+        setTheme(R.style.Theme_WHERETOGO)
+    }
 
     fun controlBottomNavVisibility(){
         if (binding.mainBottomNavigation.visibility == View.VISIBLE){
