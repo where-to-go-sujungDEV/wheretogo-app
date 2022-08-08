@@ -32,7 +32,6 @@ class HomeFragment : Fragment() {
         initLayout()
         initLayout2()
         initLayout3()
-        initClickListener()
 
         return binding.root
     }
@@ -51,6 +50,8 @@ class HomeFragment : Fragment() {
         binding.homeBannerVp.orientation = ViewPager2.ORIENTATION_HORIZONTAL
 
         setIndicator()
+
+
 
     }
 
@@ -101,14 +102,6 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun initClickListener(){
-        binding.homeTitle1Tv.setOnClickListener {
-            startActivity(Intent(context, GuideActivity::class.java))
-        }
-        binding.homeTagTitle1Tv.setOnClickListener{
-            startActivity(Intent(context, DetailActivity::class.java))
 
-        }
-    }
 
 }

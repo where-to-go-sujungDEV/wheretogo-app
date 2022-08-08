@@ -2,6 +2,7 @@ package com.example.wheretogo.ui.signup
 
 
 import android.graphics.Color
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -11,14 +12,15 @@ import com.example.wheretogo.R
 import com.example.wheretogo.databinding.ActivitySignupBinding
 import com.example.wheretogo.ui.BaseActivity
 import android.widget.TextView
-import com.example.wheretogo.data.entities.User
 import com.example.wheretogo.data.remote.AuthService
+import com.example.wheretogo.data.remote.SignUpInfo
 import com.example.wheretogo.data.remote.SignUpView
+import com.example.wheretogo.ui.MainActivity
 
 
 class SignUpActivity: BaseActivity<ActivitySignupBinding>(ActivitySignupBinding::inflate),SignUpView{
-    val gender = arrayOf("여성","남성","선택 안함")
-    val age: Array<Int> = arrayOf(10,20,30,40,50,60,70,80,90)
+    private val gender = arrayOf("여성","남성","선택 안함")
+    private val age: Array<Int> = arrayOf(10,20,30,40,50,60,70,80,90)
 
     override fun initAfterBinding() {
         initSpinner()
@@ -62,21 +64,22 @@ class SignUpActivity: BaseActivity<ActivitySignupBinding>(ActivitySignupBinding:
     }
 
 
-    private fun getUser() : User {
+
+    private fun getSignUpInfo() : SignUpInfo {
+        val sex : String
         val email: String =  binding.signUpEmailEt.text.toString()
         val pwd: String = binding.signUpPwdEt.text.toString()
-        val name: String = binding.signUpNicknameEt.text.toString()
-        val sex: String
+        val nickname: String = binding.signUpNicknameEt.text.toString()
         if (binding.signUpGenderSpinner.selectedItem.toString()=="여성")
             sex = "w"
         else
             sex = "m"
-        val age: Int = binding.signUpAgeSpinner.selectedItemPosition
+        val age: Int = binding.signUpAgeSpinner.selectedItemPosition+1
 
-        return User(email, pwd,name,sex,age)
+        return SignUpInfo(email, pwd,nickname,sex,age)
     }
-//
-//
+
+
     private fun signUp(){
 
         if (binding.signUpNicknameEt.text.toString().isEmpty()) {
@@ -98,15 +101,17 @@ class SignUpActivity: BaseActivity<ActivitySignupBinding>(ActivitySignupBinding:
         val authService = AuthService()
         authService.setSignUpView(this)
 
-        authService.signUp(getUser()) //api호출
+        authService.signUp(getSignUpInfo()) //api호출
+        Log.d("SIGNUP/",getSignUpInfo().toString())
     }
 
-    override fun onSignUpSuccess(message: String) {
-        showToast(message)
+    override fun onSignUpSuccess(msg: String) {
+        showToast(msg)
+        startNextActivity(MainActivity::class.java)
     }
 
-    override fun onSignUpFailure(message: String) {
-        showToast(message)
+    override fun onSignUpFailure(msg: String) {
+        showToast(msg)
     }
 
 

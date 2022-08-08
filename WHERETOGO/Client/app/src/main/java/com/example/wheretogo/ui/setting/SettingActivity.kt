@@ -9,5 +9,13 @@ class SettingActivity: BaseActivity<ActivitySettingBinding>(ActivitySettingBindi
         binding.settingChangeNickname.setOnClickListener {
             startNextActivity(ChangeInfoActivity::class.java)
         }
+        binding.settingGetInfo.setOnClickListener{
+            if (binding.settingGetInfo.text == "OFF"){
+                binding.settingGetInfo.text = "ON"
+            }
+            else{
+                binding.settingGetInfo.text ="OFF"
+            }
+        }
     }
 }

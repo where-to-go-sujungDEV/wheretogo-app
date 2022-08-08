@@ -1,11 +1,14 @@
 package com.example.wheretogo.ui.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.wheretogo.databinding.FragmentEventBannerBinding
+import com.example.wheretogo.ui.detail.DetailActivity
+import com.example.wheretogo.ui.guide.GuideActivity
 
 class HomeEventFragment(val imgRes : Int, val hashtag : String, val title : String, val date: String) : Fragment() {
     lateinit var binding : FragmentEventBannerBinding
@@ -21,6 +24,11 @@ class HomeEventFragment(val imgRes : Int, val hashtag : String, val title : Stri
         binding.homeEventTagTv.text=hashtag
         binding.homeEventTitleTv.text=title
         binding.homeEventDateTv.text = date
+
+
+        binding.homeEventIv.setOnClickListener {
+            startActivity(Intent(context, DetailActivity::class.java))
+        }
 
         return binding.root
     }
