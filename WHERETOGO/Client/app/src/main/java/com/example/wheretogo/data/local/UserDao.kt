@@ -22,4 +22,14 @@ interface UserDao {
     @Query("SELECT EXISTS (SELECT * FROM User WHERE idx = :userIdx)")
     fun isUserExist(userIdx:Int) : Boolean
 
+    @Query("SELECT email FROM USER WHERE idx= :userIdx")
+    fun getEmail(userIdx:Int) : String
+
+    @Query("SELECT nickName FROM USER WHERE idx= :userIdx")
+    fun getNickname(userIdx:Int) : String
+
+    @Query("DELETE FROM User WHERE idx = :userIdx")
+    fun deleteUser(userIdx:Int)
+
+
 }

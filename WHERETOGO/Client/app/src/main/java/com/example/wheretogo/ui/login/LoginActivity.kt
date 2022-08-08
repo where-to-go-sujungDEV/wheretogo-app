@@ -65,15 +65,15 @@ class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::in
         authService.setLoginView(this)
 
         authService.login(getLoginInfo())
-
-
     }
+
+
 
     override fun onLoginSuccess(result: UserResult) {
         Log.d("login/","dddddd")
         val AppDB = AppDatabase.getInstance(this)!!
         if(!AppDB.userDao().isUserExist(result.userID))
-            AppDB.userDao().insert(User(result.userID,result.email,result.nickName,result.password,result.sex,result.age))
+            AppDB.userDao().insert(User(result.userID,result.nickName,result.email,result.password,result.sex,result.age))
 
         saveIdx(result.userID)
         finish()
