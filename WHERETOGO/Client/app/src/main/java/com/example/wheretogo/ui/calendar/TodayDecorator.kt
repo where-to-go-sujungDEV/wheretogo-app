@@ -3,6 +3,7 @@ package com.example.wheretogo.ui.calendar
 import android.app.Activity
 import android.graphics.Color
 import android.graphics.Typeface
+import android.graphics.drawable.Drawable
 import android.text.style.ForegroundColorSpan
 import android.text.style.RelativeSizeSpan
 import android.text.style.StyleSpan
@@ -16,15 +17,19 @@ import com.prolificinteractive.materialcalendarview.DayViewDecorator
 import com.prolificinteractive.materialcalendarview.DayViewFacade
 import kotlin.coroutines.coroutineContext
 
-class TodayDecorator : DayViewDecorator {
+class TodayDecorator(context: Activity): DayViewDecorator {
     private var date = CalendarDay.today()
+    private lateinit var drawable: Drawable
+    var myContext = context
+
     // 당일 날짜 표현 커스텀
     override fun shouldDecorate(day: CalendarDay?): Boolean {
         return day?.equals(date)!!
     }
 
     override fun decorate(view : DayViewFacade?) {
-        view?.addSpan(ForegroundColorSpan(Color.parseColor("#4C00C4")))
-
+        drawable = myContext.resources.getDrawable(R.drawable.calendar_today_background)
+        view?.addSpan(ForegroundColorSpan(Color.WHITE))
+        view?.setSelectionDrawable(drawable)
     }
 }

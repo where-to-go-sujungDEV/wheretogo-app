@@ -3,13 +3,21 @@ package com.example.wheretogo.ui.search
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
+import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.Filter
+import android.widget.Filterable
+import android.widget.TextView
+import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.wheretogo.R
+import com.example.wheretogo.data.entities.Event
+import com.example.wheretogo.ui.detail.DetailActivity
 
 
 class SearchEventAdapter(var events: ArrayList<Event>, var con: Context) :
@@ -20,14 +28,14 @@ class SearchEventAdapter(var events: ArrayList<Event>, var con: Context) :
     var itemFilter = ItemFilter()
 
 
-
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         var eventName : TextView
         var startDate : TextView
         var endDate:TextView
-//        var hashtag1:TextView
-//        var hashtag2:TextView
-//        var hashtag3:TextView
+        var hashtag1:TextView
+        var hashtag2:TextView
+        var hashtag3:TextView
+
 
 
         init {
@@ -36,23 +44,16 @@ class SearchEventAdapter(var events: ArrayList<Event>, var con: Context) :
             endDate = itemView.findViewById(R.id.endDate)
 
 
-//            hashtag1 = itemView.findViewById(R.id.hashtag1)
-//            hashtag2 = itemView.findViewById(R.id.hashtag2)
-//            hashtag3 = itemView.findViewById(R.id.hashtag3)
-//
-//            itemView.setOnClickListener {
-//                AlertDialog.Builder(con).apply {
-//                    var position = adapterPosition
-//                    var event = filteredEvents[position]
-//                    setTitle(event.name)
-//                    setMessage(event.startDate) // ?
-//                    setMessage(event.endDate) // ?
-//                    setPositiveButton("OK", DialogInterface.OnClickListener { dialog, which ->
-//                        Toast.makeText(con, "OK Button Click", Toast.LENGTH_SHORT).show()
-//                    })
-//                    show()
-//                }
-//            }
+            hashtag1 = itemView.findViewById(R.id.hashtag1)
+            hashtag2 = itemView.findViewById(R.id.hashtag2)
+            hashtag3 = itemView.findViewById(R.id.hashtag3)
+
+          itemView.setOnClickListener {
+              val intent = Intent(con, DetailActivity::class.java)
+              con.startActivity(intent)
+
+          }
+
         }
     }
     init {
@@ -66,16 +67,26 @@ class SearchEventAdapter(var events: ArrayList<Event>, var con: Context) :
         val inflater = con.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val view = inflater.inflate(R.layout.item_recycle_event, parent, false)
 
+
         return ViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun onBindViewHolder(holder: SearchEventAdapter.ViewHolder, position: Int) {
         val event: Event = filteredEvents[position]
 
+       // val formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd")
         holder.eventName.text = event.name
-        holder.startDate.text = event.startDate
-        holder.endDate.text = event.endDate
+        //holder.startDate.text = LocalDate.parse(event.startDate, formatter).format(formatter).toString()
+        //holder.endDate.text = LocalDate.parse(event.endDate,formatter).format(formatter).toString()
+        holder.startDate.text =event.startDate
+        holder.endDate.text =event.endDate
+        holder.hashtag1.text = "#" + event.hashtag1
+        holder.hashtag2.text = "#" + event.hashtag2
+        holder.hashtag3.text = "#" + event.hashtag3
+
     }
+
 
     override fun getItemCount(): Int {
         return filteredEvents.size

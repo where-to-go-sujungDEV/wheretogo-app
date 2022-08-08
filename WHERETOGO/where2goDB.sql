@@ -10,24 +10,25 @@ use where2goDB;
 
 
 CREATE TABLE `userTBL` (
+  `userID`	BIGINT NOT NULL AUTO_INCREMENT, 
   `email` varchar(50) NOT NULL UNIQUE,
   `nickName` varchar(50) DEFAULT NULL,
   `password` varchar(200) NOT NULL,
   `sex` varchar(1) DEFAULT NULL,
   `age` int(1) DEFAULT NULL,
   `last_login` datetime DEFAULT '2001-03-26',
-  PRIMARY KEY (`email`)
+  PRIMARY KEY (`userID`)
 );
 
 CREATE TABLE `mainEventTBL` (
-  `mainEventID` int(10) NOT NULL auto_increment, 
+  `mainEventID` BIGINT NOT NULL auto_increment, 
   `ment` varchar(80) NOT NULL,
   `prePic` longblob,
   PRIMARY KEY (`mainEventID`)
 ) ;
 
 CREATE TABLE `eventTBL` (
-  `eventID` int(10) NOT NULL auto_increment,
+  `eventID` BIGINT NOT NULL auto_increment,
   `eventName` varchar(80) NOT NULL,
   `do` varchar(10) NOT NULL,
   `si` varchar(10) NOT NULL,
@@ -52,43 +53,43 @@ CREATE TABLE `eventTBL` (
 ) ;
 
 CREATE TABLE `keywordTBL` (
-  `keywordID` INT(10) NOT NULL AUTO_INCREMENT,
+  `keywordID` BIGINT NOT NULL AUTO_INCREMENT,
   `content` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`keywordID`)
 );
 
 CREATE TABLE `userKeywordTBL` (
-  `email` varchar(50) NOT NULL,
-  `keywordID` INT(10) NOT NULL,
-  PRIMARY KEY (`email`,`keywordID`),
-  CONSTRAINT FOREIGN KEY (`email`) REFERENCES `userTBL` (`email`),
+  `userID`	BIGINT NOT NULL,
+  `keywordID` BIGINT NOT NULL,
+  PRIMARY KEY (`userID`,`keywordID`),
+  CONSTRAINT FOREIGN KEY (`userID`) REFERENCES `userTBL` (`userID`),
   CONSTRAINT FOREIGN KEY (`keywordID`) REFERENCES `keywordTBL` (`keywordID`)
 );
 
 CREATE TABLE `userVisitedTBL` (
-  `email` varchar(50) NOT NULL,
-  `eventID` int(10) NOT NULL,
+  `userID`	BIGINT NOT NULL,
+  `eventID` BIGINT NOT NULL,
   `assessment` varchar(1) NOT NULL,
-  PRIMARY KEY (`email`,`eventID`),
-  CONSTRAINT FOREIGN KEY (`email`) REFERENCES `userTBL` (`email`),
+  PRIMARY KEY (`userID`,`eventID`),
+  CONSTRAINT FOREIGN KEY (`userID`) REFERENCES `userTBL` (`userID`),
   CONSTRAINT FOREIGN KEY (`eventID`) REFERENCES `eventTBL` (`eventID`)
 );
 
 CREATE TABLE `userSavedTBL` (
-  `email` varchar(50) NOT NULL,
-  `eventID` int(10) NOT NULL,
-  PRIMARY KEY (`email`,`eventID`),
-  CONSTRAINT FOREIGN KEY (`email`) REFERENCES `userTBL` (`email`),
+  `userID`	BIGINT NOT NULL,
+  `eventID` BIGINT NOT NULL,
+  PRIMARY KEY (`userID`,`eventID`),
+  CONSTRAINT FOREIGN KEY (`userID`) REFERENCES `userTBL` (`userID`),
   CONSTRAINT FOREIGN KEY (`eventID`) REFERENCES `eventTBL` (`eventID`)
 );
 
 
 -- Insert DATA
-INSERT INTO `userTBL` VALUES ('susu@gmail.com','수수깡','$2a$10$/NcZBB5ZfxrQ4FDcztnK7uK43gdKQinP1QfIUbWTBZDBUc1eIfa1W' , 'w', 2, default); /*pw : suryoung*/
-INSERT INTO `userTBL` VALUES ('water@gmail.com','물마셔요', '$2a$10$A7lmvA8G03x84zylgs2/yel7r9JagASmdG2FBrp0vcAjVdAG4Ghsu', 'm', 3, default); /*pw : sujung*/
-INSERT INTO `userTBL` VALUES ('ruru@naver.com','루루짱', '$2a$10$9fJS/X4QwiY.O6Jhff6sUeTt/w.1Wm9RdDoheJXZ2ywjjcyyVM73a', 'm', 5, default);  /*pw : test*/
-INSERT INTO `userTBL` VALUES ('flower@gmail.com','꽃이조화', '$2a$10$sdeXENBV0HtI7486z/S.fOgG4z5FjnebsRcnMF0Jk9n0pXGAoA6je', 'm', 4, default); /*pw : play*/
-INSERT INTO `userTBL` VALUES ('hot@gmail.com','더워죽겄다', '$2a$10$LjGParALQQ81lmwvq5a3A.xN.HdS9efhqXw.W3cn4pujR0SDGZLbC', 'w', 1, default); /*pw : bbuu*/
+INSERT INTO `userTBL` VALUES (1,'susu@gmail.com','수수깡','$2a$10$/NcZBB5ZfxrQ4FDcztnK7uK43gdKQinP1QfIUbWTBZDBUc1eIfa1W' , 'w', 2, default); /*pw : suryoung*/
+INSERT INTO `userTBL` VALUES (2,'water@gmail.com','물마셔요', '$2a$10$A7lmvA8G03x84zylgs2/yel7r9JagASmdG2FBrp0vcAjVdAG4Ghsu', 'm', 3, default); /*pw : sujung*/
+INSERT INTO `userTBL` VALUES (3,'ruru@naver.com','루루짱', '$2a$10$9fJS/X4QwiY.O6Jhff6sUeTt/w.1Wm9RdDoheJXZ2ywjjcyyVM73a', 'm', 5, default);  /*pw : test*/
+INSERT INTO `userTBL` VALUES (4,'flower@gmail.com','꽃이조화', '$2a$10$sdeXENBV0HtI7486z/S.fOgG4z5FjnebsRcnMF0Jk9n0pXGAoA6je', 'm', 4, default); /*pw : play*/
+INSERT INTO `userTBL` VALUES (5,'hot@gmail.com','더워죽겄다', '$2a$10$LjGParALQQ81lmwvq5a3A.xN.HdS9efhqXw.W3cn4pujR0SDGZLbC', 'w', 1, default); /*pw : bbuu*/
 
 INSERT INTO `mainEventTBL` VALUES (1,'여름에는 물총놀이지! 워터밤 가보자고', NULL);
 INSERT INTO `mainEventTBL` VALUES (2,'미친 더위 공포로 이겨내자 ~ 공포 이벤트 모음집 ~', NULL);
@@ -108,20 +109,20 @@ INSERT INTO `keywordTBL` VALUES (NULL,'먹거리');
 INSERT INTO `keywordTBL` VALUES (NULL,'진흙');
 INSERT INTO `keywordTBL` VALUES (NULL,'축제');
 
-INSERT INTO `userKeywordTBL` VALUES ('susu@gmail.com', 1);
-INSERT INTO `userKeywordTBL` VALUES ('susu@gmail.com', 2);
-INSERT INTO `userKeywordTBL` VALUES ('susu@gmail.com', 3);
-INSERT INTO `userKeywordTBL` VALUES ('susu@gmail.com', 4);
-INSERT INTO `userKeywordTBL` VALUES ('susu@gmail.com', 5);
+INSERT INTO `userKeywordTBL` VALUES (1, 1);
+INSERT INTO `userKeywordTBL` VALUES (1, 2);
+INSERT INTO `userKeywordTBL` VALUES (1, 3);
+INSERT INTO `userKeywordTBL` VALUES (1, 4);
+INSERT INTO `userKeywordTBL` VALUES (1, 5);
 
-INSERT INTO `userVisitedTBL` VALUES ('susu@gmail.com', 1, 'g');
-INSERT INTO `userVisitedTBL` VALUES ('susu@gmail.com', 2, 'b');
-INSERT INTO `userVisitedTBL` VALUES ('susu@gmail.com', 3, 's');
-INSERT INTO `userVisitedTBL` VALUES ('susu@gmail.com', 4, 'g');
-INSERT INTO `userVisitedTBL` VALUES ('susu@gmail.com', 5, 'b');
+INSERT INTO `userVisitedTBL` VALUES (1, 1, 'g');
+INSERT INTO `userVisitedTBL` VALUES (1, 2, 'b');
+INSERT INTO `userVisitedTBL` VALUES (1, 3, 's');
+INSERT INTO `userVisitedTBL` VALUES (1, 4, 'g');
+INSERT INTO `userVisitedTBL` VALUES (1, 5, 'b');
 
-INSERT INTO `userSavedTBL` VALUES ('susu@gmail.com', 1);
-INSERT INTO `userSavedTBL` VALUES ('susu@gmail.com', 2);
-INSERT INTO `userSavedTBL` VALUES ('susu@gmail.com', 3);
-INSERT INTO `userSavedTBL` VALUES ('susu@gmail.com', 4);
-INSERT INTO `userSavedTBL` VALUES ('susu@gmail.com', 5);
+INSERT INTO `userSavedTBL` VALUES (1, 1);
+INSERT INTO `userSavedTBL` VALUES (1, 2);
+INSERT INTO `userSavedTBL` VALUES (1, 3);
+INSERT INTO `userSavedTBL` VALUES (1, 4);
+INSERT INTO `userSavedTBL` VALUES (1, 5);
