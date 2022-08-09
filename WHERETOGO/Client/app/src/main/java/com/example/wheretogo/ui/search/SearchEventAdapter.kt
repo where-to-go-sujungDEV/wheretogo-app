@@ -11,13 +11,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.annotation.RequiresApi
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.wheretogo.R
 import com.example.wheretogo.data.entities.Event
+import com.example.wheretogo.data.entities.userSavedEvent
 import com.example.wheretogo.ui.detail.DetailActivity
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.*
+import kotlin.collections.ArrayList
+
+
 
 
 class SearchEventAdapter(var events: ArrayList<Event>, var con: Context) :
@@ -26,6 +33,7 @@ class SearchEventAdapter(var events: ArrayList<Event>, var con: Context) :
 
     var filteredEvents = ArrayList<Event>()
     var itemFilter = ItemFilter()
+    private var savedEvent: ArrayList<userSavedEvent> = ArrayList<userSavedEvent>()
 
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
@@ -36,6 +44,8 @@ class SearchEventAdapter(var events: ArrayList<Event>, var con: Context) :
         var hashtag2:TextView
         var hashtag3:TextView
 
+        var visitedBtn : ImageButton
+        var likedBtn : ImageButton
 
 
         init {
@@ -48,13 +58,16 @@ class SearchEventAdapter(var events: ArrayList<Event>, var con: Context) :
             hashtag2 = itemView.findViewById(R.id.hashtag2)
             hashtag3 = itemView.findViewById(R.id.hashtag3)
 
-          itemView.setOnClickListener {
+            visitedBtn = itemView.findViewById(R.id.visitedBtn)
+            likedBtn = itemView.findViewById(R.id.likedBtn)
+
+
+            itemView.setOnClickListener {
               val intent = Intent(con, DetailActivity::class.java)
               con.startActivity(intent)
-
-          }
-
+            }
         }
+
     }
     init {
         filteredEvents.addAll(events)
@@ -75,15 +88,54 @@ class SearchEventAdapter(var events: ArrayList<Event>, var con: Context) :
     override fun onBindViewHolder(holder: SearchEventAdapter.ViewHolder, position: Int) {
         val event: Event = filteredEvents[position]
 
-       // val formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd")
+        val formatter = DateTimeFormatter.ofPattern("yyyy-M-d", Locale.ENGLISH)
+
+        val startDate = LocalDate.parse(event.startDate, formatter)
+        val endDate = LocalDate.parse(event.endDate, formatter)
+
         holder.eventName.text = event.name
-        //holder.startDate.text = LocalDate.parse(event.startDate, formatter).format(formatter).toString()
-        //holder.endDate.text = LocalDate.parse(event.endDate,formatter).format(formatter).toString()
-        holder.startDate.text =event.startDate
-        holder.endDate.text =event.endDate
+        holder.startDate.text = startDate.toString()
+        holder.endDate.text = endDate.toString()
+
+        //holder.startDate.text =event.startDate
+       //holder.endDate.text =event.endDate
         holder.hashtag1.text = "#" + event.hashtag1
         holder.hashtag2.text = "#" + event.hashtag2
         holder.hashtag3.text = "#" + event.hashtag3
+
+        holder.visitedBtn.setBackgroundResource(R.drawable.btn_check_unclick)
+        holder.likedBtn.setBackgroundResource(R.drawable.btn_like_unclick)
+
+        holder.visitedBtn.setOnClickListener {
+            if (!event.isvisited){
+                event.isvisited=true;
+                savedEvent.add(userSavedEvent(event.eventId, event.hashtag1, event.name, event.startDate, event.isLiked, true))
+                holder.visitedBtn.setBackgroundResource(R.drawable.btn_check_click)
+                holder.visitedBtn.setSelected(true)
+            }
+            else{
+                event.isvisited=false
+                savedEvent.removeIf{ visitedEvent-> visitedEvent.title == event.name }
+                holder.visitedBtn.setBackgroundResource(R.drawable.btn_check_unclick)
+                holder.visitedBtn.setSelected(false)
+            }
+        }
+
+        holder.likedBtn.setOnClickListener {
+            if (!event.isLiked){
+                event.isLiked=true;
+                savedEvent.add(userSavedEvent(event.eventId, event.hashtag1, event.name, event.startDate, true, event.isvisited))
+                holder.likedBtn.setBackgroundResource(R.drawable.btn_like_click)
+                holder.likedBtn.setSelected(true)
+            }
+            else{
+                event.isLiked=false
+                savedEvent.removeIf{ likedEvent-> likedEvent.title == event.name }
+                holder.likedBtn.setBackgroundResource(R.drawable.btn_like_unclick)
+                holder.likedBtn.setSelected(false)
+            }
+
+        }
 
     }
 
@@ -114,7 +166,7 @@ class SearchEventAdapter(var events: ArrayList<Event>, var con: Context) :
 
             //공백제외 아무런 값이 없을 경우 -> 원본 배열
             if (filterString.trim { it <= ' ' }.isEmpty()) {
-                println("검색어가 입력되지 않았습니다.")
+                //toast:검색어가 입력되지 않았습니다.
                 results.values = events
                 results.count = events.size
 
@@ -123,7 +175,6 @@ class SearchEventAdapter(var events: ArrayList<Event>, var con: Context) :
                 for (event in events) {
                     if (event.name.contains(filterString)) {
                         filteredList.add(event)
-                        println("검색된 이벤트는 $event")
                     }
                 }
             } else{
@@ -137,14 +188,10 @@ class SearchEventAdapter(var events: ArrayList<Event>, var con: Context) :
 
         @SuppressLint("NotifyDataSetChanged")
         override fun publishResults(charSequence: CharSequence?, filterResults: FilterResults) {
-            println("1notifyDatasetChanged $filteredEvents")
             filteredEvents.clear()
             filteredEvents.addAll(filterResults.values as ArrayList<Event>)
-            println("count된 filteredResult수는 ${filteredEvents.count()}")
-            println("count된 filteredResult수는 $filteredEvents")
 
             notifyDataSetChanged()
-            println("datasetChanged가 호출됨")
 
 
         }
