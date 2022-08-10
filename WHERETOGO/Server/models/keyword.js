@@ -1,7 +1,7 @@
 import db from "../config/dbConnection.js";
 
-export const insertKeyword = (kw, result) => {
-    db.query("insert into keywordTBL (content) VALUES (?);", [kw], (err, results) => {             
+export const insertKeyword = (data, result) => {
+    db.query("insert into keywordTBL (content) VALUES (?);", [data.keyword], (err, results) => {             
         if(err) {
             console.log(err);
             result(err, null);
@@ -9,10 +9,10 @@ export const insertKeyword = (kw, result) => {
             result(null, results);
         }
     });   
-}
+};
 
 export const getUserKeywordByID = (uid, result) => {
-    db.query("select * from keywordTBL where userID = ? ;", [uid], (err, results) => {             
+    db.query("select * from keywordTBL where keywordID in (select keywordID from userKeywordTBL where userID = ?) ;", [uid], (err, results) => {             
         if(err) {
             console.log(err);
             result(err, null);
@@ -20,7 +20,7 @@ export const getUserKeywordByID = (uid, result) => {
             result(null, results);
         }
     });   
-}
+};
   
 
 export const putUserKeywordByID = (uid, kid, result) => {
@@ -32,7 +32,7 @@ export const putUserKeywordByID = (uid, kid, result) => {
             result(null, results);
         }
     });   
-}
+};
 
 export const deleteUserKeywordByID = (uid, kid, result) => {
     db.query("delete from userKeywordTBL where userID = ? and keywordID = ?;", [uid, kid], (err, results) => {             
@@ -43,10 +43,11 @@ export const deleteUserKeywordByID = (uid, kid, result) => {
             result(null, results);
         }
     });   
-}
+};
 
-export const getIfKeywordExist = (kw, result) => {
-    db.query("select * from keywordTBL where content = '?';", [kw], (err, results) => {             
+
+export const getIfKeywordExist = (data, result) => {
+    db.query("select * from keywordTBL where content = ?;", [data.keyword], (err, results) => {             
         if(err) {
             console.log(err);
             result(err, null);
@@ -54,4 +55,5 @@ export const getIfKeywordExist = (kw, result) => {
             result(null, results);
         }
     });   
-}
+};
+
