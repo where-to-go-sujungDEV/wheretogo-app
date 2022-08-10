@@ -72,6 +72,7 @@ class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::in
     override fun onLoginSuccess(result: UserResult) {
         Log.d("login/","dddddd")
         val AppDB = AppDatabase.getInstance(this)!!
+        AppDB.userDao().deleteUser(result.userID)
         if(!AppDB.userDao().isUserExist(result.userID))
             AppDB.userDao().insert(User(result.userID,result.nickName,result.email,result.password,result.sex,result.age))
 
