@@ -30,7 +30,7 @@ class ChangeInfoActivity : BaseActivity<ActivityChangeInfoBinding>(ActivityChang
             finish()
         }
         binding.changeInfoSaveTv.setOnClickListener {
-            //setData()
+            setData()
             finish()
         }
         binding.changeInfoSetProfile.setOnClickListener {
@@ -75,7 +75,7 @@ class ChangeInfoActivity : BaseActivity<ActivityChangeInfoBinding>(ActivityChang
     }
 
     private fun setData(){
-        appDB.userDao().setEmail(getIdx(),binding.changeInfoEmailEt.toString())
-        appDB.userDao().setNickName(getIdx(),binding.changeInfoNameEt.toString())
+        appDB.userDao().setEmail(getIdx(),binding.changeInfoEmailEt.getText().toString())
+        appDB.userDao().setNickName(getIdx(),binding.changeInfoNameEt.getText().toString())
     }
 }

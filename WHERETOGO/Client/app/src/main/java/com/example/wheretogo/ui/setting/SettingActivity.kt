@@ -17,5 +17,8 @@ class SettingActivity: BaseActivity<ActivitySettingBinding>(ActivitySettingBindi
                 binding.settingGetInfo.text ="OFF"
             }
         }
+        binding.settingBackTv.setOnClickListener {
+            finish()
+        }
     }
 }
