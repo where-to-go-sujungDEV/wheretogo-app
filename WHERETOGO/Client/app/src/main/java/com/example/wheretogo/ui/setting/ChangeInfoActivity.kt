@@ -2,18 +2,31 @@ package com.example.wheretogo.ui.setting
 
 import android.content.Intent
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
 import com.example.wheretogo.R
+import com.example.wheretogo.data.local.AppDatabase
 import com.example.wheretogo.databinding.ActivityChangeInfoBinding
 import com.example.wheretogo.ui.BaseActivity
 
 class ChangeInfoActivity : BaseActivity<ActivityChangeInfoBinding>(ActivityChangeInfoBinding::inflate){
-
+    lateinit var appDB: AppDatabase
     companion object {
         const val IMAGE_REQUEST_CODE = 100
     }
 
     override fun initAfterBinding() {
+        appDB = AppDatabase.getInstance(this)!!
+        initClickListener()
+        initLayout()
+    }
+
+    private fun initClickListener(){
         binding.changeInfoCancelTv.setOnClickListener {
+            finish()
+        }
+        binding.changeInfoSaveTv.setOnClickListener {
+            //setData()
             finish()
         }
         binding.changeInfoSetProfile.setOnClickListener {
@@ -42,4 +55,23 @@ class ChangeInfoActivity : BaseActivity<ActivityChangeInfoBinding>(ActivityChang
             showToast(data?.data.toString())
         }
     }
+
+    private fun initLayout(){
+        val id :Int = getIdx()
+        if (id==-1){
+            binding.changeInfoEmailEt.setText(appDB.userDao().getEmail(getIdx()))
+            binding.changeInfoNameEt.setText(appDB.userDao().getNickname(getIdx()))
+        }
+
+    }
+
+    private fun getIdx(): Int {
+        val spf = this.getSharedPreferences("userInfo", AppCompatActivity.MODE_PRIVATE)
+        return spf!!.getInt("userIdx",-1)
+    }
+
+//    private fun setData(){
+//        appDB.userDao().setEmail(getIdx(),binding.changeInfoEmailEt.toString())
+//        appDB.userDao().setNickName(getIdx(),binding.changeInfoNameEt.toString())
+//    }
 }

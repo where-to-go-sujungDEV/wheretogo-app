@@ -22,14 +22,14 @@ import com.google.android.material.tabs.TabLayoutMediator
 
 class MypageFragment : Fragment() {
     lateinit var binding: FragmentMypageBinding
-    lateinit var AppDB: AppDatabase
+    lateinit var appDB: AppDatabase
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentMypageBinding.inflate(inflater, container, false)
-        AppDB =AppDatabase.getInstance(requireContext())!!
+        appDB =AppDatabase.getInstance(requireContext())!!
         initLayout()
         initView()
         setIndicator()
@@ -93,8 +93,8 @@ class MypageFragment : Fragment() {
         }
         else{
             binding.mypageLoginTv.text ="로그아웃"
-            binding.mypageNicknameTv.text = AppDB.userDao().getNickname(userIdx)
-            binding.mypageEmailTv.text = AppDB.userDao().getEmail(userIdx)
+            binding.mypageNicknameTv.text = appDB.userDao().getNickname(userIdx)
+            binding.mypageEmailTv.text = appDB.userDao().getEmail(userIdx)
 
         }
     }
