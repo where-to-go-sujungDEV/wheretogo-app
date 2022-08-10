@@ -2,8 +2,8 @@
 import {insertKeyword, getUserKeywordByID, putUserKeywordByID, deleteUserKeywordByID, getIfKeywordExist} from "../models/keyword.js";
 
 export const putKeyword = (req, res) => {
-    const kw = req.body.keyword;
-    insertKeyword(kw, (err, results) => {
+    const data = req.body;
+    insertKeyword(data, (err, results) => {
         if (err){
             res.send(err);
         }else{
@@ -28,7 +28,7 @@ export const getUserKeyword = (req, res) => {
 export const putUserKeyword = (req, res) => {
     const uid = req.params.userID;
     const kid = req.params.keywordID;
-    putUserKeywordByID([uid,kid], (err, results) => {
+    putUserKeywordByID(uid, kid, (err, results) => {
         if (err){
             res.send(err);
         }else{
@@ -40,7 +40,7 @@ export const putUserKeyword = (req, res) => {
 export const deleteUserKeyword = (req, res) => {
     const uid = req.params.userID;
     const kid = req.params.keywordID;
-    deleteUserKeywordByID([uid,kid], (err, results) => {
+    deleteUserKeywordByID(uid, kid, (err, results) => {
         if (err){
             res.send(err);
         }else{
@@ -49,9 +49,10 @@ export const deleteUserKeyword = (req, res) => {
     });
 }
 
+
 export const getKeywordExist = (req, res) => {
-    const kw = req.body.keyword;
-    getIfKeywordExist(kw, (err, results) => {
+    const data = req.body;
+    getIfKeywordExist(data, (err, results) => {
         if (err){
             res.send(err);
         }else{

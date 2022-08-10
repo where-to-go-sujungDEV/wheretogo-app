@@ -1,25 +1,18 @@
 package com.example.wheretogo.ui.search
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.SearchView
-import android.widget.Spinner
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.wheretogo.R
 import com.example.wheretogo.data.entities.Event
-import com.example.wheretogo.data.entities.userSavedEvent
 import com.example.wheretogo.databinding.FragmentSearchBinding
-import com.example.wheretogo.ui.detail.DetailActivity
-import com.example.wheretogo.ui.mypage.UserLikedEventRVAdapter
 import java.util.*
 
 
@@ -30,7 +23,9 @@ class SearchFragment : Fragment() {
 
     lateinit var rv_event: RecyclerView
     var searchEventAdapter: SearchEventAdapter? = null
+
     lateinit var events: ArrayList<Event>
+
 
     lateinit var search_bar: SearchView
 
@@ -42,11 +37,14 @@ class SearchFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         binding = FragmentSearchBinding.inflate(inflater, container, false)
 
         rv_event = binding.root.findViewById(R.id.rv_event)
         search_bar = binding.root.findViewById(R.id.search_bar)
         search_bar.setOnQueryTextListener(searchViewTextListener)
+
+
 
         sortSpinner=binding.root.findViewById(R.id.sortSpinner)
         val sortBy = resources.getStringArray((R.array.sortBy))
@@ -57,7 +55,6 @@ class SearchFragment : Fragment() {
         events = tempEvents()
 
         setAdapter()
-
 
 
         sortSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -93,6 +90,8 @@ class SearchFragment : Fragment() {
         return binding.root
     }
 
+
+
     //SearchView 텍스트 입력시 이벤트
     var searchViewTextListener: SearchView.OnQueryTextListener =
         object : SearchView.OnQueryTextListener {
@@ -118,13 +117,18 @@ class SearchFragment : Fragment() {
 
     }
 
-    fun tempEvents(): ArrayList<Event> {
-        var tempEvents = ArrayList<Event>()
-        tempEvents.add(Event("seoul Festival", "2022-07-13","2022-08-13","수도권","행사","20대가_좋아한"))
-        tempEvents.add(Event("flower Festival", "06/10","08/31","해시1","해시2","해시3"))
-        tempEvents.add(Event("temp event 1", "05/12","10/21","해시4","해시5","해시6"))
-        tempEvents.add(Event("flower garden", "07/14","07/25","해시7","해시8","해시9"))
-        tempEvents.add(Event("tepm event 2", "08/01","08/10","해시10","해시11","해시12"))
+    fun tempEvents(): java.util.ArrayList<Event> {
+        var tempEvents = java.util.ArrayList<Event>()
+        tempEvents.add(Event(1,"seoul Festival", "연극","서사","수도권","행사","20대가_좋아한",
+            "2022-08-13","2022-08-16",0, "tempEvent1.jpg",false, false))
+        tempEvents.add(Event(2,"flower Festival", "축제", "미술","해시1","해시2","해시3",
+            "2022-08-20","2022-08-20",0,"tempEvent2.jpg",false, false))
+        tempEvents.add(Event(3,"temp event 1",  "전시","음악","해시4","해시5","해시6",
+            "2022-07-24","2022-08-15",0,"tempEvent3.jpg",false, false))
+        tempEvents.add(Event(4,"flower musical",  "뮤지컬", "음악","해시7","해시8","해시9",
+            "2022-08-01","2022-08-08" ,0,"tempEvent4.jpg",false, false))
+        tempEvents.add(Event(5,"temp event 2","대회","스포츠","해시10","해시11","해시12",
+            "2022-08-25","2022-08-31",0, "tempEvent5.jpg",false, false))
 
         return tempEvents
     }
@@ -134,18 +138,21 @@ class SearchFragment : Fragment() {
     }
 
 
+    // 시작일순 정렬
     internal class StartDateFirst : Comparator<Event> {
         override fun compare(o1: Event, o2: Event): Int {
             return o1.startDate.compareTo(o2.startDate)
         }
     }
 
+    // 종료일순 정렬
     internal class EndDateFirst : Comparator<Event> {
         override fun compare(o1: Event, o2: Event): Int {
             return o1.endDate.compareTo(o2.endDate)
         }
     }
 
+    // 이름순 정렬
     internal class NameFirst: Comparator<Event> {
         override fun compare(o1: Event, o2: Event): Int {
             return o1.name.compareTo(o2.name)

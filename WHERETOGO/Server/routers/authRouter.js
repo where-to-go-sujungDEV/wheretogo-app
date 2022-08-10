@@ -14,18 +14,22 @@ router.post('/sign-up', [
   check('password', 'Password must be 6 or more characters').isLength({ min: 6 })
 ], (req, res, next) => {
   db.query(
-    `SELECT count(*) FROM userTBL WHERE LOWER(email) = LOWER(${db.escape(req.body.email)});`,
+    `SELECT * FROM userTBL WHERE LOWER(email) = LOWER(${db.escape(req.body.email)});`,
       (err, result) => {
         if (result.length > 0) {
           return res.status(409).send({
-            msg: '이미 등록된 유저입니다'
+            msg: '이미 등록된 유저입니다',
+            code : 409,
+            isSuccess : false
           });
         } else {
           // username is available
           bcrypt.hash(req.body.password, 10, (err, hash) => {
             if (err) {
               return res.status(500).send({
-                msg: '비밀번호 해시실패'
+                msg: '비밀번호 암호화에 실패하였습니다',
+                code : 500,
+                isSuccess : false
               });
             } else {
               // has hashed pw => add to database
@@ -41,7 +45,10 @@ router.post('/sign-up', [
                       });
                     }
                     return res.status(201).send({
-                      msg: 'The user has been registerd with us!'
+                      msg: '회원가입에 성공하였습니다',
+                      code : 201,
+                      isSuccess : true
+
                     });
                   }
                   );}
@@ -66,7 +73,9 @@ router.post('/login',  [
       }
       if (!result.length) {
         return res.status(401).send({
-          msg: 'Email or password is incorrect!'
+          msg: '이메일이나 비밀번호가 올바르지 않습니다',
+          code : 401,
+          isSuccess : false
         });
       }
       // check password
@@ -87,13 +96,17 @@ router.post('/login',  [
               `UPDATE userTBL SET last_login = now() WHERE email = '${result[0].email}'`
               );
               return res.status(200).send({
-                msg: 'Logged in!',
+                msg: '로그인에 성공하였습니다',
+                code : 200,
+                isSuccess : true,
                 token,
                 user: result[0]
               });
             }
             return res.status(401).send({
-              msg: 'email or password is incorrect!'
+              msg: '이메일이나 비밀번호가 올바르지 않습니다',
+              code : 401,
+              isSuccess : false
             });
           }
           );
@@ -113,6 +126,8 @@ router.post('/get-user',  [
           {
             return res.status(422).json({
               message: "로그인이 필요합니다.",
+              code : 422,
+              isSuccess : false
             });
           }
 
