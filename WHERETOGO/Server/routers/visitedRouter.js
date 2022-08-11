@@ -10,7 +10,7 @@ const visitedRouter = express.Router();
 
 visitedRouter.get('/:userID', getVisited);
   
-visitedRouter.post('/:userID/:eventID', setVisited);
+visitedRouter.post('/:userID/:eventID/:assess', setVisited);
   
 visitedRouter.delete('/:userID/:eventID', deleteVisited);
 

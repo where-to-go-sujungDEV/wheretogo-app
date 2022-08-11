@@ -15,6 +15,7 @@ import authRouter from "./routers/authRouter.js";
 import keywordRouter from "./routers/keywordRouter.js";
 import searchRouter from "./routers/searchRouter.js";
 import visitedRouter from "./routers/visitedRouter.js";
+import savedRouter from "./routers/savedRouter.js";
 
 import dotenv from "dotenv";
 
@@ -42,6 +43,7 @@ app.use("/auth", authRouter);
 app.use("/search", searchRouter);
 app.use("/keyword", keywordRouter);
 app.use("/visited", visitedRouter);
+app.use("/saved", savedRouter);
 //app.use("/comm", commRouter);
 //app.use("/foll", followRouter);
 //app.use("/cs", CSRouter);

@@ -11,8 +11,8 @@ export const getVisitedEvent = ([uid], result) => {
     });   
 }
 
-export const addVisitedEvent = ([uid, eid],result) => {
-    db.query("insert into userVisitedTBL (userID, eventID) VALUES (?,?);",[uid, eid], (err, results) => {             
+export const addVisitedEvent = (uid, eid, ass, result) => {
+    db.query("insert into userVisitedTBL (userID, eventID, assessment) VALUES (?,?,?);",[uid, eid, ass], (err, results) => {             
         if(err) {
             console.log(err);
             result(err, null);
@@ -23,7 +23,7 @@ export const addVisitedEvent = ([uid, eid],result) => {
 }
   
 
-export const deleteVisitedEvent = ([uid, eid], result) => {
+export const deleteVisitedEvent = (uid, eid, result) => {
     db.query("delete from userVisitedTBL where userID = ? and eventID = ?;", [uid, eid], (err, results) => {             
         if(err) {
             console.log(err);
@@ -34,8 +34,8 @@ export const deleteVisitedEvent = ([uid, eid], result) => {
     });   
 }
 
-export const checkIfVisited = ([uid, eid], result) => {
-    db.query("select * from userVisitedTBL where userID = ? and eventID = ?;", [uid, eid], (err, results) => {             
+export const checkIfVisited = (uid, eid, result) => {
+    db.query("select count(*) from userVisitedTBL where userID = ? and eventID = ?;", [uid, eid], (err, results) => {             
         if(err) {
             console.log(err);
             result(err, null);

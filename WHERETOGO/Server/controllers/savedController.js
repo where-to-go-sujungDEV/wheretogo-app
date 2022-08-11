@@ -1,9 +1,9 @@
-import {getVisitedEvent, addVisitedEvent, deleteVisitedEvent, checkIfVisited} from "../models/visited.js";
+import {getSavedEvent, addSavedEvent, deleteSavedEvent, checkIfSaved} from "../models/saved.js";
 
 
-export const getVisited = (req, res) => {
+export const getSaved = (req, res) => {
     const uid = req.params.userID;
-    getVisitedEvent(uid, (err, results) => {
+    getSavedEvent(uid, (err, results) => {
         if (err){
             res.send(err);
         }else{
@@ -12,10 +12,10 @@ export const getVisited = (req, res) => {
     });
 }
 
-export const checkVisited = (req, res) => {
+export const checkSaved = (req, res) => {
     const uid = req.params.userID;
     const eid = req.params.eventID;
-    checkIfVisited(uid, eid, (err, results) => {
+    checkIfSaved(uid, eid, (err, results) => {
         if (err){
             res.send(err);
         }else{
@@ -24,11 +24,10 @@ export const checkVisited = (req, res) => {
     });
 }
   
-export const setVisited = (req, res) => {
+export const setSaved = (req, res) => {
     const uid = req.params.userID;
     const eid = req.params.eventID;
-    const ass = req.params.assess;
-    addVisitedEvent(uid, eid, ass,(err, results) => {
+    addSavedEvent(uid, eid, (err, results) => {
         if (err){
             res.send(err);
         }else{
@@ -38,10 +37,10 @@ export const setVisited = (req, res) => {
 }
   
 
-export const deleteVisited = (req, res) => {
+export const deleteSaved = (req, res) => {
     const uid = req.params.userID;
     const eid = req.params.eventID;
-    deleteVisitedEvent(uid, eid, (err, results) => {
+    deleteSavedEvent(uid, eid, (err, results) => {
         if (err){
             res.send(err);
         }else{
