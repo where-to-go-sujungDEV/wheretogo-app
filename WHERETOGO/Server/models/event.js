@@ -11,8 +11,8 @@ export const getMainBoardContents = (result) => {
     });   
 }
 
-export const getTopContents = (result) => { //임시로 3개까지만 가져오게 해놓음
-    db.query("select * from eventTBL ORDER BY savedNum DESC LIMIT 3;", (err, results) => {             
+export const getTopContents = (result) => { 
+    db.query("select * from eventTBL ORDER BY savedNum DESC LIMIT 5;", (err, results) => {             
         if(err) {
             console.log(err);
             result(err, null);
