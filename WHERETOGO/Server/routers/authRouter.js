@@ -59,7 +59,7 @@ router.post('/sign-up', [
 
 router.post('/login',  [
   check('email', 'Please include a valid email').isEmail().normalizeEmail({ gmail_remove_dots: true }),
-  check('password', 'Password must be 6 or more characters').isLength({ min: 1 })
+  check('password', 'Password must be 6 or more characters').isLength({ min: 6 })
 ], (req, res, next) => {
   db.query(
     `SELECT * FROM userTBL WHERE email = ${db.escape(req.body.email)};`,
@@ -125,7 +125,7 @@ router.post('/auto-login',  [
           !req.headers.authorization.split(' ')[1])
           {
             return res.status(422).json({
-              message: "로그인이 필요합니다.",
+              message: "token값을 제공해주세요.",
               code : 422,
               isSuccess : false
             });
@@ -136,13 +136,8 @@ router.post('/auto-login',  [
     db.query(
       `SELECT * FROM userTBL where email='${decoded.email}'`,function (error, results, fields) {
     if (error) throw error;
-    return res.send({ error: false, data: results[0], message: '사용자 로그인 정보 확인되었습니다.' });
+    return res.send({ isSuccess: true, data: results[0], message: '사용자 로그인 정보 확인되었습니다.' });
     });
-    db.query(
-      `SELECT userID FROM userTBL where email='${decoded.email}'`,function (error, results, fields) {
-    if (error) throw error;
-    return res.send({ error: false, data: results[0], message: '사용자id값 저장됨' });
-    });
-    });
+  });
 
 export default router;
