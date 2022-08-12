@@ -5,7 +5,6 @@ import cors from "cors";
 import createError from "http-errors";
 import path from "path";
 
-import bodyParser from "body-parser";
 import multer from "multer";
 
 // import routes
@@ -28,13 +27,9 @@ const app = express();
 // use express json
 app.use(express.json());
 
-// use cors
 app.use(cors());
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-
-app.use(express.static("public"));
+app.use(express.urlencoded({ extended: true }));
 
 // use router
 app.use("/event", eventRouter);
@@ -45,7 +40,7 @@ app.use("/keyword", keywordRouter);
 app.use("/visited", visitedRouter);
 app.use("/saved", savedRouter);
 app.use('/asset', express.static('asset'));
-//app.use("/asset", assetRouter);
+
 
 //app.use("/comm", commRouter);
 //app.use("/foll", followRouter);
