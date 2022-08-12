@@ -39,6 +39,7 @@ app.use("/search", searchRouter);
 app.use("/keyword", keywordRouter);
 app.use("/visited", visitedRouter);
 app.use("/saved", savedRouter);
+
 app.use('/asset', express.static('asset'));
 
 
