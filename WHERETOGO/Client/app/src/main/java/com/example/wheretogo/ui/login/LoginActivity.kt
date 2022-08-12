@@ -5,19 +5,17 @@ import android.view.View
 import android.widget.Toast
 import com.example.wheretogo.data.entities.User
 import com.example.wheretogo.data.local.AppDatabase
-import com.example.wheretogo.data.remote.AuthService
-import com.example.wheretogo.data.remote.LoginInfo
-import com.example.wheretogo.data.remote.LoginView
-import com.example.wheretogo.data.remote.UserResult
+import com.example.wheretogo.data.remote.Auth.AuthService
+import com.example.wheretogo.data.remote.Auth.LoginInfo
+import com.example.wheretogo.data.remote.Auth.LoginView
+import com.example.wheretogo.data.remote.Auth.UserResult
 import com.example.wheretogo.databinding.ActivityLoginBinding
 
 import com.example.wheretogo.ui.BaseActivity
-import com.example.wheretogo.ui.MainActivity
-import com.example.wheretogo.ui.detail.DetailActivity
 import com.example.wheretogo.ui.signup.SignUpActivity
 
 
-class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::inflate),LoginView{
+class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::inflate), LoginView {
 
     override fun initAfterBinding() {
         val AppDB = AppDatabase.getInstance(this)!!

@@ -1,4 +1,4 @@
-package com.example.wheretogo.data.remote
+package com.example.wheretogo.data.remote.Auth
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

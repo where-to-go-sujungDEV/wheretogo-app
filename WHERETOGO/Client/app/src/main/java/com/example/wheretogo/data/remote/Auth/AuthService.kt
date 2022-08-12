@@ -1,6 +1,7 @@
-package com.example.wheretogo.data.remote
+package com.example.wheretogo.data.remote.Auth
 
 import android.util.Log
+import com.example.wheretogo.ApplicationClass.Companion.retrofit
 import com.example.wheretogo.ui.login.LoginActivity
 import retrofit2.Call
 import retrofit2.Callback
@@ -12,7 +13,6 @@ class AuthService { //signupview 변수 받음
 
     val authService = getRetrofit().create(AuthRetrofitInterface::class.java)
 
-//    val authService = retrofit.create(AuthRetrofitInterface::class.java)
     fun setSignUpView(signUpView: SignUpView){
         this.signUpView = signUpView
     }
