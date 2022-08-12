@@ -10,6 +10,8 @@ import androidx.fragment.app.Fragment
 
 import androidx.viewpager2.widget.ViewPager2
 import com.example.wheretogo.R
+import com.example.wheretogo.data.remote.Auth.getMainEvent
+import com.example.wheretogo.data.remote.MainEventResult
 import com.example.wheretogo.databinding.FragmentEventBannerBinding
 import com.example.wheretogo.databinding.FragmentHomeBinding
 import com.example.wheretogo.ui.MainActivity
@@ -29,31 +31,13 @@ class HomeFragment : Fragment() {
     ): View? {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
 
-        initLayout()
         initLayout2()
         initLayout3()
+        getMainEvent(this)
 
         return binding.root
     }
 
-    private fun initLayout(){
-        val bannerAdapter = HomeBannerVPAdapter(this)
-        //추가할 프래그먼트를 넣어줌
-        bannerAdapter.addFragment(HomeBannerFragment())
-        bannerAdapter.addFragment(HomeBannerFragment())
-        bannerAdapter.addFragment(HomeBannerFragment())
-        bannerAdapter.addFragment(HomeBannerFragment())
-        bannerAdapter.addFragment(HomeBannerFragment())
-
-        //속성값들
-        binding.homeBannerVp.adapter = bannerAdapter
-        binding.homeBannerVp.orientation = ViewPager2.ORIENTATION_HORIZONTAL
-
-        setIndicator()
-
-
-
-    }
 
     private fun initLayout2(){
         val event1Adapter = HomeBannerVPAdapter(this)
@@ -93,6 +77,19 @@ class HomeFragment : Fragment() {
             p.setMargins(0, 0, 20, 0)
             tab.requestLayout()
         }
+    }
+
+    fun setNotice(result: ArrayList<MainEventResult>){
+        val bannerAdapter = HomeBannerVPAdapter(this)
+
+        for (item in result){
+            bannerAdapter.addFragment(HomeBannerFragment(item))
+        }
+
+        binding.homeBannerVp.adapter = bannerAdapter
+        binding.homeBannerVp.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+
+        setIndicator()
     }
 
 
