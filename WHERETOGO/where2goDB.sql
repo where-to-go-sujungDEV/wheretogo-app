@@ -89,13 +89,14 @@ INSERT INTO `userTBL` VALUES (3,'ruru@naver.com','루루짱', '$2a$10$9fJS/X4Qwi
 INSERT INTO `userTBL` VALUES (4,'flower@gmail.com','꽃이조화', '$2a$10$sdeXENBV0HtI7486z/S.fOgG4z5FjnebsRcnMF0Jk9n0pXGAoA6je', 'm', 4, default); /*pw : play*/
 INSERT INTO `userTBL` VALUES (5,'hot@gmail.com','더워죽겄다', '$2a$10$LjGParALQQ81lmwvq5a3A.xN.HdS9efhqXw.W3cn4pujR0SDGZLbC', 'w', 1, default); /*pw : bbuu*/
 
-INSERT INTO `mainEventTBL` VALUES (1,'여름에는 물총놀이지! 워터밤 가보자고', 1);
-INSERT INTO `mainEventTBL` VALUES (2,'미친 더위 공포로 이겨내자 ~ 공포 이벤트 모음집 ~', 2);
-INSERT INTO `mainEventTBL` VALUES (3,'나랑 꽃보러 갈래?', 3);
-INSERT INTO `mainEventTBL` VALUES (4,'방학이잖아 축제가야지', 4);
-INSERT INTO `mainEventTBL` VALUES (5,'연인끼리 가기좋은 8월 서울 행사', 5);
+INSERT INTO `mainEventTBL` VALUES (1,'어디가?는 처음이신가요?', 1);
+INSERT INTO `mainEventTBL` VALUES (2,'여름에는 물총놀이지! 워터밤 가보자고', 2);
+INSERT INTO `mainEventTBL` VALUES (3,'미친 더위 공포로 이겨내자 ~ 공포 이벤트 모음집 ~', 3);
+INSERT INTO `mainEventTBL` VALUES (4,'나랑 꽃보러 갈래?', 4);
+INSERT INTO `mainEventTBL` VALUES (5,'방학이잖아 축제가야지', 5);
+INSERT INTO `mainEventTBL` VALUES (6,'연인끼리 가기좋은 8월 서울 행사', 6);
 
-INSERT INTO `eventTBL` VALUES (1, '서울 밤도깨비 야시장','경기도','서울특별시','시장', '음식', '신남', '야시장', '먹거리', '밤', '2021-08-12 00:00:00', NULL, 0, 1, NULL, '반포한강공원 달빛광장', 'https://bamdokkaebi.org/',NULL, NULL, '무료', '올 여름 한강 야시장이 돌아옵니다!');
+INSERT INTO `eventTBL` VALUES (1, '서울 밤도깨비 야시장','경기도','서울특별시','시장', '음식', '신남', '야시장', '먹거리', '밤', '2021-08-12 00:00:00', NULL, 0, 1, NULL, '반포한강공원 달빛광장', 'https://bamdokkaebi.org/', '무료', '올 여름 한강 야시장이 돌아옵니다!');
 INSERT INTO `eventTBL` VALUES (2,'보령머드축제','충청남도','보령시','축제', '놀이', '신남', '진흙', '축제', '보령', '2022-07-16 00:00:00', '2022-08-15 00:00:00', 100, 2, '10:00 ~ 18:00', '2022보령해양머드박람회장 내 체험존', 'https://www.mudfestival.or.kr/intro/view','6000 ~ 12000', '2022보령해양머드박람회와 함께하는 제25회 보령머드축제가 3년 만에 정상 개최된다. 오는 22년 7월 16일부터 8월 15일까지 31일일간 대천해수욕장에서 진행될 예정이다. 지구촌 최대의 여름축제로 국적, 언어, 연령의 구분없이 모두가 하나가되어 즐기는 체험형 축제로 매년 많은 사랑을 받아오고 있으며 문화관광축제로도 선정되었다.');
 INSERT INTO `eventTBL` VALUES (3,'태백 해바라기 축제','강원도','태백시','축제', '자연', '평온', '해바라기', '꽃', '여름', '2022-07-22 00:00:00', '2022-08-07 00:00:00', 20, 3, NULL, '강원 태백시 구와우마을', 'http://www.sunflowerfestival.co.kr/', NULL, '제 18회 태백해바라기 축제를 개최한다. 2022년에는 7/22(금)~8/7(일)까지 자연스럽고 평화로운 구와우 마을에서 백만송이 해바라기꽃을 피워놓는다. 해바라기 군락이 마치 동화 속에 온 듯한 경험을 선사하는 곳, 태백 해바라기 축제');
 INSERT INTO `eventTBL` VALUES (4,'아시아프','경기도','서울특별시','전시', '미술', '평온', '청년작가', '그림', '홍대', '2022-07-26 00:00:00', '2022-08-21 00:00:00', 11, 4, NULL, '홍익대학교 현대미술관(홍문관)', 'https://asyaaf.chosun.com/main/main.php',NULL, '국내 최대의 청년 미술축제 2022 아시아프가 7월 26일부터 8월 21일까지 홍익대학교 현대미술관에서 개최된다. 올해로 15회를 맞이한 아시아프는 참여작가 500명을 선정해 약 1000여점의 작품을 전시하게 된다. 만 20세~35세 청년작가들을 선발하는 아시아프 부문과 만 36세 이상 작가들에게 문호를 여는 히든 아티스트 부문으로 나뉘어 진행한다. 미술시장을 이끌어 갈 청년작가들의 다채로운 작품들을 관람하시는 것은 물론, 마음에 드는 작품을 직접 구매하는 것도 가능하다. 오프라인 전시가 종료된 후에는 아시아프 홈페이지에서 참여작가들의 작품을 온라인 구매할 수 있다.');

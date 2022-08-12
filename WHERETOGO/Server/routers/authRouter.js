@@ -34,6 +34,7 @@ router.post('/sign-up', [
             } else {
               // has hashed pw => add to database
               db.query(
+
                 `INSERT INTO userTBL (nickName, email, password, sex, age) VALUES ('${req.body.nickName}', ${db.escape(
                   req.body.email
                   )}, ${db.escape(hash)},'${req.body.sex}', '${req.body.age}')`,
@@ -51,6 +52,26 @@ router.post('/sign-up', [
 
                     });
                   }
+                  
+                /*
+
+                `INSERT INTO userTBL (nickName, email, password, sex, age) VALUES ('${req.body.nickName}', ${db.escape(
+                  req.body.email
+                  )}, ${db.escape(hash)},'${req.body.sex}', '${req.body.age}')`,
+                  (err, result) => {
+                    if (err) {
+                      throw err;
+                      return res.status(400).send({
+                        msg: err
+                      });
+                    }
+                    return res.status(201).send({
+                      msg: '회원가입에 성공하였습니다',
+                      code : 201,
+                      isSuccess : true
+
+                    });
+                  }*/
                   );}
         });
       }}
