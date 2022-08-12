@@ -2,8 +2,10 @@ package com.example.wheretogo.data.remote
 
 import com.google.gson.annotations.SerializedName
 
-class SignUpResponse(
-    @SerializedName(value = "msg")val msg:String
+data class SignUpResponse(
+    @SerializedName(value = "msg")val msg:String,
+    @SerializedName(value = "code")val code:Int,
+    @SerializedName(value = "isSuccess")val isSuccess:Boolean
     )
 
 //회원가입 시 유저가 입력하는 정보
@@ -15,9 +17,11 @@ data class SignUpInfo(
     @SerializedName(value = "age")val age: Int
 )
 
-class LoginResponse(
+data class LoginResponse(
     @SerializedName(value = "msg")val msg:String,
-    @SerializedName(value = "token")val token:String,
+    @SerializedName(value = "code")val code:Int,
+    @SerializedName(value = "isSuccess")val isSuccess:Boolean,
+    @SerializedName(value = "token")val token:String?,
     @SerializedName(value = "user")val user: UserResult?
 )
 

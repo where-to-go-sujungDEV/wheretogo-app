@@ -1,6 +1,7 @@
 package com.example.wheretogo.ui.setting
 
 import android.content.Intent
+import android.net.Uri
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -9,10 +10,13 @@ import com.example.wheretogo.R
 import com.example.wheretogo.data.local.AppDatabase
 import com.example.wheretogo.databinding.ActivityChangeInfoBinding
 import com.example.wheretogo.ui.BaseActivity
+import com.example.wheretogo.ui.mypage.MypageFragment
 
 class ChangeInfoActivity : BaseActivity<ActivityChangeInfoBinding>(ActivityChangeInfoBinding::inflate){
     lateinit var appDB: AppDatabase
     val isChanged:Boolean = false
+    val mypageFragment: MypageFragment = TODO()
+
     companion object {
         const val IMAGE_REQUEST_CODE = 100
     }
@@ -57,6 +61,12 @@ class ChangeInfoActivity : BaseActivity<ActivityChangeInfoBinding>(ActivityChang
         if (requestCode == IMAGE_REQUEST_CODE && resultCode == RESULT_OK){
             binding.changeInfoProfileIv.setImageURI(data?.data)
             showToast(data?.data.toString())
+
+            //유저 이미지 uri 전달
+            val spf = getSharedPreferences("userInfo", MODE_PRIVATE)
+            val editor = spf.edit()
+            editor.putString("userImg",data?.data.toString())
+            editor.apply()
         }
     }
 
@@ -74,8 +84,12 @@ class ChangeInfoActivity : BaseActivity<ActivityChangeInfoBinding>(ActivityChang
         return spf!!.getInt("userIdx",-1)
     }
 
+
+    //유저가 개인정보 수정시 DB에 저장된 정보 변경
     private fun setData(){
         appDB.userDao().setEmail(getIdx(),binding.changeInfoEmailEt.getText().toString())
         appDB.userDao().setNickName(getIdx(),binding.changeInfoNameEt.getText().toString())
     }
+
+
 }

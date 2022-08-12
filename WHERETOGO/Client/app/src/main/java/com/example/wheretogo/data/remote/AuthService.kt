@@ -9,7 +9,9 @@ import retrofit2.Response
 class AuthService { //signupview 변수 받음
     private lateinit var signUpView: SignUpView
     private lateinit var loginView: LoginView
+
     val authService = getRetrofit().create(AuthRetrofitInterface::class.java)
+
 //    val authService = retrofit.create(AuthRetrofitInterface::class.java)
     fun setSignUpView(signUpView: SignUpView){
         this.signUpView = signUpView
@@ -21,10 +23,10 @@ class AuthService { //signupview 변수 받음
     fun signUp(signUpInfo: SignUpInfo){
         authService.signUp(signUpInfo).enqueue(object: Callback<SignUpResponse> {
             override fun onResponse(call: Call<SignUpResponse>, response: Response<SignUpResponse>) {
-                Log.d("SIGNUP/SUCCESS",response.toString())
+                Log.d("SIGNUP/SUCCESS",response.code().toString())
                 val resp: SignUpResponse = response.body()!!
-                when(resp.msg){
-                    "The user has been registerd with us!" ->signUpView.onSignUpSuccess(resp.msg)
+                when(resp.code){
+                    201 ->signUpView.onSignUpSuccess(resp.msg)
                     else ->{
                         signUpView.onSignUpFailure(resp.msg)
                         Log.d("SIGNUP/",resp.msg)
@@ -46,9 +48,9 @@ class AuthService { //signupview 변수 받음
 
             override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
                 val resp: LoginResponse = response.body()!!
-                Log.d("login/S", resp.msg)
-                when(resp.msg){
-                    "로그인에 성공하였습니다"->{
+                Log.d("login/S", resp.code.toString())
+                when(resp.code){
+                    200->{
                         Log.d("login/S", resp.msg)
                         loginView.onLoginSuccess(resp.user!!)}
                     else ->{
@@ -56,9 +58,7 @@ class AuthService { //signupview 변수 받음
                         loginView.onLoginFailure(resp.msg)
                     }
                 }
-
             }
-
             override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
                 Log.d("login/Failure", "fail")
             }

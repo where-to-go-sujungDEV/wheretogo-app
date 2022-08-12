@@ -10,5 +10,12 @@ interface AuthRetrofitInterface {
 
     @POST("/auth/login")
     fun login(@Body appLoginInfo:LoginInfo): Call<LoginResponse>
-
 }
+
+
+
+
+
+
+
+
