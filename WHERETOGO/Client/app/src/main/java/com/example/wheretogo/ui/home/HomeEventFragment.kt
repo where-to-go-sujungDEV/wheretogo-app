@@ -23,10 +23,10 @@ class HomeEventFragment(private val item: PopularEventResult) : Fragment() {
         binding = FragmentEventBannerBinding.inflate(inflater,container,false)
 
         binding.homeEventTitleTv.text = item.eventName
-        binding.homeEventTag1Tv.text = item.hashtag1
-        binding.homeEventTag2Tv.text = item.hashtag2
-        binding.homeEventTag3Tv.text = item.hashtag3
-
+        binding.homeEventTagTv.text = String.format("#%s #%s #%s",item.hashtag1,item.hashtag2,item.hashtag3)
+        binding.homeEventStartDateTv.text = item.startDate.slice(IntRange(0,9))
+        if (item.endDate!=null)
+            binding.homeEventEndDateTv.text = item.endDate.slice(IntRange(0,9))
         binding.homeEventIv.setOnClickListener {
             startActivity(Intent(context, DetailActivity::class.java))
         }
