@@ -13,7 +13,8 @@ export const getMainBoard = (req, res) => {
 }
   
 export const getTopEvents = (req, res) => {
-    getTopContents((err, results) => {
+    const uid = req.params.userID;
+    getTopContents(uid, (err, results) => {
         if (err){
             res.send(err);
         }else{
