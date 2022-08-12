@@ -3,11 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/DEV/WHERETOGO/Client/app/src/main/res/drawable/btn_visited.xml" value="0.207" />
         <entry key="..\:/DEV/WHERETOGO/Client/app/src/main/res/drawable/calendar_popup_corner.xml" value="0.1" />
         <entry key="..\:/DEV/WHERETOGO/Client/app/src/main/res/drawable/calendar_today_background.xml" value="0.1" />
-        <entry key="..\:/DEV/WHERETOGO/Client/app/src/main/res/drawable/selector_navi_mypage.xml" value="0.189" />
-        <entry key="..\:/DEV/WHERETOGO/Client/app/src/main/res/drawable/selector_navi_search.xml" value="0.189" />
         <entry key="..\:/DEV/WHERETOGO/Client/app/src/main/res/layout/activity_change_info.xml" value="0.2953125" />
         <entry key="..\:/DEV/WHERETOGO/Client/app/src/main/res/layout/activity_detail.xml" value="0.24320652173913043" />
         <entry key="..\:/DEV/WHERETOGO/Client/app/src/main/res/layout/activity_main.xml" value="0.2765625" />
@@ -20,12 +17,11 @@
         <entry key="..\:/DEV/WHERETOGO/Client/app/src/main/res/layout/fragment_mypage.xml" value="0.24320652173913043" />
         <entry key="..\:/DEV/WHERETOGO/Client/app/src/main/res/layout/fragment_mypage_banner.xml" value="0.24320652173913043" />
         <entry key="..\:/DEV/WHERETOGO/Client/app/src/main/res/layout/fragment_search.xml" value="0.3619791666666667" />
-        <entry key="..\:/DEV/WHERETOGO/Client/app/src/main/res/layout/fragment_temp_calendar.xml" value="0.240625" />
         <entry key="..\:/DEV/WHERETOGO/Client/app/src/main/res/layout/item_calendar_popup_dialog.xml" value="0.33" />
-        <entry key="..\:/DEV/WHERETOGO/Client/app/src/main/res/layout/item_mypage_like.xml" value="0.33" />
+        <entry key="..\:/DEV/WHERETOGO/Client/app/src/main/res/layout/item_mypage_like.xml" value="0.24320652173913043" />
         <entry key="..\:/DEV/WHERETOGO/Client/app/src/main/res/layout/item_mypage_visited.xml" value="0.24320652173913043" />
         <entry key="..\:/DEV/WHERETOGO/Client/app/src/main/res/layout/item_recycle_calendar_popup.xml" value="0.25" />
-        <entry key="..\:/DEV/WHERETOGO/Client/app/src/main/res/layout/item_recycle_event.xml" value="0.33" />
+        <entry key="..\:/DEV/WHERETOGO/Client/app/src/main/res/layout/item_recycle_event.xml" value="0.2942708333333333" />
         <entry key="..\:/DEV/WHERETOGO/Client/app/src/main/res/layout/item_recycle_popup_dialog.xml" value="0.33" />
         <entry key="..\:/Users/Gahyun/AndroidStudioProjects/WHERETOGO/app/src/main/res/drawable/selector_navi_calendar.xml" value="0.225" />
         <entry key="..\:/Users/Gahyun/AndroidStudioProjects/WHERETOGO/app/src/main/res/drawable/selector_navi_home.xml" value="0.225" />
@@ -48,6 +44,8 @@
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/activity_guide.xml" value="0.20989583333333334" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/activity_login.xml" value="0.20989583333333334" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/activity_main.xml" value="0.20989583333333334" />
+        <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/activity_setting.xml" value="0.20989583333333334" />
+        <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/activity_signup.xml" value="0.20989583333333334" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/fragment_calendar.xml" value="0.20989583333333334" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/fragment_mypage.xml" value="0.20989583333333334" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/fragment_mypage_banner.xml" value="0.20989583333333334" />

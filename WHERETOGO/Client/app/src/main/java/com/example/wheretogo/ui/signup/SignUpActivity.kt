@@ -27,6 +27,9 @@ class SignUpActivity: BaseActivity<ActivitySignupBinding>(ActivitySignupBinding:
         binding.signUpBtn.setOnClickListener {
             signUp()
         }
+        binding.signUpBackIv.setOnClickListener {
+            finish()
+        }
     }
 
     private fun initSpinner(){

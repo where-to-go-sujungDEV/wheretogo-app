@@ -1,6 +1,7 @@
 package com.example.wheretogo.ui.mypage
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,6 +11,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
+import com.example.wheretogo.R
 import com.example.wheretogo.data.local.AppDatabase
 import com.example.wheretogo.data.local.UserDao
 import com.example.wheretogo.databinding.FragmentMypageBannerBinding
@@ -20,10 +22,12 @@ import com.example.wheretogo.ui.home.HomeBannerVPAdapter
 import com.example.wheretogo.ui.login.LoginActivity
 import com.example.wheretogo.ui.setting.SettingActivity
 import com.google.android.material.tabs.TabLayoutMediator
+import java.net.URI
 
 class MypageFragment : Fragment() {
     lateinit var binding: FragmentMypageBinding
     lateinit var appDB: AppDatabase
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -82,10 +86,12 @@ class MypageFragment : Fragment() {
         }
     }
 
+    //유저 인덱스 가져옴
     private fun getIdx(): Int {
         val spf = activity?.getSharedPreferences("userInfo", AppCompatActivity.MODE_PRIVATE)
         return spf!!.getInt("userIdx",-1)
     }
+
 
     private fun initView(){
         val userIdx: Int = getIdx()
@@ -93,6 +99,7 @@ class MypageFragment : Fragment() {
             binding.mypageLoginTv.text ="로그인"
             binding.mypageNicknameTv.text = "로그인하세요"
             binding.mypageEmailTv.text = "로그인 후 사용 가능한 서비스입니다."
+            binding.mypageProfileIv.setImageResource(R.drawable.img_change_info_profile)
         }
         else{
             binding.mypageLoginTv.text ="로그아웃"
@@ -109,6 +116,11 @@ class MypageFragment : Fragment() {
         editor.apply()
         binding.mypageLoginTv.text = "로그인"
     }
+
+//    fun setProfileIv(uri : Uri){
+//        if (getIdx()!=-1)
+//            binding.mypageProfileIv.setImageURI(uri)
+//    }
 
 
 }
