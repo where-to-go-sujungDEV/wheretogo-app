@@ -14,23 +14,46 @@
         android:src="@drawable/img_mypage_panel"
         android:background="@drawable/mypage_like_border"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
     <TextView
-        android:id="@+id/home_event_tag_tv"
+        android:id="@+id/home_event_tag1_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="13sp"
+        android:textColor="@color/white"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="5dp"
+        android:text="#지금_인기있는"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/home_event_tag2_tv"/>
+    <TextView
+        android:id="@+id/home_event_tag2_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="13sp"
+        android:textColor="@color/white"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="5dp"
+        android:text="#지금_인기있는"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/home_event_tag3_tv"/>
+    <TextView
+        android:id="@+id/home_event_tag3_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="13sp"
         android:textColor="@color/white"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="40dp"
-        android:text="#지금_인기있는 #서울시 #자연"
+        android:text="#지금_인기있는"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
     <TextView
         android:id="@+id/home_event_title_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="98dp"
         android:textSize="25sp"
         android:textColor="@color/white"
@@ -38,15 +61,38 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
     <TextView
-        android:id="@+id/home_event_date_tv"
+        android:id="@+id/home_event_start_date_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/white"
-        android:layout_marginStart="15dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="3dp"
-        android:text="05/10~05/22"
+        android:text="05/10"
         app:layout_constraintTop_toBottomOf="@+id/home_event_title_tv"
         app:layout_constraintStart_toStartOf="parent"
+        />
+    <TextView
+        android:id="@+id/home_event_symbol_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="3dp"
+        android:text="~"
+        app:layout_constraintTop_toBottomOf="@+id/home_event_title_tv"
+        app:layout_constraintStart_toEndOf="@+id/home_event_start_date_tv"
+        />
+
+    <TextView
+        android:id="@+id/home_event_end_date_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="3dp"
+        android:text="05/15"
+        app:layout_constraintTop_toBottomOf="@+id/home_event_title_tv"
+        app:layout_constraintStart_toEndOf="@+id/home_event_symbol_tv"
         />
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/home_event_check_btn"

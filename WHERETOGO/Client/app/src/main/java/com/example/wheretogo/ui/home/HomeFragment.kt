@@ -11,7 +11,10 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.example.wheretogo.R
 import com.example.wheretogo.data.remote.Auth.getMainEvent
+import com.example.wheretogo.data.remote.Auth.getPopularEvent
 import com.example.wheretogo.data.remote.MainEventResult
+import com.example.wheretogo.data.remote.PopularEventResponse
+import com.example.wheretogo.data.remote.PopularEventResult
 import com.example.wheretogo.databinding.FragmentEventBannerBinding
 import com.example.wheretogo.databinding.FragmentHomeBinding
 import com.example.wheretogo.ui.MainActivity
@@ -31,38 +34,27 @@ class HomeFragment : Fragment() {
     ): View? {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
 
-        initLayout2()
-        initLayout3()
         getMainEvent(this)
+        getPopularEvent(this)
 
         return binding.root
     }
 
 
-    private fun initLayout2(){
-        val event1Adapter = HomeBannerVPAdapter(this)
-        //추가할 프래그먼트를 넣어줌
-        event1Adapter.addFragment(HomeEventFragment())
-        event1Adapter.addFragment(HomeEventFragment())
-        event1Adapter.addFragment(HomeEventFragment())
 
-        //속성값들
-        binding.homeEvent1Vp.adapter = event1Adapter
-        binding.homeEvent1Vp.orientation = ViewPager2.ORIENTATION_HORIZONTAL
-    }
 
-    private fun initLayout3(){
-        val event1Adapter = HomeBannerVPAdapter(this)
-        //추가할 프래그먼트를 넣어줌
-        event1Adapter.addFragment(HomeEventFragment())
-        event1Adapter.addFragment(HomeEventFragment())
-        event1Adapter.addFragment(HomeEventFragment())
-        event1Adapter.addFragment(HomeEventFragment())
-
-        //속성값들
-        binding.homeEvent2Vp.adapter = event1Adapter
-        binding.homeEvent2Vp.orientation = ViewPager2.ORIENTATION_HORIZONTAL
-    }
+//    private fun initLayout3(){
+//        val event1Adapter = HomeBannerVPAdapter(this)
+//        //추가할 프래그먼트를 넣어줌
+//        event1Adapter.addFragment(HomeEventFragment())
+//        event1Adapter.addFragment(HomeEventFragment())
+//        event1Adapter.addFragment(HomeEventFragment())
+//        event1Adapter.addFragment(HomeEventFragment())
+//
+//        //속성값들
+//        binding.homeEvent2Vp.adapter = event1Adapter
+//        binding.homeEvent2Vp.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+//    }
 
     private fun setIndicator(){
         val viewPager2 = binding.homeBannerVp
@@ -79,7 +71,7 @@ class HomeFragment : Fragment() {
         }
     }
 
-    fun setNotice(result: ArrayList<MainEventResult>){
+    fun setMainEvent(result: ArrayList<MainEventResult>){
         val bannerAdapter = HomeBannerVPAdapter(this)
 
         for (item in result){
@@ -90,6 +82,17 @@ class HomeFragment : Fragment() {
         binding.homeBannerVp.orientation = ViewPager2.ORIENTATION_HORIZONTAL
 
         setIndicator()
+    }
+
+    fun setPopularEvent(result: ArrayList<PopularEventResult>){
+        val event1Adapter = HomeBannerVPAdapter(this)
+
+        for (item in result){
+            event1Adapter.addFragment(HomeEventFragment(item))
+        }
+
+        binding.homeEvent1Vp.adapter = event1Adapter
+        binding.homeEvent1Vp.orientation = ViewPager2.ORIENTATION_HORIZONTAL
     }
 
 
