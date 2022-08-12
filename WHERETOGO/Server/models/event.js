@@ -14,13 +14,16 @@ export const getMainBoardContents = (result) => {
     });   
 }
 
-export const getTopContents = (uid, result) => { 
+export const getTopContents = (result) => { 
     db.query("select eventID,eventName,startDate, endDate, savedNum, CONCAT('http://localhost:3000/asset/event/', pic, '.jpg') as Img, hashtag1, hashtag2, hashtag3 from eventTBL ORDER BY savedNum DESC LIMIT 5;", (err, results) => {             
         if(err) {
             console.log(err);
             result(err, null);
         } else {
-            result(null, results);
+            result(null, {
+                code : 200,
+                isSuccess : true,
+                results});
         }
     });   
 }
@@ -32,7 +35,10 @@ export const getEventByEventID = (id, result) => {
             console.log(err);
             result(err, null);
         } else {
-            result(null, results[0]);
+            result(null, {
+                code : 200,
+                isSuccess : true,
+                results});
         }
     });   
 }

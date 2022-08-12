@@ -10,7 +10,7 @@ const eventRouter = express.Router();
 
 eventRouter.get('/main', getMainBoard);
   
-eventRouter.get('/top/:userID', getTopEvents);
+eventRouter.get('/top', getTopEvents);
   
 eventRouter.get('/:eventID', getEventById);
 
