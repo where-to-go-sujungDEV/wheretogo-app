@@ -9,23 +9,29 @@ CREATE database where2goDB;
 use where2goDB;
 
 
-CREATE TABLE `userTBL` (
-  `userID`	BIGINT NOT NULL AUTO_INCREMENT, 
-  `email` varchar(50) NOT NULL UNIQUE,
-  `nickName` varchar(50) DEFAULT NULL,
-  `password` varchar(200) NOT NULL,
-  `sex` varchar(1) DEFAULT NULL,
-  `age` int(1) DEFAULT NULL,
-  `last_login` datetime DEFAULT '2001-03-26',
-  PRIMARY KEY (`userID`)
+CREATE TABLE userTBL
+(
+    `userID`      BIGINT          NOT NULL    AUTO_INCREMENT, 
+    `email`       varchar(50)     NOT NULL, 
+    `nickName`    varchar(50)     NOT NULL, 
+    `password`    varchar(200)    NOT NULL, 
+    `sex`         varchar(1)      NULL        DEFAULT NULL, 
+    `age`         int(1)          NULL        DEFAULT NULL, 
+    `last_login`  datetime        NOT NULL    DEFAULT '2001-03-26', 
+     PRIMARY KEY (userID)
 );
 
-CREATE TABLE `mainEventTBL` (
-  `mainEventID` BIGINT NOT NULL auto_increment, 
-  `ment` varchar(80) NOT NULL,
-  `prePic` text NOT NULL,
-  PRIMARY KEY (`mainEventID`)
-) ;
+ALTER TABLE userTBL COMMENT '회원 테이블';
+
+CREATE TABLE mainEventTBL
+(
+    `mainEventID`  BIGINT         NOT NULL    AUTO_INCREMENT, 
+    `ment`         varchar(80)    NOT NULL, 
+    `prePic`       text           NOT NULL, 
+     PRIMARY KEY (mainEventID)
+);
+
+ALTER TABLE mainEventTBL COMMENT '메인 이벤트 테이블 (홈 상단)';
 
 CREATE TABLE `eventTBL` (
   `eventID` BIGINT NOT NULL auto_increment,
