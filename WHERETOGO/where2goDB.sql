@@ -83,7 +83,7 @@ CREATE TABLE `userSavedTBL` (
 
 
 -- Insert DATA
-INSERT INTO `userTBL` VALUES (1,'susu@gmail.com','수수깡','$2a$10$/NcZBB5ZfxrQ4FDcztnK7uK43gdKQinP1QfIUbWTBZDBUc1eIfa1W' , 'w', 2, default); /*pw : suryoung*/
+INSERT INTO `userTBL` VALUES (1,'bobo@gmail.com','보보','$2a$10$ToKR8fL9JgaOajZqxSomQeJpQlMgwpg4qtiS8aA2UTuaUwIyymQbC' , 'w', 2, default); /*pw : babaoba*/
 INSERT INTO `userTBL` VALUES (2,'water@gmail.com','물마셔요', '$2a$10$A7lmvA8G03x84zylgs2/yel7r9JagASmdG2FBrp0vcAjVdAG4Ghsu', 'm', 3, default); /*pw : sujung*/
 INSERT INTO `userTBL` VALUES (3,'ruru@naver.com','루루짱', '$2a$10$9fJS/X4QwiY.O6Jhff6sUeTt/w.1Wm9RdDoheJXZ2ywjjcyyVM73a', 'm', 5, default);  /*pw : test*/
 INSERT INTO `userTBL` VALUES (4,'flower@gmail.com','꽃이조화', '$2a$10$sdeXENBV0HtI7486z/S.fOgG4z5FjnebsRcnMF0Jk9n0pXGAoA6je', 'm', 4, default); /*pw : play*/
