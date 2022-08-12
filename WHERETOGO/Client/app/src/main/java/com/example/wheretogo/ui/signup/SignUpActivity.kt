@@ -12,13 +12,14 @@ import com.example.wheretogo.R
 import com.example.wheretogo.databinding.ActivitySignupBinding
 import com.example.wheretogo.ui.BaseActivity
 import android.widget.TextView
-import com.example.wheretogo.data.remote.AuthService
-import com.example.wheretogo.data.remote.SignUpInfo
-import com.example.wheretogo.data.remote.SignUpView
+import com.example.wheretogo.data.remote.Auth.AuthService
+import com.example.wheretogo.data.remote.Auth.SignUpInfo
+import com.example.wheretogo.data.remote.Auth.SignUpView
 import com.example.wheretogo.ui.MainActivity
 
 
-class SignUpActivity: BaseActivity<ActivitySignupBinding>(ActivitySignupBinding::inflate),SignUpView{
+class SignUpActivity: BaseActivity<ActivitySignupBinding>(ActivitySignupBinding::inflate),
+    SignUpView {
     private val gender = arrayOf("여성","남성","선택 안함")
     private val age: Array<Int> = arrayOf(10,20,30,40,50,60,70,80,90)
 

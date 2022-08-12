@@ -1,4 +1,4 @@
-package com.example.wheretogo.data.remote
+package com.example.wheretogo.data.remote.Auth
 
 import retrofit2.Call
 import retrofit2.http.Body
@@ -9,7 +9,7 @@ interface AuthRetrofitInterface {
     fun signUp(@Body signUpInfo: SignUpInfo): Call<SignUpResponse>
 
     @POST("/auth/login")
-    fun login(@Body appLoginInfo:LoginInfo): Call<LoginResponse>
+    fun login(@Body appLoginInfo: LoginInfo): Call<LoginResponse>
 }
 
 

@@ -1,4 +1,4 @@
-package com.example.wheretogo.data.remote
+package com.example.wheretogo.data.remote.Auth
 
 import com.google.gson.annotations.SerializedName
 
@@ -13,8 +13,8 @@ data class SignUpInfo(
     @SerializedName(value = "email")val email: String,
     @SerializedName(value = "password")val password: String,
     @SerializedName(value = "nickName")val nickName: String,
-    @SerializedName(value = "sex")val sex: String,
-    @SerializedName(value = "age")val age: Int
+    @SerializedName(value = "sex")val sex: String?,
+    @SerializedName(value = "age")val age: Int?
 )
 
 data class LoginResponse(
