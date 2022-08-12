@@ -6,12 +6,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.MarginLayoutParams
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 
 import androidx.viewpager2.widget.ViewPager2
 import com.example.wheretogo.R
+import com.example.wheretogo.data.local.AppDatabase
 import com.example.wheretogo.data.remote.Auth.getMainEvent
+import com.example.wheretogo.data.remote.Auth.getPopularEvent
 import com.example.wheretogo.data.remote.MainEventResult
+import com.example.wheretogo.data.remote.PopularEventResponse
+import com.example.wheretogo.data.remote.PopularEventResult
 import com.example.wheretogo.databinding.FragmentEventBannerBinding
 import com.example.wheretogo.databinding.FragmentHomeBinding
 import com.example.wheretogo.ui.MainActivity
@@ -23,6 +28,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 class HomeFragment : Fragment() {
 
     lateinit var binding: FragmentHomeBinding
+    lateinit var appDB: AppDatabase
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,39 +36,39 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
+        appDB =AppDatabase.getInstance(requireContext())!!
 
-        initLayout2()
-        initLayout3()
+        getUserName()
         getMainEvent(this)
+        getPopularEvent(this)
 
         return binding.root
     }
 
-
-    private fun initLayout2(){
-        val event1Adapter = HomeBannerVPAdapter(this)
-        //추가할 프래그먼트를 넣어줌
-        event1Adapter.addFragment(HomeEventFragment())
-        event1Adapter.addFragment(HomeEventFragment())
-        event1Adapter.addFragment(HomeEventFragment())
-
-        //속성값들
-        binding.homeEvent1Vp.adapter = event1Adapter
-        binding.homeEvent1Vp.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+    private fun getUserName(){
+        if (getIdx()!=-1)
+            binding.homeUserNameTv.text = appDB.userDao().getNickname(getIdx())
     }
 
-    private fun initLayout3(){
-        val event1Adapter = HomeBannerVPAdapter(this)
-        //추가할 프래그먼트를 넣어줌
-        event1Adapter.addFragment(HomeEventFragment())
-        event1Adapter.addFragment(HomeEventFragment())
-        event1Adapter.addFragment(HomeEventFragment())
-        event1Adapter.addFragment(HomeEventFragment())
-
-        //속성값들
-        binding.homeEvent2Vp.adapter = event1Adapter
-        binding.homeEvent2Vp.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+    //유저 인덱스 가져옴
+    private fun getIdx(): Int {
+        val spf = activity?.getSharedPreferences("userInfo", AppCompatActivity.MODE_PRIVATE)
+        return spf!!.getInt("userIdx",-1)
     }
+
+
+//    private fun initLayout3(){
+//        val event1Adapter = HomeBannerVPAdapter(this)
+//        //추가할 프래그먼트를 넣어줌
+//        event1Adapter.addFragment(HomeEventFragment())
+//        event1Adapter.addFragment(HomeEventFragment())
+//        event1Adapter.addFragment(HomeEventFragment())
+//        event1Adapter.addFragment(HomeEventFragment())
+//
+//        //속성값들
+//        binding.homeEvent2Vp.adapter = event1Adapter
+//        binding.homeEvent2Vp.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+//    }
 
     private fun setIndicator(){
         val viewPager2 = binding.homeBannerVp
@@ -79,7 +85,7 @@ class HomeFragment : Fragment() {
         }
     }
 
-    fun setNotice(result: ArrayList<MainEventResult>){
+    fun setMainEvent(result: ArrayList<MainEventResult>){
         val bannerAdapter = HomeBannerVPAdapter(this)
 
         for (item in result){
@@ -90,6 +96,17 @@ class HomeFragment : Fragment() {
         binding.homeBannerVp.orientation = ViewPager2.ORIENTATION_HORIZONTAL
 
         setIndicator()
+    }
+
+    fun setPopularEvent(result: ArrayList<PopularEventResult>){
+        val event1Adapter = HomeBannerVPAdapter(this)
+
+        for (item in result){
+            event1Adapter.addFragment(HomeEventFragment(item))
+        }
+
+        binding.homeEvent1Vp.adapter = event1Adapter
+        binding.homeEvent1Vp.orientation = ViewPager2.ORIENTATION_HORIZONTAL
     }
 
 

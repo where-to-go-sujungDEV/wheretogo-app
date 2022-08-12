@@ -10,6 +10,6 @@ interface HomeRetrofitInterface {
     @GET("/event/main")
     fun getMainEvent(): Call<MainEventResponse>
 
-//    @POST("/auth/login")
-//    fun login(@Body appLoginInfo: LoginInfo): Call<LoginResponse>
+    @GET("/event/top")
+    fun getPopularEvent(): Call<PopularEventResponse>
 }
