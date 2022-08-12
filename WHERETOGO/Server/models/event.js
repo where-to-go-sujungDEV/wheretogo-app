@@ -6,7 +6,10 @@ export const getMainBoardContents = (result) => {
             console.log(err);
             result(err, null);
         } else {
-            result(null, results);
+            result(null, {
+                code : 200,
+                isSuccess : true,
+                results});
         }
     });   
 }
