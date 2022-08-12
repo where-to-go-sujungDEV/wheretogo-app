@@ -7,6 +7,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.example.wheretogo.R
+import com.example.wheretogo.data.remote.DetailInfoResult
+import com.example.wheretogo.data.remote.DetailService
 import com.example.wheretogo.databinding.ActivityDetailBinding
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -21,6 +23,11 @@ class DetailActivity: AppCompatActivity() {
 
         initLayout()
         initClickListener()
+
+        //이벤트 클릭했을 때 해당 이벤트 상세정보로 이동
+        val detailService = DetailService()
+        if (getEventId()!=-1)
+            detailService.getDetailInfo(this,getEventId())
 
 
     }
@@ -84,6 +91,37 @@ class DetailActivity: AppCompatActivity() {
         binding.detailBackBtn.setOnClickListener {
             finish()
         }
+    }
+
+    fun setDetailInfo(result: ArrayList<DetailInfoResult>){
+        for (item in result){
+            binding.detailEventTitle.text = item.eventName
+            binding.detailEventPlaceData1.text = String.format("%s %s",item.si,item.dou)
+            binding.detailEventPlaceData2.text = item.place
+            binding.detailEventStartDate.text = String.format("%s~",item.startDate.slice(IntRange(0,9)))
+
+            binding.detailEventGenreData.text = item.genre
+            binding.detailEventKindData.text = item.kind
+            binding.detailEventThemeData.text = item.theme
+
+            binding.detailEventHomepageData.text = item.link
+            binding.detailEventIntroduceData.text = item.content
+
+            if (item.time!=null){
+                binding.detailEventTimeData.text = item.time
+            }
+            if (item.cost!=null){
+                binding.detailEventCostData.text = item.cost
+            }
+            if (item.endDate!=null){
+                binding.detailEventEndDate.text = item.endDate.slice(IntRange(0,9))
+            }
+        }
+    }
+
+    private fun getEventId(): Int {
+        val spf = getSharedPreferences("eventInfo", AppCompatActivity.MODE_PRIVATE)
+        return spf!!.getInt("eventId",-1)
     }
 
 
