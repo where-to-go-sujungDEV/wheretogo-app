@@ -30,7 +30,7 @@ CREATE TABLE `mainEventTBL` (
 CREATE TABLE `eventTBL` (
   `eventID` BIGINT NOT NULL auto_increment,
   `eventName` varchar(80) NOT NULL,
-  `do` varchar(10) NOT NULL,
+  `dou` varchar(10) NOT NULL,
   `si` varchar(10) NOT NULL,
   `genre` varchar(10) NOT NULL,
   `kind` varchar(10) NOT NULL,
