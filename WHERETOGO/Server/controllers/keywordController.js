@@ -1,16 +1,5 @@
 
-import {insertKeyword, getUserKeywordByID, putUserKeywordByID, deleteUserKeywordByID, getIfKeywordExist} from "../models/keyword.js";
-
-export const putKeyword = (req, res) => {
-    const data = req.body;
-    insertKeyword(data, (err, results) => {
-        if (err){
-            res.send(err);
-        }else{
-            res.json(results);
-        }
-    });
-}
+import { getUserKeywordByID, putUserKeywordByID, deleteUserKeywordByID} from "../models/keyword.js";
 
 
 export const getUserKeyword = (req, res) => {
@@ -27,8 +16,8 @@ export const getUserKeyword = (req, res) => {
 
 export const putUserKeyword = (req, res) => {
     const uid = req.params.userID;
-    const kid = req.params.keywordID;
-    putUserKeywordByID(uid, kid, (err, results) => {
+    const data = req.body.keyword;
+    putUserKeywordByID(uid, data, (err, results) => {
         if (err){
             res.send(err);
         }else{
@@ -39,8 +28,8 @@ export const putUserKeyword = (req, res) => {
 
 export const deleteUserKeyword = (req, res) => {
     const uid = req.params.userID;
-    const kid = req.params.keywordID;
-    deleteUserKeywordByID(uid, kid, (err, results) => {
+    const data = req.body.keyword;
+    deleteUserKeywordByID(uid, data, (err, results) => {
         if (err){
             res.send(err);
         }else{
@@ -49,14 +38,3 @@ export const deleteUserKeyword = (req, res) => {
     });
 }
 
-
-export const getKeywordExist = (req, res) => {
-    const data = req.body;
-    getIfKeywordExist(data, (err, results) => {
-        if (err){
-            res.send(err);
-        }else{
-            res.json(results);
-        }
-    });
-}
