@@ -1,7 +1,7 @@
 import db from "../config/dbConnection.js";
 
 export const getMainBoardContents = (result) => {
-    db.query("Select mainEventID, ment, CONCAT('http://localhost:3000/asset/mainEvent/', prePic, '.jpg') as Img, event1ID, event2ID, event3ID, event4ID, event5ID from mainEventTBL;", (err, results) => {             
+    db.query("Select mainEventID, ment, CONCAT('http://localhost:3000/asset/mainEvent/', prePic, '.jpg') as Img, eventID from mainEventTBL;", (err, results) => {             
         if(err) {
             console.log(err);
             result(err, null);
