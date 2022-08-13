@@ -15,7 +15,7 @@ export const getMainBoardContents = (result) => {
 }
 
 export const getTopContents = (result) => { 
-    db.query("select eventID,eventName,startDate, endDate, savedNum, CONCAT('http://localhost:3000/asset/event/', pic, '.jpg') as Img, genre, kind, theme from eventTBL ORDER BY savedNum DESC LIMIT 5;", (err, results) => {             
+    db.query("select eventID,eventName,startDate, w1+w2+w3+w4+w6+m1+m2+m3+m4+m6 as totalSavedNum, endDate, CONCAT('http://localhost:3000/asset/event/', pic, '.jpg') as Img, genre, kind, theme from eventTBL ORDER BY totalSavedNum DESC LIMIT 5;", (err, results) => {             
         if(err) {
             console.log(err);
             result(err, null);
