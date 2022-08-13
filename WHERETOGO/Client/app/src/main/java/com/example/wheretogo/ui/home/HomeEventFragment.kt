@@ -7,11 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.example.wheretogo.R
-import com.example.wheretogo.data.remote.PopularEventResult
+import com.example.wheretogo.data.remote.home.PopularEventResult
 import com.example.wheretogo.databinding.FragmentEventBannerBinding
 import com.example.wheretogo.ui.detail.DetailActivity
-import com.example.wheretogo.ui.guide.GuideActivity
 
 class HomeEventFragment(private val item: PopularEventResult) : Fragment() {
     lateinit var binding : FragmentEventBannerBinding

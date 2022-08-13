@@ -1,6 +1,5 @@
 package com.example.wheretogo.ui.home
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,19 +9,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 
 import androidx.viewpager2.widget.ViewPager2
-import com.example.wheretogo.R
 import com.example.wheretogo.data.local.AppDatabase
-import com.example.wheretogo.data.remote.Auth.getMainEvent
-import com.example.wheretogo.data.remote.Auth.getPopularEvent
-import com.example.wheretogo.data.remote.MainEventResult
-import com.example.wheretogo.data.remote.PopularEventResponse
-import com.example.wheretogo.data.remote.PopularEventResult
-import com.example.wheretogo.databinding.FragmentEventBannerBinding
+import com.example.wheretogo.data.remote.home.getMainEvent
+import com.example.wheretogo.data.remote.home.getPopularEvent
+import com.example.wheretogo.data.remote.home.MainEventResult
+import com.example.wheretogo.data.remote.home.PopularEventResult
 import com.example.wheretogo.databinding.FragmentHomeBinding
-import com.example.wheretogo.ui.MainActivity
-import com.example.wheretogo.ui.detail.DetailActivity
 
-import com.example.wheretogo.ui.guide.GuideActivity
 import com.google.android.material.tabs.TabLayoutMediator
 
 class HomeFragment : Fragment() {

@@ -1,7 +1,7 @@
-package com.example.wheretogo.data.remote
+package com.example.wheretogo.data.remote.detail
 
 import android.util.Log
-import com.example.wheretogo.data.remote.Auth.getRetrofit
+import com.example.wheretogo.data.remote.auth.getRetrofit
 import com.example.wheretogo.ui.detail.DetailActivity
 import retrofit2.Call
 import retrofit2.Callback

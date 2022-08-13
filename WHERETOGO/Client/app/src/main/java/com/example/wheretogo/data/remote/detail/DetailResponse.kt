@@ -1,4 +1,4 @@
-package com.example.wheretogo.data.remote
+package com.example.wheretogo.data.remote.detail
 
 import com.google.gson.annotations.SerializedName
 

@@ -7,8 +7,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.example.wheretogo.R
-import com.example.wheretogo.data.remote.DetailInfoResult
-import com.example.wheretogo.data.remote.DetailService
+import com.example.wheretogo.data.remote.detail.DetailInfoResult
+import com.example.wheretogo.data.remote.detail.DetailService
 import com.example.wheretogo.databinding.ActivityDetailBinding
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -28,8 +28,6 @@ class DetailActivity: AppCompatActivity() {
         val detailService = DetailService()
         if (getEventId()!=-1)
             detailService.getDetailInfo(this,getEventId())
-
-
     }
 
     private fun initLayout(){
@@ -95,6 +93,10 @@ class DetailActivity: AppCompatActivity() {
 
     fun setDetailInfo(result: ArrayList<DetailInfoResult>){
         for (item in result){
+            binding.detailTag1Tv.text = item.hashtag1
+            binding.detailTag2Tv.text = item.hashtag2
+            binding.detailTag3Tv.text = item.hashtag3
+
             binding.detailEventTitle.text = item.eventName
             binding.detailEventPlaceData1.text = String.format("%s %s",item.si,item.dou)
             binding.detailEventPlaceData2.text = item.place
@@ -123,8 +125,6 @@ class DetailActivity: AppCompatActivity() {
         val spf = getSharedPreferences("eventInfo", AppCompatActivity.MODE_PRIVATE)
         return spf!!.getInt("eventId",-1)
     }
-
-
 
 }
 

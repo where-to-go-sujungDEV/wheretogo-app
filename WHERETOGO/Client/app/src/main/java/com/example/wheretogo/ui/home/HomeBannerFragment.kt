@@ -1,6 +1,5 @@
 package com.example.wheretogo.ui.home
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,10 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
-import com.example.wheretogo.R
-import com.example.wheretogo.data.remote.MainEventResult
+import com.example.wheretogo.data.remote.home.MainEventResult
 import com.example.wheretogo.databinding.FragmentHomeBannerBinding
-import com.example.wheretogo.ui.guide.GuideActivity
 
 
 class HomeBannerFragment(private val item: MainEventResult) : Fragment() {

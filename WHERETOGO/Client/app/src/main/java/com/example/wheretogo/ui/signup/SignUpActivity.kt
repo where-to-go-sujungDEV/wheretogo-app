@@ -12,9 +12,9 @@ import com.example.wheretogo.R
 import com.example.wheretogo.databinding.ActivitySignupBinding
 import com.example.wheretogo.ui.BaseActivity
 import android.widget.TextView
-import com.example.wheretogo.data.remote.Auth.AuthService
-import com.example.wheretogo.data.remote.Auth.SignUpInfo
-import com.example.wheretogo.data.remote.Auth.SignUpView
+import com.example.wheretogo.data.remote.auth.AuthService
+import com.example.wheretogo.data.remote.auth.SignUpInfo
+import com.example.wheretogo.data.remote.auth.SignUpView
 import com.example.wheretogo.ui.MainActivity
 
 
