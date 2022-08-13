@@ -36,7 +36,7 @@ export const getUserTopContents = (uid, result) => {
         } else {            
             if(userInfo[0].sex == 'w'){
                 if(userInfo[0].age == 1){
-                    db.query("select eventID,eventName,startDate, w1 as savedNum , endDate, genre, kind, theme from eventTBL ORDER BY savedNum DESC LIMIT 5;", (err, results) => {             
+                    db.query("select eventID,eventName,startDate, w1 as savedNum , endDate, genre, kind, theme, pic from eventTBL ORDER BY savedNum DESC LIMIT 5;", (err, results) => {             
                         if(err) {
                             console.log(err);
                             result(err, null);
@@ -51,7 +51,7 @@ export const getUserTopContents = (uid, result) => {
                     });
                 }
                 else if (userInfo[0].age == 2){
-                    db.query("select eventID,eventName,startDate, w2 as savedNum, endDate, genre, kind, theme from eventTBL ORDER BY savedNum DESC LIMIT 5;", (err, results) => {             
+                    db.query("select eventID,eventName,startDate, w2 as savedNum, endDate, genre, kind, theme, pic from eventTBL ORDER BY savedNum DESC LIMIT 5;", (err, results) => {             
                         if(err) {
                             console.log(err);
                             result(err, null);
@@ -65,7 +65,7 @@ export const getUserTopContents = (uid, result) => {
                         });
                 }
                 else if (userInfo[0].age == 3){
-                    db.query("select eventID,eventName,startDate, w3 as savedNum, endDate, genre, kind, theme from eventTBL ORDER BY savedNum DESC LIMIT 5;", (err, results) => {             
+                    db.query("select eventID,eventName,startDate, w3 as savedNum, endDate, genre, kind, theme, pic  from eventTBL ORDER BY savedNum DESC LIMIT 5;", (err, results) => {             
                         if(err) {
                             console.log(err);
                             result(err, null);
@@ -79,7 +79,7 @@ export const getUserTopContents = (uid, result) => {
                         });
                 }
                 else if (userInfo[0].age == 4){
-                    db.query("select eventID,eventName,startDate, w4 as savedNum , endDate, genre, kind, theme from eventTBL ORDER BY savedNum  DESC LIMIT 5;", (err, results) => {             
+                    db.query("select eventID,eventName,startDate, w4 as savedNum , endDate, genre, kind, theme, pic  from eventTBL ORDER BY savedNum  DESC LIMIT 5;", (err, results) => {             
                         if(err) {
                             console.log(err);
                             result(err, null);
@@ -93,7 +93,7 @@ export const getUserTopContents = (uid, result) => {
                         });
                 }
                 else if (userInfo[0].age == 6){
-                    db.query("select eventID,eventName,startDate, w6 as savedNum , endDate, genre, kind, theme from eventTBL ORDER BY savedNum DESC LIMIT 5;", (err, results) => {             
+                    db.query("select eventID,eventName,startDate, w6 as savedNum , endDate, genre, kind, theme, pic  from eventTBL ORDER BY savedNum DESC LIMIT 5;", (err, results) => {             
                         if(err) {
                             console.log(err);
                             result(err, null);
@@ -108,7 +108,7 @@ export const getUserTopContents = (uid, result) => {
                         });
                 }
                 else {
-                    db.query("select eventID,eventName,startDate, w1+w2+w3+w4+w6 as savedNum , endDate, genre, kind, theme from eventTBL ORDER BY savedNum DESC LIMIT 5;", (err, results) => {             
+                    db.query("select eventID,eventName,startDate, w1+w2+w3+w4+w6 as savedNum , endDate, genre, kind, theme, pic  from eventTBL ORDER BY savedNum DESC LIMIT 5;", (err, results) => {             
                         if(err) {
                             console.log(err);
                             result(err, null);
@@ -125,7 +125,7 @@ export const getUserTopContents = (uid, result) => {
             }
             else if (userInfo[0].sex == 'm') {
                 if(userInfo[0].age == 1){
-                    db.query("select eventID,eventName,startDate, m1 as savedNum, endDate, genre, kind, theme from eventTBL ORDER BY savedNum DESC LIMIT 5;", (err, results) => {             
+                    db.query("select eventID,eventName,startDate, m1 as savedNum, endDate, genre, kind, theme, pic  from eventTBL ORDER BY savedNum DESC LIMIT 5;", (err, results) => {             
                         if(err) {
                             console.log(err);
                             result(err, null);
@@ -139,7 +139,7 @@ export const getUserTopContents = (uid, result) => {
                         });
                 }
                 else if (userInfo[0].age == 2){
-                    db.query("select eventID,eventName,startDate, m2 as savedNum, endDate, genre, kind, theme from eventTBL ORDER BY savedNum DESC LIMIT 5;", (err, results) => {             
+                    db.query("select eventID,eventName,startDate, m2 as savedNum, endDate, genre, kind, theme, pic  from eventTBL ORDER BY savedNum DESC LIMIT 5;", (err, results) => {             
                         if(err) {
                             console.log(err);
                             result(err, null);
@@ -153,7 +153,7 @@ export const getUserTopContents = (uid, result) => {
                         });
                 }
                 else if (userInfo[0].age == 3){
-                    db.query("select eventID,eventName,startDate, m3 as savedNum, endDate, genre, kind, theme from eventTBL ORDER BY savedNum DESC LIMIT 5;", (err, results) => {             
+                    db.query("select eventID,eventName,startDate, m3 as savedNum, endDate, genre, kind, theme, pic  from eventTBL ORDER BY savedNum DESC LIMIT 5;", (err, results) => {             
                         if(err) {
                             console.log(err);
                             result(err, null);
@@ -167,7 +167,7 @@ export const getUserTopContents = (uid, result) => {
                         });
                 }
                 else if (userInfo[0].age == 4){
-                    db.query("select eventID,eventName,startDate, m4 as savedNum, endDate, genre, kind, theme from eventTBL ORDER BY savedNum DESC LIMIT 5;", (err, results) => {             
+                    db.query("select eventID,eventName,startDate, m4 as savedNum, endDate, genre, kind, theme, pic  from eventTBL ORDER BY savedNum DESC LIMIT 5;", (err, results) => {             
                         if(err) {
                             console.log(err);
                             result(err, null);
@@ -181,7 +181,7 @@ export const getUserTopContents = (uid, result) => {
                         });
                 }
                 else if (userInfo[0].age == 6){
-                    db.query("select eventID,eventName,startDate, m6 as savedNum, endDate, genre, kind, theme from eventTBL ORDER BY savedNum DESC LIMIT 5;", (err, results) => {             
+                    db.query("select eventID,eventName,startDate, m6 as savedNum, endDate, genre, kind, theme, pic  from eventTBL ORDER BY savedNum DESC LIMIT 5;", (err, results) => {             
                         if(err) {
                             console.log(err);
                             result(err, null);
@@ -195,7 +195,7 @@ export const getUserTopContents = (uid, result) => {
                         });
                 }
                 else {
-                    db.query("select eventID,eventName,startDate, m1+m2+m3+m4+m6 as savedNum , endDate, genre, kind, theme from eventTBL ORDER BY savedNum DESC LIMIT 5;", (err, results) => {             
+                    db.query("select eventID,eventName,startDate, m1+m2+m3+m4+m6 as savedNum , endDate, genre, kind, theme, pic  from eventTBL ORDER BY savedNum DESC LIMIT 5;", (err, results) => {             
                         if(err) {
                             console.log(err);
                             result(err, null);
@@ -211,7 +211,7 @@ export const getUserTopContents = (uid, result) => {
                 }
             }
             else {
-                db.query("select eventID,eventName,startDate, w1+w2+w3+w4+w6+m1+m2+m3+m4+m6 as savedNum , endDate, genre, kind, theme from eventTBL ORDER BY savedNum DESC LIMIT 5;", (err, results) => {             
+                db.query("select eventID,eventName,startDate, w1+w2+w3+w4+w6+m1+m2+m3+m4+m6 as savedNum , endDate, genre, kind, theme, pic  from eventTBL ORDER BY savedNum DESC LIMIT 5;", (err, results) => {             
                     if(err) {
                         console.log(err);
                         result(err, null);
@@ -231,7 +231,7 @@ export const getUserTopContents = (uid, result) => {
   
 
 export const getEventByEventID = (id, result) => {
-    db.query("select w1+w2+w3+w4+w6+m1+m2+m3+m4+m6 as savedNum from eventTBL where eventID = ?;", [id], (err, results) => {             
+    db.query("select eventID,eventName,startDate, w1+w2+w3+w4+w6+m1+m2+m3+m4+m6 as savedNum , endDate, genre, kind, theme, pic, dou, si, time, place, link, cost, content from eventTBL where eventID = ?;", [id], (err, results) => {             
         if(err) {
             console.log(err);
             result(err, null);
