@@ -1,7 +1,7 @@
 import db from "../config/dbConnection.js";
 
 export const getSavedEvent = ([uid], result) => {
-    db.query("Select * from eventTBL where eventID in (SELECT eventID from userSavedTBL where userID = ?);",[uid], (err, results) => {             
+    db.query("Select eventID, eventName, genre, kind, theme, startDate, endDate, pic, w1+w2+w3+w4+w6+m1+m2+m3+m4+m6 as savedNum from eventTBL where eventID in (SELECT eventID from userSavedTBL where userID = ?);",[uid], (err, results) => {             
         if(err) {
             console.log(err);
             result({
