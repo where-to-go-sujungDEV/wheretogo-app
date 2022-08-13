@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
+import com.bumptech.glide.Glide
 import com.example.wheretogo.R
 import com.example.wheretogo.data.remote.detail.DetailInfoResult
 import com.example.wheretogo.data.remote.detail.DetailService
@@ -93,9 +94,9 @@ class DetailActivity: AppCompatActivity() {
 
     fun setDetailInfo(result: ArrayList<DetailInfoResult>){
         for (item in result){
-            binding.detailTag1Tv.text = item.hashtag1
-            binding.detailTag2Tv.text = item.hashtag2
-            binding.detailTag3Tv.text = item.hashtag3
+            binding.detailTag1Tv.text = item.genre
+            binding.detailTag2Tv.text = item.kind
+            binding.detailTag3Tv.text = item.theme
 
             binding.detailEventTitle.text = item.eventName
             binding.detailEventPlaceData1.text = String.format("%s %s",item.si,item.dou)
@@ -108,6 +109,8 @@ class DetailActivity: AppCompatActivity() {
 
             binding.detailEventHomepageData.text = item.link
             binding.detailEventIntroduceData.text = item.content
+
+            Glide.with(this).load(item.pic).into(binding.detailEventPlaceIv)
 
             if (item.time!=null){
                 binding.detailEventTimeData.text = item.time
