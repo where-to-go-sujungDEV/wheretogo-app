@@ -132,17 +132,17 @@ ALTER TABLE searchTBL COMMENT '검색어 테이블';
 
 
 
-CREATE TABLE userKeywordTBL
+CREATE TABLE keywordTBL
 (
     `userID`     BIGINT         NOT NULL, 
     `content`    varchar(10)    NOT NULL, 
      PRIMARY KEY (userID, content)
 );
 
-ALTER TABLE userKeywordTBL COMMENT '사용자가 등록한 키워드 테이블';
+ALTER TABLE keywordTBL COMMENT '사용자가 등록한 키워드 테이블';
 
-ALTER TABLE userKeywordTBL
-    ADD CONSTRAINT FK_userKeywordTBL_userID_userTBL_userID FOREIGN KEY (userID)
+ALTER TABLE keywordTBL
+    ADD CONSTRAINT FK_keywordTBL_userID_userTBL_userID FOREIGN KEY (userID)
         REFERENCES userTBL (userID) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 
@@ -196,11 +196,11 @@ INSERT INTO `mainEventTBL` VALUES (6,'연인끼리 가기좋은 8월 서울 행�
 
 
 
-INSERT INTO `userKeywordTBL` VALUES (1, '밤');
-INSERT INTO `userKeywordTBL` VALUES (1,'야시장');
-INSERT INTO `userKeywordTBL` VALUES (1,'먹거리');
-INSERT INTO `userKeywordTBL` VALUES (1,'진흙');
-INSERT INTO `userKeywordTBL` VALUES (1,'축제');
+INSERT INTO `keywordTBL` VALUES (1, '밤');
+INSERT INTO `keywordTBL` VALUES (1,'야시장');
+INSERT INTO `keywordTBL` VALUES (1,'먹거리');
+INSERT INTO `keywordTBL` VALUES (1,'진흙');
+INSERT INTO `keywordTBL` VALUES (1,'축제');
 
 INSERT INTO `userVisitedTBL` VALUES (1, 1, 'g');
 INSERT INTO `userVisitedTBL` VALUES (1, 2, 'b');
