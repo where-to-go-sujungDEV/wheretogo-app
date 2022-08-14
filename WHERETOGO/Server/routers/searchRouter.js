@@ -8,7 +8,7 @@ import {getSearch, getHotSearch, updateSearch} from "../controllers/searchContro
 const searchRouter = express.Router();
   
 
-searchRouter.get('/', getSearch);
+searchRouter.post('/', getSearch);
 
 searchRouter.get('/hot', getHotSearch);
 
