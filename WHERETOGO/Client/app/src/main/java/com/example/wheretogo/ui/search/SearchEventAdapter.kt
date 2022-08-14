@@ -1,7 +1,6 @@
 package com.example.wheretogo.ui.search
 
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Build
@@ -14,26 +13,26 @@ import android.widget.Filterable
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.wheretogo.R
-import com.example.wheretogo.data.entities.Event
-import com.example.wheretogo.data.entities.userSavedEvent
+import com.example.wheretogo.data.remote.search.EventResult
+import com.example.wheretogo.data.remote.search.SavedInfo
+import com.example.wheretogo.data.remote.search.SearchService
+import com.example.wheretogo.data.remote.search.VisitedInfo
 import com.example.wheretogo.ui.detail.DetailActivity
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 import java.util.*
-import kotlin.collections.ArrayList
 
 
-
-
-class SearchEventAdapter(var events: ArrayList<Event>, var con: Context) :
-    RecyclerView.Adapter<SearchEventAdapter.ViewHolder>(), Filterable  {
+class SearchEventAdapter(var events: ArrayList<EventResult>, var con: Context) :
+    RecyclerView.Adapter<SearchEventAdapter.ViewHolder>() {
     var TAG = "SearchEventListner"
 
-    var filteredEvents = ArrayList<Event>()
-    var itemFilter = ItemFilter()
-    private var savedEvent: ArrayList<userSavedEvent> = ArrayList<userSavedEvent>()
+    private val searchService = SearchService
+    var filteredEvents = ArrayList<EventResult>()
+    private var isSavedBtnSelected :Boolean = false
+    private var isVisitedBtnSelected :Boolean = false
+    val userIdx = getIdx()
 
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
@@ -71,7 +70,6 @@ class SearchEventAdapter(var events: ArrayList<Event>, var con: Context) :
     }
     init {
         filteredEvents.addAll(events)
-//        filteredEvents= ArrayList()
     }
 
 
@@ -86,57 +84,102 @@ class SearchEventAdapter(var events: ArrayList<Event>, var con: Context) :
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: SearchEventAdapter.ViewHolder, position: Int) {
-        val event: Event = filteredEvents[position]
+        val event: EventResult = filteredEvents[position]
 
-        val formatter = DateTimeFormatter.ofPattern("yyyy-M-d", Locale.ENGLISH)
+        fun getSavedInfo() : SavedInfo {
+            val userID = userIdx
+            val eventID = event.eventID
 
-        val startDate = LocalDate.parse(event.startDate, formatter)
-        val endDate = LocalDate.parse(event.endDate, formatter)
+            return SavedInfo(userID, eventID)
+        }
 
-        holder.eventName.text = event.name
-        holder.startDate.text = startDate.toString()
-        holder.endDate.text = endDate.toString()
+        fun getVisitedInfo() : VisitedInfo {
+            val userID = userIdx
+            val eventID = event.eventID
+            val assess = "g"
 
-        //holder.startDate.text =event.startDate
-       //holder.endDate.text =event.endDate
-        holder.hashtag1.text = "#" + event.hashtag1
-        holder.hashtag2.text = "#" + event.hashtag2
-        holder.hashtag3.text = "#" + event.hashtag3
+            return VisitedInfo(userID, eventID, assess)
+        }
 
-        holder.visitedBtn.setBackgroundResource(R.drawable.btn_check_unclick)
-        holder.likedBtn.setBackgroundResource(R.drawable.btn_like_unclick)
+        holder.eventName.text = event.eventName
+        holder.startDate.text = event.startDate.slice(IntRange(0,9))
+        if(event.endDate != null)
+            holder.endDate.text = event.endDate.slice((IntRange(0,9)))
+        else event.endDate
+
+        holder.hashtag1.text = "#" + event.genre
+        holder.hashtag2.text = "#" + event.theme
+        holder.hashtag3.text = "#" + event.kind
+
+        SearchService.getIsSavedEvent(this, userIdx, event.eventID)
+        SearchService.getIsVisitedEvent(this, userIdx, event.eventID)
+
+        if (isVisitedBtnSelected)
+            holder.visitedBtn.setBackgroundResource(R.drawable.btn_check_click)
+        else
+            holder.visitedBtn.setBackgroundResource(R.drawable.btn_check_unclick)
+
+
+        if(isSavedBtnSelected)
+            holder.likedBtn.setBackgroundResource(R.drawable.btn_like_click)
+        else
+            holder.likedBtn.setBackgroundResource(R.drawable.btn_like_unclick)
+
 
         holder.visitedBtn.setOnClickListener {
-            if (!event.isvisited){
-                event.isvisited=true;
-                savedEvent.add(userSavedEvent(event.eventId, event.hashtag1, event.name, event.startDate, event.isLiked, true))
+//            if(userIdx==-1){
+//                //toast. 로그인이 필요한 서비스입니다.
+//                //자동로그인
+//                println("로그인이 필요한 서비스입니다")
+//            }
+//            else{
+            //visited 버튼이 비활성화 상태일 경우
+            if (!isVisitedBtnSelected){
                 holder.visitedBtn.setBackgroundResource(R.drawable.btn_check_click)
-                holder.visitedBtn.setSelected(true)
+                isVisitedBtnSelected=true
+
+                //VisitedTBL에 저장
+                searchService.setVisitedEvent(this, getVisitedInfo())
+                //로컬 savedDB에 저장
+
             }
+            //vistied 버튼이 활성화 상태일 경우
             else{
-                event.isvisited=false
-                savedEvent.removeIf{ visitedEvent-> visitedEvent.title == event.name }
                 holder.visitedBtn.setBackgroundResource(R.drawable.btn_check_unclick)
-                holder.visitedBtn.setSelected(false)
+                isVisitedBtnSelected=false
+                //VistedTBL에서 삭제
+                searchService.setDeleteVisitedEvent(this, userIdx, event.eventID)
             }
+//            }
         }
+
 
         holder.likedBtn.setOnClickListener {
-            if (!event.isLiked){
-                event.isLiked=true;
-                savedEvent.add(userSavedEvent(event.eventId, event.hashtag1, event.name, event.startDate, true, event.isvisited))
+//            if(userIdx==-1){
+//                //toast. 로그인이 필요한 서비스입니다.
+//                //자동로그인
+//                println("로그인이 필요한 서비스입니다")
+//            }
+//            else {
+            //isLike 버튼이 비활성화 상태일 경우
+            if (!isSavedBtnSelected) {
                 holder.likedBtn.setBackgroundResource(R.drawable.btn_like_click)
-                holder.likedBtn.setSelected(true)
+                isSavedBtnSelected=true
+
+                //savedTBL에 저장
+                searchService.setSavedEvent(this, getSavedInfo())
+                //로컬 savedDB에 저장
+
             }
-            else{
-                event.isLiked=false
-                savedEvent.removeIf{ likedEvent-> likedEvent.title == event.name }
+            //isLike버튼이 활성화 상태일 경우
+            else {
                 holder.likedBtn.setBackgroundResource(R.drawable.btn_like_unclick)
-                holder.likedBtn.setSelected(false)
+                isSavedBtnSelected=false
+                //savedTBL에 삭제
+                searchService.setDeleteSavedEvent(this, userIdx, event.eventID)
             }
-
         }
-
+//        }
     }
 
 
@@ -149,53 +192,26 @@ class SearchEventAdapter(var events: ArrayList<Event>, var con: Context) :
     }
 
 
-    //-- filter
-    override fun getFilter(): Filter {
-        return itemFilter
+    fun isSavedBtnSelected(result: Boolean){
+        isSavedBtnSelected=result
     }
 
-    inner class ItemFilter : Filter() {
-
-        override fun performFiltering(charSequence: CharSequence): FilterResults {
-            val filterString = charSequence.toString()
-            val results = FilterResults()
-            Log.d(TAG, "charSequence : $charSequence")
-
-            //검색이 필요없을 경우를 위해 원본 배열을 복제
-            val filteredList: ArrayList<Event> = ArrayList<Event>()
-
-            //공백제외 아무런 값이 없을 경우 -> 원본 배열
-            if (filterString.trim { it <= ' ' }.isEmpty()) {
-                //toast:검색어가 입력되지 않았습니다.
-                results.values = events
-                results.count = events.size
-
-                return results
-            } else if (filterString.trim { it <= ' ' }.length >= 2) {
-                for (event in events) {
-                    if (event.name.contains(filterString)) {
-                        filteredList.add(event)
-                    }
-                }
-            } else{
-                println("검색된 내용이 없습니다")
-            }
-            results.values = filteredList
-            results.count = filteredList.size
-
-            return results
-        }
-
-        @SuppressLint("NotifyDataSetChanged")
-        override fun publishResults(charSequence: CharSequence?, filterResults: FilterResults) {
-            filteredEvents.clear()
-            filteredEvents.addAll(filterResults.values as ArrayList<Event>)
-
-            notifyDataSetChanged()
-
-
-        }
+    fun isVisitedBtnSelected(result: Boolean) {
+        isVisitedBtnSelected=result
     }
+
+    fun setMyEvent(result: Boolean) : Boolean{
+        return result
+    }
+
+
+    //유저 인덱스 가져오는 함수
+    private fun getIdx(): Int {
+        val spf = con?.getSharedPreferences("userInfo", AppCompatActivity.MODE_PRIVATE)
+        return spf!!.getInt("userIdx",-1)
+    }
+
+
 
 
 }

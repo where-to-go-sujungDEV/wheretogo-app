@@ -8,7 +8,7 @@ import com.example.wheretogo.data.entities.User
 
 @Database(
     entities = [User::class],
-    version = 1
+    version = 2
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
