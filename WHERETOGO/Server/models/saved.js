@@ -104,3 +104,30 @@ export const deleteSavedEvent = (uid, eid, result) => {
         }
     });  
 }
+
+export const getIfSaved = (uid, eid, result) => {
+    db.query("select * from userSavedTBL where userID = ? and eventID = ?;", [uid, eid],(err, count) => {             
+        if(err) {
+            console.log(err);
+            result({
+                isSuccess : false,
+                msg : "오류가 발생하였습니다.",
+                code : 500, 
+                err
+            }, null);
+
+        } else if (!count.length){
+            result(null, {
+                isSaved : false,
+                code : 200,
+                isSuccess : true
+            })
+        }
+        else {
+            result(null, {
+                isSaved : true,
+                code : 200,
+                isSuccess : true});
+        }
+    });    
+}

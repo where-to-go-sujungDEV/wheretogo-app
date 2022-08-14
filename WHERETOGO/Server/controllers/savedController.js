@@ -1,4 +1,4 @@
-import {getSavedEvent, addSavedEvent, deleteSavedEvent} from "../models/saved.js";
+import {getSavedEvent, addSavedEvent, deleteSavedEvent, getIfSaved} from "../models/saved.js";
 
 
 export const getSaved = (req, res) => {
@@ -30,6 +30,18 @@ export const deleteSaved = (req, res) => {
     const uid = req.params.userID;
     const eid = req.params.eventID;
     deleteSavedEvent(uid, eid, (err, results) => {
+        if (err){
+            res.send(err);
+        }else{
+            res.json(results);
+        }
+    });
+}
+
+export const checkSaved = (req, res) => {
+    const uid = req.params.userID;
+    const eid = req.params.eventID;
+    getIfSaved(uid, eid, (err, results) => {
         if (err){
             res.send(err);
         }else{
