@@ -10,4 +10,6 @@ const searchRouter = express.Router();
 
 searchRouter.get('/', getSearch);
 
+
+
 export default searchRouter;
