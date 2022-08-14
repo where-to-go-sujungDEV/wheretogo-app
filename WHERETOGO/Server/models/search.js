@@ -90,3 +90,21 @@ export const getSearchResults = (data, result) => {
         }
     }); 
 }
+
+
+export const getHotSearchResults = (result) => {
+    db.query("Select searchID, word from searchTBL ORDER BY count DESC LIMIT 10;", (err, results) => {             
+        if(err) {
+            console.log(err);
+            result({
+                code : 500,
+                isSuccess : false,
+                err}, null);
+        } else {
+            result(null, {
+                code : 200,
+                isSuccess : true,
+                results});
+        }
+    });   
+}
