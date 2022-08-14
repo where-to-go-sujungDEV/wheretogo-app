@@ -28,7 +28,7 @@ export const putUserKeyword = (req, res) => {
 
 export const deleteUserKeyword = (req, res) => {
     const uid = req.params.userID;
-    const data = req.body.keyword;
+    const data = req.params.keyword;
     deleteUserKeywordByID(uid, data, (err, results) => {
         if (err){
             res.send(err);
