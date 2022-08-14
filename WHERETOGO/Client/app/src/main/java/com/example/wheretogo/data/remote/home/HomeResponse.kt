@@ -1,4 +1,4 @@
-package com.example.wheretogo.data.remote
+package com.example.wheretogo.data.remote.home
 
 import com.google.gson.annotations.SerializedName
 
@@ -12,7 +12,8 @@ data class MainEventResponse(
 data class MainEventResult(
     @SerializedName(value = "mainEventID")val mainEventID:Int,
     @SerializedName(value = "ment")val ment: String,
-    @SerializedName(value = "Img")val Img: String
+    @SerializedName(value = "prePic")val prePic: String,
+    @SerializedName(value = "eventID")val eventID: String
 )
 
 //홈화면 인기 배너
@@ -26,11 +27,11 @@ data class PopularEventResult(
     @SerializedName(value = "eventID")val eventID:Int,
     @SerializedName(value = "eventName")val eventName:String,
     @SerializedName(value = "startDate")val startDate:String,
+    @SerializedName(value = "totalSavedNum")val totalSavedNum:Int,
     @SerializedName(value = "endDate")val endDate:String?,
-    @SerializedName(value = "savedNum")val savedNum:Int,
-    @SerializedName(value = "Img")val Img:String,
-    @SerializedName(value = "hashtag1")val hashtag1:String,
-    @SerializedName(value = "hashtag2")val hashtag2:String,
-    @SerializedName(value = "hashtag3")val hashtag3:String,
+    @SerializedName(value = "pic")val pic:String,
+    @SerializedName(value = "genre")val genre:String,
+    @SerializedName(value = "kind")val kind:String,
+    @SerializedName(value = "theme")val theme:String,
 
 )

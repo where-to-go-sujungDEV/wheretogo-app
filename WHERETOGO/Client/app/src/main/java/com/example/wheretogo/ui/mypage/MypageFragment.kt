@@ -1,11 +1,9 @@
 package com.example.wheretogo.ui.mypage
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
@@ -13,16 +11,12 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.example.wheretogo.R
 import com.example.wheretogo.data.local.AppDatabase
-import com.example.wheretogo.data.local.UserDao
-import com.example.wheretogo.databinding.FragmentMypageBannerBinding
 import com.example.wheretogo.databinding.FragmentMypageBinding
 import com.example.wheretogo.ui.MainActivity
-import com.example.wheretogo.ui.detail.DetailActivity
 import com.example.wheretogo.ui.home.HomeBannerVPAdapter
 import com.example.wheretogo.ui.login.LoginActivity
 import com.example.wheretogo.ui.setting.SettingActivity
 import com.google.android.material.tabs.TabLayoutMediator
-import java.net.URI
 
 class MypageFragment : Fragment() {
     lateinit var binding: FragmentMypageBinding
@@ -53,7 +47,7 @@ class MypageFragment : Fragment() {
     private fun initLayout(){
         val bannerAdapter = HomeBannerVPAdapter(this)
         //추가할 프래그먼트를 넣어줌
-        bannerAdapter.addFragment(MypageLikeFragment())
+        bannerAdapter.addFragment(MypageSavedFragment())
         bannerAdapter.addFragment(MypageVisitedFragment())
 
         //속성값들
