@@ -1,41 +1,30 @@
 package com.example.wheretogo.ui.home
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.MarginLayoutParams
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 
 import androidx.viewpager2.widget.ViewPager2
+import com.example.wheretogo.BaseFragment
 import com.example.wheretogo.data.local.AppDatabase
-import com.example.wheretogo.data.remote.home.getMainEvent
-import com.example.wheretogo.data.remote.home.getPopularEvent
-import com.example.wheretogo.data.remote.home.MainEventResult
-import com.example.wheretogo.data.remote.home.PopularEventResult
+import com.example.wheretogo.data.remote.home.*
 import com.example.wheretogo.databinding.FragmentHomeBinding
 
 import com.google.android.material.tabs.TabLayoutMediator
 
-class HomeFragment : Fragment() {
+class HomeFragment : BaseFragment<FragmentHomeBinding>(
+FragmentHomeBinding::inflate) {
 
-    lateinit var binding: FragmentHomeBinding
     lateinit var appDB: AppDatabase
+    private val homeService = HomeService
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentHomeBinding.inflate(inflater, container, false)
+    override fun initAfterBinding() {
         appDB =AppDatabase.getInstance(requireContext())!!
 
         getUserName()
-        getMainEvent(this)
-        getPopularEvent(this)
-
-        return binding.root
+        homeService.getMainEvent(this)
+        homeService.getPopularEvent(this)
+        homeService.getRecommendEvent(this)
     }
 
     private fun getUserName(){
@@ -49,19 +38,6 @@ class HomeFragment : Fragment() {
         return spf!!.getInt("userIdx",-1)
     }
 
-
-//    private fun initLayout3(){
-//        val event1Adapter = HomeBannerVPAdapter(this)
-//        //추가할 프래그먼트를 넣어줌
-//        event1Adapter.addFragment(HomeEventFragment())
-//        event1Adapter.addFragment(HomeEventFragment())
-//        event1Adapter.addFragment(HomeEventFragment())
-//        event1Adapter.addFragment(HomeEventFragment())
-//
-//        //속성값들
-//        binding.homeEvent2Vp.adapter = event1Adapter
-//        binding.homeEvent2Vp.orientation = ViewPager2.ORIENTATION_HORIZONTAL
-//    }
 
     private fun setIndicator(){
         val viewPager2 = binding.homeBannerVp
@@ -82,7 +58,7 @@ class HomeFragment : Fragment() {
         val bannerAdapter = HomeBannerVPAdapter(this)
 
         for (item in result){
-            bannerAdapter.addFragment(HomeBannerFragment(item))
+            bannerAdapter.addFragment(BannerMainFragment(item))
         }
 
         binding.homeBannerVp.adapter = bannerAdapter
@@ -95,13 +71,30 @@ class HomeFragment : Fragment() {
         val event1Adapter = HomeBannerVPAdapter(this)
 
         for (item in result){
-            event1Adapter.addFragment(HomeEventFragment(item))
+            event1Adapter.addFragment(BannerPopularFragment(item))
         }
 
         binding.homeEvent1Vp.adapter = event1Adapter
         binding.homeEvent1Vp.orientation = ViewPager2.ORIENTATION_HORIZONTAL
     }
 
+    fun setRecommendEvent(recommendList: ArrayList<RecommendEventResult>, userInfo: ArrayList<UserInfo>){
+        val event2Adapter = HomeBannerVPAdapter(this)
 
+        for (item in userInfo){
+            var sex = item.sex
+            when (sex){
+                "w"->sex = "여성"
+                "m"->sex = "남성"
+            }
+            binding.homeRecommendExplain1Tv.text = String.format("%d대 %s",item.age*10,sex)
+        }
+        for (item in recommendList){
+            event2Adapter.addFragment(BannerRecommendFragment(item))
+        }
+
+        binding.homeEvent2Vp.adapter = event2Adapter
+        binding.homeEvent2Vp.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+    }
 
 }

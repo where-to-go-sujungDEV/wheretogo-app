@@ -13,7 +13,7 @@ import com.example.wheretogo.databinding.FragmentEventBannerBinding
 import com.example.wheretogo.databinding.FragmentHomeBannerBinding
 import com.example.wheretogo.ui.detail.DetailActivity
 
-class HomeEventFragment(private val item: PopularEventResult) : BaseFragment<FragmentEventBannerBinding>(
+class BannerPopularFragment(private val item: PopularEventResult) : BaseFragment<FragmentEventBannerBinding>(
     FragmentEventBannerBinding::inflate) {
 
     override fun initAfterBinding() {

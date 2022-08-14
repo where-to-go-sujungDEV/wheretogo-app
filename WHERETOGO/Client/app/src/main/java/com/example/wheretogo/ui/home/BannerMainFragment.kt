@@ -10,7 +10,7 @@ import com.example.wheretogo.ui.detail.DetailActivity
 import com.example.wheretogo.ui.guide.GuideActivity
 
 
-class HomeBannerFragment(private val item: MainEventResult) : BaseFragment<FragmentHomeBannerBinding>(FragmentHomeBannerBinding::inflate) {
+class BannerMainFragment(private val item: MainEventResult) : BaseFragment<FragmentHomeBannerBinding>(FragmentHomeBannerBinding::inflate) {
 
     override fun initAfterBinding() {
         Glide.with(this).load(item.prePic).into(binding.bannerImageIv)
