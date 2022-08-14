@@ -11,7 +11,7 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
     private lateinit var context: Context
 
     interface OnItemClickListener {
-        fun onItemClick(tempReadBookData: SavedEventResult)
+        fun onItemClick(savedEventData: SavedEventResult)
     }
 
     private lateinit var mItemClickListener: OnItemClickListener

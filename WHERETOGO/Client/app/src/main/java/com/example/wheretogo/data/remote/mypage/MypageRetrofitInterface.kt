@@ -7,4 +7,7 @@ import retrofit2.http.Path
 interface MypageRetrofitInterface {
     @GET("/saved/{userIdx}")
     fun getSavedEvent(@Path("userIdx") userIdx: Int): Call<SavedEventResponse>
+
+    @GET("/visited/{userIdx}")
+    fun getVisitedEvent(@Path("userIdx") userIdx: Int): Call<VisitedEventResponse>
 }
