@@ -18,7 +18,7 @@ object MypageService {
                 Log.d("RecentRead/SUCCESS",resp.code.toString())
                 when(resp.code){
                     200->{
-                        fragment.setSavedEvent(resp.result)
+                        fragment.setSavedEvent(resp.result!!)
                     }
                     else ->{
                         fragment.setSavedEventNone(resp.msg)

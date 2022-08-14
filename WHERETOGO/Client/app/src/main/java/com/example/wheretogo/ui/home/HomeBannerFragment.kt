@@ -1,7 +1,6 @@
 package com.example.wheretogo.ui.home
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,8 +20,7 @@ class HomeBannerFragment(private val item: MainEventResult) : Fragment() {
     ): View? {
         binding = FragmentHomeBannerBinding.inflate(inflater,container,false)
 
-        Glide.with(this).load(item.Img).into(binding.bannerImageIv)
-        Log.d("HomeNotice",item.Img)
+        Glide.with(this).load(item.prePic).into(binding.bannerImageIv)
         binding.bannerExplainTv.text = item.ment
         return binding.root
     }

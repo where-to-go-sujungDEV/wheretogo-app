@@ -36,15 +36,19 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
     }
 
     override fun getItemCount(): Int {
-        return savedEventList!!.size
+        return savedEventList.size
     }
 
     inner class ViewHolder(val binding: ItemMypageSavedBinding): RecyclerView.ViewHolder(binding.root){
 
         fun bind(savedEvent: SavedEventResult){
             binding.itemMypageLikeTitleTv.text = savedEvent.eventName
-            binding.itemMypageLikeTagTv.text = savedEvent.genre
-            binding.itemMypageLikeStartDateTv.text = savedEvent.startDate
+            binding.itemMypageLikeTagTv.text = String.format("%s %s %s",savedEvent.genre,savedEvent.kind,savedEvent.theme)
+            binding.itemMypageLikeStartDateTv.text = String.format("%s~",savedEvent.startDate.slice(IntRange(0,9)))
+            if (savedEvent.endDate!=null)
+                binding.itemMypageLikeEndDateTv.text = savedEvent.endDate.slice(IntRange(0,9))
+
+            binding.itemMypageLikeCountTv.text = String.format("담은 수: %d건",savedEvent.savedNum)
         }
 
     }

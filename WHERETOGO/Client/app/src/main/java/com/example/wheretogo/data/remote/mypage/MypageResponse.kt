@@ -7,7 +7,7 @@ data class SavedEventResponse(
     @SerializedName(value = "code")val code:Int,
     @SerializedName(value = "isSuccess")val isSuccess : Boolean,
     @SerializedName(value = "userID")val userID:Int?,
-    @SerializedName(value = "result")val result: ArrayList<SavedEventResult>,
+    @SerializedName(value = "results")val result: ArrayList<SavedEventResult>?,
 )
 
 data class SavedEventResult(
@@ -17,7 +17,7 @@ data class SavedEventResult(
     @SerializedName(value = "kind") val kind: String,
     @SerializedName(value = "theme") val theme: String,
     @SerializedName(value = "startDate") val startDate: String,
-    @SerializedName(value = "endDate") val endDate: String,
+    @SerializedName(value = "endDate") val endDate: String?,
     @SerializedName(value = "pic") val pic: String,
     @SerializedName(value = "savedNum") val savedNum: Int,
     )

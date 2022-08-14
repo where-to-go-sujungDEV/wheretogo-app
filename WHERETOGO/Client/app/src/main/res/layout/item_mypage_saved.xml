@@ -42,7 +42,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
         android:layout_marginTop="98dp"
-        android:textSize="25sp"
+        android:textSize="21sp"
         android:textColor="@color/white"
         android:text="포항국제불빛축제"
         app:layout_constraintStart_toStartOf="parent"

@@ -22,7 +22,7 @@ class HomeEventFragment(private val item: PopularEventResult) : Fragment() {
         binding = FragmentEventBannerBinding.inflate(inflater,container,false)
 
         binding.homeEventTitleTv.text = item.eventName
-        binding.homeEventTagTv.text = String.format("#%s #%s #%s",item.hashtag1,item.hashtag2,item.hashtag3)
+        binding.homeEventTagTv.text = String.format("%s %s %s",item.genre,item.kind,item.theme)
         binding.homeEventStartDateTv.text = item.startDate.slice(IntRange(0,9))
         if (item.endDate!=null)
             binding.homeEventEndDateTv.text = item.endDate.slice(IntRange(0,9))
