@@ -26,7 +26,7 @@ class MypageSavedFragment() : BaseFragment<FragmentMypageBannerBinding>(Fragment
 
 
         adapter.setMyItemClickListener(object : UserSavedEventRVAdapter.OnItemClickListener {
-            override fun onItemClick(tempReadBookData: SavedEventResult) {
+            override fun onItemClick(savedEventData: SavedEventResult) {
                 val intent = Intent(context, DetailActivity::class.java)
                 startActivity(intent)
             }

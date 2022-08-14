@@ -15,6 +15,42 @@
         android:background="@drawable/mypage_like_border"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+    <ImageView
+        android:id="@+id/item_visited_star1"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:src="@drawable/mypage_star_on"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="15dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+    <ImageView
+        android:id="@+id/item_visited_star2"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:src="@drawable/mypage_star_off"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="15dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/item_visited_star1" />
+    <ImageView
+        android:id="@+id/item_visited_star3"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:src="@drawable/mypage_star_off"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="15dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/item_visited_star2" />
+    <TextView
+        android:id="@+id/item_mypage_visited_count_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="13sp"
+        android:textColor="@color/white"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@id/item_visited_star1"
+        app:layout_constraintStart_toStartOf="@id/item_visited_star1"/>
     <TextView
         android:id="@+id/item_mypage_visited_tag_tv"
         android:layout_width="wrap_content"
@@ -23,7 +59,6 @@
         android:textColor="@color/white"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="10dp"
-        android:text="#지금_인기있는 #서울시 #자연"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
     <TextView
@@ -32,21 +67,29 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
         android:layout_marginTop="98dp"
-        android:textSize="25sp"
+        android:textSize="21sp"
         android:textColor="@color/white"
         android:text="포항국제불빛축제"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
     <TextView
-        android:id="@+id/item_mypage_visited_date_tv"
+        android:id="@+id/item_mypage_visited_start_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/white"
         android:layout_marginStart="15dp"
         android:layout_marginTop="3dp"
-        android:text="05/10~05/22"
         app:layout_constraintTop_toBottomOf="@id/item_mypage_visited_title_tv"
         app:layout_constraintStart_toStartOf="parent"
+        />
+    <TextView
+        android:id="@+id/item_mypage_visited_end_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:layout_marginTop="3dp"
+        app:layout_constraintTop_toBottomOf="@id/item_mypage_visited_title_tv"
+        app:layout_constraintStart_toEndOf="@id/item_mypage_visited_start_date"
         />
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/item_mypage_visited_check_btn"
