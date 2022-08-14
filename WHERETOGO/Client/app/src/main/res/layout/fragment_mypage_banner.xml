@@ -22,7 +22,7 @@
                 android:id="@+id/mypage_like_rv"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                tools:listitem="@layout/item_mypage_like"
+                tools:listitem="@layout/item_mypage_saved"
                 android:layout_marginTop="15dp"
                 android:paddingBottom="120dp"
                 app:layout_constraintStart_toStartOf="parent"

@@ -1,4 +1,4 @@
-package com.example.wheretogo.data.remote.Auth
+package com.example.wheretogo.data.remote.auth
 
 interface LoginView {
     fun onLoginSuccess(result: UserResult)

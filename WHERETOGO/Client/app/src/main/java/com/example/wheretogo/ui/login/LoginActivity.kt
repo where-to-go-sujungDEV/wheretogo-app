@@ -5,10 +5,10 @@ import android.view.View
 import android.widget.Toast
 import com.example.wheretogo.data.entities.User
 import com.example.wheretogo.data.local.AppDatabase
-import com.example.wheretogo.data.remote.Auth.AuthService
-import com.example.wheretogo.data.remote.Auth.LoginInfo
-import com.example.wheretogo.data.remote.Auth.LoginView
-import com.example.wheretogo.data.remote.Auth.UserResult
+import com.example.wheretogo.data.remote.auth.AuthService
+import com.example.wheretogo.data.remote.auth.LoginInfo
+import com.example.wheretogo.data.remote.auth.LoginView
+import com.example.wheretogo.data.remote.auth.UserResult
 import com.example.wheretogo.databinding.ActivityLoginBinding
 
 import com.example.wheretogo.ui.BaseActivity

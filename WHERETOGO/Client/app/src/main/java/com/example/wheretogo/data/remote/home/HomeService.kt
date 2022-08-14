@@ -1,9 +1,7 @@
-package com.example.wheretogo.data.remote.Auth
+package com.example.wheretogo.data.remote.home
 
 import android.util.Log
-import com.example.wheretogo.data.remote.HomeRetrofitInterface
-import com.example.wheretogo.data.remote.MainEventResponse
-import com.example.wheretogo.data.remote.PopularEventResponse
+import com.example.wheretogo.data.remote.auth.getRetrofit
 import com.example.wheretogo.ui.home.HomeFragment
 import retrofit2.Call
 import retrofit2.Callback
