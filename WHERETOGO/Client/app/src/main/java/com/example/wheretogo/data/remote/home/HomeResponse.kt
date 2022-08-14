@@ -13,7 +13,7 @@ data class MainEventResult(
     @SerializedName(value = "mainEventID")val mainEventID:Int,
     @SerializedName(value = "ment")val ment: String,
     @SerializedName(value = "prePic")val prePic: String,
-    @SerializedName(value = "eventID")val eventID: String
+    @SerializedName(value = "eventID")val eventID: Int?
 )
 
 //홈화면 인기 배너

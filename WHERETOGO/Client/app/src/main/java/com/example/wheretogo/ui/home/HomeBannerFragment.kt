@@ -1,27 +1,40 @@
 package com.example.wheretogo.ui.home
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import android.content.Intent
+import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
+import com.example.wheretogo.BaseFragment
 import com.example.wheretogo.data.remote.home.MainEventResult
 import com.example.wheretogo.databinding.FragmentHomeBannerBinding
+import com.example.wheretogo.ui.detail.DetailActivity
+import com.example.wheretogo.ui.guide.GuideActivity
 
 
-class HomeBannerFragment(private val item: MainEventResult) : Fragment() {
-    lateinit var binding : FragmentHomeBannerBinding
+class HomeBannerFragment(private val item: MainEventResult) : BaseFragment<FragmentHomeBannerBinding>(FragmentHomeBannerBinding::inflate) {
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentHomeBannerBinding.inflate(inflater,container,false)
-
+    override fun initAfterBinding() {
         Glide.with(this).load(item.prePic).into(binding.bannerImageIv)
         binding.bannerExplainTv.text = item.ment
-        return binding.root
+
+        binding.bannerImageIv.setOnClickListener{
+            if (item.eventID!=null){
+                saveIdx(item.eventID)
+                val intent = Intent(context, DetailActivity::class.java)
+                startActivity(intent)
+            }
+            else {
+                val intent = Intent(context, GuideActivity::class.java)
+                startActivity(intent)
+            }
+
+
+        }
+    }
+    private fun saveIdx(eventId: Int){
+        val spf = activity?.getSharedPreferences("eventInfo", AppCompatActivity.MODE_PRIVATE)
+        val editor = spf?.edit()
+
+        editor?.putInt("eventId",eventId)
+        editor?.apply()
     }
 }
