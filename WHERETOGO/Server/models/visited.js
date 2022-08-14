@@ -103,3 +103,31 @@ export const deleteVisitedEvent = (uid, eid, result) => {
         }
     });  
 }
+
+
+export const getIfVisited = (uid, eid, result) => {
+    db.query("select * from userVisitedTBL where userID = ? and eventID = ?;", [uid, eid],(err, count) => {             
+        if(err) {
+            console.log(err);
+            result({
+                isSuccess : false,
+                msg : "오류가 발생하였습니다.",
+                code : 500, 
+                err
+            }, null);
+
+        } else if (!count.length){
+            result(null, {
+                isVisited : false,
+                code : 200,
+                isSuccess : true
+            })
+        }
+        else {
+            result(null, {
+                isVisited : true,
+                code : 200,
+                isSuccess : true});
+        }
+    });    
+}

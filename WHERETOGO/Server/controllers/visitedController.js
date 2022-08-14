@@ -1,4 +1,4 @@
-import {getVisitedEvent, addVisitedEvent, deleteVisitedEvent} from "../models/visited.js";
+import {getVisitedEvent, addVisitedEvent, deleteVisitedEvent, getIfVisited} from "../models/visited.js";
 
 
 export const getVisited = (req, res) => {
@@ -31,6 +31,18 @@ export const deleteVisited = (req, res) => {
     const uid = req.params.userID;
     const eid = req.params.eventID;
     deleteVisitedEvent(uid, eid, (err, results) => {
+        if (err){
+            res.send(err);
+        }else{
+            res.json(results);
+        }
+    });
+}
+
+export const checkVisited = (req, res) => {
+    const uid = req.params.userID;
+    const eid = req.params.eventID;
+    getIfVisited(uid, eid, (err, results) => {
         if (err){
             res.send(err);
         }else{
