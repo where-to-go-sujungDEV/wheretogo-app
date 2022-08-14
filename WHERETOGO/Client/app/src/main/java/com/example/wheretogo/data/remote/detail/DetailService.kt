@@ -7,7 +7,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class DetailService {
+object DetailService {
     private val service = getRetrofit().create(DetailRetrofitInterface::class.java)
     fun getDetailInfo(activity:DetailActivity, eventId: Int){
 

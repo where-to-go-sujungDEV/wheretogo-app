@@ -10,13 +10,14 @@ import com.bumptech.glide.Glide
 import com.example.wheretogo.R
 import com.example.wheretogo.data.remote.detail.DetailInfoResult
 import com.example.wheretogo.data.remote.detail.DetailService
+import com.example.wheretogo.data.remote.mypage.MypageService
 import com.example.wheretogo.databinding.ActivityDetailBinding
 import com.google.android.material.tabs.TabLayoutMediator
 
 
 class DetailActivity: AppCompatActivity() {
     lateinit var binding: ActivityDetailBinding
-
+    private val detailService = DetailService
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailBinding.inflate(layoutInflater)
@@ -26,7 +27,6 @@ class DetailActivity: AppCompatActivity() {
         initClickListener()
 
         //이벤트 클릭했을 때 해당 이벤트 상세정보로 이동
-        val detailService = DetailService()
         if (getEventId()!=-1)
             detailService.getDetailInfo(this,getEventId())
     }
