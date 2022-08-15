@@ -148,9 +148,9 @@ export const registerUserInfo = (data, result) => {
             }
             else if (cnt.length > 0) {
               result(null, {
-                code : 409,
+                code : 200,
                 isSuccess : false,
-                msg : '이미 등록된 유저입니다',
+                msg : '이미 등록된 유저입니다'
                 });
             } else {
               bcrypt.hash(data.password, 10, (err, hash) => {
@@ -177,7 +177,7 @@ export const registerUserInfo = (data, result) => {
                             result(null, {
                                 code : 201,
                                 isSuccess : true,
-                                msg : "회원가입에 성공하였습니다.",
+                                msg : "회원가입에 성공하였습니다."
                                 }
                             );
                         }
