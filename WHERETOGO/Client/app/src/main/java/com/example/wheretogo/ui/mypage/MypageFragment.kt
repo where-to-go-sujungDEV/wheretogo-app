@@ -33,8 +33,8 @@ class MypageFragment : Fragment() {
         initView()
         setIndicator()
         initClickListener()
-//        val users = appDB.userDao().getUserList()
-//        Log.d("userlist",users.toString())
+        val users = appDB.userDao().getUserList()
+        Log.d("userlist",users.toString())
 
         return binding.root
     }

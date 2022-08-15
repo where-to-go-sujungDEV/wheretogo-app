@@ -5,10 +5,12 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.wheretogo.data.entities.User
+import com.example.wheretogo.data.entities.Event
+import com.example.wheretogo.data.entities.UserSavedEvent
 
 @Database(
     entities = [User::class],
-    version = 2
+    version = 1
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao

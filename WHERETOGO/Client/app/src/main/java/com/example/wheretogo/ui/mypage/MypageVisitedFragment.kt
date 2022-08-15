@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.wheretogo.BaseFragment
 import com.example.wheretogo.R
-import com.example.wheretogo.data.entities.userSavedEvent
 import com.example.wheretogo.data.remote.mypage.MypageService
 import com.example.wheretogo.data.remote.mypage.VisitedEventResult
 import com.example.wheretogo.databinding.FragmentMypageBannerBinding

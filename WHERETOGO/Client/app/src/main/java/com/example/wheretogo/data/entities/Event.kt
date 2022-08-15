@@ -2,10 +2,8 @@ package com.example.wheretogo.data.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.sql.Date
-import java.util.*
 
-@Entity (tableName = "event")
+@Entity
 data class Event(
     @PrimaryKey var eventID: Int,
     var eventName: String,
@@ -37,5 +35,4 @@ data class Event(
     var w6 : Int,
     var m6 : Int
 
-){}
-
+)
