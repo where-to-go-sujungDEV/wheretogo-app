@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/home_event_frame"
+    android:layout_width="326dp"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp">
+    <ImageView
+        android:id="@+id/home_popular_iv"
+        android:layout_width="326dp"
+        android:layout_height="165dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/img_mypage_panel"
+        android:background="@drawable/mypage_like_border"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+    <TextView
+        android:id="@+id/home_popular_saved_count_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="13sp"
+        android:textColor="@color/white"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="25dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+    <TextView
+        android:id="@+id/home_popular_tag_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="13sp"
+        android:textColor="@color/white"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="40dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+    <TextView
+        android:id="@+id/home_popular_title_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="98dp"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+    <TextView
+        android:id="@+id/home_popular_start_date_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:layout_marginTop="3dp"
+        app:layout_constraintTop_toBottomOf="@+id/home_popular_title_tv"
+        app:layout_constraintStart_toStartOf="@id/home_popular_title_tv"
+        />
+
+    <TextView
+        android:id="@+id/home_popular_end_date_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:layout_marginTop="3dp"
+        app:layout_constraintTop_toBottomOf="@+id/home_popular_title_tv"
+        app:layout_constraintStart_toEndOf="@+id/home_popular_start_date_tv"
+        />
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/home_popular_check_btn"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginStart="250dp"
+        android:src="@drawable/btn_check_click"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/home_popular_title_tv"/>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/home_popular_uncheck_btn"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginStart="250dp"
+        android:visibility="invisible"
+        android:src="@drawable/btn_check_unclick"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/home_popular_title_tv"/>
+
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/home_popular_like_btn"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="3dp"
+        android:src="@drawable/btn_like_click"
+        app:layout_constraintStart_toEndOf="@id/home_popular_check_btn"
+        app:layout_constraintTop_toBottomOf="@+id/home_popular_title_tv"/>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/home_popular_dislike_btn"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="3dp"
+        android:src="@drawable/btn_like_unclick"
+        android:visibility="invisible"
+        app:layout_constraintStart_toEndOf="@id/home_popular_check_btn"
+        app:layout_constraintTop_toBottomOf="@+id/home_popular_title_tv"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

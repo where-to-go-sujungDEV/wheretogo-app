@@ -1,80 +1,61 @@
 package com.example.wheretogo.ui.home
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.example.wheretogo.BaseFragment
 import com.example.wheretogo.data.remote.auth.getRetrofit
 import com.example.wheretogo.data.remote.home.RecommendEventResult
-import com.example.wheretogo.data.remote.mypage.EventStatusResponse
-import com.example.wheretogo.data.remote.mypage.MypageRetrofitInterface
-import com.example.wheretogo.databinding.FragmentEventBannerBinding
+import com.example.wheretogo.databinding.FragmentRecommendBannerBinding
 import com.example.wheretogo.ui.detail.DetailActivity
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
-class BannerRecommendFragment (private val item: RecommendEventResult) :BaseFragment<FragmentEventBannerBinding>(
-FragmentEventBannerBinding::inflate) {
+class BannerRecommendFragment (private val item: RecommendEventResult)
+    :BaseFragment<FragmentRecommendBannerBinding>(FragmentRecommendBannerBinding::inflate) {
 
-    private val eventStatusService = getRetrofit().create(MypageRetrofitInterface::class.java)
+
 
     override fun initAfterBinding() {
-        binding.homeEventTitleTv.text = item.eventName
-        binding.homeEventSavedCountTv.text = String.format("담은 수: %d건", item.savedNum)
-        binding.homeEventTagTv.text = String.format("%s %s %s", item.genre, item.kind, item.theme)
-        binding.homeEventStartDateTv.text =
+        binding.homeRecommendTitleTv.text = item.eventName
+        binding.homeRecommendSavedCountTv.text = String.format("담은 수: %d건", item.savedNum)
+        binding.homeRecommendTagTv.text = String.format("%s %s %s", item.genre, item.kind, item.theme)
+        binding.homeRecommendStartDateTv.text =
             String.format("%s~", item.startDate.slice(IntRange(0, 9)))
         if (item.endDate != null)
-            binding.homeEventEndDateTv.text = item.endDate.slice(IntRange(0, 9))
-        binding.homeEventIv.setOnClickListener {
+            binding.homeRecommendEndDateTv.text = item.endDate.slice(IntRange(0, 9))
+
+        binding.homeRecommendIv.setOnClickListener {
             saveIdx(item.eventID)
             startActivity(Intent(context, DetailActivity::class.java))
         }
 
-        getEventStatus(item.eventID)
+        initStatus()
 
     }
 
-    private fun getEventStatus(eventId: Int){
-        val userId = 2
-        eventStatusService.getEventStatus(userId,eventId).enqueue(object:
-            Callback<EventStatusResponse> {
-            override fun onResponse(call: Call<EventStatusResponse>, response: Response<EventStatusResponse>) {
-                val resp = response.body()!!
-                when(resp.code){
-                    200->{
-                        setStatus(resp.isVisited,resp.isSaved)
-
-                    }
-                    else ->{
-
-                    }
-                }
-            }
-            override fun onFailure(call: Call<EventStatusResponse>, t: Throwable) {
-            }
-        })
-    }
-
-    private fun setStatus(isVisited:Boolean, isSaved:Boolean){
+    private fun initStatus(){
+        val spf : SharedPreferences = requireActivity().getPreferences(Context.MODE_PRIVATE)
+        val isVisited = spf.getBoolean("isVisited",false)
+        val isSaved = spf.getBoolean("isSaved",false)
         if (isVisited){
-            binding.homeEventCheckBtn.visibility = View.VISIBLE
-            binding.homeEventUncheckBtn.visibility = View.INVISIBLE
+            binding.homeRecommendCheckBtn.visibility = View.VISIBLE
+            binding.homeRecommendUncheckBtn.visibility = View.INVISIBLE
         }
         else {
-            binding.homeEventCheckBtn.visibility = View.INVISIBLE
-            binding.homeEventUncheckBtn.visibility = View.VISIBLE
+            binding.homeRecommendCheckBtn.visibility = View.INVISIBLE
+            binding.homeRecommendUncheckBtn.visibility = View.VISIBLE
         }
 
         if (isSaved){
-            binding.homeEventLikeBtn.visibility = View.VISIBLE
-            binding.homeEventDislikeBtn.visibility = View.INVISIBLE
+            binding.homeRecommendLikeBtn.visibility = View.VISIBLE
+            binding.homeRecommendDislikeBtn.visibility = View.INVISIBLE
         }
         else{
-            binding.homeEventLikeBtn.visibility = View.INVISIBLE
-            binding.homeEventDislikeBtn.visibility = View.VISIBLE
+            binding.homeRecommendLikeBtn.visibility = View.INVISIBLE
+            binding.homeRecommendDislikeBtn.visibility = View.VISIBLE
         }
+
     }
 
     private fun saveIdx(eventId: Int) {
