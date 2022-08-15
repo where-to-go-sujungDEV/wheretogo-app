@@ -54,7 +54,7 @@ export const updateUserInfo = (uid, data, result) => {
                       });
                     } else {
                         if(!data.nickName){
-                            db.query(`update userTBL set password = ${db.escape(hash)} where userID = ?;`,[uid], (err, results) => {             
+                            db.query(`update userTBL set pw = ${db.escape(hash)} where userID = ?;`,[uid], (err, results) => {             
                                 if(err) {
                                     console.log(err);
                                     result({
@@ -72,7 +72,7 @@ export const updateUserInfo = (uid, data, result) => {
                             }); 
                         }
                         else{
-                            db.query(`update userTBL set nickName = ?, password = ${db.escape(hash)} where userID = ?;`,[data.nickName, uid], (err, results) => {             
+                            db.query(`update userTBL set nickName = ?, pw = ${db.escape(hash)} where userID = ?;`,[data.nickName, uid], (err, results) => {             
                                 if(err) {
                                     console.log(err);
                                     result({

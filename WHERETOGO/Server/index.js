@@ -16,6 +16,7 @@ import searchRouter from "./routers/searchRouter.js";
 import visitedRouter from "./routers/visitedRouter.js";
 import savedRouter from "./routers/savedRouter.js";
 import calendarRouter from "./routers/calendarRouter.js";
+import testRouter from "./routers/testRouter.js";
 
 import dotenv from "dotenv";
 
@@ -41,6 +42,7 @@ app.use("/keyword", keywordRouter);
 app.use("/visited", visitedRouter);
 app.use("/saved", savedRouter);
 app.use("/calendar", calendarRouter);
+app.use("/test", testRouter);
 
 app.use('/asset', express.static('asset'));
 

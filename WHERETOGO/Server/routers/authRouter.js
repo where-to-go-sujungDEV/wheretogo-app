@@ -35,7 +35,7 @@ router.post('/sign-up', [
               // has hashed pw => add to database
               db.query(
 
-                `INSERT INTO userTBL (email, password, nickName, sex, age) VALUES (${db.escape(
+                `INSERT INTO userTBL (email, pw, nickName, sex, age) VALUES (${db.escape(
                   req.body.email)}, ${db.escape(hash)},'${req.body.nickName}', ?, ?);`, [req.body.sex, req.body.age] ,
                   (err, result) => {
                     if (err) {
