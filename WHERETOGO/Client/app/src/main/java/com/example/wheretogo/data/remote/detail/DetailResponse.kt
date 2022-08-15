@@ -24,5 +24,12 @@ data class DetailInfoResult(
     @SerializedName(value = "place")val place: String,
     @SerializedName(value = "link")val link: String,
     @SerializedName(value = "cost")val cost: String?,
-    @SerializedName(value = "content")val content: String,
+    @SerializedName(value = "content")val content: String
 )
+
+data class IsVisitedResponse(
+    @SerializedName(value = "isVisited")val isVisited:Boolean,
+    @SerializedName(value = "code")val code:Int,
+    @SerializedName(value = "isSuccess")val isSuccess:Boolean
+)
+

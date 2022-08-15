@@ -1,6 +1,7 @@
 package com.example.wheretogo.ui.detail
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
@@ -8,16 +9,19 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.example.wheretogo.R
-import com.example.wheretogo.data.remote.detail.DetailInfoResult
-import com.example.wheretogo.data.remote.detail.DetailService
-import com.example.wheretogo.data.remote.mypage.MypageService
+import com.example.wheretogo.data.remote.auth.getRetrofit
+import com.example.wheretogo.data.remote.detail.*
 import com.example.wheretogo.databinding.ActivityDetailBinding
 import com.google.android.material.tabs.TabLayoutMediator
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class DetailActivity: AppCompatActivity() {
     lateinit var binding: ActivityDetailBinding
     private val detailService = DetailService
+    private val detailVisitedService = getRetrofit().create(DetailRetrofitInterface::class.java)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailBinding.inflate(layoutInflater)
@@ -26,11 +30,14 @@ class DetailActivity: AppCompatActivity() {
         initLayout()
         initClickListener()
 
-        //이벤트 클릭했을 때 해당 이벤트 상세정보로 이동
-        if (getEventId()!=-1)
-            detailService.getDetailInfo(this,getEventId())
-    }
 
+        //이벤트 클릭했을 때 해당 이벤트 상세정보로 이동
+        if (getEventId() != -1)
+            detailService.getDetailInfo(this, getEventId())
+//        if (getEventId() != -1)
+//            getVisitedInfo(getEventId())
+
+    }
     private fun initLayout(){
         val bannerAdapter = DetailVPAdapter(this)
         //추가할 프래그먼트를 넣어줌
@@ -121,6 +128,7 @@ class DetailActivity: AppCompatActivity() {
             if (item.endDate!=null){
                 binding.detailEventEndDate.text = item.endDate.slice(IntRange(0,9))
             }
+
         }
     }
 
@@ -128,6 +136,37 @@ class DetailActivity: AppCompatActivity() {
         val spf = getSharedPreferences("eventInfo", AppCompatActivity.MODE_PRIVATE)
         return spf!!.getInt("eventId",-1)
     }
+
+//    private fun getVisitedInfo(eventId: Int){
+//        val userId = 1
+//        detailVisitedService.getVisitedInfo(userId,eventId).enqueue(object: Callback<IsVisitedResponse> {
+//            override fun onResponse(call: Call<IsVisitedResponse>, response: Response<IsVisitedResponse>) {
+//                val resp = response.body()!!
+//                when(resp.code){
+//                    200->{
+//                        setVisited(resp.isVisited)
+//                        Log.d("isVisited",resp.isVisited.toString())
+//                    }
+//                    else ->{
+//
+//                    }
+//                }
+//            }
+//            override fun onFailure(call: Call<IsVisitedResponse>, t: Throwable) {
+//            }
+//        })
+//    }
+//
+//    private fun setVisited(isVisited: Boolean){
+//        if (isVisited){
+//            binding.detailEventCheckBtn.visibility = View.VISIBLE
+//            binding.detailEventUncheckBtn.visibility = View.INVISIBLE
+//        }
+//        else{
+//            binding.detailEventCheckBtn.visibility = View.INVISIBLE
+//            binding.detailEventUncheckBtn.visibility = View.VISIBLE
+//        }
+//    }
 
 }
 
