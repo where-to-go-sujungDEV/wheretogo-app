@@ -7,11 +7,7 @@ import { check, validationResult } from 'express-validator';
 
 import jwt from 'jsonwebtoken'; 
 
-router.post('/sign-up', [
-  check('nickName', 'nickName is requied').not().isEmpty(),
-  check('email', 'Please include a valid email').isEmail().normalizeEmail({ gmail_remove_dots: true }),
-  check('password', 'Password must be 6 or more characters').isLength({ min: 6 })
-], (req, res, next) => {
+router.post('/sign-up', (req, res, next) => {
   db.query(
     `SELECT * FROM userTBL WHERE LOWER(email) = LOWER(${db.escape(req.body.email)});`,
       (err, result) => {
@@ -65,10 +61,7 @@ router.post('/sign-up', [
       );
 });
 
-router.post('/login',  [
-  check('email', 'Please include a valid email').isEmail().normalizeEmail({ gmail_remove_dots: true }),
-  check('password', 'Password must be 6 or more characters').isLength({ min: 6 })
-], (req, res, next) => {
+router.post('/login', (req, res, next) => {
   db.query(
     `SELECT * FROM userTBL WHERE email = ${db.escape(req.body.email)};`,
     (err, result) => {
@@ -124,11 +117,7 @@ router.post('/login',  [
   );
 });
 
-router.post('/auto-login',  [
-  check('nickName', 'nickName is requied').not().isEmpty(),
-  check('email', 'Please include a valid email').isEmail().normalizeEmail({ gmail_remove_dots: true }),
-  check('password', 'Password must be 6 or more characters').isLength({ min: 6 })
-],  (req, res, next) => {
+router.post('/auto-login', (req, res, next) => {
         if(
           !req.headers.authorization ||
           !req.headers.authorization.startsWith('Bearer') ||
