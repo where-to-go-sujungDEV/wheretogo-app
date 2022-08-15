@@ -245,5 +245,64 @@ export const getEventByEventID = (id, result) => {
 }
   
 
-
-  
+export const getEventUserInfos= (uid, eid, result) => {
+    db.query("select * from userVisitedTBL where userID = ? and eventID = ?;", [uid, eid],(err, cntV) => {             
+        if(err) {
+            console.log(err);
+            result({
+                 isSuccess : false,
+                msg : "오류가 발생하였습니다.",
+                code : 500, 
+                    err
+             }, null);
+        }
+        else {
+            db.query("select * from userSavedTBL where userID = ? and eventID = ?;", [uid, eid],(err, cntS) => {             
+                if(err) {
+                    console.log(err);
+                    result({
+                         isSuccess : false,
+                        msg : "오류가 발생하였습니다.",
+                        code : 500, 
+                            err
+                     }, null);
+            
+                }
+                else {
+                    if ((!cntV.length)&&(!cntS.length)){
+                        result(null, {
+                           isVisited : false,
+                           isSaved : false,
+                           code : 200,
+                           isSuccess : true
+                        });
+                     }
+                     else if ((cntV.length)&&(!cntS.length)){
+                        result(null, {
+                           isVisited : true,
+                           isSaved : false,
+                           code : 200,
+                           isSuccess : true
+                        });
+                     }
+                     else if ((!cntV.length)&&(cntS.length)){
+                        result(null, {
+                           isVisited : false,
+                           isSaved : true,
+                           code : 200,
+                           isSuccess : true
+                        });
+                     }
+                     else {
+                        result(null, {
+                           isVisited : true,
+                           isSaved : true,
+                           code : 200,
+                           isSuccess : true
+                        });
+                     }
+                 }
+            });
+         }
+    });    
+}
