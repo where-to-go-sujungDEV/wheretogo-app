@@ -39,3 +39,5 @@ data class DetailIsSavedResponse(
     @SerializedName(value = "isSuccess")val isSuccess:Boolean
 )
 
+
+

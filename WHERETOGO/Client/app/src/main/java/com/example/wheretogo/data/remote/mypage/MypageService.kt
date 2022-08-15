@@ -1,6 +1,7 @@
 package com.example.wheretogo.data.remote.mypage
 
 import android.util.Log
+import android.view.View
 import com.example.wheretogo.data.remote.auth.getRetrofit
 import com.example.wheretogo.ui.mypage.MypageSavedFragment
 import com.example.wheretogo.ui.mypage.MypageVisitedFragment
@@ -9,7 +10,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 object MypageService {
-    val id = 1
+    val id = 2
     private val service = getRetrofit().create(MypageRetrofitInterface::class.java)
     fun getSavedEvent(fragment: MypageSavedFragment){
 
@@ -21,7 +22,7 @@ object MypageService {
                     200->{
                         fragment.setSavedEvent(resp.result!!)
                     }
-                    else ->{
+                    204 ->{
                         fragment.setSavedEventNone(resp.msg)
                     }
                 }
@@ -42,8 +43,8 @@ object MypageService {
                     200->{
                         fragment.setVisitedEvent(resp.result!!)
                     }
-                    else ->{
-                        //fragment.setVisitedEventNone(resp.msg)
+                    204 ->{
+                        fragment.setVisitedEventNone(resp.msg)
                     }
                 }
             }
@@ -52,4 +53,5 @@ object MypageService {
             }
         })
     }
+
 }

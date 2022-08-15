@@ -2,6 +2,7 @@ package com.example.wheretogo.ui.mypage
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -48,6 +49,12 @@ class MypageVisitedFragment() : BaseFragment<FragmentMypageBannerBinding>(Fragme
 
         editor?.putInt("eventId",eventId)
         editor?.apply()
+    }
+
+    fun setVisitedEventNone(msg:String){
+        binding.mypageExplainTv.text = "내가 다녀온 행사들이에요."
+        binding.mypageBannerNoneTv.text = msg
+        binding.mypageBannerNoneTv.visibility=View.VISIBLE
     }
 
 
