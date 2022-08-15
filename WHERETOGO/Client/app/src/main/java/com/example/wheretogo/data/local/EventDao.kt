@@ -15,10 +15,10 @@ interface EventDao {
 //    @Query("SELECT * FROM event WHERE name = :name")
 //    fun getEvent(name:String) : Event
 
-    @Insert(onConflict = REPLACE)
+    @Insert()
     fun insert(event : Event)
 
     @Delete
-    fun deleteEvent(vararg events: Event)
+    fun deleteEvent(events: Event)
 
 }

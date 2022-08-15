@@ -1,17 +1,18 @@
 package com.example.wheretogo.data.local
 
+
 import androidx.room.*
 import com.example.wheretogo.data.entities.Event
 import com.example.wheretogo.data.entities.User
-import com.example.wheretogo.data.entities.userSavedEvent
+import com.example.wheretogo.data.entities.UserSavedEvent
 
 @Dao
 interface UserSavedEventDao {
     @Query("SELECT * FROM userSavedEvent")
-    fun getAll(): List<userSavedEvent>
+    fun getAll(): List<UserSavedEvent>
 
     @Query("SELECT * FROM userSavedEvent WHERE title= :title")
-    fun getUserSavedEvent(title:String) : userSavedEvent
+    fun getUserSavedEvent(title:String) : UserSavedEvent
 
     @Query("SELECT isLike FROM userSavedEvent WHERE title= :title")
     fun getIsLike(title:String) : Boolean
@@ -20,10 +21,10 @@ interface UserSavedEventDao {
     fun getIsVisited(title:String) : Boolean
 
     @Query("SELECT * FROM userSavedEvent WHERE isLike = :isLike")
-    fun getLikeEvents(isLike:Boolean) : List<userSavedEvent>
+    fun getLikeEvents(isLike:Boolean) : List<UserSavedEvent>
 
     @Query("SELECT * FROM userSavedEvent WHERE isvisited = :isVisited")
-    fun getVisitedEvents(isVisited:Boolean) : List<userSavedEvent>
+    fun getVisitedEvents(isVisited:Boolean) : List<UserSavedEvent>
 
 
     @Query("DELETE FROM userSavedEvent WHERE title = :title")
@@ -37,10 +38,10 @@ interface UserSavedEventDao {
 
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(userSavedEvent: userSavedEvent)
+    fun insert(userSavedEvent: UserSavedEvent)
 
     @Delete
-    fun deleteAll(vararg userSavedEvent: userSavedEvent)
+    fun deleteAll(userSavedEvent: UserSavedEvent)
 
 
 
