@@ -1,5 +1,5 @@
 
-import {getMainBoardContents, getTopContents, getUserTopContents, getEventByEventID} from "../models/event.js";
+import {getMainBoardContents, getTopContents, getUserTopContents, getEventByEventID, getEventUserInfos} from "../models/event.js";
 
 
 export const getMainBoard = (req, res) => {
@@ -37,6 +37,18 @@ export const getUserTopEvents = (req, res) => {
 export const getEventById = (req, res) => {
     const id = req.params.eventID;
     getEventByEventID(id, (err, results) => {
+        if (err){
+            res.send(err);
+        }else{
+            res.json(results);
+        }
+    });
+}
+
+export const getEventUserInfo = (req, res) => {
+    const eid = req.params.eventID;
+    const uid = req.params.userID;
+    getEventUserInfos(uid, eid, (err, results) => {
         if (err){
             res.send(err);
         }else{

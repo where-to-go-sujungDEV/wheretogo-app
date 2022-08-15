@@ -23,6 +23,7 @@
         <entry key="..\:/DEV/WHERETOGO/Client/app/src/main/res/layout/item_recycle_calendar_popup.xml" value="0.25" />
         <entry key="..\:/DEV/WHERETOGO/Client/app/src/main/res/layout/item_recycle_event.xml" value="0.2942708333333333" />
         <entry key="..\:/DEV/WHERETOGO/Client/app/src/main/res/layout/item_recycle_popup_dialog.xml" value="0.33" />
+        <entry key="..\:/DEV/WHERETOGO/Client/app/src/main/res/menu/navi_menu.xml" value="0.1" />
         <entry key="..\:/Users/Gahyun/AndroidStudioProjects/WHERETOGO/app/src/main/res/drawable/selector_navi_calendar.xml" value="0.225" />
         <entry key="..\:/Users/Gahyun/AndroidStudioProjects/WHERETOGO/app/src/main/res/drawable/selector_navi_home.xml" value="0.225" />
         <entry key="..\:/Users/Gahyun/AndroidStudioProjects/WHERETOGO/app/src/main/res/drawable/selector_navi_search.xml" value="0.225" />
@@ -47,10 +48,7 @@
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/activity_setting.xml" value="0.20989583333333334" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/activity_signup.xml" value="0.20989583333333334" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/fragment_calendar.xml" value="0.20989583333333334" />
-        <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/fragment_detail_banner.xml" value="0.20989583333333334" />
-        <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/fragment_event_banner.xml" value="0.20989583333333334" />
-        <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/fragment_home.xml" value="0.20989583333333334" />
-        <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/fragment_home_banner.xml" value="0.20989583333333334" />
+
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/fragment_mypage.xml" value="0.20989583333333334" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/fragment_mypage_banner.xml" value="0.20989583333333334" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/fragment_search.xml" value="0.20989583333333334" />

@@ -1,27 +1,41 @@
 package com.example.wheretogo.data.entities
 
 import androidx.room.Entity
+import androidx.room.PrimaryKey
 import java.sql.Date
 import java.util.*
 
-@Entity
+@Entity (tableName = "event")
 data class Event(
-    var eventId: Int,
-    var name: String,
+    @PrimaryKey var eventID: Int,
+    var eventName: String,
+    var dou: String,
+    var si: String,
 
     var genre: String,
     var theme : String,
-
-    var hashtag1:String,
-    var hashtag2:String,
-    var hashtag3:String,
+    var kind : String,
 
     var startDate: String,
     var endDate: String,
-    var savedNum: Int,
 
     var pic: String,
+    var time: String,
+    var place: String,
+    var link: String,
+    var cost: String,
+    var content: String,
 
-    var isvisited : Boolean,
-    var isLiked : Boolean
+    var w1 : Int,
+    var m1 : Int,
+    var w2 : Int,
+    var m2 : Int,
+    var w3 : Int,
+    var m3 : Int,
+    var w4 : Int,
+    var m4 : Int,
+    var w6 : Int,
+    var m6 : Int
+
 ){}
+
