@@ -19,7 +19,6 @@ object EventService {
                 val resp = response.body()!!
                 when(resp.code){
                     200-> {
-                        println(resp.results)
                         fragment.getEventsList(resp.results)
                     }
                     else ->{

@@ -17,7 +17,8 @@ object SearchService{
                 val resp = response.body()!!
                 when(val code = resp.code){
                     200-> {
-                        fragment.isSavedBtnSelected(resp.isSuccess)
+                        println("get saved event 결과 : ${resp.isSaved}")
+                        fragment.isSavedBtnSelected = resp.isSaved
                     }
                     else ->{
 
@@ -31,8 +32,8 @@ object SearchService{
         })
     }
 
-    fun setSavedEvent(fragment: SearchEventAdapter, savedInfo: SavedInfo){
-        searchService.setSavedEvent(savedInfo).enqueue(object: Callback<SetSavedEventResponse>{
+    fun setSavedEvent(fragment: SearchEventAdapter, userID: Int, eventID: Int){
+        searchService.setSavedEvent(userID, eventID).enqueue(object: Callback<SetSavedEventResponse>{
             override fun onResponse(call: Call<SetSavedEventResponse>, responseSet: Response<SetSavedEventResponse>) {
                 val resp = responseSet.body()!!
                 when(resp.code){
@@ -86,22 +87,21 @@ object SearchService{
                 val resp = response.body()!!
                 when(val code = resp.code){
                     200-> {
-                        fragment.isVisitedBtnSelected(resp.isSuccess)
+                        println("get visited event 결과 : ${resp.isSaved}")
+                        fragment.isVisitedBtnSelected = resp.isSaved
                     }
                     else ->{
-
                     }
                 }
             }
-
             override fun onFailure(call: Call<IsVisitedResponse>, t: Throwable) {
                 Log.d("getIsSavedEvent/FAILURE", t.message.toString())
             }
         })
     }
     //visitedTBL에 저장
-    fun setVisitedEvent(fragment: SearchEventAdapter, visitedInfo: VisitedInfo){
-        searchService.setVisitedEvent(visitedInfo).enqueue(object: Callback<SetVisitedEventResponse>{
+    fun setVisitedEvent(fragment: SearchEventAdapter, userID: Int, eventID: Int, assess :String){
+        searchService.setVisitedEvent(userID, eventID,assess).enqueue(object: Callback<SetVisitedEventResponse>{
             override fun onResponse(call: Call<SetVisitedEventResponse>, responseSet: Response<SetVisitedEventResponse>) {
                 val resp = responseSet.body()!!
                 when(resp.code){
