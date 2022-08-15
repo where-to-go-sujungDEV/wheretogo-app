@@ -81,7 +81,7 @@ router.post('/login',  [
       // check password
       bcrypt.compare(
         req.body.password,
-        result[0]['password'],
+        result[0]['pw'],
         (bErr, bResult) => {
           // wrong password
           if (bErr) {
