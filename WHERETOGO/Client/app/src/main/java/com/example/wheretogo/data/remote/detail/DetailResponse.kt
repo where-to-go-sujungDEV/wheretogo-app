@@ -27,8 +27,14 @@ data class DetailInfoResult(
     @SerializedName(value = "content")val content: String
 )
 
-data class IsVisitedResponse(
+data class DetailIsVisitedResponse(
     @SerializedName(value = "isVisited")val isVisited:Boolean,
+    @SerializedName(value = "code")val code:Int,
+    @SerializedName(value = "isSuccess")val isSuccess:Boolean
+)
+
+data class DetailIsSavedResponse(
+    @SerializedName(value = "isSaved")val isSaved:Boolean,
     @SerializedName(value = "code")val code:Int,
     @SerializedName(value = "isSuccess")val isSuccess:Boolean
 )
