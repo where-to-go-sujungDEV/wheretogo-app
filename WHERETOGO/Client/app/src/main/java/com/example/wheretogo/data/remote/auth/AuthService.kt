@@ -22,9 +22,9 @@ class AuthService { //signupview 변수 받음
     fun signUp(signUpInfo: SignUpInfo){
         authService.signUp(signUpInfo).enqueue(object: Callback<SignUpResponse> {
             override fun onResponse(call: Call<SignUpResponse>, response: Response<SignUpResponse>) {
-                Log.d("SIGNUP/SUCCESS",response.code().toString())
+                Log.d("login/Response/response.code",response.code().toString())
                 val resp: SignUpResponse = response.body()!!
-                Log.d("SIGNUP/GetResponse",response.code().toString())
+                Log.d("login/Response/resp.code",resp.code.toString())
                 when(resp.code){
                     201 ->signUpView.onSignUpSuccess(resp.msg)
                     409,500 ->{
@@ -46,8 +46,9 @@ class AuthService { //signupview 변수 받음
         authService.login(appLoginInfo).enqueue(object: Callback<LoginResponse>{
 
             override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
+                Log.d("login/Response/response.message",response.code().toString())
                 val resp: LoginResponse = response.body()!!
-                Log.d("login/S", resp.code.toString())
+                Log.d("login/Response/resp.message",resp.code.toString())
                 when(resp.code){
                     200->{
                         Log.d("login/S", resp.msg)
