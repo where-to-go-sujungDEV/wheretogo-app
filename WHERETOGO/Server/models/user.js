@@ -148,7 +148,7 @@ export const registerUserInfo = (data, result) => {
             }
             else if (cnt.length > 0) {
               result(null, {
-                code : 200,
+                code : 409,
                 isSuccess : false,
                 msg : '이미 등록된 유저입니다'
                 });
@@ -166,6 +166,7 @@ export const registerUserInfo = (data, result) => {
                   db.query(`INSERT INTO userTBL (email, pw, nickName, sex, age) VALUES (?, ${db.escape(hash)},?, ?, ?);`, [data.email, data.nickName, data.sex, data.age] ,
                       (err, results) => {
                         if (err) {
+    
                             result({
                                 code : 500,
                                 isSuccess : false,
