@@ -43,3 +43,10 @@ data class VisitedEventResult(
     @SerializedName(value = "pic") val pic: String,
     @SerializedName(value = "savedNum") val savedNum: Int,
 )
+
+data class EventStatusResponse(
+    @SerializedName(value = "isVisited")val isVisited:Boolean,
+    @SerializedName(value = "isSaved")val isSaved:Boolean,
+    @SerializedName(value = "code")val code:Int,
+    @SerializedName(value = "isSuccess")val isSuccess:Boolean
+)

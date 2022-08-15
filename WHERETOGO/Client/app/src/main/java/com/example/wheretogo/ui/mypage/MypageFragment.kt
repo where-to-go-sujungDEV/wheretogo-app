@@ -33,8 +33,8 @@ class MypageFragment : Fragment() {
         initView()
         setIndicator()
         initClickListener()
-        val users = appDB.userDao().getUserList()
-        Log.d("userlist",users.toString())
+//        val users = appDB.userDao().getUserList()
+//        Log.d("userlist",users.toString())
 
         return binding.root
     }
@@ -110,11 +110,6 @@ class MypageFragment : Fragment() {
         editor.apply()
         binding.mypageLoginTv.text = "로그인"
     }
-
-//    fun setProfileIv(uri : Uri){
-//        if (getIdx()!=-1)
-//            binding.mypageProfileIv.setImageURI(uri)
-//    }
 
 
 }

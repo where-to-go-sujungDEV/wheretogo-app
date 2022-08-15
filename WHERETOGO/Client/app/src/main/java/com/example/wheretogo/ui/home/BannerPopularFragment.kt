@@ -8,13 +8,21 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.wheretogo.BaseFragment
+import com.example.wheretogo.data.remote.auth.getRetrofit
 import com.example.wheretogo.data.remote.home.PopularEventResult
+import com.example.wheretogo.data.remote.mypage.EventStatusResponse
+import com.example.wheretogo.data.remote.mypage.MypageRetrofitInterface
 import com.example.wheretogo.databinding.FragmentEventBannerBinding
 import com.example.wheretogo.databinding.FragmentHomeBannerBinding
 import com.example.wheretogo.ui.detail.DetailActivity
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class BannerPopularFragment(private val item: PopularEventResult) : BaseFragment<FragmentEventBannerBinding>(
     FragmentEventBannerBinding::inflate) {
+
+    private val eventStatusService = getRetrofit().create(MypageRetrofitInterface::class.java)
 
     override fun initAfterBinding() {
         binding.homeEventTitleTv.text = item.eventName
@@ -26,6 +34,49 @@ class BannerPopularFragment(private val item: PopularEventResult) : BaseFragment
         binding.homeEventIv.setOnClickListener {
             saveIdx(item.eventID)
             startActivity(Intent(context, DetailActivity::class.java))
+        }
+
+        getEventStatus(item.eventID)
+    }
+
+    private fun getEventStatus(eventId: Int){
+        val userId = 2
+        eventStatusService.getEventStatus(userId,eventId).enqueue(object:
+            Callback<EventStatusResponse> {
+            override fun onResponse(call: Call<EventStatusResponse>, response: Response<EventStatusResponse>) {
+                val resp = response.body()!!
+                when(resp.code){
+                    200->{
+                        setStatus(resp.isVisited,resp.isSaved)
+
+                    }
+                    else ->{
+
+                    }
+                }
+            }
+            override fun onFailure(call: Call<EventStatusResponse>, t: Throwable) {
+            }
+        })
+    }
+
+    private fun setStatus(isVisited:Boolean, isSaved:Boolean){
+        if (isVisited){
+            binding.homeEventCheckBtn.visibility = View.VISIBLE
+            binding.homeEventUncheckBtn.visibility = View.INVISIBLE
+        }
+        else {
+            binding.homeEventCheckBtn.visibility = View.INVISIBLE
+            binding.homeEventUncheckBtn.visibility = View.VISIBLE
+        }
+
+        if (isSaved){
+            binding.homeEventLikeBtn.visibility = View.VISIBLE
+            binding.homeEventDislikeBtn.visibility = View.INVISIBLE
+        }
+        else{
+            binding.homeEventLikeBtn.visibility = View.INVISIBLE
+            binding.homeEventDislikeBtn.visibility = View.VISIBLE
         }
     }
 

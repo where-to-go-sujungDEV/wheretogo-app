@@ -32,8 +32,6 @@ class DetailActivity: AppCompatActivity() {
         initLayout()
         initClickListener()
 
-
-
         detailService.getDetailInfo(this, getEventId())
         getVisitedInfo(getEventId())
         getSavedInfo(getEventId())
@@ -82,14 +80,12 @@ class DetailActivity: AppCompatActivity() {
         }
 
         binding.detailEventDislikeBtn.setOnClickListener{
-            binding.detailEventLikeBtn.visibility = View.VISIBLE
-            binding.detailEventDislikeBtn.visibility = View.INVISIBLE
+            setSaved(true)
             Toast.makeText(this, R.string.like_on, Toast.LENGTH_SHORT).show()
         }
 
         binding.detailEventLikeBtn.setOnClickListener{
-            binding.detailEventLikeBtn.visibility = View.INVISIBLE
-            binding.detailEventDislikeBtn.visibility = View.VISIBLE
+            setSaved(false)
             Toast.makeText(this, R.string.like_off, Toast.LENGTH_SHORT).show()
         }
 

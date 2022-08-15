@@ -16,4 +16,5 @@ interface DetailRetrofitInterface {
 
     @GET("saved/check/{userIdx}/{eventIdx}")
     fun getSavedInfo(@Path("userIdx")userIdx: Int, @Path("eventIdx")eventIdx:Int) : Call<DetailIsSavedResponse>
+
 }

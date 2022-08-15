@@ -2,14 +2,24 @@ package com.example.wheretogo.ui.mypage
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.wheretogo.R
+import com.example.wheretogo.data.remote.auth.getRetrofit
+import com.example.wheretogo.data.remote.mypage.EventStatusResponse
+import com.example.wheretogo.data.remote.mypage.MypageRetrofitInterface
 import com.example.wheretogo.data.remote.mypage.VisitedEventResult
 import com.example.wheretogo.databinding.ItemMypageVisitedBinding
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class UserVisitedEventRVAdapter (private val visitedEventList: ArrayList<VisitedEventResult>) : RecyclerView.Adapter<UserVisitedEventRVAdapter.ViewHolder>() {
     private lateinit var context: Context
+    private val eventStatusService = getRetrofit().create(MypageRetrofitInterface::class.java)
+    private var isEventVisited=false
+    private var isEventSaved=false
 
     interface OnItemClickListener {
         fun onItemClick(visitedEventData: VisitedEventResult)
@@ -62,6 +72,50 @@ class UserVisitedEventRVAdapter (private val visitedEventList: ArrayList<Visited
                     binding.itemVisitedStar3.setImageResource(R.drawable.mypage_star_off)
                 }
             }
+            getEventStatus(visitedEvent.eventID)
+            if (isEventVisited){
+                binding.itemMypageVisitedCheckBtn.visibility = View.VISIBLE
+                binding.itemMypageVisitedUncheckBtn.visibility = View.INVISIBLE
+            }
+            else {
+                binding.itemMypageVisitedCheckBtn.visibility = View.INVISIBLE
+                binding.itemMypageVisitedUncheckBtn.visibility = View.VISIBLE
+            }
+
+            if (isEventSaved){
+                binding.itemMypageVisitedLikeBtn.visibility = View.VISIBLE
+                binding.itemMypageVisitedDislikeBtn.visibility = View.INVISIBLE
+            }
+            else{
+                binding.itemMypageVisitedLikeBtn.visibility = View.INVISIBLE
+                binding.itemMypageVisitedDislikeBtn.visibility = View.VISIBLE
+            }
+        }
+
+        private fun getEventStatus(eventId: Int){
+            val userId = 2
+            eventStatusService.getEventStatus(userId,eventId).enqueue(object:
+                Callback<EventStatusResponse> {
+                override fun onResponse(call: Call<EventStatusResponse>, response: Response<EventStatusResponse>) {
+                    val resp = response.body()!!
+                    when(resp.code){
+                        200->{
+                            setStatus(resp.isVisited,resp.isSaved)
+
+                        }
+                        else ->{
+
+                        }
+                    }
+                }
+                override fun onFailure(call: Call<EventStatusResponse>, t: Throwable) {
+                }
+            })
+        }
+
+        private fun setStatus(isVisited:Boolean, isSaved:Boolean){
+            isEventSaved = isSaved
+            isEventVisited = isVisited
         }
 
     }
