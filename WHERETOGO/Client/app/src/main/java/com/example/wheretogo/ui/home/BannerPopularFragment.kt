@@ -1,83 +1,64 @@
 package com.example.wheretogo.ui.home
 
+import android.content.Context
 import android.content.Intent
-import android.os.Bundle
-import android.view.LayoutInflater
+import android.content.SharedPreferences
 import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import com.example.wheretogo.BaseFragment
 import com.example.wheretogo.data.remote.auth.getRetrofit
 import com.example.wheretogo.data.remote.home.PopularEventResult
 import com.example.wheretogo.data.remote.mypage.EventStatusResponse
 import com.example.wheretogo.data.remote.mypage.MypageRetrofitInterface
-import com.example.wheretogo.databinding.FragmentEventBannerBinding
-import com.example.wheretogo.databinding.FragmentHomeBannerBinding
+import com.example.wheretogo.databinding.FragmentPopularBannerBinding
 import com.example.wheretogo.ui.detail.DetailActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class BannerPopularFragment(private val item: PopularEventResult) : BaseFragment<FragmentEventBannerBinding>(
-    FragmentEventBannerBinding::inflate) {
+class BannerPopularFragment(private val item: PopularEventResult) : BaseFragment<FragmentPopularBannerBinding>(
+    FragmentPopularBannerBinding::inflate) {
 
-    private val eventStatusService = getRetrofit().create(MypageRetrofitInterface::class.java)
+
 
     override fun initAfterBinding() {
-        binding.homeEventTitleTv.text = item.eventName
-        binding.homeEventSavedCountTv.text = String.format("담은 수: %d건",item.totalSavedNum)
-        binding.homeEventTagTv.text = String.format("%s %s %s",item.genre,item.kind,item.theme)
-        binding.homeEventStartDateTv.text = String.format("%s~",item.startDate.slice(IntRange(0,9)))
+        binding.homePopularTitleTv.text = item.eventName
+        binding.homePopularSavedCountTv.text = String.format("담은 수: %d건",item.totalSavedNum)
+        binding.homePopularTagTv.text = String.format("%s %s %s",item.genre,item.kind,item.theme)
+        binding.homePopularStartDateTv.text = String.format("%s~",item.startDate.slice(IntRange(0,9)))
         if (item.endDate!=null)
-            binding.homeEventEndDateTv.text = item.endDate.slice(IntRange(0,9))
-        binding.homeEventIv.setOnClickListener {
+            binding.homePopularEndDateTv.text = item.endDate.slice(IntRange(0,9))
+        binding.homePopularIv.setOnClickListener {
             saveIdx(item.eventID)
             startActivity(Intent(context, DetailActivity::class.java))
         }
 
-        getEventStatus(item.eventID)
+        initStatus()
     }
 
-    private fun getEventStatus(eventId: Int){
-        val userId = 2
-        eventStatusService.getEventStatus(userId,eventId).enqueue(object:
-            Callback<EventStatusResponse> {
-            override fun onResponse(call: Call<EventStatusResponse>, response: Response<EventStatusResponse>) {
-                val resp = response.body()!!
-                when(resp.code){
-                    200->{
-                        setStatus(resp.isVisited,resp.isSaved)
 
-                    }
-                    else ->{
-
-                    }
-                }
-            }
-            override fun onFailure(call: Call<EventStatusResponse>, t: Throwable) {
-            }
-        })
-    }
-
-    private fun setStatus(isVisited:Boolean, isSaved:Boolean){
+    private fun initStatus(){
+        val spf : SharedPreferences = requireActivity().getPreferences(Context.MODE_PRIVATE)
+        val isVisited = spf.getBoolean("isVisited",false)
+        val isSaved = spf.getBoolean("isSaved",false)
         if (isVisited){
-            binding.homeEventCheckBtn.visibility = View.VISIBLE
-            binding.homeEventUncheckBtn.visibility = View.INVISIBLE
+            binding.homePopularCheckBtn.visibility = View.VISIBLE
+            binding.homePopularUncheckBtn.visibility = View.INVISIBLE
         }
         else {
-            binding.homeEventCheckBtn.visibility = View.INVISIBLE
-            binding.homeEventUncheckBtn.visibility = View.VISIBLE
+            binding.homePopularCheckBtn.visibility = View.INVISIBLE
+            binding.homePopularUncheckBtn.visibility = View.VISIBLE
         }
 
         if (isSaved){
-            binding.homeEventLikeBtn.visibility = View.VISIBLE
-            binding.homeEventDislikeBtn.visibility = View.INVISIBLE
+            binding.homePopularLikeBtn.visibility = View.VISIBLE
+            binding.homePopularDislikeBtn.visibility = View.INVISIBLE
         }
         else{
-            binding.homeEventLikeBtn.visibility = View.INVISIBLE
-            binding.homeEventDislikeBtn.visibility = View.VISIBLE
+            binding.homePopularLikeBtn.visibility = View.INVISIBLE
+            binding.homePopularDislikeBtn.visibility = View.VISIBLE
         }
+
     }
 
     private fun saveIdx(eventId: Int){
@@ -87,6 +68,8 @@ class BannerPopularFragment(private val item: PopularEventResult) : BaseFragment
         editor?.putInt("eventId",eventId)
         editor?.apply()
     }
+
+
 
 
 }

@@ -1,5 +1,6 @@
 package com.example.wheretogo.ui.home
 
+import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.MarginLayoutParams
 import androidx.appcompat.app.AppCompatActivity
@@ -7,17 +8,23 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.example.wheretogo.BaseFragment
 import com.example.wheretogo.data.local.AppDatabase
+import com.example.wheretogo.data.remote.auth.getRetrofit
 import com.example.wheretogo.data.remote.home.*
+import com.example.wheretogo.data.remote.mypage.EventStatusResponse
+import com.example.wheretogo.data.remote.mypage.MypageRetrofitInterface
 import com.example.wheretogo.databinding.FragmentHomeBinding
 
 import com.google.android.material.tabs.TabLayoutMediator
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>(
 FragmentHomeBinding::inflate) {
 
     lateinit var appDB: AppDatabase
     private val homeService = HomeService
-
+    private val eventStatusService = getRetrofit().create(MypageRetrofitInterface::class.java)
     override fun initAfterBinding() {
         appDB =AppDatabase.getInstance(requireContext())!!
 
@@ -71,6 +78,7 @@ FragmentHomeBinding::inflate) {
         val event1Adapter = HomeBannerVPAdapter(this)
 
         for (item in result){
+            getEventStatus(item.eventID)
             event1Adapter.addFragment(BannerPopularFragment(item))
         }
 
@@ -90,11 +98,43 @@ FragmentHomeBinding::inflate) {
             binding.homeRecommendExplain1Tv.text = String.format("%d대 %s",item.age*10,sex)
         }
         for (item in recommendList){
+            getEventStatus(item.eventID)
             event2Adapter.addFragment(BannerRecommendFragment(item))
         }
 
         binding.homeEvent2Vp.adapter = event2Adapter
         binding.homeEvent2Vp.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+    }
+
+    private fun getEventStatus(eventId: Int){
+        val userId = 2
+        eventStatusService.getEventStatus(userId,eventId).enqueue(object:
+            Callback<EventStatusResponse> {
+            override fun onResponse(call: Call<EventStatusResponse>, response: Response<EventStatusResponse>) {
+                val resp = response.body()!!
+                when(resp.code){
+                    200->{
+                        saveStatus(resp.isVisited,resp.isSaved)
+
+                    }
+                    else ->{
+
+                    }
+                }
+            }
+            override fun onFailure(call: Call<EventStatusResponse>, t: Throwable) {
+            }
+        })
+    }
+
+
+    private fun saveStatus(isVisited: Boolean, isSaved:Boolean) {
+        val spf = activity?.getSharedPreferences("eventInfo", AppCompatActivity.MODE_PRIVATE)
+        val editor = spf?.edit()
+
+        editor?.putBoolean("isVisited", isVisited)
+        editor?.putBoolean("isSaved", isSaved)
+        editor?.apply()
     }
 
 }
