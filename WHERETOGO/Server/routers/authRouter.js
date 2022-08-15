@@ -100,7 +100,7 @@ router.post('/login', (req, res, next) => {
             });
           }
           else {
-            const token = jwt.sign({id:result[0].userID},'the-super-strong-secrect',{ expiresIn: '1h' });
+            const token = jwt.sign({id : result[0].userID},'the-super-strong-secrect',{ expiresIn: '1h' });
             db.query(`UPDATE userTBL SET last_login = now() WHERE email = '${result[0].email}'`);
               return res.status(200).send({
                 msg: '로그인에 성공하였습니다',
