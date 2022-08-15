@@ -11,6 +11,8 @@ import com.bumptech.glide.Glide
 import com.example.wheretogo.R
 import com.example.wheretogo.data.remote.auth.getRetrofit
 import com.example.wheretogo.data.remote.detail.*
+import com.example.wheretogo.data.remote.search.IsSavedResponse
+import com.example.wheretogo.data.remote.search.IsVisitedResponse
 import com.example.wheretogo.databinding.ActivityDetailBinding
 import com.google.android.material.tabs.TabLayoutMediator
 import retrofit2.Call
@@ -21,7 +23,7 @@ import retrofit2.Response
 class DetailActivity: AppCompatActivity() {
     lateinit var binding: ActivityDetailBinding
     private val detailService = DetailService
-    private val detailVisitedService = getRetrofit().create(DetailRetrofitInterface::class.java)
+    private val detailBooleanService = getRetrofit().create(DetailRetrofitInterface::class.java)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailBinding.inflate(layoutInflater)
@@ -31,11 +33,10 @@ class DetailActivity: AppCompatActivity() {
         initClickListener()
 
 
-        //이벤트 클릭했을 때 해당 이벤트 상세정보로 이동
-        if (getEventId() != -1)
-            detailService.getDetailInfo(this, getEventId())
-//        if (getEventId() != -1)
-//            getVisitedInfo(getEventId())
+
+        detailService.getDetailInfo(this, getEventId())
+        getVisitedInfo(getEventId())
+        getSavedInfo(getEventId())
 
     }
     private fun initLayout(){
@@ -71,14 +72,12 @@ class DetailActivity: AppCompatActivity() {
 
     private fun initClickListener(){
         binding.detailEventUncheckBtn.setOnClickListener{
-            binding.detailEventCheckBtn.visibility = View.VISIBLE
-            binding.detailEventUncheckBtn.visibility = View.INVISIBLE
+            setVisited(true)
             Toast.makeText(this,R.string.visited_on, Toast.LENGTH_SHORT).show()
         }
 
         binding.detailEventCheckBtn.setOnClickListener{
-            binding.detailEventCheckBtn.visibility = View.INVISIBLE
-            binding.detailEventUncheckBtn.visibility = View.VISIBLE
+            setVisited(false)
             Toast.makeText(this, R.string.visited_off, Toast.LENGTH_SHORT).show()
         }
 
@@ -133,42 +132,77 @@ class DetailActivity: AppCompatActivity() {
     }
 
     private fun getEventId(): Int {
-        val spf = getSharedPreferences("eventInfo", AppCompatActivity.MODE_PRIVATE)
+        val spf = getSharedPreferences("eventInfo", MODE_PRIVATE)
         return spf!!.getInt("eventId",-1)
     }
 
-//    private fun getVisitedInfo(eventId: Int){
-//        val userId = 1
-//        detailVisitedService.getVisitedInfo(userId,eventId).enqueue(object: Callback<IsVisitedResponse> {
-//            override fun onResponse(call: Call<IsVisitedResponse>, response: Response<IsVisitedResponse>) {
-//                val resp = response.body()!!
-//                when(resp.code){
-//                    200->{
-//                        setVisited(resp.isVisited)
-//                        Log.d("isVisited",resp.isVisited.toString())
-//                    }
-//                    else ->{
-//
-//                    }
-//                }
-//            }
-//            override fun onFailure(call: Call<IsVisitedResponse>, t: Throwable) {
-//            }
-//        })
-//    }
-//
-//    private fun setVisited(isVisited: Boolean){
-//        if (isVisited){
-//            binding.detailEventCheckBtn.visibility = View.VISIBLE
-//            binding.detailEventUncheckBtn.visibility = View.INVISIBLE
-//        }
-//        else{
-//            binding.detailEventCheckBtn.visibility = View.INVISIBLE
-//            binding.detailEventUncheckBtn.visibility = View.VISIBLE
-//        }
-//    }
+    private fun getVisitedInfo(eventId: Int){
+        val userId = 2
+        detailBooleanService.getVisitedInfo(userId,eventId).enqueue(object: Callback<DetailIsVisitedResponse> {
+            override fun onResponse(call: Call<DetailIsVisitedResponse>, response: Response<DetailIsVisitedResponse>) {
+                val resp = response.body()!!
+                when(resp.code){
+                    200->{
+                        setVisited(resp.isVisited)
+                        Log.d("isVisited",resp.isVisited.toString())
+                    }
+                    else ->{
+
+                    }
+                }
+            }
+            override fun onFailure(call: Call<DetailIsVisitedResponse>, t: Throwable) {
+            }
+        })
+    }
+
+    private fun getSavedInfo(eventId: Int){
+        val userId = 2
+        detailBooleanService.getSavedInfo(userId,eventId).enqueue(object: Callback<DetailIsSavedResponse> {
+            override fun onResponse(call: Call<DetailIsSavedResponse>, response: Response<DetailIsSavedResponse>) {
+                val resp = response.body()!!
+                when(resp.code){
+                    200->{
+                        setSaved(resp.isSaved)
+                        Log.d("isSaved",resp.isSaved.toString())
+                    }
+                    else ->{
+
+                    }
+                }
+            }
+            override fun onFailure(call: Call<DetailIsSavedResponse>, t: Throwable) {
+            }
+        })
+    }
+
+    private fun setVisited(isVisited: Boolean){
+        if (isVisited){
+            binding.detailEventCheckBtn.visibility = View.VISIBLE
+            binding.detailEventUncheckBtn.visibility = View.INVISIBLE
+        }
+        else{
+            binding.detailEventCheckBtn.visibility = View.INVISIBLE
+            binding.detailEventUncheckBtn.visibility = View.VISIBLE
+        }
+    }
+
+    private fun setSaved(isSaved: Boolean){
+        if (isSaved){
+            binding.detailEventLikeBtn.visibility = View.VISIBLE
+            binding.detailEventDislikeBtn.visibility = View.INVISIBLE
+        }
+        else{
+            binding.detailEventLikeBtn.visibility = View.INVISIBLE
+            binding.detailEventDislikeBtn.visibility = View.VISIBLE
+        }
+    }
 
 }
+
+
+
+
 
 
 
