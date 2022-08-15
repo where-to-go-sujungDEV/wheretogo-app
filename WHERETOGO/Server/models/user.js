@@ -136,3 +136,54 @@ export const deleteUserInfo = (uid, result) => {
         }
     });  
 }
+
+export const registerUserInfo = (data, result) => {
+    db.query("SELECT * FROM userTBL WHERE LOWER(email) = LOWER(?);", data.email ,(err, cnt) => {
+            if(err){
+                result({
+                    code : 500,
+                    isSuccess : false,
+                    msg : "회원가입에 실패하였습니다",
+                    err}, null);
+            }
+            else if (cnt.length > 0) {
+              result(null, {
+                code : 409,
+                isSuccess : false,
+                msg : '이미 등록된 유저입니다',
+                err});
+            } else {
+              bcrypt.hash(data.password, 10, (err, hash) => {
+                if (err) {
+                    result({
+                        code : 500,
+                        isSuccess : false,
+                        msg : "회원가입에 실패하였습니다.",
+                        err}, null
+                    );
+                } else {
+                  // has hashed pw => add to database
+                  db.query(`INSERT INTO userTBL (email, pw, nickName, sex, age) VALUES (?, ${db.escape(hash)},?, ?, ?);`, [data.email, data.nickName, data.sex, data.age] ,
+                      (err, results) => {
+                        if (err) {
+                            result({
+                                code : 500,
+                                isSuccess : false,
+                                msg : "회원가입에 실패하였습니다.",
+                                err}, null
+                            );
+                        }
+                        else {
+                            result(null, {
+                                code : 201,
+                                isSuccess : true,
+                                msg : "회원가입에 성공하였습니다.",
+                                err}
+                            );
+                        }
+                      }
+                      );}
+            });
+          }}
+          );
+}
