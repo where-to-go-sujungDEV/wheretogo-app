@@ -85,9 +85,10 @@ router.post('/login',  [
         (bErr, bResult) => {
           // wrong password
           if (bErr) {
-            throw bErr;
             return res.status(401).send({
-              msg: 'Email or password is incorrect!'
+              msg: '이메일이나 비밀번호가 올바르지 않습니다',
+              code : 401,
+              isSuccess : false
             });
           }
           if (bResult) {
