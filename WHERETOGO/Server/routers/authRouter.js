@@ -3,7 +3,6 @@ const router = express.Router();
 import db from '../config/dbConnection.js';
 
 import bcrypt from 'bcryptjs';
-import { check, validationResult } from 'express-validator';
 
 import jwt from 'jsonwebtoken'; 
 
