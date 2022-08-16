@@ -18,9 +18,9 @@ data class SignUpInfo(
 )
 
 data class LoginResponse(
-    @SerializedName(value = "msg")val msg:String,
     @SerializedName(value = "code")val code:Int,
     @SerializedName(value = "isSuccess")val isSuccess:Boolean,
+    @SerializedName(value = "msg")val msg:String,
     @SerializedName(value = "token")val token:String?,
     @SerializedName(value = "user")val user: UserResult?
 )
