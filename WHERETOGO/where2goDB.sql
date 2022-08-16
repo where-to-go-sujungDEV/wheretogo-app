@@ -226,30 +226,30 @@ INSERT INTO `userTBL` (email, nickName, pw, sex, age, last_login) VALUES ('jinji
 
 -- 이벤트 정보 입력 ------------------------------------------------------------------------------
 INSERT INTO `eventTBL` (eventName, dou, si, genre, kind, theme, startDate, endDate, pic, place, link, content) 
-VALUES ('서울 프린지 페스티벌', '경기도', '서울특별시', '전시', '미술', '감동', '2022-08-11', '2022-08-28', 'http://localhost:3000/asset/event/1.jpg', "서울시 마포구 및 서대문구 일대", "https://www.seoulfringefestival.net:5632/", '예술가의 자유로운 시도와 그들의 주체성을 지지하는 예술축제, 서울프린지페스티벌 서울프린지페스티벌은 1998년 대학로에서 열린 ‘독립예술제’로 시작되어 매년 여름, 연극, 무용, 음악, 퍼포먼스, 미술, 영상 등 다양한 분야의 예술가들이 참여하는 축제이다. 예술가나 작품에 대한 심사나 선정이 없는 자유참가에 원칙을 두고 있으며, 모두에게 참여의 기회를 개방하고 있다. 정형화된 틀에서 벗어나 공간을 실험하고, 장르와 형식을 넘나드는 시도와 도전이 가능하다.');
+VALUES ('서울 프린지 페스티벌', '경기도', '서울특별시', '전시', '미술', '감동', '2022-08-11', '2022-08-28', 'http://tong.visitkorea.or.kr/cms/resource/39/2503539_image2_1.png', "서울시 마포구 및 서대문구 일대", "https://www.seoulfringefestival.net:5632/", '예술가의 자유로운 시도와 그들의 주체성을 지지하는 예술축제, 서울프린지페스티벌 서울프린지페스티벌은 1998년 대학로에서 열린 ‘독립예술제’로 시작되어 매년 여름, 연극, 무용, 음악, 퍼포먼스, 미술, 영상 등 다양한 분야의 예술가들이 참여하는 축제이다. 예술가나 작품에 대한 심사나 선정이 없는 자유참가에 원칙을 두고 있으며, 모두에게 참여의 기회를 개방하고 있다. 정형화된 틀에서 벗어나 공간을 실험하고, 장르와 형식을 넘나드는 시도와 도전이 가능하다.');
 
 INSERT INTO `eventTBL` (eventName, dou, si, genre, kind, theme, startDate, endDate, pic, place, link, content) 
-VALUES ('Groove In Gwanak STREETDANCE FESTIVAL', '경기도', '서울특별시', '축제', '춤', '신남', '2022-07-16', '2022-08-31', 'http://localhost:3000/asset/event/2.jpg', "신림역 인근 별빛내린천, S1472관천로문화플랫폼", "https://korean.visitkorea.or.kr/detail/fes_detail.do?cotid=a1fc3498-0dd7-41e0-a78b-440ea52971d7&big_category=undefined&mid_category=undefined&big_area=undefined&referrer=https://search.naver.com/search.naver?where=nexearch&sm=tab_etc&mra=bk00&pkid=110&os=28426284&qvt=0&query=Groove%20In%20Gwanak%20STREETDANCE%20FESTIVAL", '관악을 움직이다 - Groove in Gwanak
+VALUES ('Groove In Gwanak STREETDANCE FESTIVAL', '경기도', '서울특별시', '축제', '춤', '신남', '2022-07-16', '2022-08-31', 'http://tong.visitkorea.or.kr/cms/resource/39/2503539_image2_1.png', "신림역 인근 별빛내린천, S1472관천로문화플랫폼", "https://korean.visitkorea.or.kr/detail/fes_detail.do?cotid=a1fc3498-0dd7-41e0-a78b-440ea52971d7&big_category=undefined&mid_category=undefined&big_area=undefined&referrer=https://search.naver.com/search.naver?where=nexearch&sm=tab_etc&mra=bk00&pkid=110&os=28426284&qvt=0&query=Groove%20In%20Gwanak%20STREETDANCE%20FESTIVAL", '관악을 움직이다 - Groove in Gwanak
 특별히 열정적인 댄서들이 모인 스트릿댄스 페스티벌이 2022년 여름, 관악구 도림천(별빛내린천)을 꾸민다. 한때 청년들의 거리문화로 치부되었던 스트릿댄스 장르는 최근 방송 매체와 여러 플랫폼을 통해 그 대중성과 예술성을 인정받고 있다. 이에 발 맞추어 관악에서 처음으로 스트릿댄스를 독립적인 현대 문화 예술로 바라보고 그들의 열정을 마음껏 표현할 수 있는 축제를 마련했다.
 2022년 7월 16일 토요일, 그 첫 무대가 여러분을 찾아간다.');
 
 INSERT INTO `eventTBL` (eventName, dou, si, genre, kind, theme, startDate, endDate, pic, place, link, content) 
-VALUES ('기억의 숲', '경기도', '서울특별시', '연극', '서사', '공포', '2022-07-15', '2022-08-25', 'http://localhost:3000/asset/event/3.jpg', "대학로 유니플렉스 3관", "없음", '어둡고 칙칙한 취조실. 한 남자와 범인이 마주 앉아 있다. 17명을 잔인하게 살해하고 마치 영안실에 시체를 안치하듯 자신의 집 지하실 사물함에 보관한 희대의 살인마는 종신형을 선고받게 된다.');
+VALUES ('기억의 숲', '경기도', '서울특별시', '연극', '서사', '공포', '2022-07-15', '2022-08-25', 'http://tong.visitkorea.or.kr/cms/resource/39/2503539_image2_1.png', "대학로 유니플렉스 3관", "없음", '어둡고 칙칙한 취조실. 한 남자와 범인이 마주 앉아 있다. 17명을 잔인하게 살해하고 마치 영안실에 시체를 안치하듯 자신의 집 지하실 사물함에 보관한 희대의 살인마는 종신형을 선고받게 된다.');
 
 INSERT INTO `eventTBL` (eventName, dou, si, genre, kind, theme, startDate, endDate, pic, place, link, content) 
-VALUES ('너의 목소리가 들려', '경기도', '서울특별시', '연극', '서사', '재미', '2018-12-06', '2023-12-12', 'http://localhost:3000/asset/event/4.jpg', "봄날 아트홀 2관", "없음", '재개발 지역에 발생한 갑작스러운 화재로 많은 사람들이 죽고 수지는 엄마를 잃게 된다. 방화범으로 몰린 수지는 교도소에 가게 되고... 10년의 수감생활을 마친 수지는 엄마와의 추억이 깃든 옛 동네로 발걸음을 옮긴다.');
+VALUES ('너의 목소리가 들려', '경기도', '서울특별시', '연극', '서사', '재미', '2018-12-06', '2023-12-12', 'http://tong.visitkorea.or.kr/cms/resource/39/2503539_image2_1.png', "봄날 아트홀 2관", "없음", '재개발 지역에 발생한 갑작스러운 화재로 많은 사람들이 죽고 수지는 엄마를 잃게 된다. 방화범으로 몰린 수지는 교도소에 가게 되고... 10년의 수감생활을 마친 수지는 엄마와의 추억이 깃든 옛 동네로 발걸음을 옮긴다.');
 
 INSERT INTO `eventTBL` (eventName, dou, si, genre, kind, theme, startDate, endDate, pic, place, link, content) 
-VALUES ('부산국제매직페스티벌', '경상남도', '부산광역시', '축제', '놀이', '재미', '2022.06.01', '2022.11.13', 'http://localhost:3000/asset/event/5.jpg', "행사별 상이", "https://www.hibimf.org/", '부산국제매직페스티벌은 2006년부터 시작되어 문화콘텐츠 산업의 떠오르는 블루오션인 ‘매직’을 테마로 한 국내 100만 매직 매니아의 꿈의 축제인 국내 유일 세계 최대 규모의 마술 페스티벌이다. 올해 11월까지 진행되는 제17회 부산국제매직페스티벌에는 1년 내내 마술로, 매직컨벤션, 제4회 국제매직버스킹챔피언십, 매직위크 등 다양한 행사들이 준비되어있다.');
+VALUES ('부산국제매직페스티벌', '경상남도', '부산광역시', '축제', '놀이', '재미', '2022.06.01', '2022.11.13', 'http://tong.visitkorea.or.kr/cms/resource/39/2503539_image2_1.png', "행사별 상이", "https://www.hibimf.org/", '부산국제매직페스티벌은 2006년부터 시작되어 문화콘텐츠 산업의 떠오르는 블루오션인 ‘매직’을 테마로 한 국내 100만 매직 매니아의 꿈의 축제인 국내 유일 세계 최대 규모의 마술 페스티벌이다. 올해 11월까지 진행되는 제17회 부산국제매직페스티벌에는 1년 내내 마술로, 매직컨벤션, 제4회 국제매직버스킹챔피언십, 매직위크 등 다양한 행사들이 준비되어있다.');
 
 
 
-INSERT INTO `mainEventTBL` VALUES (1,'어디가?는 처음이신가요?', 'http://localhost:3000/asset/mainEvent/1.jpg', NULL);
-INSERT INTO `mainEventTBL` VALUES (2,'여름에는 물총놀이지! 워터밤 가보자고', 'http://localhost:3000/asset/mainEvent/2.jpg',2);
-INSERT INTO `mainEventTBL` VALUES (3,'미친 더위 공포로 이겨내자 ~ 공포 이벤트 모음집 ~', 'http://localhost:3000/asset/mainEvent/3.jpg',3);
-INSERT INTO `mainEventTBL` VALUES (4,'나랑 꽃보러 갈래?', 'http://localhost:3000/asset/mainEvent/4.jpg',3);
-INSERT INTO `mainEventTBL` VALUES (5,'방학이잖아 축제가야지', 'http://localhost:3000/asset/mainEvent/5.jpg',2);
-INSERT INTO `mainEventTBL` VALUES (6,'연인끼리 가기좋은 8월 서울 행사', 'http://localhost:3000/asset/mainEvent/6.jpg',4);
+INSERT INTO `mainEventTBL` VALUES (1,'어디가?는 처음이신가요?', 'http://tong.visitkorea.or.kr/cms/resource/39/2503539_image2_1.png', NULL);
+INSERT INTO `mainEventTBL` VALUES (2,'여름에는 물총놀이지! 워터밤 가보자고', 'http://tong.visitkorea.or.kr/cms/resource/39/2503539_image2_1.png',2);
+INSERT INTO `mainEventTBL` VALUES (3,'미친 더위 공포로 이겨내자 ~ 공포 이벤트 모음집 ~', 'http://tong.visitkorea.or.kr/cms/resource/39/2503539_image2_1.png',3);
+INSERT INTO `mainEventTBL` VALUES (4,'나랑 꽃보러 갈래?', 'http://tong.visitkorea.or.kr/cms/resource/39/2503539_image2_1.png',3);
+INSERT INTO `mainEventTBL` VALUES (5,'방학이잖아 축제가야지', 'http://tong.visitkorea.or.kr/cms/resource/39/2503539_image2_1.png',2);
+INSERT INTO `mainEventTBL` VALUES (6,'연인끼리 가기좋은 8월 서울 행사', 'http://tong.visitkorea.or.kr/cms/resource/39/2503539_image2_1.png',4);
 
 
 
