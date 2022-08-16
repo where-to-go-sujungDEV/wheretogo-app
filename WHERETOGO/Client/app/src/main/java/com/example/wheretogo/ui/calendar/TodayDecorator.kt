@@ -28,8 +28,8 @@ class TodayDecorator(context: Activity): DayViewDecorator {
     }
 
     override fun decorate(view : DayViewFacade?) {
-        drawable = myContext.resources.getDrawable(R.drawable.calendar_today_background)
-        view?.addSpan(ForegroundColorSpan(Color.WHITE))
-        view?.setSelectionDrawable(drawable)
+        //drawable = myContext.resources.getDrawable(R.drawable.calendar_today_background)
+        view?.addSpan(ForegroundColorSpan(Color.parseColor("#FF1748")))
+        //view?.setSelectionDrawable(drawable)
     }
 }

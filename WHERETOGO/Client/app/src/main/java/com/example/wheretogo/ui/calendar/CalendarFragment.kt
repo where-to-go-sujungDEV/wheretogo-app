@@ -16,7 +16,10 @@ import com.example.wheretogo.R
 import com.example.wheretogo.data.remote.calendar.CalendarResult
 import com.example.wheretogo.data.remote.calendar.CalendarService
 import com.example.wheretogo.databinding.FragmentCalendarBinding
-import com.prolificinteractive.materialcalendarview.*
+import com.prolificinteractive.materialcalendarview.CalendarDay
+import com.prolificinteractive.materialcalendarview.CalendarMode
+import com.prolificinteractive.materialcalendarview.MaterialCalendarView
+import com.prolificinteractive.materialcalendarview.OnMonthChangedListener
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -28,8 +31,7 @@ class CalendarFragment : Fragment() {
 
     lateinit var popUpDialogAdapter : DialogRvAdapter
     private var savedEventList : ArrayList<CalendarResult> = ArrayList<CalendarResult>()
-    var thisDayEvent : ArrayList<CalendarResult> = ArrayList()
-
+    private var eventDateList : ArrayList<Calendar> = ArrayList<Calendar>()
 
     var startTimeCalendar = Calendar.getInstance()
     var endTimeCalendar = Calendar.getInstance()
@@ -93,10 +95,12 @@ class CalendarFragment : Fragment() {
     }
 
     private fun showDialog(thisday:CalendarDay) {
-        var dialog= Dialog(requireContext())
+        var dialog= Dialog(requireContext(), R.style.CustomFullDialog)
 
         var rv_dialog_eventList : RecyclerView
         var tv_thisDate : TextView
+
+        var thisDayEvent : ArrayList<CalendarResult> = ArrayList()
 
         dialog.window?.setLayout(
             ViewGroup.LayoutParams.MATCH_PARENT,
@@ -124,9 +128,7 @@ class CalendarFragment : Fragment() {
         var date_today =thisday.month.plus(1).toString() + "/"+ thisday.day.toString()
         tv_thisDate.text=date_today
 
-        println("showdialog $savedEventList")
         savedEventList.forEach{e->
-            println(e.eventName)
             var formatter = SimpleDateFormat("yyyy-MM-dd")
             var date_s = formatter.parse(e.startDate)
             var cal_s  = Calendar.getInstance()
@@ -136,17 +138,17 @@ class CalendarFragment : Fragment() {
             var cal_e = Calendar.getInstance()
             cal_e.setTime(date_e)
 
-            if((thisday.calendar >= cal_s) || (thisday.calendar <= cal_e)){
+            if((thisday.calendar >= cal_s) && (thisday.calendar <= cal_e)){
                 thisDayEvent.add(e)
             }
 
-            println(thisDayEvent)
             popUpDialogAdapter = DialogRvAdapter(thisDayEvent, this.requireContext())
             rv_dialog_eventList.adapter = popUpDialogAdapter
             rv_dialog_eventList.layoutManager=LinearLayoutManager(requireContext())
         }
         dialog.show()
     }
+
 
     //유저 인덱스 가져오는 함수
     private fun getIdx(): Int {
@@ -155,44 +157,27 @@ class CalendarFragment : Fragment() {
     }
 
     fun getSavedEventDate(results: ArrayList<CalendarResult>){
-        println("호출됨++ $results")
         savedEventList.clear()
         savedEventList.addAll(results)
 
-
-//        var formatter: SimpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
-//        savedEventList.forEach{ e->
-//            var date_s = formatter.parse(e.startDate)
-//            var cal_s  = Calendar.getInstance()
-//            cal_s.setTime(date_s)
-//
-//            var date_e : Date =formatter.parse(e.endDate)
-//            var cal_e = Calendar.getInstance()
-//            cal_e.setTime(date_e)
-//
-//            getPeriod(cal_s,cal_e)
-//        }
+        materialCalendar.addDecorator(EventDayDecorator(requireContext() as Activity, savedEventList))
     }
 
-//    fun getPeriod(startDate: Calendar , endDate: Calendar) : ArrayList<Calendar> {
-//        var period : ArrayList<Calendar> = ArrayList<Calendar>()
-//        var date :Calendar = startDate
-//
-//        period.add(startDate)
-//        while(!startDate.equals(endDate)){
-//            date.add(Calendar.DATE, 1)
-//            period.add(date)
-//        }
-//
-//        period.add(endDate)
-//
-//        return period
-//
-//    }
 
+    fun getPeriod(startDate: Calendar , endDate: Calendar) : ArrayList<Calendar> {
+        var period : ArrayList<Calendar> = ArrayList<Calendar>()
+        var date :Calendar = startDate
 
+        period.add(startDate)
+        while(!date.equals(endDate)){
+            date.add(Calendar.DATE, 1)
+            period.add(date)
+        }
+        period.add(endDate)
 
+        return period
 
+    }
 
 }
 

@@ -24,10 +24,10 @@ object CalendarService {
                         fragment.getSavedEventDate(resp.results)
                     }
                     204 ->{
-                        Log.d("getIsSavedEvent/no Event", resp.msg)
+                        Log.d("getCalendarDay/no Event", resp.msg)
                     }
                     500 ->{
-                        Log.d("getIsSavedEvent/ERROR", resp.msg)
+                        Log.d("getCalendarDay/ERROR", resp.msg)
                     }
                 }
             }

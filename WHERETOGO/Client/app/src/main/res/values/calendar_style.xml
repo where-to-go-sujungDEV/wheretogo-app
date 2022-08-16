@@ -15,4 +15,8 @@
         <item name="android:height">50dp</item>
     </style>
 
+    <style name="CustomFullDialog">
+        <item name="android:windowMinWidthMinor">0dip</item>
+        <item name="android:windowMinWidthMajor">0dip</item>
+    </style>
 </resources>
