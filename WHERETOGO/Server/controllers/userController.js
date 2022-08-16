@@ -1,4 +1,4 @@
-import {updateUserInfo, deleteUserInfo, registerUserInfo, loginUserInfo} from "../models/user.js";
+import {updateUserInfo, deleteUserInfo, registerUserInfo, loginUserInfo, doAutoLogin} from "../models/user.js";
 
 
   
@@ -43,6 +43,18 @@ export const registerUser = (req, res) => {
 export const loginUser = (req, res) => {
     const data = req.body;
     loginUserInfo(data, (stat, err, results) => {
+        if (err){
+            res.status(stat).send(err);
+        }else{
+            res.status(stat).json(results);
+        }
+    });
+}
+
+
+export const autoLogin = (req, res) => {
+    const head = req.headers;
+    doAutoLogin(head, (stat, err, results) => {
         if (err){
             res.status(stat).send(err);
         }else{

@@ -250,3 +250,49 @@ export const loginUserInfo = (data, result) => {
           }}
           );
 }
+
+
+export const doAutoLogin = (head, result) => {
+    if(!head.authorization || !head.authorization.startsWith('Bearer') || !head.authorization.split(' ')[1]){
+        result(200, null, {
+            code : 422,
+            isSuccess : false,
+            msg : 'token값을 제공해주세요.'
+        });
+    }
+    else{
+        const theToken = head.authorization.split(' ')[1];
+        const decoded = jwt.verify(theToken, 'the-super-strong-secret');
+
+        db.query(
+            `SELECT * FROM userTBL where userID='${decoded.id}'`, (error, results) => {
+          if (error){
+            result(500, {
+                code : 500,
+                isSuccess : false,
+                msg : "오류가 발생하였습니다.",
+                error}, null
+            );
+          }
+          else if(!results.length){
+            result(200, null,
+                {
+                    code : 501,
+                    isSuccess : false,
+                    msg : "자동 로그인에 실패하였습니다. 토큰이 잘못되었습니다."
+                }
+            );
+          }
+          else {
+            result(200, null,
+                {
+                    code : 200,
+                    isSuccess : true,
+                    msg : "사용자 로그인 정보 확인되었습니다.",
+                    data : results[0]
+                }
+            )
+        };
+      });
+    }
+}
