@@ -110,7 +110,7 @@ export const getHotSearchResults = (result) => {
 
 export const updateSearchCount = (data, result) => {
     if(!data.search){
-        result(204, null,
+        result(200, null,
             {code : 204,
             isSuccess : true,
             msg : "검색어가 입력되지 않았습니다."

@@ -22,7 +22,7 @@ export const getUserKeywordByID = (uid, result) => {
 export const putUserKeywordByID = (uid, data, result) => {
     db.query("select * from keywordTBL where userID = ? and content = ?;", [uid, data], (err, count) => {           
         if(count.length >= 1) {
-            result(202, {
+            result(200, {
                 code : 202,
                 isSuccess : false,
                 msg : "이미 등록된 키워드입니다."
@@ -50,7 +50,7 @@ export const putUserKeywordByID = (uid, data, result) => {
 export const deleteUserKeywordByID = (uid, data, result) => {
     db.query("select * from keywordTBL where userID = ? and content = ?;", [uid, data], (err, count) => {          
         if(count.length < 1) {
-            result(202, {
+            result(200, {
                 code : 202,
                 isSuccess : false,
                 msg : "등록되지 않은 키워드를 삭제하려 하고 있습니다."

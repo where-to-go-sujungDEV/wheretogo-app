@@ -11,7 +11,7 @@ export const getCalendarEvents = ([uid], result) => {
             }, null);
         } 
         else if (!results.length){
-            result(204, null, {
+            result(200, null, {
                 msg : "저장한 이벤트가 없습니다.",
                 code : 204,
                 isSuccess : true

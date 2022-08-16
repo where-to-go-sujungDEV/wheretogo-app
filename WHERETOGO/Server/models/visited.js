@@ -10,7 +10,7 @@ export const getVisitedEvent = ([uid], result) => {
                 err
             }, null);
         } else if (!results.length){
-            result(204, null, {
+            result(200, null, {
                 msg : "방문한 이벤트가 없습니다.",
                 code : 204,
                 isSuccess : true
@@ -38,7 +38,7 @@ export const addVisitedEvent = (uid, eid, ass, result) => {
                 err}, null);
         } 
         else if(count.length > 0) {
-            result(204, null,{
+            result(200, null,{
                 msg : "이미 방문함에 담긴 이벤트이거나 존재하지 않는 사용자입니다.",
                 code : 204,
                 isSuccess : false
@@ -77,7 +77,7 @@ export const deleteVisitedEvent = (uid, eid, result) => {
                 err}, null);
         } 
         else if(count.length <= 0) {
-            result(204, null,{
+            result(200, null,{
                 msg : "담지 않은 이벤트를 담기 취소하려 하고 있거나, 존재하지 않는 사용자입니다.",
                 code : 204,
                 isSuccess : false
