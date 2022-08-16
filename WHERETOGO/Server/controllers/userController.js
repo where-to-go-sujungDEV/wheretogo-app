@@ -29,11 +29,11 @@ export const deleteUser = (req, res) => {
 
 export const registerUser = (req, res) => {
     const data = req.body;
-    registerUserInfo(data, ( err, results) => {
+    registerUserInfo(data, ( stat, err, results) => {
         if (err){
-            res.status(500).send(err);
+            res.status(stat).send(err);
         }else{
-            res.status(201).json(results);
+            res.status(stat).json(results);
         }
     });
 }
