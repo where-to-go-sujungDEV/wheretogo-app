@@ -5,11 +5,11 @@ import {updateUserInfo, deleteUserInfo, registerUserInfo, loginUserInfo, doAutoL
 export const changeUserInfo = (req, res) => {
     const uid = req.params.userID;
     const data = req.body;
-    updateUserInfo(uid, data,(err, results) => {
+    updateUserInfo(uid, data,(stat, err, results) => {
         if (err){
-            res.send(err);
+            res.status(stat).send(err);
         }else{
-            res.json(results);
+            res.status(stat).json(results);
         }
     });
 }
@@ -17,11 +17,11 @@ export const changeUserInfo = (req, res) => {
 
 export const deleteUser = (req, res) => {
     const uid = req.params.userID;
-    deleteUserInfo(uid, (err, results) => {
+    deleteUserInfo(uid, (stat, err, results) => {
         if (err){
-            res.send(err);
+            res.status(stat).send(err);
         }else{
-            res.json(results);
+            res.status(stat).json(results);
         }
     });
 }

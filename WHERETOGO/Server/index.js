@@ -10,7 +10,6 @@ import multer from "multer";
 // import routes
 import eventRouter from "./routers/eventRouter.js";
 import userRouter from "./routers/userRouter.js";
-import authRouter from "./routers/authRouter.js";
 import keywordRouter from "./routers/keywordRouter.js";
 import searchRouter from "./routers/searchRouter.js";
 import visitedRouter from "./routers/visitedRouter.js";
@@ -36,7 +35,6 @@ app.use(express.urlencoded({ extended: true }));
 // use router
 app.use("/event", eventRouter);
 app.use("/user", userRouter);
-app.use("/auth", authRouter);
 app.use("/search", searchRouter);
 app.use("/keyword", keywordRouter);
 app.use("/visited", visitedRouter);
