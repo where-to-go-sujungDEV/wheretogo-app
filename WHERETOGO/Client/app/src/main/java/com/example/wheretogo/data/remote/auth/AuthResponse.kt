@@ -6,7 +6,7 @@ data class SignUpResponse(
     @SerializedName(value = "msg")val msg:String,
     @SerializedName(value = "code")val code:Int,
     @SerializedName(value = "isSuccess")val isSuccess:Boolean
-    )
+)
 
 //회원가입 시 유저가 입력하는 정보
 data class SignUpInfo(
@@ -40,6 +40,3 @@ data class LoginInfo(
     @SerializedName(value = "email")val email: String,
     @SerializedName(value = "password")val password: String,
 )
-
-
-
