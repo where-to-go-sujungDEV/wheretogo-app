@@ -2,32 +2,32 @@ import {getSearchResults, getHotSearchResults, updateSearchCount} from "../model
 
 export const getSearch = (req, res) => {
     const data = req.body;
-    getSearchResults(data, (err, results) => {
+    getSearchResults(data, (stat, err, results) => {
         if (err){
-            res.send(err);
+            res.status(stat).send(err);
         }else{
-            res.json(results);
+            res.status(stat).json(results);
         }
     });
 }
 
 export const getHotSearch = (req, res) => {
-    getHotSearchResults((err, results) => {
+    getHotSearchResults((stat, err, results) => {
         if (err){
-            res.send(err);
+            res.status(stat).send(err);
         }else{
-            res.json(results);
+            res.status(stat).json(results);
         }
     });
 }
 
 export const updateSearch = (req, res) => {
     const data = req.body;
-    updateSearchCount(data, (err, results) => {
+    updateSearchCount(data, (stat, err, results) => {
         if (err){
-            res.send(err);
+            res.status(stat).send(err);
         }else{
-            res.json(results);
+            res.status(stat).json(results);
         }
     });
 }
