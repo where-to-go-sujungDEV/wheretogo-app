@@ -115,7 +115,8 @@ class SignUpActivity: BaseActivity<ActivitySignupBinding>(ActivitySignupBinding:
     }
 
     override fun onSignUpFailure(msg: String) {
-        showToast(msg)
+        binding.signUpErrorTv.visibility = View.VISIBLE
+        binding.signUpErrorTv.text = msg
     }
 
 
