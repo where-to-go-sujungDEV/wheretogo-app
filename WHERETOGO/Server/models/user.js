@@ -141,14 +141,14 @@ export const registerUserInfo = (data, result) => {
     db.query("SELECT * FROM userTBL WHERE LOWER(email) = LOWER(?);", data.email ,(err, cnt) => {
             if(err){
                 result(500, {
-                    code : 500,
+                    code : 5000,
                     isSuccess : false,
                     msg : "회원가입에 실패하였습니다",
                     err}, null);
             }
             else if (cnt.length > 0) {
               result(200, null, {
-                code : 409,
+                code : 4090,
                 isSuccess : false,
                 msg : '이미 등록된 유저입니다'
                 });
@@ -156,7 +156,7 @@ export const registerUserInfo = (data, result) => {
               bcrypt.hash(data.password, 10, (err, hash) => {
                 if (err) {
                     result(500, {
-                        code : 500,
+                        code : 5000,
                         isSuccess : false,
                         msg : "회원가입에 실패하였습니다.",
                         err}, null
@@ -168,7 +168,7 @@ export const registerUserInfo = (data, result) => {
                         if (err) {
     
                             result(500, {
-                                code : 500,
+                                code : 5000,
                                 isSuccess : false,
                                 msg : "회원가입에 실패하였습니다.",
                                 err}, null
@@ -176,7 +176,7 @@ export const registerUserInfo = (data, result) => {
                         }
                         else {
                             result(201, null, {
-                                code : 201,
+                                code : 2010,
                                 isSuccess : true,
                                 msg : "회원가입에 성공하였습니다."
                                 }
