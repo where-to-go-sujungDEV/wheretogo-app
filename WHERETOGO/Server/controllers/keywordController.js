@@ -4,11 +4,11 @@ import { getUserKeywordByID, putUserKeywordByID, deleteUserKeywordByID} from "..
 
 export const getUserKeyword = (req, res) => {
     const uid = req.params.userID;
-    getUserKeywordByID(uid, (err, results) => {
+    getUserKeywordByID(uid, (stat, err, results) => {
         if (err){
-            res.send(err);
+            res.status(stat).send(err);
         }else{
-            res.json(results);
+            res.status(stat).json(results);
         }
     });
 }
@@ -17,11 +17,11 @@ export const getUserKeyword = (req, res) => {
 export const putUserKeyword = (req, res) => {
     const uid = req.params.userID;
     const data = req.body.keyword;
-    putUserKeywordByID(uid, data, (err, results) => {
+    putUserKeywordByID(uid, data, (stat, err, results) => {
         if (err){
-            res.send(err);
+            res.status(stat).send(err);
         }else{
-            res.json(results);
+            res.status(stat).json(results);
         }
     });
 }
@@ -29,11 +29,11 @@ export const putUserKeyword = (req, res) => {
 export const deleteUserKeyword = (req, res) => {
     const uid = req.params.userID;
     const data = req.params.keyword;
-    deleteUserKeywordByID(uid, data, (err, results) => {
+    deleteUserKeywordByID(uid, data, (stat, err, results) => {
         if (err){
-            res.send(err);
+            res.status(stat).send(err);
         }else{
-            res.json(results);
+            res.status(stat).json(results);
         }
     });
 }
