@@ -106,14 +106,14 @@ export const deleteUserInfo = (uid, result) => {
     db.query("select * from userTBL where userID = ?;", uid, (err, count) => {             
         if (err) {
             console.log(err);
-            result({
+            result(500, {
                 msg : "회원탈퇴를 실패하였습니다.", 
                 code : 500, 
                 isSuccess : false,
                 err}, null);
         } 
         else if(count.length <= 0) {
-            result(null,{
+            result(200, null,{
                 msg : "존재하지 않는 사용자입니다.",
                 code : 204,
                 isSuccess : false
@@ -123,13 +123,13 @@ export const deleteUserInfo = (uid, result) => {
             db.query("delete from userTBL where userID = ?;", uid, (err, results) => {             
                 if(err) {
                     console.log(err);
-                    result({
+                    result(500, {
                         code : 500,
                         isSuccess : false,
                         msg : "회원탈퇴를 실패하였습니다.",
                         err}, null);
                 } else {
-                    result(null, {
+                    result(200, null, {
                         msg : "회원탈퇴를 완료하였습니다.",
                         code : 200,
                         isSuccess : true
