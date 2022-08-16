@@ -194,7 +194,7 @@ export const registerUserInfo = (data, result) => {
 
 
 export const loginUserInfo = (data, result) => {
-    db.query("SELECT * FROM userTBL WHERE LOWER(email) = LOWER(?);", data.email ,(err, cnt) => {
+    db.query(`SELECT * FROM userTBL WHERE email = ?;`,[data.email],(err, cnt) => {
             if(err){
                 result(500, {
                     code : 500,
