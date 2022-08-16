@@ -217,7 +217,7 @@ export const loginUserInfo = (data, result) => {
                     );
                 } else if(!bResult){
                     result(200,null,{
-                        code : 401,
+                        code : 402,
                         isSuccess : false,
                         msg : "비밀번호가 틀렸습니다.",
                     });
@@ -228,7 +228,7 @@ export const loginUserInfo = (data, result) => {
                   db.query(`UPDATE userTBL SET last_login = now() WHERE email = ?`, [cnt[0].email] ,(err, results) => {
                         if (err) {
                             result(500, {
-                                code : 5000,
+                                code : 500,
                                 isSuccess : false,
                                 msg : "로그인에 실패하였습니다.",
                                 err}, null
@@ -240,7 +240,7 @@ export const loginUserInfo = (data, result) => {
                                 isSuccess : true,
                                 msg : "로그인에 성공하였습니다.",
                                 token : token,
-                                user : result[0]
+                                user : cnt[0]
                                 }
                             );
                         }
