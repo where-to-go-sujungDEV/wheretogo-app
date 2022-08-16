@@ -1,4 +1,4 @@
-import {updateUserInfo, deleteUserInfo, registerUserInfo} from "../models/user.js";
+import {updateUserInfo, deleteUserInfo, registerUserInfo, loginUserInfo} from "../models/user.js";
 
 
   
@@ -29,7 +29,20 @@ export const deleteUser = (req, res) => {
 
 export const registerUser = (req, res) => {
     const data = req.body;
-    registerUserInfo(data, ( stat, err, results) => {
+    registerUserInfo(data, (stat, err, results) => {
+        if (err){
+            res.status(stat).send(err);
+        }else{
+            res.status(stat).json(results);
+        }
+    });
+}
+
+
+
+export const loginUser = (req, res) => {
+    const data = req.body;
+    loginUserInfo(data, (stat, err, results) => {
         if (err){
             res.status(stat).send(err);
         }else{

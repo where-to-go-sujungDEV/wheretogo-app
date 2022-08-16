@@ -1,5 +1,6 @@
 import db from "../config/dbConnection.js";
 import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken'; 
 
 export const updateUserInfo = (uid, data, result) => {
     db.query("select * from userTBL where userID = ?;", uid, (err, count) => {             
@@ -179,6 +180,67 @@ export const registerUserInfo = (data, result) => {
                                 code : 2010,
                                 isSuccess : true,
                                 msg : "회원가입에 성공하였습니다."
+                                }
+                            );
+                        }
+                      }
+                      );}
+            });
+          }}
+          );
+}
+
+
+export const loginUserInfo = (data, result) => {
+    db.query("SELECT * FROM userTBL WHERE LOWER(email) = LOWER(?);", data.email ,(err, cnt) => {
+            if(err){
+                result(500, {
+                    code : 500,
+                    isSuccess : false,
+                    msg : "로그인에 실패하였습니다",
+                    err}, null);
+            }
+            else if (!cnt.length) {
+              result(200, null, {
+                code : 401,
+                isSuccess : false,
+                msg : '이메일이 올바르지 않거나, 등록되지않은 유저입니다.'
+                });
+            } else {
+              bcrypt.compare(data.password, cnt[0].pw, (bErr, bResult) => {
+                if (bErr) {
+                    result(500, {
+                        code : 500,
+                        isSuccess : false,
+                        msg : "오류가 발생하였습니다.",
+                        err}, null
+                    );
+                } else if(!bResult){
+                    result(200,null,{
+                        code : 401,
+                        isSuccess : false,
+                        msg : "비밀번호가 틀렸습니다.",
+                    });
+                }
+                else {
+                    const token = jwt.sign({id : cnt[0].userID},'the-super-strong-secret',{ expiresIn: '1h' });
+   
+                  db.query(`UPDATE userTBL SET last_login = now() WHERE email = ?`, [cnt[0].email] ,(err, results) => {
+                        if (err) {
+                            result(500, {
+                                code : 5000,
+                                isSuccess : false,
+                                msg : "로그인에 실패하였습니다.",
+                                err}, null
+                            );
+                        }
+                        else {
+                            result(201, null, {
+                                code : 200,
+                                isSuccess : true,
+                                msg : "로그인에 성공하였습니다.",
+                                token : token,
+                                user : result[0]
                                 }
                             );
                         }
