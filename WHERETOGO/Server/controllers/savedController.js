@@ -3,11 +3,11 @@ import {getSavedEvent, addSavedEvent, deleteSavedEvent, getIfSaved} from "../mod
 
 export const getSaved = (req, res) => {
     const uid = req.params.userID;
-    getSavedEvent(uid, (err, results) => {
+    getSavedEvent(uid, (stat, err, results) => {
         if (err){
-            res.send(err);
+            res.status(stat).send(err);
         }else{
-            res.json(results);
+            res.status(stat).json(results);
         }
     });
 }
@@ -16,11 +16,11 @@ export const getSaved = (req, res) => {
 export const setSaved = (req, res) => {
     const uid = req.params.userID;
     const eid = req.params.eventID;
-    addSavedEvent(uid, eid, (err, results) => {
+    addSavedEvent(uid, eid, (stat, err, results) => {
         if (err){
-            res.send(err);
+            res.status(stat).send(err);
         }else{
-            res.json(results);
+            res.status(stat).json(results);
         }
     });
 }
@@ -29,11 +29,11 @@ export const setSaved = (req, res) => {
 export const deleteSaved = (req, res) => {
     const uid = req.params.userID;
     const eid = req.params.eventID;
-    deleteSavedEvent(uid, eid, (err, results) => {
+    deleteSavedEvent(uid, eid, (stat, err, results) => {
         if (err){
-            res.send(err);
+            res.status(stat).send(err);
         }else{
-            res.json(results);
+            res.status(stat).json(results);
         }
     });
 }
@@ -41,11 +41,11 @@ export const deleteSaved = (req, res) => {
 export const checkSaved = (req, res) => {
     const uid = req.params.userID;
     const eid = req.params.eventID;
-    getIfSaved(uid, eid, (err, results) => {
+    getIfSaved(uid, eid, (stat, err, results) => {
         if (err){
-            res.send(err);
+            res.status(stat).send(err);
         }else{
-            res.json(results);
+            res.status(stat).json(results);
         }
     });
 }
