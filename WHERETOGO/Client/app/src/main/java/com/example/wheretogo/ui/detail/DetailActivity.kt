@@ -21,16 +21,18 @@ import retrofit2.Response
 
 class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding::inflate) {
 
+    private var status = "g"
     private val detailService = DetailService
     private val detailBooleanService = getRetrofit().create(DetailRetrofitInterface::class.java)
 
     override fun initAfterBinding() {
+        val eventIdx = intent.getIntExtra("eventIdx", -1)
         initLayout()
         initClickListener()
 
-        detailService.getDetailInfo(this, getEventId())
-        getVisitedInfo(getEventId())
-        getSavedInfo(getEventId())
+        detailService.getDetailInfo(this, eventIdx)
+        getVisitedInfo(eventIdx)
+        getSavedInfo(eventIdx)
     }
 
     private fun initLayout(){
@@ -65,30 +67,41 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
     }
 
     private fun initClickListener(){
-        var eventId = getEventId()
+        val eventIdx = intent.getIntExtra("eventIdx", -1)
         binding.detailEventUncheckBtn.setOnClickListener{
-            setVisitedButton(true)
+            binding.detailStarPanel.visibility = View.VISIBLE //체크버튼-> 별점 패널 띄우기
+        }
 
+
+        binding.detailAdaptTv.setOnClickListener {
+            visitEvent(eventIdx,status)
+            binding.detailStarPanel.visibility = View.INVISIBLE
+        }
+
+        binding.detailCancelTv.setOnClickListener {
+            binding.detailStarPanel.visibility = View.INVISIBLE
         }
 
         binding.detailEventCheckBtn.setOnClickListener{
-            setVisitedButton(false)
-            Toast.makeText(this, R.string.visited_off, Toast.LENGTH_SHORT).show()
+            deleteVisitedEvent(eventIdx)
         }
 
         binding.detailEventDislikeBtn.setOnClickListener{
             setSavedButton(true)
-            saveEvent(eventId)
+            saveEvent(eventIdx)
         }
 
         binding.detailEventLikeBtn.setOnClickListener{
             setSavedButton(false)
-            deleteSavedEvent(eventId)
+            deleteSavedEvent(eventIdx)
         }
 
         binding.detailBackBtn.setOnClickListener {
             finish()
         }
+
+        initStar()
+
     }
 
     fun setDetailInfo(result: ArrayList<DetailInfoResult>){
@@ -124,10 +137,6 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
         }
     }
 
-    private fun getEventId(): Int {
-        val spf = getSharedPreferences("eventInfo", MODE_PRIVATE)
-        return spf!!.getInt("eventId",-1)
-    }
 
     private fun getVisitedInfo(eventId: Int){
         val userId = 2
@@ -169,7 +178,7 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
         })
     }
 
-
+    //뷰 버튼 상태
     private fun setVisitedButton(isVisited: Boolean){
         if (isVisited){
             binding.detailEventCheckBtn.visibility = View.VISIBLE
@@ -226,6 +235,69 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
             override fun onFailure(call: Call<DetailDeleteSavedResponse>, t: Throwable) {
             }
         })
+    }
+
+    private fun visitEvent(eventId: Int,assess:String){
+        val userId = 2
+        detailBooleanService.visitEvent(userId,eventId,assess).enqueue(object: Callback<DetailVisitEventResponse> {
+            override fun onResponse(call: Call<DetailVisitEventResponse>, response: Response<DetailVisitEventResponse>) {
+                val resp = response.body()!!
+                when(resp.code){
+                    200->{
+                        showToast("my> 방문한 이벤트에 담았어요!")
+                        setVisitedButton(true)
+                    }
+                    500 ->{
+                        showToast(resp.msg)
+                    }
+                }
+            }
+            override fun onFailure(call: Call<DetailVisitEventResponse>, t: Throwable) {
+            }
+        })
+    }
+
+    //저장한 이벤트 삭제
+    private fun deleteVisitedEvent(eventId: Int){
+        val userId = 2
+        detailBooleanService.deleteVisitedEvent(userId,eventId).enqueue(object: Callback<DetailDeleteVisitedResponse> {
+            override fun onResponse(call: Call<DetailDeleteVisitedResponse>, response: Response<DetailDeleteVisitedResponse>) {
+                val resp = response.body()!!
+                Log.d("isVisited/delete",resp.toString())
+                when(resp.code){
+                    200->{
+                        setVisitedButton(false)
+                        showToast(resp.msg)
+                    }
+                    else->{
+                        showToast(resp.msg)
+                    }
+                }
+            }
+            override fun onFailure(call: Call<DetailDeleteVisitedResponse>, t: Throwable) {
+            }
+        })
+    }
+
+    //별점 상태 조절
+    private fun initStar(){
+       binding.detailEditStar1.setOnClickListener {
+           binding.detailEditStar2.setImageResource(R.drawable.mypage_star_off)
+           binding.detailEditStar3.setImageResource(R.drawable.mypage_star_off)
+           status="b"
+       }
+        binding.detailEditStar2.setOnClickListener {
+            binding.detailEditStar2.setImageResource(R.drawable.mypage_star_on)
+            binding.detailEditStar3.setImageResource(R.drawable.mypage_star_off)
+            status="s"
+        }
+        binding.detailEditStar3.setOnClickListener {
+            binding.detailEditStar2.setImageResource(R.drawable.mypage_star_on)
+            binding.detailEditStar3.setImageResource(R.drawable.mypage_star_on)
+            status="g"
+        }
+
+
     }
 
 

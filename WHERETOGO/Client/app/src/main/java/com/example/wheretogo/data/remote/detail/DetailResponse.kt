@@ -28,14 +28,14 @@ data class DetailInfoResult(
     @SerializedName(value = "content")val content: String
 )
 
-//방문 여부 조회
+//VisitedTBL 저장 여부 조회
 data class DetailIsVisitedResponse(
     @SerializedName(value = "isVisited")val isVisited:Boolean,
     @SerializedName(value = "code")val code:Int,
     @SerializedName(value = "isSuccess")val isSuccess:Boolean
 )
 
-//저장 여부 조회
+//SavedTBL 저장 여부 조회
 data class DetailIsSavedResponse(
     @SerializedName(value = "isSaved")val isSaved:Boolean,
     @SerializedName(value = "code")val code:Int,
@@ -43,7 +43,7 @@ data class DetailIsSavedResponse(
 )
 
 
-//이벤트 저장
+//savedTBL에 추가
 data class DetailSaveEventResponse(
     @SerializedName("msg") var msg : String,
     @SerializedName("code") var code : Int,
@@ -58,8 +58,15 @@ data class DetailDeleteSavedResponse(
 )
 
 
-//이벤트 방문
+//visitedTBL에 추가
 data class DetailVisitEventResponse(
+    @SerializedName("msg") var msg : String,
+    @SerializedName("code") var code : Int,
+    @SerializedName("isSuccess") var isSuccess : Boolean,
+)
+
+//savedTBL에 삭제
+data class DetailDeleteVisitedResponse(
     @SerializedName("msg") var msg : String,
     @SerializedName("code") var code : Int,
     @SerializedName("isSuccess") var isSuccess : Boolean,

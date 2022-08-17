@@ -14,8 +14,6 @@ import com.example.wheretogo.ui.detail.DetailActivity
 class BannerRecommendFragment (private val item: RecommendEventResult)
     :BaseFragment<FragmentRecommendBannerBinding>(FragmentRecommendBannerBinding::inflate) {
 
-
-
     override fun initAfterBinding() {
         binding.homeRecommendTitleTv.text = item.eventName
         binding.homeRecommendSavedCountTv.text = String.format("담은 수: %d건", item.savedNum)
@@ -26,8 +24,9 @@ class BannerRecommendFragment (private val item: RecommendEventResult)
             binding.homeRecommendEndDateTv.text = item.endDate.slice(IntRange(0, 9))
 
         binding.homeRecommendIv.setOnClickListener {
-            saveIdx(item.eventID)
-            startActivity(Intent(context, DetailActivity::class.java))
+            val intent = Intent(context, DetailActivity::class.java)
+            intent.putExtra("eventIdx", item.eventID)
+            startActivity(intent)
         }
 
         initStatus()
@@ -58,12 +57,5 @@ class BannerRecommendFragment (private val item: RecommendEventResult)
 
     }
 
-    private fun saveIdx(eventId: Int) {
-        val spf = activity?.getSharedPreferences("eventInfo", AppCompatActivity.MODE_PRIVATE)
-        val editor = spf?.edit()
-
-        editor?.putInt("eventId", eventId)
-        editor?.apply()
-    }
 }
 

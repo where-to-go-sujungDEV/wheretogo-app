@@ -29,8 +29,9 @@ class BannerPopularFragment(private val item: PopularEventResult) : BaseFragment
         if (item.endDate!=null)
             binding.homePopularEndDateTv.text = item.endDate.slice(IntRange(0,9))
         binding.homePopularIv.setOnClickListener {
-            saveIdx(item.eventID)
-            startActivity(Intent(context, DetailActivity::class.java))
+            val intent = Intent(context, DetailActivity::class.java)
+            intent.putExtra("eventIdx", item.eventID)
+            startActivity(intent)
         }
 
         initStatus()
@@ -60,16 +61,5 @@ class BannerPopularFragment(private val item: PopularEventResult) : BaseFragment
         }
 
     }
-
-    private fun saveIdx(eventId: Int){
-        val spf = activity?.getSharedPreferences("eventInfo", AppCompatActivity.MODE_PRIVATE)
-        val editor = spf?.edit()
-
-        editor?.putInt("eventId",eventId)
-        editor?.apply()
-    }
-
-
-
 
 }
