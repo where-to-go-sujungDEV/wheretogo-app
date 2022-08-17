@@ -9,6 +9,46 @@ DROP database IF EXISTS `where2goDB`;
 CREATE database where2goDB;
 use where2goDB;
 
+CREATE TABLE areaCodeTBL
+(
+    `aCode`  integer       NOT NULL, 
+    `aName`  VARCHAR(7)    NOT NULL, 
+     PRIMARY KEY (aCode)
+);
+
+
+ALTER TABLE areaCodeTBL COMMENT '광역시/도 단위 지역 코드 테이블. 지역코드 저장 테이블';
+
+
+CREATE TABLE areaCodeDetailTBL
+(
+    `aCode`   integer        NOT NULL, 
+    `aDCode`  integer        NOT NULL, 
+    `aDName`  VARCHAR(10)    NOT NULL, 
+     PRIMARY KEY (aCode, aDCode)
+);
+
+ALTER TABLE areaCodeDetailTBL COMMENT '시/군/구 단위 지역코드 테이블. 세부 지역코드 저장 테이블';
+
+ALTER TABLE areaCodeDetailTBL
+    ADD CONSTRAINT FK_areaCodeDetailTBL_aCode_areaCodeTBL_aCode FOREIGN KEY (aCode)
+        REFERENCES areaCodeTBL (aCode) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+CREATE TABLE categoryTBL(
+   cCode VARCHAR(5) NOT NULL PRIMARY KEY
+  ,cName VARCHAR(5) NOT NULL
+);
+
+
+
+CREATE TABLE categoryDetailTBL
+(
+    `cCode`   VARCHAR(5)    NOT NULL, 
+    `cDCode`  VARCHAR(9)    NOT NULL, 
+    `cDName`    VARCHAR(6)    NOT NULL, 
+     PRIMARY KEY (cDCode)
+);
+
 
 CREATE TABLE userTBL
 (
@@ -25,7 +65,54 @@ CREATE TABLE userTBL
 ALTER TABLE userTBL COMMENT '회원 테이블';
 
 
+CREATE TABLE eventTBL
+(
+    `addr1`           TEXT       NOT NULL, 
+    `addr2`           TEXT        NULL, 
+    `cat2`            VARCHAR(20)        NOT NULL, 
+    `cat3`            VARCHAR(20)        NOT NULL, 
+    `eventID`       BIGINT           NOT NULL, 
+    `startDate`  DATE              NOT NULL, 
+    `endDate`    DATE              NOT NULL, 
+    `firstimage`      TEXT       NULL, 
+    `firstimage2`     TEXT       NULL, 
+    `mapx`            NUMERIC(14,10)    NOT NULL, 
+    `mapy`            NUMERIC(13,10)    NOT NULL, 
+    `mlevel`          integer           NULL, 
+    `areacode`        integer           NOT NULL, 
+    `sigungucode`     integer           NOT NULL, 
+    `tel`             VARCHAR(142)      NULL, 
+    `eventName`       VARCHAR(80)       NOT NULL, 
+    `w1`       BIGINT    NULL        DEFAULT 0 COMMENT '10~19 ; w' DEFAULT 0, 
+    `m1`       BIGINT    NULL        DEFAULT 0 COMMENT '10~19 ; m' DEFAULT 0, 
+    `w2`       BIGINT    NULL        DEFAULT 0 COMMENT '20~29 ; w' DEFAULT 0, 
+    `m2`       BIGINT    NULL        DEFAULT 0 COMMENT '20~29 ; m' DEFAULT 0, 
+    `w3`       BIGINT    NULL        DEFAULT 0 COMMENT '30~39 ; w' DEFAULT 0, 
+    `m3`       BIGINT    NULL        DEFAULT 0 COMMENT '30~39 ; m' DEFAULT 0, 
+    `w4`       BIGINT    NULL        DEFAULT 0 COMMENT '40~59 w' DEFAULT 0, 
+    `m4`       BIGINT    NULL        DEFAULT 0 COMMENT '40~59m' DEFAULT 0, 
+    `w6`       BIGINT    NULL        DEFAULT 0 COMMENT '60~ ; w' DEFAULT 0, 
+    `m6`       BIGINT    NULL        DEFAULT 0 COMMENT '60~ ; m' DEFAULT 0, 
+     PRIMARY KEY (eventID)
+);
 
+ALTER TABLE eventTBL
+    ADD CONSTRAINT FK_eventTBL_areacode_areaCodeTBL_aCode FOREIGN KEY (areacode)
+        REFERENCES areaCodeTBL (aCode) ON DELETE RESTRICT ON UPDATE CASCADE;
+ 
+ ALTER TABLE eventTBL
+    ADD CONSTRAINT FK_eventTBL_cat2_categoryTBL_cCode FOREIGN KEY (cat2)
+        REFERENCES categoryTBL (cCode) ON DELETE RESTRICT ON UPDATE RESTRICT;
+        
+ ALTER TABLE eventTBL
+    ADD CONSTRAINT FK_eventTBL_cat3_categoryDetailTBL_cCode FOREIGN KEY (cat3)
+        REFERENCES categoryDetailTBL (cDCode) ON DELETE RESTRICT ON UPDATE RESTRICT;
+ /*       
+ ALTER TABLE eventTBL
+    ADD CONSTRAINT FK_eventTBL_sigungucode_areaCodeDetailTBL_aDCode FOREIGN KEY (sigungucode)
+        REFERENCES areaCodeDetailTBL (aDCode) ON DELETE RESTRICT ON UPDATE CASCADE;*/
+        
+/*        
 CREATE TABLE eventTBL
 (
     `eventID`    BIGINT            NOT NULL    AUTO_INCREMENT, 
@@ -57,7 +144,7 @@ CREATE TABLE eventTBL
 );
 
 ALTER TABLE eventTBL COMMENT '이벤트 테이블';
-
+*/
 
 
 CREATE TABLE userVisitedTBL
@@ -127,11 +214,6 @@ ALTER TABLE keywordTBL
 
 
 
-
-
-
-
-
 CREATE TABLE userSavedTBL
 (
     `userID`   BIGINT    NOT NULL, 
@@ -150,7 +232,297 @@ ALTER TABLE userSavedTBL
         REFERENCES userTBL (userID) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 
+-- 지역 코드 입력 ---------
+INSERT INTO areaCodeTBL(aCode,aName) VALUES (1,'서울');
+INSERT INTO areaCodeTBL(aCode,aName) VALUES (2,'인천');
+INSERT INTO areaCodeTBL(aCode,aName) VALUES (3,'대전');
+INSERT INTO areaCodeTBL(aCode,aName) VALUES (4,'대구');
+INSERT INTO areaCodeTBL(aCode,aName) VALUES (5,'광주');
+INSERT INTO areaCodeTBL(aCode,aName) VALUES (6,'부산');
+INSERT INTO areaCodeTBL(aCode,aName) VALUES (7,'울산');
+INSERT INTO areaCodeTBL(aCode,aName) VALUES (8,'세종특별자치시');
+INSERT INTO areaCodeTBL(aCode,aName) VALUES (31,'경기도');
+INSERT INTO areaCodeTBL(aCode,aName) VALUES (32,'강원도');
+INSERT INTO areaCodeTBL(aCode,aName) VALUES (33,'충청북도');
+INSERT INTO areaCodeTBL(aCode,aName) VALUES (34,'충청남도');
+INSERT INTO areaCodeTBL(aCode,aName) VALUES (35,'경상북도');
+INSERT INTO areaCodeTBL(aCode,aName) VALUES (36,'경상남도');
+INSERT INTO areaCodeTBL(aCode,aName) VALUES (37,'전라북도');
+INSERT INTO areaCodeTBL(aCode,aName) VALUES (38,'전라남도');
+INSERT INTO areaCodeTBL(aCode,aName) VALUES (39,'제주도');
 
+
+-- 지역 상세 코드 입력 ------------
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (1,1,'강남구'); /*서울*/
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (1,2,'강동구');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (1,3,'강북구');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (1,4,'강서구');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (1,5,'관악구');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (1,6,'광진구');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (1,7,'구로구');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (1,8,'금천구');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (1,9,'노원구');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (1,10,'도봉구');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (1,11,'동대문구');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (1,12,'동작구');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (1,13,'마포구');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (1,14,'서대문구');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (1,15,'서초구');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (1,16,'성동구');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (1,17,'성북구');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (1,18,'송파구');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (1,19,'양천구');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (1,20,'영등포구');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (1,21,'용산구');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (1,22,'은평구');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (1,23,'종로구');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (1,24,'중구');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (1,25,'중랑구');
+
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (2,1,'강화군');/*인천*/
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (2,2,'계양구');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (2,3,'미추홀구');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (2,4,'남동구');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (2,5,'동구');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (2,6,'부평구');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (2,7,'서구');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (2,8,'연수구');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (2,9,'옹진군');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (2,10,'중구');
+
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (3,1,'대덕구'); /*대전*/
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (3,2,'동구');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (3,3,'서구');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (3,4,'유성구');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (3,5,'중구');
+
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (4,1,'남구');/*대구*/
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (4,2,'달서구');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (4,3,'달성군');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (4,4,'동구');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (4,5,'북구');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (4,6,'서구');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (4,7,'수성구');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (4,8,'중구');
+
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (5,1,'광산구');/*광주*/
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (5,2,'남구');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (5,3,'동구');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (5,4,'북구');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (5,5,'서구');
+
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (6,1,'강서구');/*부산*/
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (6,2,'금정구');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (6,3,'기장군');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (6,4,'남구');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (6,5,'동구');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (6,6,'동래구');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (6,7,'부산진구');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (6,8,'북구');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (6,9,'사상구');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (6,10,'사하구');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (6,11,'서구');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (6,12,'수영구');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (6,13,'연제구');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (6,14,'영도구');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (6,15,'중구');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (6,16,'해운대구');
+
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (7,1,'중구');/*울산*/
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (7,2,'남구');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (7,3,'동구');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (7,4,'북구');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (7,5,'을주군');
+
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (8,1,'세종특별자치시');/*세종특별자치시*/
+
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (31,1, '가평군');/*경기도*/
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (31,2,'고양시');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (31,3,'과천시');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (31,4,'광명시');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (31,5,'광주시');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (31,6,'구리시');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (31,7,'군포시');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (31,8,'김포시');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (31,9,'남양주시');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (31,10,'동두천시');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (31,11,'부천시');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (31,12,'성남시');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (31,13,'수원시');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (31,14,'시흥시');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (31,15,'안산시');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (31,16,'안성시');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (31,17,'안양시');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (31,18,'양주시');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (31,19,'양평군');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (31,20,'여주시');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (31,21,'연천군');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (31,22,'오산시');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (31,23,'용인시');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (31,24,'의왕시');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (31,25,'의정부시');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (31,26,'이천시');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (31,27,'파주시');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (31,28,'평택시');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (31,29,'포천시');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (31,30,'하남시');
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES (31,31,'화성시');
+
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 32, 1 , '강릉시' ); /*강원도*/
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 32, 2 , '고성군' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 32, 3 , '동해시' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 32, 4 , '삼척시' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 32, 5 , '속초시' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 32, 6 , '양구군' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 32, 7 , '양양군' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 32, 8 , '영월군' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 32, 9 , '원주시' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 32, 10 , '인제군' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 32, 11 , '정선군' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 32, 12 , '철원군' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 32, 13 , '춘천시' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 32, 14 , '태백시' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 32, 15 , '평창군' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 32, 16 , '홍천군' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 32, 17 , '화천군' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 32, 18 , '횡성군' );
+
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 33, 1 , '괴산군' ); /*충청북도*/
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 33, 2 , '단양군' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 33, 3 , '보은군' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 33, 4 , '영동군' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 33, 5 , '옥천군' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 33, 6 , '음성군' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 33, 7 , '제천시' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 33, 8 , '진천군' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 33, 9 , '청원군' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 33, 10 , '청주시' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 33, 11 , '충주시' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 33, 12 , '증평군' );
+
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 34, 1 , '공주시' ); /*충청남도*/
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 34, 2 , '금산군' ); 
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 34, 3 , '논산시' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 34, 4 , '당진시' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 34, 5 , '보령시' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 34, 6 , '부여군' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 34, 7 , '서산시' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 34, 8 , '서천군' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 34, 9 , '아산시' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 34, 11 , '예산군' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 34, 12 , '천안시' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 34, 13 , '청양군' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 34, 14 , '태안군' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 34, 15 , '홍성군' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 34, 16 , '계룡시' );
+
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 35, 1 , '경산시' ); /*경상북도*/
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 35, 2 , '경주시' ); 
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 35, 3 , '고령군' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 35, 4 , '구미시' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 35, 5 , '군위군' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 35, 6 , '김천시' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 35, 7 , '문경시' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 35, 8 , '봉화군' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 35, 9 , '상주시' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 35, 10 , '성주군' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 35, 11 , '안동시' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 35, 12 , '영덕군' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 35, 13 , '영양군' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 35, 14 , '영주시' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 35, 15 , '영천시' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 35, 16 , '예천군' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 35, 17 , '울릉군' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 35, 18 , '울진군' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 35, 19 , '의성군' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 35, 20 , '청도군' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 35, 21 , '청송군' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 35, 22 , '칠곡군' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 35, 23 , '포항시' );
+
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 36, 1 , '거제시' ); /*경상남도*/
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 36, 2 , '거창군' ); 
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 36, 3 , '고성군' ); 
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 36, 4 , '김해시' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 36, 5 , '남해군' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 36, 6 , '마산시' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 36, 7 , '밀양시' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 36, 8 , '사천시' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 36, 9 , '산청군' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 36, 10 , '양산시' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 36, 12 , '의령군' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 36, 13 , '진주시' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 36, 14 , '진해시' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 36, 15 , '창녕군' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 36, 16 , '창원시' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 36, 17 , '통영시' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 36, 18 , '하동군' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 36, 19 , '함안군' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 36, 20 , '함양군' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 36, 21 , '합천군' );
+
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 37, 1 , '고창군' ); /*전라북도*/
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 37, 2 , '군산시' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 37, 3 , '김제시' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 37, 4 , '남원시' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 37, 5 , '무주군' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 37, 6 , '부안군' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 37, 7 , '순창군' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 37, 8 , '완주군' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 37, 9 , '익산시' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 37, 10 , '임실군' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 37, 11 , '장수군' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 37, 12 , '전주시' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 37, 13 , '정읍시' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 37, 14 , '진안군' );
+
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 38, 1 , '강진군' );  /*전라남도*/
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 38, 2 , '고흥군' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 38, 3 , '곡성군' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 38, 4 , '광양시' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 38, 5 , '구례군' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 38, 6 , '나주시' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 38, 7 , '담양군' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 38, 8 , '목포시' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 38, 9 , '무안군' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 38, 10 , '보성군' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 38, 11 , '순천시' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 38, 12 , '신안군' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 38, 13 , '여수시' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 38, 16 , '영광군' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 38, 17 , '영암군' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 38, 18 , '완도군' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 38, 19 , '장성군' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 38, 20 , '장흥군' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 38, 21 , '진도군' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 38, 22 , '함평군' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 38, 23 , '해남군' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 38, 24 , '화순군' );
+
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 39, 1 , '남제주군' ); /*제주도*/
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 39, 2 , '북제주군' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 39, 3 , '서귀포시' );
+INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 39, 4 , '제주시' );
+
+-- 카테고리 데이터 입력 ---------------------------------------------------------------------------
+INSERT INTO categoryTBL(cCode,cName) VALUES ('A0207','축제');
+INSERT INTO categoryTBL(cCode,cName) VALUES ('A0208','공연/행사');
+
+INSERT INTO categoryDetailTBL(cCode,cDcode,cDName) VALUES ('A0207','A02070100','문화관광축제');
+INSERT INTO categoryDetailTBL(cCode,cDcode,cDName) VALUES ('A0207','A02070200','일반축제');
+INSERT INTO categoryDetailTBL(cCode,cDcode,cDName) VALUES ('A0208','A02080100','전통공연');
+INSERT INTO categoryDetailTBL(cCode,cDcode,cDName) VALUES ('A0208','A02080200','연극');
+INSERT INTO categoryDetailTBL(cCode,cDcode,cDName) VALUES ('A0208','A02080300','뮤지컬');
+INSERT INTO categoryDetailTBL(cCode,cDcode,cDName) VALUES ('A0208','A02080400','오페라');
+INSERT INTO categoryDetailTBL(cCode,cDcode,cDName) VALUES ('A0208','A02080500','전시회');
+INSERT INTO categoryDetailTBL(cCode,cDcode,cDName) VALUES ('A0208','A02080600','박람회');
+INSERT INTO categoryDetailTBL(cCode,cDcode,cDName) VALUES ('A0208','A02080700','컨벤션');
+INSERT INTO categoryDetailTBL(cCode,cDcode,cDName) VALUES ('A0208','A02080800','무용');
+INSERT INTO categoryDetailTBL(cCode,cDcode,cDName) VALUES ('A0208','A02080900','클래식음악회');
+INSERT INTO categoryDetailTBL(cCode,cDcode,cDName) VALUES ('A0208','A02081000','대중콘서트');
+INSERT INTO categoryDetailTBL(cCode,cDcode,cDName) VALUES ('A0208','A02081100','영화');
+INSERT INTO categoryDetailTBL(cCode,cDcode,cDName) VALUES ('A0208','A02081200','스포츠경기');
+INSERT INTO categoryDetailTBL(cCode,cDcode,cDName) VALUES ('A0208','A02081300','기타행사');
 -- 사용자 데이터 입력 -------------------------------------
 -- 10대 여성 --
 INSERT INTO `userTBL` (email, nickName, pw, sex, age, last_login) VALUES ('bear@gmail.com', '곰돌이', "$2a$10$sm454B3JeElqcatMKRVhweISBzb4Eng4Huzxkf857xhCzy2yW9MuG", 'w', 1, NOW());  /*pw : bearbear*/
@@ -225,31 +597,25 @@ INSERT INTO `userTBL` (email, nickName, pw, sex, age, last_login) VALUES ('jinji
 
 
 -- 이벤트 정보 입력 ------------------------------------------------------------------------------
-INSERT INTO `eventTBL` (eventName, dou, si, genre, kind, theme, startDate, endDate, pic, place, link, content) 
-VALUES ('서울 프린지 페스티벌', '경기도', '서울특별시', '전시', '미술', '감동', '2022-08-11', '2022-08-28', 'http://tong.visitkorea.or.kr/cms/resource/39/2503539_image2_1.png', "서울시 마포구 및 서대문구 일대", "https://www.seoulfringefestival.net:5632/", '예술가의 자유로운 시도와 그들의 주체성을 지지하는 예술축제, 서울프린지페스티벌 서울프린지페스티벌은 1998년 대학로에서 열린 ‘독립예술제’로 시작되어 매년 여름, 연극, 무용, 음악, 퍼포먼스, 미술, 영상 등 다양한 분야의 예술가들이 참여하는 축제이다. 예술가나 작품에 대한 심사나 선정이 없는 자유참가에 원칙을 두고 있으며, 모두에게 참여의 기회를 개방하고 있다. 정형화된 틀에서 벗어나 공간을 실험하고, 장르와 형식을 넘나드는 시도와 도전이 가능하다.');
 
-INSERT INTO `eventTBL` (eventName, dou, si, genre, kind, theme, startDate, endDate, pic, place, link, content) 
-VALUES ('Groove In Gwanak STREETDANCE FESTIVAL', '경기도', '서울특별시', '축제', '춤', '신남', '2022-07-16', '2022-08-31', 'http://tong.visitkorea.or.kr/cms/resource/39/2503539_image2_1.png', "신림역 인근 별빛내린천, S1472관천로문화플랫폼", "https://korean.visitkorea.or.kr/detail/fes_detail.do?cotid=a1fc3498-0dd7-41e0-a78b-440ea52971d7&big_category=undefined&mid_category=undefined&big_area=undefined&referrer=https://search.naver.com/search.naver?where=nexearch&sm=tab_etc&mra=bk00&pkid=110&os=28426284&qvt=0&query=Groove%20In%20Gwanak%20STREETDANCE%20FESTIVAL", '관악을 움직이다 - Groove in Gwanak
-특별히 열정적인 댄서들이 모인 스트릿댄스 페스티벌이 2022년 여름, 관악구 도림천(별빛내린천)을 꾸민다. 한때 청년들의 거리문화로 치부되었던 스트릿댄스 장르는 최근 방송 매체와 여러 플랫폼을 통해 그 대중성과 예술성을 인정받고 있다. 이에 발 맞추어 관악에서 처음으로 스트릿댄스를 독립적인 현대 문화 예술로 바라보고 그들의 열정을 마음껏 표현할 수 있는 축제를 마련했다.
-2022년 7월 16일 토요일, 그 첫 무대가 여러분을 찾아간다.');
-
-INSERT INTO `eventTBL` (eventName, dou, si, genre, kind, theme, startDate, endDate, pic, place, link, content) 
-VALUES ('기억의 숲', '경기도', '서울특별시', '연극', '서사', '공포', '2022-07-15', '2022-08-25', 'http://tong.visitkorea.or.kr/cms/resource/39/2503539_image2_1.png', "대학로 유니플렉스 3관", "없음", '어둡고 칙칙한 취조실. 한 남자와 범인이 마주 앉아 있다. 17명을 잔인하게 살해하고 마치 영안실에 시체를 안치하듯 자신의 집 지하실 사물함에 보관한 희대의 살인마는 종신형을 선고받게 된다.');
-
-INSERT INTO `eventTBL` (eventName, dou, si, genre, kind, theme, startDate, endDate, pic, place, link, content) 
-VALUES ('너의 목소리가 들려', '경기도', '서울특별시', '연극', '서사', '재미', '2018-12-06', '2023-12-12', 'http://tong.visitkorea.or.kr/cms/resource/39/2503539_image2_1.png', "봄날 아트홀 2관", "없음", '재개발 지역에 발생한 갑작스러운 화재로 많은 사람들이 죽고 수지는 엄마를 잃게 된다. 방화범으로 몰린 수지는 교도소에 가게 되고... 10년의 수감생활을 마친 수지는 엄마와의 추억이 깃든 옛 동네로 발걸음을 옮긴다.');
-
-INSERT INTO `eventTBL` (eventName, dou, si, genre, kind, theme, startDate, endDate, pic, place, link, content) 
-VALUES ('부산국제매직페스티벌', '경상남도', '부산광역시', '축제', '놀이', '재미', '2022.06.01', '2022.11.13', 'http://tong.visitkorea.or.kr/cms/resource/39/2503539_image2_1.png', "행사별 상이", "https://www.hibimf.org/", '부산국제매직페스티벌은 2006년부터 시작되어 문화콘텐츠 산업의 떠오르는 블루오션인 ‘매직’을 테마로 한 국내 100만 매직 매니아의 꿈의 축제인 국내 유일 세계 최대 규모의 마술 페스티벌이다. 올해 11월까지 진행되는 제17회 부산국제매직페스티벌에는 1년 내내 마술로, 매직컨벤션, 제4회 국제매직버스킹챔피언십, 매직위크 등 다양한 행사들이 준비되어있다.');
+INSERT INTO eventTBL(addr1,addr2,cat2,cat3,eventID,startDate,endDate,firstimage,firstimage2,mapx,mapy,mlevel, areacode,sigungucode,tel,eventName) VALUES ( '서울특별시 강남구 논현동', '논현동 가구거리', 'A0208', 'A02080600', 2819403 , '20220826', '20220904', 'http://tong.visitkorea.or.kr/cms/resource/01/2837401_image2_1.jpg', 'http://tong.visitkorea.or.kr/cms/resource/01/2837401_image3_1.jpg', 127.0225157989, 37.5112531257, 6, 1, 1, '02-3423-5532', '강남디자인위크' ); 
+INSERT INTO eventTBL(addr1,addr2,cat2,cat3,eventID,startDate,endDate,firstimage,firstimage2,mapx,mapy,mlevel,areacode,sigungucode,tel,eventName) VALUES ( '강원도 고성군 토성면 잼버리로 244', '', 'A0208', 'A02080600', 2713558 , '20230504', '20230606', 'http://tong.visitkorea.or.kr/cms/resource/24/2804924_image2_1.jpg', 'http://tong.visitkorea.or.kr/cms/resource/24/2804924_image2_1.jpg', 128.5001657397, 38.2236839691, 6, 32, 2, '033-818-2158', '강원세계산림엑스포' ); 
+INSERT INTO eventTBL(addr1,addr2,cat2,cat3,eventID,startDate,endDate,firstimage,firstimage2,mapx,mapy,mlevel,areacode,sigungucode,tel,eventName) VALUES ( '강원도 횡성군 문예로 75 횡성 문화체육공원', '', 'A0208', 'A02080600', 2829875 , '20220914', '20220928', 'http://tong.visitkorea.or.kr/cms/resource/74/2829874_image2_1.png', 'http://tong.visitkorea.or.kr/cms/resource/74/2829874_image3_1.png', 127.9782824672, 37.4907202341, 6, 32, 18, '강원일자리재단 : 033-256-9602<br>운영사무국 : 1644-4845', '강원일자리박람회' ); 
+INSERT INTO eventTBL(addr1,addr2,cat2,cat3,eventID,startDate,endDate,firstimage,firstimage2,mapx,mapy,mlevel,areacode,sigungucode,tel,eventName) VALUES ( '경상남도 고성군 당항만로 1116', '', 'A0207', 'A02070200', 141105 , '20221001', '20221030', 'http://tong.visitkorea.or.kr/cms/resource/38/2828038_image2_1.jpg', 'http://tong.visitkorea.or.kr/cms/resource/38/2828038_image3_1.jpg', 128.3915388600, 35.0533471834, 6, 36, 3, '055)670-3814', '경남고성공룡세계엑스포' ); 
+INSERT INTO eventTBL(addr1,addr2,cat2,cat3,eventID,startDate,endDate,firstimage,firstimage2,mapx,mapy,mlevel,areacode,sigungucode,tel,eventName) VALUES ( '충청남도 계룡시 신도안면 정장리 16', '', 'A0207', 'A02070200', 1362833 , '20221007', '20221023', 'http://tong.visitkorea.or.kr/cms/resource/07/2549807_image2_1.jpg', 'http://tong.visitkorea.or.kr/cms/resource/07/2549807_image2_1.jpg', 127.2371213251, 36.3068152207, 6, 34, 16, '042-840-3907', '계룡세계軍문화엑스포' ); 
+INSERT INTO eventTBL(addr1,addr2,cat2,cat3,eventID,startDate,endDate,firstimage,firstimage2,mapx,mapy,mlevel,areacode,sigungucode,tel,eventName) VALUES ( '전라북도 고창군 녹두로 1265 고창군농산물유통센타', '', 'A0208', 'A02081300', 2809281 , '20221028', '20221030', 'http://tong.visitkorea.or.kr/cms/resource/80/2809280_image2_1.jpg', 'http://tong.visitkorea.or.kr/cms/resource/80/2809280_image2_1.jpg', 126.6846960753, 35.4337773663, 6, 37, 1, '010-3568-7907', '고창농촌영화제' );    
+INSERT INTO eventTBL(addr1,addr2,cat2,cat3,eventID,startDate,endDate,firstimage,firstimage2,mapx,mapy,mlevel,areacode,sigungucode,tel,eventName) VALUES ( '서울특별시 관악구', '(봉천동)', 'A0207', 'A02070200', 2612274 , '20221014', '20221016', 'http://tong.visitkorea.or.kr/cms/resource/16/2667216_image2_1.jpg', 'http://tong.visitkorea.or.kr/cms/resource/16/2667216_image2_1.jpg', 126.9514981970, 37.4782084678, 6, 1, 5, '02) 828-5763', '관악강감찬축제' );
+INSERT INTO eventTBL(addr1,addr2,cat2,cat3,eventID,startDate,endDate,firstimage,firstimage2,mapx,mapy,mlevel,areacode,sigungucode,tel,eventName) VALUES ( '부산광역시 수영구 광안해변로 219', '(광안동)', 'A0208', 'A02081300', 2786391 , '20220402', '20231231', 'http://tong.visitkorea.or.kr/cms/resource/20/2822720_image2_1.jpg', 'http://tong.visitkorea.or.kr/cms/resource/20/2822720_image3_1.jpg', 129.1185505648, '35.1538269450', NULL, 6, 12, '051-610-4884', '광안리 M(Marvelous) 드론 라이트 쇼' );
+INSERT INTO eventTBL(addr1,addr2,cat2,cat3,eventID,startDate,endDate,firstimage,firstimage2,mapx,mapy,mlevel,areacode,sigungucode,tel,eventName) VALUES ( '부산광역시 수영구 광안동', '', 'A0207', 'A02070100', 506545 , '20221014', '20221016', 'http://tong.visitkorea.or.kr/cms/resource/34/2689834_image2_1.png', 'http://tong.visitkorea.or.kr/cms/resource/34/2689834_image2_1.png', 129.1187283431, 35.1532381253, 6, 6, 12, '051-610-4062', '광안리어방축제' );
+INSERT INTO eventTBL(addr1,addr2,cat2,cat3,eventID,startDate,endDate,firstimage,firstimage2,mapx,mapy,mlevel,areacode,sigungucode,tel,eventName) VALUES ( '광주광역시 북구 비엔날레로 111', '', 'A0208', 'A02081300', 2561750 , '20230407', '20230709', 'http://tong.visitkorea.or.kr/cms/resource/48/2561748_image2_1.JPG', 'http://tong.visitkorea.or.kr/cms/resource/48/2561748_image2_1.JPG', 126.8902647155, 35.1825648257, 6, 5, 4, '062-608-4114', '광주비엔날레' );
 
 
-
-INSERT INTO `mainEventTBL` VALUES (1,'어디가?는 처음이신가요?', 'http://tong.visitkorea.or.kr/cms/resource/39/2503539_image2_1.png', NULL);
-INSERT INTO `mainEventTBL` VALUES (2,'여름에는 물총놀이지! 워터밤 가보자고', 'http://tong.visitkorea.or.kr/cms/resource/39/2503539_image2_1.png',2);
-INSERT INTO `mainEventTBL` VALUES (3,'미친 더위 공포로 이겨내자 ~ 공포 이벤트 모음집 ~', 'http://tong.visitkorea.or.kr/cms/resource/39/2503539_image2_1.png',3);
-INSERT INTO `mainEventTBL` VALUES (4,'나랑 꽃보러 갈래?', 'http://tong.visitkorea.or.kr/cms/resource/39/2503539_image2_1.png',3);
-INSERT INTO `mainEventTBL` VALUES (5,'방학이잖아 축제가야지', 'http://tong.visitkorea.or.kr/cms/resource/39/2503539_image2_1.png',2);
-INSERT INTO `mainEventTBL` VALUES (6,'연인끼리 가기좋은 8월 서울 행사', 'http://tong.visitkorea.or.kr/cms/resource/39/2503539_image2_1.png',4);
+INSERT INTO `mainEventTBL` VALUES (1,'어디가?는 처음이신가요?', 'http://localhost:3000/asset/mainEvent/1.jpg', NULL);
+INSERT INTO `mainEventTBL` VALUES (2,'산림에서 힐링하자', 'http://tong.visitkorea.or.kr/cms/resource/24/2804924_image2_1.jpg',2713558);
+INSERT INTO `mainEventTBL` VALUES (3,'낭만적인 드론 라이트 쇼!', 'http://tong.visitkorea.or.kr/cms/resource/20/2822720_image2_1.jpg',2786391);
+INSERT INTO `mainEventTBL` VALUES (4,'나랑 공룡보러 갈래?', 'http://tong.visitkorea.or.kr/cms/resource/38/2828038_image2_1.jpg',141105);
+INSERT INTO `mainEventTBL` VALUES (5,'취업난 이겨내자 강원청년 모두모여~~!', 'http://tong.visitkorea.or.kr/cms/resource/74/2829874_image2_1.png',2829875);
+INSERT INTO `mainEventTBL` VALUES (6,'영화제를 한다구요...? 농촌에서요...?', 'http://tong.visitkorea.or.kr/cms/resource/80/2809280_image2_1.jpg',2809281);
 
 
 
@@ -259,37 +625,37 @@ INSERT INTO `keywordTBL` VALUES (1,'먹거리');
 INSERT INTO `keywordTBL` VALUES (1,'진흙');
 INSERT INTO `keywordTBL` VALUES (1,'축제');
 
-INSERT INTO `userVisitedTBL` VALUES (1, 1, 'g');
-INSERT INTO `userVisitedTBL` VALUES (1, 2, 'b');
-INSERT INTO `userVisitedTBL` VALUES (3, 3, 's');
-INSERT INTO `userVisitedTBL` VALUES (5, 4, 'g');
-INSERT INTO `userVisitedTBL` VALUES (12, 5, 'b');
-INSERT INTO `userVisitedTBL` VALUES (11, 4, 'g');
-INSERT INTO `userVisitedTBL` VALUES (11, 2, 'b');
-INSERT INTO `userVisitedTBL` VALUES (34, 3, 's');
-INSERT INTO `userVisitedTBL` VALUES (25, 4, 'g');
-INSERT INTO `userVisitedTBL` VALUES (41, 5, 'b');
-INSERT INTO `userVisitedTBL` VALUES (17, 1, 'g');
-INSERT INTO `userVisitedTBL` VALUES (41, 2, 'b');
-INSERT INTO `userVisitedTBL` VALUES (35, 3, 's');
-INSERT INTO `userVisitedTBL` VALUES (45, 4, 'g');
-INSERT INTO `userVisitedTBL` VALUES (19, 5, 'b');
+INSERT INTO `userVisitedTBL` VALUES (1, 141105, 'g');
+INSERT INTO `userVisitedTBL` VALUES (1, 506545, 'b');
+INSERT INTO `userVisitedTBL` VALUES (1, 1362833, 's');
+INSERT INTO `userVisitedTBL` VALUES (1, 2561750, 'g');
+INSERT INTO `userVisitedTBL` VALUES (1, 2612274, 'b');
+INSERT INTO `userVisitedTBL` VALUES (11, 141105, 'g');
+INSERT INTO `userVisitedTBL` VALUES (11, 506545, 'b');
+INSERT INTO `userVisitedTBL` VALUES (34, 141105, 's');
+INSERT INTO `userVisitedTBL` VALUES (25, 506545, 'g');
+INSERT INTO `userVisitedTBL` VALUES (41, 141105, 'b');
+INSERT INTO `userVisitedTBL` VALUES (17, 141105, 'g');
+INSERT INTO `userVisitedTBL` VALUES (41, 2561750, 'b');
+INSERT INTO `userVisitedTBL` VALUES (35, 2612274, 's');
+INSERT INTO `userVisitedTBL` VALUES (45, 2612274, 'g');
+INSERT INTO `userVisitedTBL` VALUES (19, 2612274, 'b');
 
-INSERT INTO `userSavedTBL` VALUES (1, 1);
-INSERT INTO `userSavedTBL` VALUES (11, 2);
-INSERT INTO `userSavedTBL` VALUES (3, 3);
-INSERT INTO `userSavedTBL` VALUES (5, 4);
-INSERT INTO `userSavedTBL` VALUES (13, 5);
-INSERT INTO `userSavedTBL` VALUES (1, 2);
-INSERT INTO `userSavedTBL` VALUES (21, 2);
-INSERT INTO `userSavedTBL` VALUES (34, 3);
-INSERT INTO `userSavedTBL` VALUES (25, 4);
-INSERT INTO `userSavedTBL` VALUES (41, 5);
-INSERT INTO `userSavedTBL` VALUES (17, 1);
-INSERT INTO `userSavedTBL` VALUES (41, 2);
-INSERT INTO `userSavedTBL` VALUES (35, 3);
-INSERT INTO `userSavedTBL` VALUES (45, 4);
-INSERT INTO `userSavedTBL` VALUES (19, 5);
+INSERT INTO `userSavedTBL` VALUES (1, 2713558);
+INSERT INTO `userSavedTBL` VALUES (1, 2786391);
+INSERT INTO `userSavedTBL` VALUES (1, 2809281);
+INSERT INTO `userSavedTBL` VALUES (1, 2819403);
+INSERT INTO `userSavedTBL` VALUES (1, 2829875);
+INSERT INTO `userSavedTBL` VALUES (12, 2713558);
+INSERT INTO `userSavedTBL` VALUES (21, 2713558);
+INSERT INTO `userSavedTBL` VALUES (34, 2713558);
+INSERT INTO `userSavedTBL` VALUES (25, 2713558);
+INSERT INTO `userSavedTBL` VALUES (41, 2713558);
+INSERT INTO `userSavedTBL` VALUES (17, 2713558);
+INSERT INTO `userSavedTBL` VALUES (41, 2786391);
+INSERT INTO `userSavedTBL` VALUES (35, 2713558);
+INSERT INTO `userSavedTBL` VALUES (45, 2713558);
+INSERT INTO `userSavedTBL` VALUES (19, 2713558);
 
 INSERT INTO `searchTBL` (word, count) VALUES ('워터밤', 10);
 INSERT INTO `searchTBL` (word, count) VALUES ('물총', 8);

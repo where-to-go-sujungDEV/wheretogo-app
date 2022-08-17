@@ -1,7 +1,7 @@
 import db from "../config/dbConnection.js";
 
 export const getSearchResults = (data, result) => {
-    var qr = 'select eventID, eventName, genre, kind, theme, startDate, endDate, pic, w1+w2+w3+w4+w6+m1+m2+m3+m4+m6 as savedNum from eventTBL ';
+    var qr = 'select eventID, eventName, cat2, cat3, startDate, endDate, firstimage as pic, w1+w2+w3+w4+w6+m1+m2+m3+m4+m6 as savedNum from eventTBL ';
     qr += ' where ';
 
     if((!data.fromD)&&(!data.toD)) {
@@ -33,33 +33,28 @@ export const getSearchResults = (data, result) => {
         qr += '\%\') ';
     }
 
-    if(data.genre){
-        qr += ' and genre in (';
-        qr += data.genre;
+    if(data.cat2){
+        qr += ' and cat2 in (';
+        qr += data.cat2;
         qr += ') ';
     }
 
-    if(data.kind){
-        qr += ' and kind in (';
-        qr += data.kind;
+    if(data.cat3){
+        qr += ' and cat3 in (';
+        qr += data.cat3;
         qr += ') ';
     }
 
-    if(data.theme){
-        qr += ' and theme in (';
-        qr += data.theme;
-        qr += ') ';
-    }
 
-    if(data.dou){
-        qr += ' and dou = \'';
-        qr += data.dou;
+    if(data.areacode){
+        qr += ' and areacode = \'';
+        qr += data.areacode;
         qr += '\' ';
     }
 
-    if(data.si){
-        qr += ' and si = \'';
-        qr += data.si;
+    if(data.sigungucode){
+        qr += ' and sigungucode = \'';
+        qr += data.sigungucode;
         qr += '\' ';
     }
 
