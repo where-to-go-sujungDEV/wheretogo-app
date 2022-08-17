@@ -1,15 +1,15 @@
-import {updateUserInfo, deleteUserInfo, registerUserInfo} from "../models/user.js";
+import {updateUserInfo, deleteUserInfo, registerUserInfo, loginUserInfo, doAutoLogin} from "../models/user.js";
 
 
   
 export const changeUserInfo = (req, res) => {
     const uid = req.params.userID;
     const data = req.body;
-    updateUserInfo(uid, data,(err, results) => {
+    updateUserInfo(uid, data,(stat, err, results) => {
         if (err){
-            res.send(err);
+            res.status(stat).send(err);
         }else{
-            res.json(results);
+            res.status(stat).json(results);
         }
     });
 }
@@ -17,11 +17,11 @@ export const changeUserInfo = (req, res) => {
 
 export const deleteUser = (req, res) => {
     const uid = req.params.userID;
-    deleteUserInfo(uid, (err, results) => {
+    deleteUserInfo(uid, (stat, err, results) => {
         if (err){
-            res.send(err);
+            res.status(stat).send(err);
         }else{
-            res.json(results);
+            res.status(stat).json(results);
         }
     });
 }
@@ -29,7 +29,32 @@ export const deleteUser = (req, res) => {
 
 export const registerUser = (req, res) => {
     const data = req.body;
-    registerUserInfo(data, ( stat, err, results) => {
+    registerUserInfo(data, (stat, err, results) => {
+        if (err){
+            res.status(stat).send(err);
+        }else{
+            res.status(stat).json(results);
+        }
+    });
+}
+
+
+
+export const loginUser = (req, res) => {
+    const data = req.body;
+    loginUserInfo(data, (stat, err, results) => {
+        if (err){
+            res.status(stat).send(err);
+        }else{
+            res.status(stat).json(results);
+        }
+    });
+}
+
+
+export const autoLogin = (req, res) => {
+    const head = req.headers;
+    doAutoLogin(head, (stat, err, results) => {
         if (err){
             res.status(stat).send(err);
         }else{

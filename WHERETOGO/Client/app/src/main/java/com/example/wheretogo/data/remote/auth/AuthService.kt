@@ -22,12 +22,12 @@ class AuthService { //signupview 변수 받음
     fun signUp(signUpInfo: SignUpInfo){
         authService.signUp(signUpInfo).enqueue(object: Callback<SignUpResponse> {
             override fun onResponse(call: Call<SignUpResponse>, response: Response<SignUpResponse>) {
-                Log.d("login/Response/response.code",response.code().toString())
+                Log.d("sign/Response/response.code",response.code().toString())
                 val resp: SignUpResponse = response.body()!!
-                Log.d("login/Response/resp.code",resp.code.toString())
+                Log.d("sign/Response/resp.code",resp.code.toString())
                 when(resp.code){
-                    201 ->signUpView.onSignUpSuccess(resp.msg)
-                    409,500 ->{
+                    2010 ->signUpView.onSignUpSuccess(resp.msg)
+                    else ->{
                         signUpView.onSignUpFailure(resp.msg)
                     }
                 }

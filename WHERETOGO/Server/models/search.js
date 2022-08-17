@@ -77,13 +77,12 @@ export const getSearchResults = (data, result) => {
 
     db.query(qr, (err, results) => {             
         if(err) {
-            console.log(err);
-            result({
+            result(500, {
                 code : 500,
                 isSuccess : false,
                 err}, null);
         } else {
-            result(null, {
+            result(200, null, {
                 code : 200,
                 isSuccess : true,
                 results});
@@ -95,13 +94,12 @@ export const getSearchResults = (data, result) => {
 export const getHotSearchResults = (result) => {
     db.query("Select searchID, word from searchTBL ORDER BY count DESC LIMIT 10;", (err, results) => {             
         if(err) {
-            console.log(err);
-            result({
+            result(500, {
                 code : 500,
                 isSuccess : false,
                 err}, null);
         } else {
-            result(null, {
+            result(200, null, {
                 code : 200,
                 isSuccess : true,
                 results});
@@ -112,7 +110,7 @@ export const getHotSearchResults = (result) => {
 
 export const updateSearchCount = (data, result) => {
     if(!data.search){
-        result(null,
+        result(200, null,
             {code : 204,
             isSuccess : true,
             msg : "검색어가 입력되지 않았습니다."
@@ -121,22 +119,20 @@ export const updateSearchCount = (data, result) => {
     else{
     db.query("Select * from searchTBL where word = ?;", [data.search], (err, cnt) => {             
         if(err) {
-            console.log(err);
-            result({
+            result(500, {
                 code : 500,
                 isSuccess : false,
                 err}, null);
         } else if(!cnt.length){
             db.query("insert into searchTBL (word) values (?);", [data.search],(err,results) => {
                 if(err) {
-                    console.log(err);
-                    result({
+                    result(500, {
                         code : 500,
                         isSuccess : false,
                         err}, null);
                 }
                 else{
-                    result(null, {
+                    result(200, null, {
                         code : 200,
                         msg : "새로운 검색어입니다. 검색어 테이블에 검색어가 입력되었습니다.",
                         isSuccess : true});
@@ -146,14 +142,13 @@ export const updateSearchCount = (data, result) => {
         else {
             db.query("update searchTBL set count = count + 1 where word = ?;", [data.search],(err,results) => {
                 if(err) {
-                    console.log(err);
-                    result({
+                    result(500, {
                         code : 500,
                         isSuccess : false,
                         err}, null);
                 }
                 else{
-                    result(null, {
+                    result(200, null, {
                         code : 200,
                         msg : "기존에 존재하던 검색어입니다. 검색어 테이블의 count를 업데이트 하였습니다.",
                         isSuccess : true,

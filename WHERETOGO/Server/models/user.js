@@ -1,18 +1,18 @@
 import db from "../config/dbConnection.js";
 import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken'; 
 
 export const updateUserInfo = (uid, data, result) => {
     db.query("select * from userTBL where userID = ?;", uid, (err, count) => {             
         if (err) {
-            console.log(err);
-            result({
+            result(500, {
                 msg : "회원정보 갱신을 실패하였습니다.", 
                 code : 500, 
                 isSuccess : false,
                 err}, null);
         } 
         else if(count.length <= 0) {
-            result(null,{
+            result(200, null,{
                 msg : "존재하지 않는 사용자입니다.",
                 code : 406,
                 isSuccess : false
@@ -20,7 +20,7 @@ export const updateUserInfo = (uid, data, result) => {
         } 
         else {
             if((!data.nickName)&&(!data.password)){
-                result(null, {
+                result(200, null, {
                     msg : "변경할 데이터가 입력되지 않았습니다. 변경사항이 없습니다.",
                     code : 204,
                     isSuccess : true
@@ -29,15 +29,15 @@ export const updateUserInfo = (uid, data, result) => {
             else if((data.nickName)&&(!data.password)){
                 db.query("update userTBL set nickName = ? where userID = ?;",[data.nickName, uid], (err, results) => {             
                     if(err) {
-                        console.log(err);
-                        result({
+                        result(500, {
                             msg : "오류가 발생하였습니다.",
-                            code : 500, 
+                            code : 500,
+                            isSuccess : false, 
                             err
                         }, null);
                     }
                     else {
-                        result(null, {
+                        result(201, null, {
                             msg : "회원정보 갱신을 완료하였습니다.",
                             code : 200,
                             isSuccess : true});
@@ -46,25 +46,28 @@ export const updateUserInfo = (uid, data, result) => {
             }
             else if(data.password){
                 bcrypt.hash(data.password, 10, (err, hash) => {
-                    if (err) {
-                      return res.status(500).send({
-                        msg: '비밀번호 암호화에 실패하였습니다',
-                        code : 500,
-                        isSuccess : false
-                      });
-                    } else {
+                    if (err) 
+                    {
+                        result(500, {
+                            msg : "오류가 발생하였습니다.",
+                            code : 500, 
+                            isSuccess : false,
+                            err
+                        }, null);
+                    }
+                    else {
                         if(!data.nickName){
                             db.query(`update userTBL set pw = ${db.escape(hash)} where userID = ?;`,[uid], (err, results) => {             
                                 if(err) {
-                                    console.log(err);
-                                    result({
+                                    result(500, {
                                         msg : "오류가 발생하였습니다.",
                                         code : 500, 
+                                        isSuccess : false,
                                         err
                                     }, null);
                                 }
                                 else {
-                                    result(null, {
+                                    result(201, null, {
                                         msg : "회원정보 갱신을 완료하였습니다.",
                                         code : 200,
                                         isSuccess : true});
@@ -74,15 +77,15 @@ export const updateUserInfo = (uid, data, result) => {
                         else{
                             db.query(`update userTBL set nickName = ?, pw = ${db.escape(hash)} where userID = ?;`,[data.nickName, uid], (err, results) => {             
                                 if(err) {
-                                    console.log(err);
-                                    result({
+                                    result(500, {
                                         msg : "오류가 발생하였습니다.",
                                         code : 500, 
+                                        isSuccess : false,
                                         err
                                     }, null);
                                 }
                                 else {
-                                    result(null, {
+                                    result(201, null, {
                                         msg : "회원정보 갱신을 완료하였습니다.",
                                         code : 200,
                                         isSuccess : true});
@@ -103,14 +106,14 @@ export const deleteUserInfo = (uid, result) => {
     db.query("select * from userTBL where userID = ?;", uid, (err, count) => {             
         if (err) {
             console.log(err);
-            result({
+            result(500, {
                 msg : "회원탈퇴를 실패하였습니다.", 
                 code : 500, 
                 isSuccess : false,
                 err}, null);
         } 
         else if(count.length <= 0) {
-            result(null,{
+            result(200, null,{
                 msg : "존재하지 않는 사용자입니다.",
                 code : 204,
                 isSuccess : false
@@ -120,13 +123,13 @@ export const deleteUserInfo = (uid, result) => {
             db.query("delete from userTBL where userID = ?;", uid, (err, results) => {             
                 if(err) {
                     console.log(err);
-                    result({
+                    result(500, {
                         code : 500,
                         isSuccess : false,
                         msg : "회원탈퇴를 실패하였습니다.",
                         err}, null);
                 } else {
-                    result(null, {
+                    result(200, null, {
                         msg : "회원탈퇴를 완료하였습니다.",
                         code : 200,
                         isSuccess : true
@@ -187,4 +190,111 @@ export const registerUserInfo = (data, result) => {
             });
           }}
           );
+}
+
+
+export const loginUserInfo = (data, result) => {
+    db.query(`SELECT * FROM userTBL WHERE email = ?;`,[data.email],(err, cnt) => {
+            if(err){
+                result(500, {
+                    code : 500,
+                    isSuccess : false,
+                    msg : "로그인에 실패하였습니다",
+                    err}, null);
+            }
+            else if (!cnt.length) {
+              result(200, null, {
+                code : 401,
+                isSuccess : false,
+                msg : '이메일이 올바르지 않거나, 등록되지않은 유저입니다.'
+                });
+            } else {
+              bcrypt.compare(data.password, cnt[0].pw, (bErr, bResult) => {
+                if (bErr) {
+                    result(500, {
+                        code : 500,
+                        isSuccess : false,
+                        msg : "오류가 발생하였습니다.",
+                        err}, null
+                    );
+                } else if(!bResult){
+                    result(200,null,{
+                        code : 402,
+                        isSuccess : false,
+                        msg : "비밀번호가 틀렸습니다.",
+                    });
+                }
+                else {
+                    const token = jwt.sign({id : cnt[0].userID},'the-super-strong-secret',{ expiresIn: '1h' });
+   
+                  db.query(`UPDATE userTBL SET last_login = now() WHERE email = ?`, [cnt[0].email] ,(err, results) => {
+                        if (err) {
+                            result(500, {
+                                code : 500,
+                                isSuccess : false,
+                                msg : "로그인에 실패하였습니다.",
+                                err}, null
+                            );
+                        }
+                        else {
+                            result(201, null, {
+                                code : 200,
+                                isSuccess : true,
+                                msg : "로그인에 성공하였습니다.",
+                                token : token,
+                                user : cnt[0]
+                                }
+                            );
+                        }
+                      }
+                      );}
+            });
+          }}
+          );
+}
+
+
+export const doAutoLogin = (head, result) => {
+    if(!head.authorization || !head.authorization.startsWith('Bearer') || !head.authorization.split(' ')[1]){
+        result(200, null, {
+            code : 422,
+            isSuccess : false,
+            msg : 'token값을 제공해주세요.'
+        });
+    }
+    else{
+        const theToken = head.authorization.split(' ')[1];
+        const decoded = jwt.verify(theToken, 'the-super-strong-secret');
+
+        db.query(
+            `SELECT * FROM userTBL where userID='${decoded.id}'`, (error, results) => {
+          if (error){
+            result(500, {
+                code : 500,
+                isSuccess : false,
+                msg : "오류가 발생하였습니다.",
+                error}, null
+            );
+          }
+          else if(!results.length){
+            result(200, null,
+                {
+                    code : 501,
+                    isSuccess : false,
+                    msg : "자동 로그인에 실패하였습니다. 토큰이 잘못되었습니다."
+                }
+            );
+          }
+          else {
+            result(200, null,
+                {
+                    code : 200,
+                    isSuccess : true,
+                    msg : "사용자 로그인 정보 확인되었습니다.",
+                    data : results[0]
+                }
+            )
+        };
+      });
+    }
 }

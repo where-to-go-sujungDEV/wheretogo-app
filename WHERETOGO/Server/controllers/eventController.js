@@ -3,32 +3,32 @@ import {getMainBoardContents, getTopContents, getUserTopContents, getEventByEven
 
 
 export const getMainBoard = (req, res) => {
-    getMainBoardContents((err, results) => {
+    getMainBoardContents((stat, err, results) => {
         if (err){
-            res.send(err);
+            res.status(stat).send(err);
         }else{
-            res.json(results);
+            res.status(stat).json(results);
         }
     });
 }
   
 export const getTopEvents = (req, res) => {
-    getTopContents((err, results) => {
+    getTopContents((stat, err, results) => {
         if (err){
-            res.send(err);
+            res.status(stat).send(err);
         }else{
-            res.json(results);
+            res.status(stat).json(results);
         }
     });
 }
 
 export const getUserTopEvents = (req, res) => {
     const uid = req.params.userID;
-    getUserTopContents(uid, (err, results) => {
+    getUserTopContents(uid, (stat, err, results) => {
         if (err){
-            res.send(err);
+            res.status(stat).send(err);
         }else{
-            res.json(results);
+            res.status(stat).json(results);
         }
     });
 }
@@ -36,11 +36,11 @@ export const getUserTopEvents = (req, res) => {
 
 export const getEventById = (req, res) => {
     const id = req.params.eventID;
-    getEventByEventID(id, (err, results) => {
+    getEventByEventID(id, (stat, err, results) => {
         if (err){
-            res.send(err);
+            res.status(stat).send(err);
         }else{
-            res.json(results);
+            res.status(stat).json(results);
         }
     });
 }
@@ -48,11 +48,11 @@ export const getEventById = (req, res) => {
 export const getEventUserInfo = (req, res) => {
     const eid = req.params.eventID;
     const uid = req.params.userID;
-    getEventUserInfos(uid, eid, (err, results) => {
+    getEventUserInfos(uid, eid, (stat, err, results) => {
         if (err){
-            res.send(err);
+            res.status(stat).send(err);
         }else{
-            res.json(results);
+            res.status(stat).json(results);
         }
     });
 }

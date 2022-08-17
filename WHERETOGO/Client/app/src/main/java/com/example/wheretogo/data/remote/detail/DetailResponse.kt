@@ -2,6 +2,7 @@ package com.example.wheretogo.data.remote.detail
 
 import com.google.gson.annotations.SerializedName
 
+//상세정보 조회 응답값
 data class DetailInfoResponse(
     @SerializedName(value = "code")val code:Int,
     @SerializedName(value = "isSuccess")val isSuccess:Boolean,
@@ -27,16 +28,41 @@ data class DetailInfoResult(
     @SerializedName(value = "content")val content: String
 )
 
+//방문 여부 조회
 data class DetailIsVisitedResponse(
     @SerializedName(value = "isVisited")val isVisited:Boolean,
     @SerializedName(value = "code")val code:Int,
     @SerializedName(value = "isSuccess")val isSuccess:Boolean
 )
 
+//저장 여부 조회
 data class DetailIsSavedResponse(
     @SerializedName(value = "isSaved")val isSaved:Boolean,
     @SerializedName(value = "code")val code:Int,
     @SerializedName(value = "isSuccess")val isSuccess:Boolean
+)
+
+
+//이벤트 저장
+data class DetailSaveEventResponse(
+    @SerializedName("msg") var msg : String,
+    @SerializedName("code") var code : Int,
+    @SerializedName("isSuccess") var isSuccess : Boolean,
+)
+
+//savedTBL에 삭제
+data class DetailDeleteSavedResponse(
+    @SerializedName("msg") var msg : String,
+    @SerializedName("code") var code : Int,
+    @SerializedName("isSuccess") var isSuccess : Boolean,
+)
+
+
+//이벤트 방문
+data class DetailVisitEventResponse(
+    @SerializedName("msg") var msg : String,
+    @SerializedName("code") var code : Int,
+    @SerializedName("isSuccess") var isSuccess : Boolean,
 )
 
 

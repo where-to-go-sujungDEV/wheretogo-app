@@ -3,11 +3,11 @@ import {getVisitedEvent, addVisitedEvent, deleteVisitedEvent, getIfVisited} from
 
 export const getVisited = (req, res) => {
     const uid = req.params.userID;
-    getVisitedEvent(uid, (err, results) => {
+    getVisitedEvent(uid, (stat, err, results) => {
         if (err){
-            res.send(err);
+            res.status(stat).send(err);
         }else{
-            res.json(results);
+            res.status(stat).json(results);
         }
     });
 }
@@ -17,11 +17,11 @@ export const setVisited = (req, res) => {
     const uid = req.params.userID;
     const eid = req.params.eventID;
     const ass = req.params.assess;
-    addVisitedEvent(uid, eid, ass,(err, results) => {
+    addVisitedEvent(uid, eid, ass,(stat, err, results) => {
         if (err){
-            res.send(err);
+            res.status(stat).send(err);
         }else{
-            res.json(results);
+            res.status(stat).json(results);
         }
     });
 }
@@ -30,11 +30,11 @@ export const setVisited = (req, res) => {
 export const deleteVisited = (req, res) => {
     const uid = req.params.userID;
     const eid = req.params.eventID;
-    deleteVisitedEvent(uid, eid, (err, results) => {
+    deleteVisitedEvent(uid, eid, (stat, err, results) => {
         if (err){
-            res.send(err);
+            res.status(stat).send(err);
         }else{
-            res.json(results);
+            res.status(stat).json(results);
         }
     });
 }
@@ -42,11 +42,11 @@ export const deleteVisited = (req, res) => {
 export const checkVisited = (req, res) => {
     const uid = req.params.userID;
     const eid = req.params.eventID;
-    getIfVisited(uid, eid, (err, results) => {
+    getIfVisited(uid, eid, (stat, err, results) => {
         if (err){
-            res.send(err);
+            res.status(stat).send(err);
         }else{
-            res.json(results);
+            res.status(stat).json(results);
         }
     });
 }

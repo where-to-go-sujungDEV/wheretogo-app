@@ -17,7 +17,7 @@ object MypageService {
         service.getSavedEvent(id).enqueue(object: Callback<SavedEventResponse> {
             override fun onResponse(call: Call<SavedEventResponse>, response: Response<SavedEventResponse>) {
                 val resp = response.body()!!
-                Log.d("RecentRead/SUCCESS",resp.code.toString())
+                Log.d("getSaved/SUCCESS",resp.code.toString())
                 when(resp.code){
                     200->{
                         fragment.setSavedEvent(resp.result!!)
@@ -28,7 +28,7 @@ object MypageService {
                 }
             }
             override fun onFailure(call: Call<SavedEventResponse>, t: Throwable) {
-                Log.d("RecentRead/FAILURE", t.message.toString())
+                Log.d("getSaved/FAILURE", t.message.toString())
             }
         })
     }

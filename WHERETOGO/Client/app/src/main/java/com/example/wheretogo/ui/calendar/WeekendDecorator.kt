@@ -10,12 +10,15 @@ import java.util.*
 class WeekendDecorator : DayViewDecorator {
 
     private val calendar = Calendar.getInstance()
+    var thisMonth : Int = Calendar.MONTH
+
     override fun shouldDecorate(day: CalendarDay?): Boolean {
         day?.copyTo(calendar)
         //요일 판단
-        //이번 달인지 판단해 이번 달이 아닐 경우 적용X
         val weekDay=calendar.get(Calendar.DAY_OF_WEEK)
-        return weekDay == Calendar.SUNDAY || weekDay == Calendar.SATURDAY
+
+        //이번 달인지 판단해 이번 달이 아닐 경우 적용X
+        return (weekDay == Calendar.SUNDAY || weekDay == Calendar.SATURDAY)
     }
 
     override fun decorate(view: DayViewFacade?) {

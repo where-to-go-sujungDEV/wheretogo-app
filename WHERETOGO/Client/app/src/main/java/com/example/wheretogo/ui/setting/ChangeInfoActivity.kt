@@ -14,8 +14,6 @@ import com.example.wheretogo.ui.mypage.MypageFragment
 
 class ChangeInfoActivity : BaseActivity<ActivityChangeInfoBinding>(ActivityChangeInfoBinding::inflate){
     lateinit var appDB: AppDatabase
-    val isChanged:Boolean = false
-    val mypageFragment: MypageFragment = TODO()
 
     companion object {
         const val IMAGE_REQUEST_CODE = 100
