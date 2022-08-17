@@ -68,6 +68,7 @@
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/activity_main.xml" value="0.20989583333333334" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/activity_setting.xml" value="0.20989583333333334" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/activity_signup.xml" value="0.20989583333333334" />
+        <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/f_mypage_save_banner.xml" value="0.1" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/fragment_calendar.xml" value="0.20989583333333334" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/fragment_detail_banner.xml" value="0.20989583333333334" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/fragment_event_banner.xml" value="0.20989583333333334" />
@@ -75,6 +76,7 @@
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/fragment_home_banner.xml" value="0.20989583333333334" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/fragment_mypage.xml" value="0.20989583333333334" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/fragment_mypage_banner.xml" value="0.20989583333333334" />
+        <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/fragment_mypage_saved.xml" value="0.20989583333333334" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/fragment_popular_banner.xml" value="0.20989583333333334" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/fragment_recommend_banner.xml" value="0.20989583333333334" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/fragment_search.xml" value="0.20989583333333334" />
@@ -83,6 +85,7 @@
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/item_mypage_visited.xml" value="0.20989583333333334" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/item_recycle_event.xml" value="0.20989583333333334" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/item_recycle_event_like.xml" value="0.20989583333333334" />
+        <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/mypage_like_banner.xml" value="0.20989583333333334" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/menu/navi_menu.xml" value="0.20989583333333334" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/app/src/main/res/drawable/btn_login_login.xml" value="0.14539473684210527" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/app/src/main/res/drawable/btn_sign_in_login.xml" value="0.14539473684210527" />

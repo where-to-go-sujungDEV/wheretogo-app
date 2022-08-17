@@ -10,9 +10,8 @@ import retrofit2.Callback
 import retrofit2.Response
 
 object MypageService {
-    val id = 2
     private val service = getRetrofit().create(MypageRetrofitInterface::class.java)
-    fun getSavedEvent(fragment: MypageSavedFragment){
+    fun getSavedEvent(fragment: MypageSavedFragment,id:Int){
 
         service.getSavedEvent(id).enqueue(object: Callback<SavedEventResponse> {
             override fun onResponse(call: Call<SavedEventResponse>, response: Response<SavedEventResponse>) {
@@ -33,7 +32,7 @@ object MypageService {
         })
     }
 
-    fun getVisitedEvent(fragment: MypageVisitedFragment){
+    fun getVisitedEvent(fragment: MypageVisitedFragment,id:Int){
 
         service.getVisitedEvent(id).enqueue(object: Callback<VisitedEventResponse> {
             override fun onResponse(call: Call<VisitedEventResponse>, response: Response<VisitedEventResponse>) {

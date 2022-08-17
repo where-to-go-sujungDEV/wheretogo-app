@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.wheretogo.data.remote.auth.getRetrofit
 import com.example.wheretogo.data.remote.detail.DetailIsSavedResponse
@@ -24,6 +25,7 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
     interface OnItemClickListener {
         fun onItemClick(savedEventData: SavedEventResult)
     }
+
 
     private lateinit var mItemClickListener: OnItemClickListener
 
@@ -85,7 +87,7 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
     }
 
     private fun getEventStatus(eventId: Int){
-        val userId = 2
+        val userId = getIdx()
         eventStatusService.getEventStatus(userId,eventId).enqueue(object:
             Callback<EventStatusResponse> {
             override fun onResponse(call: Call<EventStatusResponse>, response: Response<EventStatusResponse>) {
@@ -110,8 +112,10 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
         isEventVisited = isVisited
     }
 
-
-
-
+    //유저 인덱스 가져옴
+    private fun getIdx(): Int {
+        val spf = context.getSharedPreferences("userInfo", AppCompatActivity.MODE_PRIVATE)
+        return spf!!.getInt("userIdx",-1)
+    }
 
 }

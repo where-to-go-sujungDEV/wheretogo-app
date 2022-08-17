@@ -1,20 +1,13 @@
 package com.example.wheretogo.ui.mypage
 
 import android.content.Intent
-import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.wheretogo.BaseFragment
 import com.example.wheretogo.R
 import com.example.wheretogo.data.remote.auth.getRetrofit
-import com.example.wheretogo.data.remote.detail.DetailDeleteSavedResponse
 import com.example.wheretogo.data.remote.detail.DetailRetrofitInterface
-import com.example.wheretogo.data.remote.detail.DetailSaveEventResponse
 import com.example.wheretogo.data.remote.mypage.MypageService
 import com.example.wheretogo.data.remote.mypage.VisitedEventResult
 import com.example.wheretogo.databinding.FragmentMypageBannerBinding
@@ -28,11 +21,18 @@ class MypageVisitedFragment() : BaseFragment<FragmentMypageBannerBinding>(Fragme
     private val detailBooleanService = getRetrofit().create(DetailRetrofitInterface::class.java)
     override fun initAfterBinding() {
         //방문여부 표시
-        mypageService.getVisitedEvent(this)
+        mypageService.getVisitedEvent(this,getIdx())
+    }
+
+    override fun onStart() {
+        super.onStart()
+        mypageService.getVisitedEvent(this,getIdx())
     }
 
     fun setVisitedEvent(visitedEventList: ArrayList<VisitedEventResult>){
         val adapter = UserVisitedEventRVAdapter(visitedEventList)
+        binding.mypageLikeRv.visibility = View.VISIBLE
+        binding.mypageBannerNoneTv.visibility=View.INVISIBLE
         //리사이클러뷰에 어댑터 연결
         binding.mypageLikeRv.adapter = adapter
         binding.mypageLikeRv.layoutManager = LinearLayoutManager(context,
@@ -53,8 +53,15 @@ class MypageVisitedFragment() : BaseFragment<FragmentMypageBannerBinding>(Fragme
         binding.mypageExplainTv.text = "내가 다녀온 행사들이에요."
         binding.mypageBannerNoneTv.text = msg
         binding.mypageBannerNoneTv.visibility=View.VISIBLE
+        binding.mypageLikeRv.visibility = View.INVISIBLE
     }
 
+
+    //유저 인덱스 가져옴
+    private fun getIdx(): Int {
+        val spf = activity?.getSharedPreferences("userInfo", AppCompatActivity.MODE_PRIVATE)
+        return spf!!.getInt("userIdx",-1)
+    }
 
 
 
