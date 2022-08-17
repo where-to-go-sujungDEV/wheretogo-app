@@ -11,16 +11,23 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.wheretogo.BaseFragment
 import com.example.wheretogo.R
+import com.example.wheretogo.data.remote.auth.getRetrofit
+import com.example.wheretogo.data.remote.detail.DetailDeleteSavedResponse
+import com.example.wheretogo.data.remote.detail.DetailRetrofitInterface
+import com.example.wheretogo.data.remote.detail.DetailSaveEventResponse
 import com.example.wheretogo.data.remote.mypage.MypageService
 import com.example.wheretogo.data.remote.mypage.VisitedEventResult
 import com.example.wheretogo.databinding.FragmentMypageBannerBinding
 import com.example.wheretogo.ui.detail.DetailActivity
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class MypageVisitedFragment() : BaseFragment<FragmentMypageBannerBinding>(FragmentMypageBannerBinding::inflate){
     private val mypageService = MypageService
+    private val detailBooleanService = getRetrofit().create(DetailRetrofitInterface::class.java)
     override fun initAfterBinding() {
-
-
+        //방문여부 표시
         mypageService.getVisitedEvent(this)
     }
 
@@ -55,6 +62,8 @@ class MypageVisitedFragment() : BaseFragment<FragmentMypageBannerBinding>(Fragme
         binding.mypageBannerNoneTv.text = msg
         binding.mypageBannerNoneTv.visibility=View.VISIBLE
     }
+
+
 
 
 

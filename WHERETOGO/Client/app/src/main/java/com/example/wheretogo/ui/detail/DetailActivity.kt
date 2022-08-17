@@ -11,32 +11,28 @@ import com.bumptech.glide.Glide
 import com.example.wheretogo.R
 import com.example.wheretogo.data.remote.auth.getRetrofit
 import com.example.wheretogo.data.remote.detail.*
-import com.example.wheretogo.data.remote.search.IsSavedResponse
-import com.example.wheretogo.data.remote.search.IsVisitedResponse
 import com.example.wheretogo.databinding.ActivityDetailBinding
+import com.example.wheretogo.ui.BaseActivity
 import com.google.android.material.tabs.TabLayoutMediator
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 
-class DetailActivity: AppCompatActivity() {
-    lateinit var binding: ActivityDetailBinding
+class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding::inflate) {
+
     private val detailService = DetailService
     private val detailBooleanService = getRetrofit().create(DetailRetrofitInterface::class.java)
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityDetailBinding.inflate(layoutInflater)
-        setContentView(binding.root)
 
+    override fun initAfterBinding() {
         initLayout()
         initClickListener()
 
         detailService.getDetailInfo(this, getEventId())
         getVisitedInfo(getEventId())
         getSavedInfo(getEventId())
-
     }
+
     private fun initLayout(){
         val bannerAdapter = DetailVPAdapter(this)
         //추가할 프래그먼트를 넣어줌
@@ -69,24 +65,25 @@ class DetailActivity: AppCompatActivity() {
     }
 
     private fun initClickListener(){
+        var eventId = getEventId()
         binding.detailEventUncheckBtn.setOnClickListener{
-            setVisited(true)
-            Toast.makeText(this,R.string.visited_on, Toast.LENGTH_SHORT).show()
+            setVisitedButton(true)
+
         }
 
         binding.detailEventCheckBtn.setOnClickListener{
-            setVisited(false)
+            setVisitedButton(false)
             Toast.makeText(this, R.string.visited_off, Toast.LENGTH_SHORT).show()
         }
 
         binding.detailEventDislikeBtn.setOnClickListener{
-            setSaved(true)
-            Toast.makeText(this, R.string.like_on, Toast.LENGTH_SHORT).show()
+            setSavedButton(true)
+            saveEvent(eventId)
         }
 
         binding.detailEventLikeBtn.setOnClickListener{
-            setSaved(false)
-            Toast.makeText(this, R.string.like_off, Toast.LENGTH_SHORT).show()
+            setSavedButton(false)
+            deleteSavedEvent(eventId)
         }
 
         binding.detailBackBtn.setOnClickListener {
@@ -139,7 +136,7 @@ class DetailActivity: AppCompatActivity() {
                 val resp = response.body()!!
                 when(resp.code){
                     200->{
-                        setVisited(resp.isVisited)
+                        setVisitedButton(resp.isVisited)
                         Log.d("isVisited",resp.isVisited.toString())
                     }
                     else ->{
@@ -159,7 +156,7 @@ class DetailActivity: AppCompatActivity() {
                 val resp = response.body()!!
                 when(resp.code){
                     200->{
-                        setSaved(resp.isSaved)
+                        setSavedButton(resp.isSaved)
                         Log.d("isSaved",resp.isSaved.toString())
                     }
                     else ->{
@@ -172,7 +169,8 @@ class DetailActivity: AppCompatActivity() {
         })
     }
 
-    private fun setVisited(isVisited: Boolean){
+
+    private fun setVisitedButton(isVisited: Boolean){
         if (isVisited){
             binding.detailEventCheckBtn.visibility = View.VISIBLE
             binding.detailEventUncheckBtn.visibility = View.INVISIBLE
@@ -183,7 +181,7 @@ class DetailActivity: AppCompatActivity() {
         }
     }
 
-    private fun setSaved(isSaved: Boolean){
+    private fun setSavedButton(isSaved: Boolean){
         if (isSaved){
             binding.detailEventLikeBtn.visibility = View.VISIBLE
             binding.detailEventDislikeBtn.visibility = View.INVISIBLE
@@ -193,6 +191,43 @@ class DetailActivity: AppCompatActivity() {
             binding.detailEventDislikeBtn.visibility = View.VISIBLE
         }
     }
+
+    //이벤트 저장(서버에 반영)
+    private fun saveEvent(eventId: Int){
+        val userId = 2
+        detailBooleanService.saveEvent(userId,eventId).enqueue(object: Callback<DetailSaveEventResponse> {
+            override fun onResponse(call: Call<DetailSaveEventResponse>, response: Response<DetailSaveEventResponse>) {
+                val resp = response.body()!!
+                Log.d("isSaved",resp.toString())
+                when(resp.code){
+                    200->{
+                        showToast(resp.msg)
+                    }
+                }
+            }
+            override fun onFailure(call: Call<DetailSaveEventResponse>, t: Throwable) {
+            }
+        })
+    }
+
+    //저장한 이벤트 삭제
+    private fun deleteSavedEvent(eventId: Int){
+        val userId = 2
+        detailBooleanService.deleteSavedEvent(userId,eventId).enqueue(object: Callback<DetailDeleteSavedResponse> {
+            override fun onResponse(call: Call<DetailDeleteSavedResponse>, response: Response<DetailDeleteSavedResponse>) {
+                val resp = response.body()!!
+                Log.d("isSaved/delete",resp.toString())
+                when(resp.code){
+                    200->{
+                        showToast(resp.msg)
+                    }
+                }
+            }
+            override fun onFailure(call: Call<DetailDeleteSavedResponse>, t: Throwable) {
+            }
+        })
+    }
+
 
 }
 
