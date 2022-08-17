@@ -35,6 +35,7 @@ class MypageSavedFragment() : BaseFragment<FragmentMypageBannerBinding>(Fragment
         val adapter = UserSavedEventRVAdapter(savedEventList)
         //리사이클러뷰에 어댑터 연결
         binding.mypageLikeRv.visibility = View.VISIBLE
+        binding.mypageBannerNoneTv.visibility=View.INVISIBLE
         binding.mypageLikeRv.adapter = adapter
         binding.mypageLikeRv.layoutManager = LinearLayoutManager(context,
             LinearLayoutManager.VERTICAL,false)

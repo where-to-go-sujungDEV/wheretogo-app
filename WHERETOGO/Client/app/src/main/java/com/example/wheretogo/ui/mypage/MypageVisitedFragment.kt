@@ -32,6 +32,7 @@ class MypageVisitedFragment() : BaseFragment<FragmentMypageBannerBinding>(Fragme
     fun setVisitedEvent(visitedEventList: ArrayList<VisitedEventResult>){
         val adapter = UserVisitedEventRVAdapter(visitedEventList)
         binding.mypageLikeRv.visibility = View.VISIBLE
+        binding.mypageBannerNoneTv.visibility=View.INVISIBLE
         //리사이클러뷰에 어댑터 연결
         binding.mypageLikeRv.adapter = adapter
         binding.mypageLikeRv.layoutManager = LinearLayoutManager(context,
