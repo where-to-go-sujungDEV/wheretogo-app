@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:orientation="vertical"
+    android:background="@drawable/calendar_popup_corner"
+
+    android:layout_marginTop="10dp"
+    android:paddingBottom="20dp"
+    android:elevation="10dp"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <View
+            android:id="@+id/view7"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+
+    </LinearLayout>
+
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <ImageButton
+        android:id="@+id/filter_cancelBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="right"
+
+        android:background="@color/transparent"
+        app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
+
+</LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_marginBottom="10dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="30dp"
+
+                android:textSize="10pt"
+                android:textStyle="bold"
+                android:text="장르별" />
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_filter_genre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginBottom="10dp"
+                tools:listitem="@layout/item_recycle_filter" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="10dp"
+
+                android:textSize="10pt"
+                android:textStyle="bold"
+                android:text="종류별" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_filter_kind"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginBottom="20dp"
+                tools:listitem="@layout/item_recycle_filter" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_marginLeft="30dp"
+
+                android:textSize="10pt"
+                android:textStyle="bold"
+                android:text="테마별" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_filter_theme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginBottom="20dp"
+                tools:listitem="@layout/item_recycle_filter" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_marginLeft="30dp"
+                android:layout_marginBottom="5dp"
+
+                android:textSize="10pt"
+                android:textStyle="bold"
+                android:text="기간별" />
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="20dp">
+
+                <View
+                    android:id="@+id/view8"
+                    android:layout_width="match_parent"
+                    android:layout_height="18pt"
+                    android:layout_marginStart="30dp"
+
+                    android:layout_marginEnd="30dp"
+                    android:background="@drawable/search_filter_dates_background"
+                    android:padding="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="MissingConstraints" />
+
+                <TextView
+                    android:id="@+id/filter_startDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="40dp"
+
+                    android:text="시작일"
+
+                    android:textSize="8pt"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@+id/view8"
+                    app:layout_constraintEnd_toEndOf="@+id/textView7"
+                    app:layout_constraintStart_toStartOf="@+id/view8"
+                    app:layout_constraintTop_toTopOf="@+id/view8" />
+
+                <TextView
+                    android:id="@+id/textView7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+
+                    android:text="~"
+                    android:textSize="10pt"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/filter_startDate"
+
+                    app:layout_constraintStart_toStartOf="@+id/filter_endDate"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="MissingConstraints" />
+
+                <TextView
+                    android:id="@+id/filter_endDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginEnd="20dp"
+
+                    android:text="종료일"
+                    android:textSize="8pt"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@+id/view8"
+                    app:layout_constraintEnd_toEndOf="@+id/view8"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="MissingConstraints" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="10dp"
+
+                android:textSize="10pt"
+                android:textStyle="bold"
+                android:text="지역별" />
+
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:layout_marginBottom="20dp">
+
+                <TextView
+                    android:id="@+id/textView9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginRight="10dp"
+
+                    android:textSize="7pt"
+                    android:textStyle="bold"
+                    android:text="시/도" />
+
+                <Spinner
+                    android:id="@+id/spinner_dou"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+
+                <View
+                    android:id="@+id/view9"
+                    android:layout_width="10dp"
+                    android:layout_height="0dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center">
+
+                <TextView
+                    android:id="@+id/textView10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+
+                    android:textSize="7pt"
+                    android:textStyle="bold"
+                    android:text="시/군/구" />
+
+                <Spinner
+                    android:id="@+id/spinner_si"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <View
+        android:id="@+id/view5"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+
+        android:background="@color/gray"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/reset_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_marginLeft="40dp"
+
+            android:textStyle="bold"
+            android:textSize="7pt"
+            android:text="초기화" />
+
+        <View
+            android:id="@+id/view11"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/setFilter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="설정 완료"
+            android:textStyle="bold"
+
+            android:layout_marginRight="40dp"/>
+
+    </LinearLayout>
+
+
+
+
+</LinearLayout>

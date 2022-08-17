@@ -27,7 +27,7 @@ interface UserDao {
 
     @Query("SELECT nickName FROM USER WHERE idx= :userIdx")
     fun getNickname(userIdx:Int) : String
-//
+    //
     @Query("UPDATE USER SET nickName=:nickName WHERE idx=:userIdx")
     fun setNickName(userIdx:Int, nickName: String )
 

@@ -17,7 +17,6 @@ object SearchService{
                 val resp = response.body()!!
                 when(val code = resp.code){
                     200-> {
-                        println("get saved event 결과 : ${resp.isSaved}")
                         fragment.isSavedBtnSelected = resp.isSaved
                     }
                     else ->{
@@ -87,7 +86,6 @@ object SearchService{
                 val resp = response.body()!!
                 when(val code = resp.code){
                     200-> {
-                        println("get visited event 결과 : ${resp.isSaved}")
                         fragment.isVisitedBtnSelected = resp.isSaved
                     }
                     else ->{

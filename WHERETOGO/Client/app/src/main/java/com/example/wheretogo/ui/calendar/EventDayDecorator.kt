@@ -1,25 +1,13 @@
 package com.example.wheretogo.ui.calendar
 
-import android.graphics.Color
-import android.text.style.BackgroundColorSpan
-import android.text.style.ForegroundColorSpan
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import com.prolificinteractive.materialcalendarview.DayViewDecorator
 import com.prolificinteractive.materialcalendarview.DayViewFacade
 import java.util.*
-import android.R
-
 import android.app.Activity
-import android.content.Context
-
-import android.graphics.drawable.Drawable
-import android.text.Spannable
-import androidx.core.content.ContextCompat
 import com.example.wheretogo.data.remote.calendar.CalendarResult
-import com.prolificinteractive.materialcalendarview.spans.DotSpan
 import java.text.SimpleDateFormat
 import kotlin.collections.ArrayList
-
 
 lateinit var dates : ArrayList<CalendarResult>
 lateinit var eventName :String

@@ -38,6 +38,7 @@
     <string name="visited_on">MY> 다녀온 이벤트에 담았어요!</string>
     <string name="visited_off">MY> 다녀옴을 취소했어요!</string>
 
+
     <string-array name="sortBy">
         <item>인기순</item>
         <item>시작일순</item>

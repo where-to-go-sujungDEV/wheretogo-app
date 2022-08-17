@@ -2,7 +2,6 @@ package com.example.wheretogo.ui.search
 
 
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,20 +12,39 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.wheretogo.R
 import com.example.wheretogo.data.remote.search.EventResult
 import com.example.wheretogo.data.remote.search.SearchService
-import com.example.wheretogo.ui.detail.DetailActivity
-import kotlinx.coroutines.*
+import com.example.wheretogo.databinding.ItemRecycleEventBinding
 import java.util.*
 
 
 class SearchEventAdapter(var events: ArrayList<EventResult>, var con: Context) :
     RecyclerView.Adapter<SearchEventAdapter.ViewHolder>() {
+    interface OnItemClickListener{
+        fun onItemClick(events : EventResult)
+    }
+
     var TAG = "SearchEventListner"
+    lateinit var listener :OnItemClickListener
 
     private val searchService = SearchService
     var filteredEvents = ArrayList<EventResult>()
     var isSavedBtnSelected :Boolean = false
     var isVisitedBtnSelected :Boolean = false
     val userIdx = getIdx()
+
+
+    fun setOnItemClickListener(itemClickListener : OnItemClickListener){
+        listener=itemClickListener
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val con = parent.context
+        val binding : ItemRecycleEventBinding = ItemRecycleEventBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val inflater = con.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val view = inflater.inflate(R.layout.item_recycle_event, parent, false)
+
+        return ViewHolder(view)
+    }
+
 
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
@@ -39,6 +57,8 @@ class SearchEventAdapter(var events: ArrayList<EventResult>, var con: Context) :
 
         var visitedBtn : ImageButton
         var likedBtn : ImageButton
+
+        var background : View
 
 
         init {
@@ -54,12 +74,15 @@ class SearchEventAdapter(var events: ArrayList<EventResult>, var con: Context) :
             visitedBtn = itemView.findViewById(R.id.visitedBtn)
             likedBtn = itemView.findViewById(R.id.likedBtn)
 
-
+            background = itemView.findViewById(R.id.background)
+/*
             itemView.setOnClickListener {
-              val intent = Intent(con, DetailActivity::class.java)
-              con.startActivity(intent)
+              //val intent = Intent(con, DetailActivity::class.java)
+              //con.startActivity(intent)
             }
+ */
         }
+
 
     }
     init {
@@ -67,17 +90,14 @@ class SearchEventAdapter(var events: ArrayList<EventResult>, var con: Context) :
     }
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val con = parent.context
-        val inflater = con.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val view = inflater.inflate(R.layout.item_recycle_event, parent, false)
-
-        return ViewHolder(view)
-    }
-
-
     override fun onBindViewHolder(holder: SearchEventAdapter.ViewHolder, position: Int) {
         val event: EventResult = filteredEvents[position]
+
+        holder.background.setOnClickListener{
+            listener.onItemClick(events[position])
+        }
+
+
         SearchService.getIsSavedEvent(this, userIdx, event.eventID)
         SearchService.getIsVisitedEvent(this, userIdx, event.eventID)
 
@@ -86,6 +106,7 @@ class SearchEventAdapter(var events: ArrayList<EventResult>, var con: Context) :
         if(event.endDate != null)
             holder.endDate.text = event.endDate.slice((IntRange(0,9)))
         else event.endDate
+
 
         holder.hashtag1.text = "#" + event.genre
         holder.hashtag2.text = "#" + event.theme
@@ -100,6 +121,8 @@ class SearchEventAdapter(var events: ArrayList<EventResult>, var con: Context) :
             holder.visitedBtn.setBackgroundResource(R.drawable.btn_check_click)
         else
             holder.visitedBtn.setBackgroundResource(R.drawable.btn_check_unclick)
+
+
         holder.visitedBtn.setOnClickListener {
 //            if(userIdx==-1){
 //                //toast. 로그인이 필요한 서비스입니다.
@@ -157,7 +180,6 @@ class SearchEventAdapter(var events: ArrayList<EventResult>, var con: Context) :
         }
 //        }
     }
-
 
     override fun getItemCount(): Int {
         return filteredEvents.size

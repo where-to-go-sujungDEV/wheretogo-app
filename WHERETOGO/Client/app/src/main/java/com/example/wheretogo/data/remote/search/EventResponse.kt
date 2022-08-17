@@ -1,6 +1,7 @@
 package com.example.wheretogo.data.remote.search
 
 import com.google.gson.annotations.SerializedName
+import java.util.*
 
 
 data class EventResponse(
@@ -26,8 +27,8 @@ data class EventInfo(
         @SerializedName("genre") var genre : String?,
         @SerializedName("kind") var kind : String?,
         @SerializedName("theme") var theme : String?,
-        @SerializedName("fromD") var fromD : String?,
-        @SerializedName("toD") var toD : String?,
+        @SerializedName("fromD") var fromD : Date?,
+        @SerializedName("toD") var toD : Date?,
         @SerializedName("dou") var dou : String?,
         @SerializedName("si") var si : String?,
         @SerializedName("align") var align : String?,

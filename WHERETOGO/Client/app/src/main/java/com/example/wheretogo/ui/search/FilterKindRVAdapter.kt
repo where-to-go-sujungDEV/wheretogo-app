@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.wheretogo.R
 import java.util.ArrayList
 
-class FilterThemeRVAdapter(var themeList: ArrayList<String>, var con: Context, var searchFragment: SearchFragment) : RecyclerView.Adapter<FilterThemeRVAdapter.ViewHolder>() {
+class FilterKindRVAdapter(var kindList: ArrayList<String>, var con: Context, var searchFragment: SearchFragment) : RecyclerView.Adapter<FilterKindRVAdapter.ViewHolder>(){
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         var filter_tag_btn : Button
 
@@ -28,36 +28,37 @@ class FilterThemeRVAdapter(var themeList: ArrayList<String>, var con: Context, v
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val theme : String = themeList[position]
+        val kind : String = kindList[position]
 
-        holder.filter_tag_btn.text = theme
+        holder.filter_tag_btn.text = kind
 
         holder.filter_tag_btn.setOnClickListener(View.OnClickListener {
-            if(!holder.filter_tag_btn.isSelected) {
+            if(!holder.filter_tag_btn.isSelected){
                 holder.filter_tag_btn.isSelected =true
-                if(searchFragment.theme == null) {searchFragment.theme="\""+theme+"\""}
-                else{searchFragment.theme += ",\""+theme+"\""}
+                if(searchFragment.kind == null) {searchFragment.kind="\""+kind+"\""}
+                else{searchFragment.kind += ",\""+kind+"\""}
+                println("선택된 장르는 ${searchFragment.kind}")
             }
             else{
                 holder.filter_tag_btn.isSelected =false
-                searchFragment.theme= searchFragment.theme?.replace("\""+theme+"\"", "")
+                searchFragment.kind= searchFragment.kind?.replace("\""+kind+"\"", "")
 
-                var tempArr = searchFragment.theme?.split(",")
-                searchFragment.theme=null
+                var tempArr = searchFragment.kind?.split(",")
+                searchFragment.kind=null
                 tempArr?.forEach{s->
                     if(s!="") {
-                        if(searchFragment.theme == null) {searchFragment.theme=s}
-                        else{searchFragment.theme += ","+s}
+                        if(searchFragment.kind == null) {searchFragment.kind=s}
+                        else{searchFragment.kind += ","+s}
                     }
                 }
             }
-
         })
 
     }
 
     override fun getItemCount(): Int {
-        return themeList.size
+        return kindList.size
     }
+
 
 }

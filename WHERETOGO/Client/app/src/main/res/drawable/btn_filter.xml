@@ -1,0 +1,10 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:exitFadeDuration="@android:integer/config_shortAnimTime">
+    <item
+        android:state_selected="true"
+        android:drawable="@drawable/search_tag_selected"/>
+    <item
+        android:state_selected="false"
+        android:drawable="@drawable/search_tag_unselected"/>
+    <item android:drawable="@color/transparent"/>
+</selector>
