@@ -1,13 +1,12 @@
-const serviceKey ="uvWSjr%2FzpkFHh3b1a%2BLoq5yJvQB2PzfjAnZXCZAYZ%2FXL3ueaey8pYRWcodh9Qw1PT%2BCPrhXF5VNltjX3%2BJmI8g%3D%3D";
-var tourArea = "목포";
-var tourCategory = "축제";
-const numOfRows = 10;
+const serviceKey ="QNnTJy6f3sstORUG9MRvZBkU7%2F3vsnIy%2BAgmf%2FKQpuzsI9iC%2FWV7SHiDqrfUrYfDLoJTDX5TAPIQpUD0mGwwFA%3D%3D";
+var areaCode = 39; 
+const numOfRows = 31;
 
 import request from 'request';
 var options = {
   'method': 'GET',
   "rejectUnauthorized": false, 
-  'url': 'https://apis.data.go.kr/6460000/tourInfo/getTourlnfoList?serviceKey=' + serviceKey + '&tourArea=' + encodeURI(tourArea) + '&tourCategory='+ encodeURI(tourCategory) + '&numOfRows=' + numOfRows,
+  'url': 'https://apis.data.go.kr/B551011/KorService/areaCode?serviceKey=' + serviceKey + '&numOfRows=' + numOfRows + '&MobileOS=AND&MobileApp=wheretogo&_type=json&areaCode='+areaCode,
   'headers': {
   },
   form: {
@@ -15,25 +14,26 @@ var options = {
   }
 };
 
-request(options, function (error, response) {
+request(options, function (error, response, body) {
   if (error) throw new Error(error);
-  console.log(response.body[pageIndex]);
 
+  console.log(response.body);
 
-  //var info = JSON.parse(response);
+  let info = JSON.parse(body);
 
-  //console.log(info);
-/*
-  console.log("ㅅ자아아아악");
-  for (i in info['response']['body']['items']['item']) {
-    console.log('관광명 : ' + info['response']['body']['items']['item'][i]['tourName']);
-    console.log("\n");
-    console.log('분류 : ' + info['response']['body']['items']['item'][i]['tourCategory1']);
-    console.log(
-        '지역 : ' + info['response']['body']['items']['item'][i]['tourArea']
-    );
-    console.log('주소 : ' + info['response']['body']['items']['item'][i]['tourAddr']);
-    console.log('연락처 : ' + info['response']['body']['items']['item'][i]['tourPhone']);
-    console.log(" ")
-}*/
+  var qr = "";
+
+  for (var i = 0; i <  info['response']['body']['numOfRows'] ; i++) {
+    qr += 'INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( ';
+    qr += areaCode;
+    qr += ", "
+    qr += info['response']['body']['items']['item'][i]['code'];
+    qr += " , '";
+    qr += info['response']['body']['items']['item'][i]['name'];
+    qr += "' ); ";
+    console.log(qr);
+    qr = "";
+}
+console.log('총 개수 : ' + info['response']['body']['totalCount']);
+console.log('출력된 개수 : ' + info['response']['body']['numOfRows']);
 });
