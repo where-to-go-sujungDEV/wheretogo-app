@@ -107,7 +107,7 @@ FragmentHomeBinding::inflate) {
     }
 
     private fun getEventStatus(eventId: Int){
-        val userId = 2
+        val userId = getIdx()
         eventStatusService.getEventStatus(userId,eventId).enqueue(object:
             Callback<EventStatusResponse> {
             override fun onResponse(call: Call<EventStatusResponse>, response: Response<EventStatusResponse>) {
@@ -136,5 +136,7 @@ FragmentHomeBinding::inflate) {
         editor?.putBoolean("isSaved", isSaved)
         editor?.apply()
     }
+
+
 
 }

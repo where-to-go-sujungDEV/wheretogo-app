@@ -301,3 +301,6 @@ INSERT INTO `searchTBL` (word, count) VALUES ('수영', 1);
 INSERT INTO `searchTBL` (word, count) VALUES ('불꽃놀이', 4);
 INSERT INTO `searchTBL` (word, count) VALUES ('수박', 2);
 INSERT INTO `searchTBL` (word, count) VALUES ('야시장', 21);
+
+
+select * from userTBL;

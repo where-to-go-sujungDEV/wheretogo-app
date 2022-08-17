@@ -1,9 +1,11 @@
 package com.example.wheretogo.ui.mypage
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.wheretogo.R
 import com.example.wheretogo.data.remote.auth.getRetrofit
@@ -53,6 +55,7 @@ class UserVisitedEventRVAdapter (private val visitedEventList: ArrayList<Visited
     inner class ViewHolder(val binding: ItemMypageVisitedBinding): RecyclerView.ViewHolder(binding.root){
 
         fun bind(visitedEvent: VisitedEventResult){
+            getEventStatus(visitedEvent.eventID)
             binding.itemMypageVisitedCountTv.text = String.format("유저들이 방문한 수: %d건",visitedEvent.savedNum)
             binding.itemMypageVisitedTitleTv.text = visitedEvent.eventName
             binding.itemMypageVisitedTagTv.text = String.format("%s %s %s",visitedEvent.genre,visitedEvent.kind,visitedEvent.theme)
@@ -72,7 +75,7 @@ class UserVisitedEventRVAdapter (private val visitedEventList: ArrayList<Visited
                     binding.itemVisitedStar3.setImageResource(R.drawable.mypage_star_off)
                 }
             }
-            getEventStatus(visitedEvent.eventID)
+            Log.d("getSaved/Bind",isEventVisited.toString())
             if (isEventVisited){
                 binding.itemMypageVisitedCheckBtn.visibility = View.VISIBLE
                 binding.itemMypageVisitedUncheckBtn.visibility = View.INVISIBLE
@@ -93,13 +96,14 @@ class UserVisitedEventRVAdapter (private val visitedEventList: ArrayList<Visited
         }
 
         private fun getEventStatus(eventId: Int){
-            val userId = 2
+            val userId = getIdx()
             eventStatusService.getEventStatus(userId,eventId).enqueue(object:
                 Callback<EventStatusResponse> {
                 override fun onResponse(call: Call<EventStatusResponse>, response: Response<EventStatusResponse>) {
                     val resp = response.body()!!
                     when(resp.code){
                         200->{
+                            Log.d("getSaved/Is?",resp.isVisited.toString())
                             setStatus(resp.isVisited,resp.isSaved)
 
                         }
@@ -114,12 +118,17 @@ class UserVisitedEventRVAdapter (private val visitedEventList: ArrayList<Visited
         }
 
         private fun setStatus(isVisited:Boolean, isSaved:Boolean){
+            Log.d("getSaved/setStatus",isEventVisited.toString())
             isEventSaved = isSaved
             isEventVisited = isVisited
         }
 
     }
 
-
+    //유저 인덱스 가져옴
+    private fun getIdx(): Int {
+        val spf = context.getSharedPreferences("userInfo", AppCompatActivity.MODE_PRIVATE)
+        return spf!!.getInt("userIdx",-1)
+    }
 
 }
