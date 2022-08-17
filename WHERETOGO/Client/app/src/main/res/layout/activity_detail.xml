@@ -102,7 +102,7 @@
 
         <TextView
             android:id="@+id/detail_event_title"
-            android:layout_width="wrap_content"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:text="2022 궁중 문화축전"
             app:layout_constraintTop_toBottomOf="@id/detail_tags"
@@ -351,6 +351,66 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/detail_event_introduce"
             android:text="2015년부터 봄 햇살과 함께 찾아오는 궁중문화 축전.\n2022년에도 우리 궁궐을 더욱 깊이 보고 느낄 수 있는 프로그램으로 준비했습니다.\n\n"/>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/detail_star_panel"
+            android:layout_width="match_parent"
+            android:layout_height="170dp"
+            android:layout_marginEnd="40dp"
+            android:layout_marginStart="40dp"
+            android:visibility="invisible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/detail_event_check_btn"
+            android:background="@color/gray">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="50dp"
+                >
+                <ImageView
+                    android:id="@+id/detail_edit_star1"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/mypage_star_on" />
+                <ImageView
+                    android:id="@+id/detail_edit_star2"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/mypage_star_off" />
+                <ImageView
+                    android:id="@+id/detail_edit_star3"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/mypage_star_off"
+                    />
+            </LinearLayout>
+            <TextView
+                android:id="@+id/detail_adapt_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="17sp"
+                app:layout_constraintEnd_toStartOf="@id/detail_cancel_tv"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="18dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:text="확인"/>
+            <TextView
+                android:id="@+id/detail_cancel_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="17sp"
+                android:text="취소"
+                android:layout_marginEnd="25dp"
+                android:layout_marginBottom="18dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </ScrollView>

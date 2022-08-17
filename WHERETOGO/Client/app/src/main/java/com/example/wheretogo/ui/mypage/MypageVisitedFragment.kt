@@ -42,19 +42,11 @@ class MypageVisitedFragment() : BaseFragment<FragmentMypageBannerBinding>(Fragme
 
         adapter.setMyItemClickListener(object : UserVisitedEventRVAdapter.OnItemClickListener {
             override fun onItemClick(visitedEventData: VisitedEventResult) {
-                saveIdx(visitedEventData.eventID)
                 val intent = Intent(context, DetailActivity::class.java)
+                intent.putExtra("eventIdx", visitedEventData.eventID)
                 startActivity(intent)
             }
         })
-    }
-
-    private fun saveIdx(eventId: Int){
-        val spf = activity?.getSharedPreferences("eventInfo", AppCompatActivity.MODE_PRIVATE)
-        val editor = spf?.edit()
-
-        editor?.putInt("eventId",eventId)
-        editor?.apply()
     }
 
     fun setVisitedEventNone(msg:String){

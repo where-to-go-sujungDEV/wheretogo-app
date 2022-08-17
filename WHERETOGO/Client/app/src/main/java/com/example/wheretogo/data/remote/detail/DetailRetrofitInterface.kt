@@ -21,15 +21,23 @@ interface DetailRetrofitInterface {
     @GET("saved/check/{userIdx}/{eventIdx}")
     fun getSavedInfo(@Path("userIdx")userIdx: Int, @Path("eventIdx")eventIdx:Int) : Call<DetailIsSavedResponse>
 
-    @DELETE("/saved/{userID}/{eventID}")
-    fun deleteSavedEvent(@Path("userID") userID: Int,
-                               @Path("eventID") eventID: Int): Call<DetailDeleteSavedResponse>
-
     //savedTBL에 저장
     @POST("/saved/{userID}/{eventID}")
     fun saveEvent(@Path ("userID") userID: Int, @Path("eventID")eventID: Int): Call<DetailSaveEventResponse>
 
     //visitTBL에 저장
-    @POST("/visited/{userID}/{eventID}")
-    fun visitEvent(@Path ("userID") userID: Int, @Path("eventID")eventID: Int): Call<DetailVisitEventResponse>
+    @POST("/visited/{userID}/{eventID}/{assess}")
+    fun visitEvent(@Path ("userID") userID: Int, @Path("eventID")eventID: Int, @Path("assess") assess : String): Call<DetailVisitEventResponse>
+
+    //savedTBL에서 삭제
+    @DELETE("/saved/{userID}/{eventID}")
+    fun deleteSavedEvent(@Path("userID") userID: Int,
+                         @Path("eventID") eventID: Int): Call<DetailDeleteSavedResponse>
+
+    //savedTBL에서 삭제
+    @DELETE("/visited/{userID}/{eventID}")
+    fun deleteVisitedEvent(@Path("userID") userID: Int,
+                         @Path("eventID") eventID: Int): Call<DetailDeleteVisitedResponse>
+
+
 }
