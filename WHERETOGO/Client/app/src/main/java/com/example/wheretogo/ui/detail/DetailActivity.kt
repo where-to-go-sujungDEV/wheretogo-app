@@ -139,8 +139,7 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
 
 
     private fun getVisitedInfo(eventId: Int){
-        val userId = 2
-        detailBooleanService.getVisitedInfo(userId,eventId).enqueue(object: Callback<DetailIsVisitedResponse> {
+        detailBooleanService.getVisitedInfo(getIdx(),eventId).enqueue(object: Callback<DetailIsVisitedResponse> {
             override fun onResponse(call: Call<DetailIsVisitedResponse>, response: Response<DetailIsVisitedResponse>) {
                 val resp = response.body()!!
                 when(resp.code){
@@ -159,8 +158,7 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
     }
 
     private fun getSavedInfo(eventId: Int){
-        val userId = 2
-        detailBooleanService.getSavedInfo(userId,eventId).enqueue(object: Callback<DetailIsSavedResponse> {
+        detailBooleanService.getSavedInfo(getIdx(),eventId).enqueue(object: Callback<DetailIsSavedResponse> {
             override fun onResponse(call: Call<DetailIsSavedResponse>, response: Response<DetailIsSavedResponse>) {
                 val resp = response.body()!!
                 when(resp.code){
@@ -203,8 +201,7 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
 
     //이벤트 저장(서버에 반영)
     private fun saveEvent(eventId: Int){
-        val userId = 2
-        detailBooleanService.saveEvent(userId,eventId).enqueue(object: Callback<DetailSaveEventResponse> {
+        detailBooleanService.saveEvent(getIdx(),eventId).enqueue(object: Callback<DetailSaveEventResponse> {
             override fun onResponse(call: Call<DetailSaveEventResponse>, response: Response<DetailSaveEventResponse>) {
                 val resp = response.body()!!
                 Log.d("isSaved",resp.toString())
@@ -221,8 +218,8 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
 
     //저장한 이벤트 삭제
     private fun deleteSavedEvent(eventId: Int){
-        val userId = 2
-        detailBooleanService.deleteSavedEvent(userId,eventId).enqueue(object: Callback<DetailDeleteSavedResponse> {
+
+        detailBooleanService.deleteSavedEvent(getIdx(),eventId).enqueue(object: Callback<DetailDeleteSavedResponse> {
             override fun onResponse(call: Call<DetailDeleteSavedResponse>, response: Response<DetailDeleteSavedResponse>) {
                 val resp = response.body()!!
                 Log.d("isSaved/delete",resp.toString())
@@ -238,8 +235,8 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
     }
 
     private fun visitEvent(eventId: Int,assess:String){
-        val userId = 2
-        detailBooleanService.visitEvent(userId,eventId,assess).enqueue(object: Callback<DetailVisitEventResponse> {
+
+        detailBooleanService.visitEvent(getIdx(),eventId,assess).enqueue(object: Callback<DetailVisitEventResponse> {
             override fun onResponse(call: Call<DetailVisitEventResponse>, response: Response<DetailVisitEventResponse>) {
                 val resp = response.body()!!
                 when(resp.code){
@@ -259,8 +256,8 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
 
     //저장한 이벤트 삭제
     private fun deleteVisitedEvent(eventId: Int){
-        val userId = 2
-        detailBooleanService.deleteVisitedEvent(userId,eventId).enqueue(object: Callback<DetailDeleteVisitedResponse> {
+
+        detailBooleanService.deleteVisitedEvent(getIdx(),eventId).enqueue(object: Callback<DetailDeleteVisitedResponse> {
             override fun onResponse(call: Call<DetailDeleteVisitedResponse>, response: Response<DetailDeleteVisitedResponse>) {
                 val resp = response.body()!!
                 Log.d("isVisited/delete",resp.toString())
@@ -298,6 +295,11 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
         }
 
 
+    }
+
+    private fun getIdx(): Int {
+        val spf = getSharedPreferences("userInfo", MODE_PRIVATE)
+        return spf!!.getInt("userIdx",-1)
     }
 
 

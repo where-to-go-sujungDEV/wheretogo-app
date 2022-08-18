@@ -65,12 +65,12 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
 
             getEventStatus(savedEvent.eventID, binding)
             if (isEventVisited){
-                binding.itemMypageLikeCheckBtn.visibility = View.VISIBLE
-                binding.itemMypageLikeUncheckBtn.visibility = View.INVISIBLE
+                binding.itemMypageLikeVisitedBtn.visibility = View.VISIBLE
+                binding.itemMypageLikeUnvisitedBtn.visibility = View.INVISIBLE
             }
             else {
-                binding.itemMypageLikeCheckBtn.visibility = View.INVISIBLE
-                binding.itemMypageLikeUncheckBtn.visibility = View.VISIBLE
+                binding.itemMypageLikeVisitedBtn.visibility = View.INVISIBLE
+                binding.itemMypageLikeUnvisitedBtn.visibility = View.VISIBLE
             }
 
             if (isEventSaved){
@@ -97,17 +97,17 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
                     200->{
                         if (resp.isVisited){
                             Log.d("getVisited/bind",isEventVisited.toString())
-                            binding.itemMypageLikeCheckBtn.visibility = View.VISIBLE
-                            binding.itemMypageLikeUncheckBtn.visibility = View.INVISIBLE
+                            binding.itemMypageLikeVisitedBtn.visibility = View.VISIBLE
+                            binding.itemMypageLikeUnvisitedBtn.visibility = View.INVISIBLE
                         }
                         else {
-                            binding.itemMypageLikeCheckBtn.visibility = View.INVISIBLE
-                            binding.itemMypageLikeUncheckBtn.visibility = View.VISIBLE
+                            binding.itemMypageLikeVisitedBtn.visibility = View.INVISIBLE
+                            binding.itemMypageLikeUnvisitedBtn.visibility = View.VISIBLE
                         }
 
                         if (resp.isSaved){
                             binding.itemMypageLikeBtn.visibility = View.VISIBLE
-                            binding.itemMypageLikeUncheckBtn.visibility = View.INVISIBLE
+                            binding.itemMypageUnlikeBtn.visibility = View.INVISIBLE
                         }
                         else{
                             binding.itemMypageLikeBtn.visibility = View.INVISIBLE

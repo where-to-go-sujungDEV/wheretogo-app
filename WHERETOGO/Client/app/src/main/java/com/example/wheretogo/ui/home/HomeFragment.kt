@@ -1,5 +1,6 @@
 package com.example.wheretogo.ui.home
 
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.MarginLayoutParams
@@ -25,6 +26,8 @@ FragmentHomeBinding::inflate) {
     lateinit var appDB: AppDatabase
     private val homeService = HomeService
     private val eventStatusService = getRetrofit().create(MypageRetrofitInterface::class.java)
+    private var isSaved=false
+    private var isVisited=false
     override fun initAfterBinding() {
         appDB =AppDatabase.getInstance(requireContext())!!
 
@@ -78,7 +81,7 @@ FragmentHomeBinding::inflate) {
         val event1Adapter = HomeBannerVPAdapter(this)
 
         for (item in result){
-            getEventStatus(item.eventID)
+            //getEventStatus(item.eventID)
             event1Adapter.addFragment(BannerPopularFragment(item))
         }
 
@@ -98,7 +101,6 @@ FragmentHomeBinding::inflate) {
             binding.homeRecommendExplain1Tv.text = String.format("%d대 %s",item.age*10,sex)
         }
         for (item in recommendList){
-            getEventStatus(item.eventID)
             event2Adapter.addFragment(BannerRecommendFragment(item))
         }
 
@@ -106,36 +108,19 @@ FragmentHomeBinding::inflate) {
         binding.homeEvent2Vp.orientation = ViewPager2.ORIENTATION_HORIZONTAL
     }
 
-    private fun getEventStatus(eventId: Int){
-        val userId = getIdx()
-        eventStatusService.getEventStatus(userId,eventId).enqueue(object:
-            Callback<EventStatusResponse> {
-            override fun onResponse(call: Call<EventStatusResponse>, response: Response<EventStatusResponse>) {
-                val resp = response.body()!!
-                when(resp.code){
-                    200->{
-                        saveStatus(resp.isVisited,resp.isSaved)
 
-                    }
-                    else ->{
-
-                    }
-                }
-            }
-            override fun onFailure(call: Call<EventStatusResponse>, t: Throwable) {
-            }
-        })
-    }
 
 
     private fun saveStatus(isVisited: Boolean, isSaved:Boolean) {
         val spf = activity?.getSharedPreferences("eventInfo", AppCompatActivity.MODE_PRIVATE)
         val editor = spf?.edit()
-
+        Log.d("savestatus/set",isVisited.toString())
         editor?.putBoolean("isVisited", isVisited)
         editor?.putBoolean("isSaved", isSaved)
         editor?.apply()
     }
+
+
 
 
 
