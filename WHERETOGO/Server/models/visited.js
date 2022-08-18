@@ -1,7 +1,7 @@
 import db from "../config/dbConnection.js";
 
 export const getVisitedEvent = ([uid], result) => {
-    db.query("Select userVisitedTBL.assessment, eventTBL.eventID, eventTBL.eventName, eventTBL.cat2, eventTBL.cat3, eventTBL.startDate, eventTBL.endDate, eventTBL.firstimage as pic, eventTBL.w1+eventTBL.w2+eventTBL.w3+eventTBL.w4+eventTBL.w6+eventTBL.m1+eventTBL.m2+eventTBL.m3+eventTBL.m4+eventTBL.m6 as savedNum from eventTBL INNER JOIN userVisitedTBL on eventTBL.eventID = userVisitedTBL.eventID where userID = ?;",[uid], (err, results) => {             
+    db.query("Select userVisitedTBL.assessment, eventTBL.eventID, eventTBL.eventName, eventTBL.kind, eventTBL.startDate, eventTBL.endDate, eventTBL.firstimage as pic, eventTBL.w1+eventTBL.w2+eventTBL.w3+eventTBL.w4+eventTBL.w6+eventTBL.m1+eventTBL.m2+eventTBL.m3+eventTBL.m4+eventTBL.m6 as savedNum from eventTBL INNER JOIN userVisitedTBL on eventTBL.eventID = userVisitedTBL.eventID where userID = ?;",[uid], (err, results) => {             
         if(err) {
             console.log(err);
             result(500, {

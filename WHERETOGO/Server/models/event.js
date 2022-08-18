@@ -14,7 +14,7 @@ export const getMainBoardContents = (result) => {
 }
 
 export const getTopContents = (result) => { 
-    db.query("select eventID,eventName,startDate, w1+w2+w3+w4+w6+m1+m2+m3+m4+m6 as totalSavedNum, endDate, cat2, cat3, firstimage as pic from eventTBL ORDER BY totalSavedNum DESC LIMIT 5;", (err, results) => {             
+    db.query("select eventID,eventName,startDate, w1+w2+w3+w4+w6+m1+m2+m3+m4+m6 as totalSavedNum, endDate, kind, firstimage as pic from eventTBL ORDER BY totalSavedNum DESC LIMIT 5;", (err, results) => {             
         if(err) {
             result(500, err, null);
         } else {
@@ -31,7 +31,7 @@ export const getUserTopContents = (uid, result) => {
         if(err) {
             result(500, err, null);
         } else { 
-            var qr = 'select eventID,eventName,startDate, endDate, cat2, cat3, firstimage as pic, ';  
+            var qr = 'select eventID,eventName,startDate, endDate, kind, firstimage as pic, ';  
           
             if(userInfo[0].sex == 'w'){
                 if(userInfo[0].age == 1)qr += ' w1 ';
@@ -69,9 +69,8 @@ export const getUserTopContents = (uid, result) => {
     });  
 }
   
-
 export const getEventByEventID = (id, result) => { 
-    db.query("select eventID,eventName,startDate, w1+w2+w3+w4+w6+m1+m2+m3+m4+m6 as savedNum , endDate, cat2, cat3, firstimage2 as pic, areacode, sigungucode, addr1 as place, add2 as detailedPlace, mapx,mapy,mlevel,tel from eventTBL where eventID = ?;", [id], (err, results) => {             
+    db.query("select eventID,eventName,startDate, w1+w2+w3+w4+w6+m1+m2+m3+m4+m6 as savedNum , endDate, kind, firstimage2 as pic, areacode, sigungucode, addr1 as place, add2 as detailedPlace, mapx,mapy,mlevel,tel, sponsor1, sponsor1tel, sponsor2, sponsor2tel, playtime, eventplace, eventhomepage, agelimit, bookingplace, placeinfo, subevent, program, usetimefestival, discountinfofestival, spendtimefestival from eventTBL where eventID = ?;", [id], (err, results) => {             
         if(err) {
             result(500, err, null);
         } else {
