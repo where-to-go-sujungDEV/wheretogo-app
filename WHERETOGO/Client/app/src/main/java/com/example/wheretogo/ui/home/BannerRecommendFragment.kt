@@ -1,94 +1,53 @@
 package com.example.wheretogo.ui.home
 
-import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
-import android.util.Log
-import android.view.View
-import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
 import com.example.wheretogo.BaseFragment
-import com.example.wheretogo.data.remote.auth.getRetrofit
 import com.example.wheretogo.data.remote.home.RecommendEventResult
-import com.example.wheretogo.data.remote.mypage.EventStatusResponse
-import com.example.wheretogo.data.remote.mypage.HomeEventStatusResponse
-import com.example.wheretogo.data.remote.mypage.MypageRetrofitInterface
 import com.example.wheretogo.databinding.FragmentRecommendBannerBinding
 import com.example.wheretogo.ui.detail.DetailActivity
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class BannerRecommendFragment (private val item: RecommendEventResult)
     :BaseFragment<FragmentRecommendBannerBinding>(FragmentRecommendBannerBinding::inflate) {
-    private val eventStatusService = getRetrofit().create(MypageRetrofitInterface::class.java)
-    private var isSaved=false
-    private var isVisited=false
+
     override fun initAfterBinding() {
+        var eventKind=""
         binding.homeRecommendTitleTv.text = item.eventName
         binding.homeRecommendSavedCountTv.text = String.format("담은 수: %d건", item.savedNum)
-        binding.homeRecommendTagTv.text = String.format("%s %s %s", item.genre, item.kind, item.theme)
+
+        when (item.kind){
+            "A02070100"->eventKind="문화관광 축제"
+            "A02070200"->eventKind="일반 축제"
+            "A02080100"->eventKind="전통 공연"
+            "A02080200"->eventKind="연극"
+            "A02080300"->eventKind="뮤지컬"
+            "A02080400"->eventKind="오페라"
+            "A02080500"->eventKind="전시회"
+            "A02080600"->eventKind="박람회"
+            "A02080700"->eventKind="컨벤션"
+            "A02080800"->eventKind="무용"
+            "A02080900"->eventKind="클래식음악회"
+            "A02081000"->eventKind="대중콘서트"
+            "A02081100"->eventKind="영화"
+            "A02081200"->eventKind="스포츠경기"
+            "A02081300"->eventKind="기타행사"
+        }
+        binding.homeRecommendTagTv.text=eventKind
+
         binding.homeRecommendStartDateTv.text =
             String.format("%s~", item.startDate.slice(IntRange(0, 9)))
         if (item.endDate != null)
             binding.homeRecommendEndDateTv.text = item.endDate.slice(IntRange(0, 9))
 
-        getEventStatus(item.eventID)
-//        if (isVisited){
-//
-//            binding.homeRecommendCheckBtn.visibility = View.VISIBLE
-//            binding.homeRecommendUncheckBtn.visibility = View.INVISIBLE
-//        }
-//        else {
-//            binding.homeRecommendCheckBtn.visibility = View.INVISIBLE
-//            binding.homeRecommendUncheckBtn.visibility = View.VISIBLE
-//        }
-//
-//        if (isSaved){
-//            binding.homeRecommendLikeBtn.visibility = View.VISIBLE
-//            binding.homeRecommendDislikeBtn.visibility = View.INVISIBLE
-//        }
-//        else{
-//            binding.homeRecommendLikeBtn.visibility = View.INVISIBLE
-//            binding.homeRecommendDislikeBtn.visibility = View.VISIBLE
-//        }
+        Glide.with(this).load(item.pic).into(binding.homeRecommendIv)
 
         binding.homeRecommendIv.setOnClickListener {
             val intent = Intent(context, DetailActivity::class.java)
             intent.putExtra("eventIdx", item.eventID)
             startActivity(intent)
         }
-        Log.d("status/setRec",isVisited.toString())
 
     }
-
-    private fun getEventStatus(eventId: Int){
-        val userId = getIdx()
-        eventStatusService.getHomeEventStatus(userId,eventId).enqueue(object:
-            Callback<HomeEventStatusResponse> {
-            override fun onResponse(call: Call<HomeEventStatusResponse>, response: Response<HomeEventStatusResponse>) {
-                val resp = response.body()!!
-                when(resp.code){
-                    200->{
-                        Log.d("status/getRec",isVisited.toString())
-                        isVisited=resp.isVisited
-                        isSaved=resp.isSaved
-                    }
-                    else ->{
-
-                    }
-                }
-            }
-            override fun onFailure(call: Call<HomeEventStatusResponse>, t: Throwable) {
-            }
-        })
-    }
-
-    //유저 인덱스 가져옴
-    private fun getIdx(): Int {
-        val spf = activity?.getSharedPreferences("userInfo", AppCompatActivity.MODE_PRIVATE)
-        return spf!!.getInt("userIdx",-1)
-    }
-
 
 }
 

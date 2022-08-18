@@ -29,10 +29,9 @@ data class PopularEventResult(
     @SerializedName(value = "startDate")val startDate:String,
     @SerializedName(value = "totalSavedNum")val totalSavedNum:Int,
     @SerializedName(value = "endDate")val endDate:String?,
-    @SerializedName(value = "pic")val pic:String,
-    @SerializedName(value = "genre")val genre:String,
     @SerializedName(value = "kind")val kind:String,
-    @SerializedName(value = "theme")val theme:String
+    @SerializedName(value = "pic")val pic:String
+
 
 )
 
@@ -52,13 +51,10 @@ data class RecommendEventResult(
     @SerializedName(value = "eventID")val eventID:Int,
     @SerializedName(value = "eventName")val eventName:String,
     @SerializedName(value = "startDate")val startDate:String,
-    @SerializedName(value = "savedNum")val savedNum:Int,
     @SerializedName(value = "endDate")val endDate:String?,
-    @SerializedName(value = "genre")val genre:String,
     @SerializedName(value = "kind")val kind:String,
-    @SerializedName(value = "theme")val theme:String,
-    @SerializedName(value = "pic")val pic:String
-
+    @SerializedName(value = "pic")val pic:String,
+    @SerializedName(value = "savedNum")val savedNum:Int
 )
 
 
