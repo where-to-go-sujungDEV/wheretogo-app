@@ -13,6 +13,7 @@ import com.example.wheretogo.data.remote.mypage.EventStatusResponse
 import com.example.wheretogo.data.remote.mypage.MypageRetrofitInterface
 import com.example.wheretogo.data.remote.mypage.SavedEventResult
 import com.example.wheretogo.databinding.ItemMypageSavedBinding
+import com.example.wheretogo.databinding.ItemMypageVisitedBinding
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -62,7 +63,7 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
                 binding.itemMypageLikeEndDateTv.text = savedEvent.endDate.slice(IntRange(0,9))
             binding.itemMypageLikeCountTv.text = String.format("담은 수: %d건",savedEvent.savedNum)
 
-            getEventStatus(savedEvent.eventID)
+            getEventStatus(savedEvent.eventID, binding)
             if (isEventVisited){
                 binding.itemMypageLikeCheckBtn.visibility = View.VISIBLE
                 binding.itemMypageLikeUncheckBtn.visibility = View.INVISIBLE
@@ -86,7 +87,7 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
 
     }
 
-    private fun getEventStatus(eventId: Int){
+    private fun getEventStatus(eventId: Int, binding: ItemMypageSavedBinding){
         val userId = getIdx()
         eventStatusService.getEventStatus(userId,eventId).enqueue(object:
             Callback<EventStatusResponse> {
@@ -94,8 +95,24 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
                 val resp = response.body()!!
                 when(resp.code){
                     200->{
-                        setStatus(resp.isVisited,resp.isSaved)
+                        if (resp.isVisited){
+                            Log.d("getVisited/bind",isEventVisited.toString())
+                            binding.itemMypageLikeCheckBtn.visibility = View.VISIBLE
+                            binding.itemMypageLikeUncheckBtn.visibility = View.INVISIBLE
+                        }
+                        else {
+                            binding.itemMypageLikeCheckBtn.visibility = View.INVISIBLE
+                            binding.itemMypageLikeUncheckBtn.visibility = View.VISIBLE
+                        }
 
+                        if (resp.isSaved){
+                            binding.itemMypageLikeBtn.visibility = View.VISIBLE
+                            binding.itemMypageLikeUncheckBtn.visibility = View.INVISIBLE
+                        }
+                        else{
+                            binding.itemMypageLikeBtn.visibility = View.INVISIBLE
+                            binding.itemMypageUnlikeBtn.visibility = View.VISIBLE
+                        }
                     }
                     else ->{
 
@@ -107,10 +124,6 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
         })
     }
 
-    private fun setStatus(isVisited:Boolean, isSaved:Boolean){
-        isEventSaved = isSaved
-        isEventVisited = isVisited
-    }
 
     //유저 인덱스 가져옴
     private fun getIdx(): Int {
