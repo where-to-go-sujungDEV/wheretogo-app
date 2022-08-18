@@ -28,7 +28,7 @@ export const getSearchResults = (data, result) => {
     if(data.search) {
         qr += ' and (eventName like \'\%';
         qr += data.search;
-        qr += '\%\' or  like \'\%'
+        qr += '\%\' or program like \'\%'
         qr += data.search;
         qr += '\%\') ';
     }
