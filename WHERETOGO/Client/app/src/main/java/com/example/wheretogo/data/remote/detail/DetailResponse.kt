@@ -13,19 +13,40 @@ data class DetailInfoResult(
     @SerializedName(value = "eventID")val eventID:Int,
     @SerializedName(value = "eventName")val eventName: String,
     @SerializedName(value = "startDate")val startDate: String,
-    @SerializedName(value = "savedNum")val savedNum: String,
-    @SerializedName(value = "endDate")val endDate: String?,
-    @SerializedName(value = "genre")val genre: String,
-    @SerializedName(value = "kind")val kind: String,
-    @SerializedName(value = "theme")val theme: String,
-    @SerializedName(value = "pic")val pic: String,
-    @SerializedName(value = "dou")val dou: String,
-    @SerializedName(value = "si")val si: String,
-    @SerializedName(value = "time")val time: String?,
-    @SerializedName(value = "place")val place: String,
-    @SerializedName(value = "link")val link: String,
-    @SerializedName(value = "cost")val cost: String?,
-    @SerializedName(value = "content")val content: String
+    @SerializedName(value = "savedNum")val savedNum: Int?,
+    @SerializedName(value = "endDate")val endDate: String,
+
+    @SerializedName(value = "kind")val kind: String?,
+    @SerializedName(value = "pic")val pic: String?,
+
+    @SerializedName(value = "areacode")val areacode: Int?,
+    @SerializedName(value = "sigungucode")val sigungucode: Int?,
+
+    @SerializedName(value = "place")val place: String?,
+    @SerializedName(value = "detailedPlace")val detailedPlace: String?,
+
+    @SerializedName(value = "mapx")val mapx: String?,
+    @SerializedName(value = "mapy")val mapy: String?,
+    @SerializedName(value = "mlevel")val mlevel: Int?,
+    @SerializedName(value = "tel")val tel: String?,
+
+    @SerializedName(value = "sponsor1")val sponsor1: String?,
+    @SerializedName(value = "sponsor1tel")val sponsor1tel: String?,
+    @SerializedName(value = "sponsor2")val sponsor2: String?,
+    @SerializedName(value = "sponsor2tel")val sponsor2tel: String?,
+
+    @SerializedName(value = "playtime")val playtime: String?,
+    @SerializedName(value = "eventplace")val eventplace: String?,
+    @SerializedName(value = "eventhomepage")val eventhomepage: String?,//위치 상세정보
+    @SerializedName(value = "agelimit")val agelimit: String?,
+    @SerializedName(value = "bookingplace")val bookingplace: String?,
+    @SerializedName(value = "placeinfo")val placeinfo: String?,
+    @SerializedName(value = "subevent")val subevent: String?,
+    @SerializedName(value = "program")val program: String?,
+
+    @SerializedName(value = "usetimefestival")val usetimefestival: String?,
+    @SerializedName(value = "discountinfofestival")val discountinfofestival: String?,
+    @SerializedName(value = "spendtimefestival")val spendtimefestival: String?,
 )
 
 //VisitedTBL 저장 여부 조회
