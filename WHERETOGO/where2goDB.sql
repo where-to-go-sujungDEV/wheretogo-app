@@ -619,16 +619,16 @@ INSERT INTO `keywordTBL` VALUES (1,'먹거리');
 INSERT INTO `keywordTBL` VALUES (1,'진흙');
 INSERT INTO `keywordTBL` VALUES (1,'축제');
 
-UPDATE eventTBL set w1 = 10 and w2 = 3 and w3 = 0 and w4 = 0 and w6 = 0 and m1 = 0 and m2 = 0 and m3 = 0 and m4 = 1 and m6 = 2 where eventID = 141105;
-UPDATE eventTBL set w1 = 0  and w6 = 0 and m1 = 0 and m2 = 100 and m3 = 100 and m4 = 0 and m6 = 2 where eventID = 506545;
-UPDATE eventTBL set w1 = 10 and w2 = 3 and w3 = 21 and w4 = 0 and w6 = 0 and m1 = 6 and m2 = 0 and m3 = 0 and m4 = 0 and m6 = 2 where eventID = 629718;
-UPDATE eventTBL set w1 = 10 and w2 = 5 and w3 = 0 and w4 = 0 and w6 = 1 and m1 = 0 and m2 = 0 and m3 = 0 and m4 = 2 and m6 = 2 where eventID = 2561750;
-UPDATE eventTBL set w1 = 0 and w2 = 3 and w3 = 0 and w4 = 1 and w6 = 0 and m1 = 4 and m2 = 0 and m3 = 9 and m4 = 0 and m6 = 2 where eventID = 2612274;
-UPDATE eventTBL set w1 = 10 and w2 = 3 and w3 = 0 and w4 = 5 and w6 = 0 and m1 = 0 and m2 = 0 and m3 = 0 and m4 = 0 and m6 = 2 where eventID = 2713558;
-UPDATE eventTBL set w1 = 10 and w2 = 3 and w3 = 7 and w4 = 0 and w6 = 0 and m1 = 0 and m2 = 0 and m3 = 0 and m4 = 0 and m6 = 2 where eventID = 2786391;
-UPDATE eventTBL set w1 = 8 and w2 = 9 and w3 = 0 and w4 = 0 and w6 = 100 and m1 = 7 and m2 = 3 and m3 = 0 and m4 = 0 and m6 = 2 where eventID = 2809281;
-UPDATE eventTBL set w1 = 1 and w2 = 3 and w3 = 5 and w4 = 0 and w6 = 0 and m1 = 0 and m2 = 0 and m3 = 0 and m4 = 0 and m6 = 2 where eventID = 2819403;
-UPDATE eventTBL set w1 = 10 and w2 = 3 and w3 = 0 and w4 = 0 and w6 = 0 and m1 = 0 and m2 = 0 and m3 = 0 and m4 = 0 and m6 = 2 where eventID = 2829875;
+UPDATE eventTBL set w1 = 10, w2 = 3, w3 = 0, w4 = 0, w6 = 0, m1 = 0, m2 = 0 , m3 = 0 , m4 = 1 , m6 = 2 where eventID = 141105;
+UPDATE eventTBL set w1 = 0 , w6 = 0 ,m1 = 0,m2 = 100 , m3 = 100 , m4 = 0 , m6 = 2 where eventID = 506545;
+UPDATE eventTBL set w1 = 10 ,w2 = 3 ,w3 = 21 , w4 = 0 , w6 = 0 , m1 = 6 , m2 = 0 , m3 = 0 ,m4 = 0 , m6 = 2 where eventID = 629718;
+UPDATE eventTBL set w1 = 10 , w2 = 5 ,w3 = 0 , w4 = 0 , w6 = 1 , m1 = 0 , m2 = 0 , m3 = 0 ,m4 = 2 , m6 = 2 where eventID = 2561750;
+UPDATE eventTBL set w1 = 0 ,w2 = 3 , w3 = 0 , w4 = 1 ,w6 = 0 , m1 = 4 , m2 = 0 , m3 = 9 , m4 = 0 , m6 = 2 where eventID = 2612274;
+UPDATE eventTBL set w1 = 10 , w2 = 3 , w3 = 0 , w4 = 5 ,w6 = 0 , m1 = 0 ,m2 = 0 , m3 = 0 , m4 = 0 and m6 = 2 where eventID = 2713558;
+UPDATE eventTBL set w1 = 10, w2 = 3 , w3 = 7 , w4 = 0 ,w6 = 0 , m1 = 0 , m2 = 0 ,m3 = 0 ,m4 = 0 ,m6 = 2 where eventID = 2786391;
+UPDATE eventTBL set w1 = 8 , w2 = 9 , w3 = 0 , w4 = 0 ,w6 = 100 , m1 = 7 , m2 = 3,m3 = 0 , m4 = 0 ,m6 = 2 where eventID = 2809281;
+UPDATE eventTBL set w1 = 1, w2 = 3,w3 = 5, w4 = 0, w6 = 0,m1 = 0 ,m2 = 0,m3 = 0 ,m4 = 0 ,m6 = 2 where eventID = 2819403;
+UPDATE eventTBL set w1 = 10,w2 = 3 , w3 = 0 , w4 = 0 , w6 = 0 , m1 = 0 , m2 = 0 , m3 = 0 , m4 = 0 , m6 = 2 where eventID = 2829875;
 
 
 INSERT INTO `userVisitedTBL` VALUES (1, 141105, 'g');
@@ -669,6 +669,7 @@ INSERT INTO `searchTBL` (word, count) VALUES ('음악', 7);
 INSERT INTO `searchTBL` (word, count) VALUES ('백예린', 5);
 INSERT INTO `searchTBL` (word, count) VALUES ('아이유', 10);
 INSERT INTO `searchTBL` (word, count) VALUES ('재즈', 1);
+
 INSERT INTO `searchTBL` (word, count) VALUES ('수영', 1);
 INSERT INTO `searchTBL` (word, count) VALUES ('불꽃놀이', 4);
 INSERT INTO `searchTBL` (word, count) VALUES ('수박', 2);
