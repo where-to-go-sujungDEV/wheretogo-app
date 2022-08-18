@@ -17,7 +17,6 @@ class HomeBannerVPAdapter(fragment: Fragment) : FragmentStateAdapter(fragment){
         notifyItemInserted(fragmentlist.size-1) // 리스트 안에 새로운 값이 추가될 때 vp에게 알림
     }
 
-    override fun 
 
 
 }
