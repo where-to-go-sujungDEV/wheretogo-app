@@ -12,7 +12,10 @@ import com.example.wheretogo.data.remote.auth.getRetrofit
 import com.example.wheretogo.data.remote.mypage.EventStatusResponse
 import com.example.wheretogo.data.remote.mypage.MypageRetrofitInterface
 import com.example.wheretogo.data.remote.mypage.VisitedEventResult
+import com.example.wheretogo.data.remote.search.EventResult
+import com.example.wheretogo.data.remote.search.SearchService
 import com.example.wheretogo.databinding.ItemMypageVisitedBinding
+import com.example.wheretogo.ui.search.SearchEventAdapter
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -20,8 +23,8 @@ import retrofit2.Response
 class UserVisitedEventRVAdapter (private val visitedEventList: ArrayList<VisitedEventResult>) : RecyclerView.Adapter<UserVisitedEventRVAdapter.ViewHolder>() {
     private lateinit var context: Context
     private val eventStatusService = getRetrofit().create(MypageRetrofitInterface::class.java)
-    private var isEventVisited=false
-    private var isEventSaved=false
+    private var isEventVisited = false
+    private var isEventSaved = false
 
     interface OnItemClickListener {
         fun onItemClick(visitedEventData: VisitedEventResult)
@@ -55,7 +58,7 @@ class UserVisitedEventRVAdapter (private val visitedEventList: ArrayList<Visited
     inner class ViewHolder(val binding: ItemMypageVisitedBinding): RecyclerView.ViewHolder(binding.root){
 
         fun bind(visitedEvent: VisitedEventResult){
-            getEventStatus(visitedEvent.eventID)
+            getEventStatus(visitedEvent.eventID,binding)
             binding.itemMypageVisitedCountTv.text = String.format("유저들이 방문한 수: %d건",visitedEvent.savedNum)
             binding.itemMypageVisitedTitleTv.text = visitedEvent.eventName
             binding.itemMypageVisitedTagTv.text = String.format("%s %s %s",visitedEvent.genre,visitedEvent.kind,visitedEvent.theme)
@@ -75,55 +78,53 @@ class UserVisitedEventRVAdapter (private val visitedEventList: ArrayList<Visited
                     binding.itemVisitedStar3.setImageResource(R.drawable.mypage_star_off)
                 }
             }
-            Log.d("getSaved/Bind",isEventVisited.toString())
-            if (isEventVisited){
-                binding.itemMypageVisitedCheckBtn.visibility = View.VISIBLE
-                binding.itemMypageVisitedUncheckBtn.visibility = View.INVISIBLE
-            }
-            else {
-                binding.itemMypageVisitedCheckBtn.visibility = View.INVISIBLE
-                binding.itemMypageVisitedUncheckBtn.visibility = View.VISIBLE
-            }
+            Log.d("getVisited/bind",isEventVisited.toString())
 
-            if (isEventSaved){
-                binding.itemMypageVisitedLikeBtn.visibility = View.VISIBLE
-                binding.itemMypageVisitedDislikeBtn.visibility = View.INVISIBLE
-            }
-            else{
-                binding.itemMypageVisitedLikeBtn.visibility = View.INVISIBLE
-                binding.itemMypageVisitedDislikeBtn.visibility = View.VISIBLE
-            }
+
+
         }
 
-        private fun getEventStatus(eventId: Int){
-            val userId = getIdx()
-            eventStatusService.getEventStatus(userId,eventId).enqueue(object:
-                Callback<EventStatusResponse> {
-                override fun onResponse(call: Call<EventStatusResponse>, response: Response<EventStatusResponse>) {
-                    val resp = response.body()!!
-                    when(resp.code){
-                        200->{
-                            Log.d("getSaved/Is?",resp.isVisited.toString())
-                            setStatus(resp.isVisited,resp.isSaved)
-
-                        }
-                        else ->{
-
-                        }
-                    }
-                }
-                override fun onFailure(call: Call<EventStatusResponse>, t: Throwable) {
-                }
-            })
-        }
-
-        private fun setStatus(isVisited:Boolean, isSaved:Boolean){
-            Log.d("getSaved/setStatus",isEventVisited.toString())
-            isEventSaved = isSaved
-            isEventVisited = isVisited
-        }
 
     }
+
+    private fun getEventStatus(eventId: Int, binding: ItemMypageVisitedBinding){
+        val userId = getIdx()
+        eventStatusService.getEventStatus(userId,eventId).enqueue(object:
+            Callback<EventStatusResponse> {
+            override fun onResponse(call: Call<EventStatusResponse>, response: Response<EventStatusResponse>) {
+                val resp = response.body()!!
+                when(resp.code){
+                    200->{
+                        Log.d("getVisited/Is?",resp.isVisited.toString())
+                        if (resp.isVisited){
+                            Log.d("getVisited/bind",isEventVisited.toString())
+                            binding.itemMypageVisitedCheckBtn.visibility = View.VISIBLE
+                            binding.itemMypageVisitedUncheckBtn.visibility = View.INVISIBLE
+                        }
+                        else {
+                            binding.itemMypageVisitedCheckBtn.visibility = View.INVISIBLE
+                            binding.itemMypageVisitedUncheckBtn.visibility = View.VISIBLE
+                        }
+
+                        if (resp.isSaved){
+                            binding.itemMypageVisitedLikeBtn.visibility = View.VISIBLE
+                            binding.itemMypageVisitedDislikeBtn.visibility = View.INVISIBLE
+                        }
+                        else{
+                            binding.itemMypageVisitedLikeBtn.visibility = View.INVISIBLE
+                            binding.itemMypageVisitedDislikeBtn.visibility = View.VISIBLE
+                        }
+
+                    }
+                    else ->{
+                    }
+                }
+            }
+            override fun onFailure(call: Call<EventStatusResponse>, t: Throwable) {
+            }
+        })
+    }
+
 
     //유저 인덱스 가져옴
     private fun getIdx(): Int {
