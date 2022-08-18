@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.wheretogo.R
@@ -108,9 +109,9 @@ class SearchEventAdapter(var events: ArrayList<EventResult>, var con: Context) :
         else event.endDate
 
 
-        holder.hashtag1.text = "#" + event.genre
-        holder.hashtag2.text = "#" + event.theme
-        holder.hashtag3.text = "#" + event.kind
+//        holder.hashtag1.text = "#" + event.genre
+//        holder.hashtag2.text = "#" + event.theme
+//        holder.hashtag3.text = "#" + event.kind
 
 
         if(isSavedBtnSelected)
@@ -132,7 +133,7 @@ class SearchEventAdapter(var events: ArrayList<EventResult>, var con: Context) :
 //            else{
             // visited 이벤트가 아닐 경우
             if (!isVisitedBtnSelected){
-                println("방문한 이벤트에 담았어요.")
+                Toast.makeText(con, "방문한 이벤트에 추가했어요.", Toast.LENGTH_SHORT).show()
                 holder.visitedBtn.setBackgroundResource(R.drawable.btn_check_click)
                 isVisitedBtnSelected=true
 
@@ -143,7 +144,7 @@ class SearchEventAdapter(var events: ArrayList<EventResult>, var con: Context) :
             }
             // visited 이벤트일 경우우
            else{
-                println("방문한 이벤트에서 삭제했어요.")
+                Toast.makeText(con, "방문한 이벤트에서 삭제했어요.", Toast.LENGTH_SHORT).show()
                 holder.visitedBtn.setBackgroundResource(R.drawable.btn_check_unclick)
                 isVisitedBtnSelected=false
                 //VistedTBL에서 삭제
@@ -162,6 +163,7 @@ class SearchEventAdapter(var events: ArrayList<EventResult>, var con: Context) :
 //            else {
             //isLike 버튼이 비활성화 상태일 경우
             if (!isSavedBtnSelected) {
+                Toast.makeText(con, "저장한 이벤트에 추가했어요.", Toast.LENGTH_SHORT).show()
                 holder.likedBtn.setBackgroundResource(R.drawable.btn_like_click)
                 isSavedBtnSelected=true
 
@@ -172,6 +174,7 @@ class SearchEventAdapter(var events: ArrayList<EventResult>, var con: Context) :
             }
             //isLike버튼이 활성화 상태일 경우
             else {
+                Toast.makeText(con, "저장한 이벤트에서 삭제했어요.", Toast.LENGTH_SHORT).show()
                 holder.likedBtn.setBackgroundResource(R.drawable.btn_like_unclick)
                 isSavedBtnSelected=false
                 //savedTBL에 삭제

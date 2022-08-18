@@ -95,7 +95,10 @@
                 android:text="축제명"
                 android:textColor="@color/white"
                 android:textSize="10pt"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:maxLines="1"
+                android:ellipsize="end"
+                />
 
             <LinearLayout
                 android:layout_width="wrap_content"

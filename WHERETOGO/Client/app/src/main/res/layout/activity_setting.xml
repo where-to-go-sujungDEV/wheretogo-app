@@ -91,6 +91,7 @@
             android:textSize="16sp"
             android:textColor="@color/light_gray"/>
         <TextView
+            android:id="@+id/upload_keyword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="키워드 등록하기"

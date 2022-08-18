@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:background="@drawable/keyword_tag_default">
+
+        <TextView
+            android:id="@+id/keyword_hashtag_icon_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+
+            android:text="#"
+            android:textStyle="bold"
+            android:textSize="7pt"
+            android:textColor="@color/white"/>
+
+        <TextView
+            android:id="@+id/keyword_name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="default"
+            android:textStyle="bold"
+            android:textSize="7pt"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/keyword_delete_mark_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textStyle="bold"
+            android:textSize="7pt"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -36,4 +36,14 @@ interface SearchRetrofitInterface {
     fun setDeleteVisitedResponse(@Path("userID") userID: Int,
                                  @Path("eventID") eventID: Int): Call<DeleteVisitedResponse>
 
+
+    //get 광역시/도 code
+    @GET("/area/{areacode}")
+    fun getAreaCode(@Path("areacode") areacode:String): Call<AreaCodeResponse>
+
+    //get 시군구 code
+    @GET("/area/name/{bigarea}/{smallarea}")
+    fun getSigunguCode(@Path("bigarea") bigarea:String, @Path("smallarea") smallarea:String): Call<SigunguCodeResponse>
+
+
 }

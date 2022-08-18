@@ -36,9 +36,9 @@ class SearchFragment : Fragment() {
 
     private var events = ArrayList<EventResult>()
     lateinit var searchEventAdapter: SearchEventAdapter
-    lateinit var filterGenreRVAdapter : FilterGenreRVAdapter
+//    lateinit var filterGenreRVAdapter : FilterGenreRVAdapter
     lateinit var filterKindRVAdapter : FilterKindRVAdapter
-    lateinit var filterThemeRVAdapter : FilterThemeRVAdapter
+//    lateinit var filterThemeRVAdapter : FilterThemeRVAdapter
 
     lateinit var rv_event: RecyclerView
     lateinit var rv_filter_genre :RecyclerView
@@ -56,7 +56,7 @@ class SearchFragment : Fragment() {
     lateinit var filterSetBtn : Button
     lateinit var resetBtn : TextView
 
-    var douArr = arrayListOf<String>()
+    var areaArr = arrayListOf<String>()
     var sigunguArr = arrayListOf<String>()
 
     lateinit var spinner_dou : Spinner
@@ -68,13 +68,11 @@ class SearchFragment : Fragment() {
     lateinit var filter : TextView
 
     var search: String? = null
-    var genre: String? = null
     var kind: String? = null
-    var theme: String? = null
     var fromD: Date? = null
     var toD: Date? = null
-    var dou: String? = null
-    var si: String? = null
+    var areacode: Int? = null
+    var sigungucode: Int? = null
     var align: String? = "popular"
 
     private val eventService = EventService
@@ -161,9 +159,9 @@ class SearchFragment : Fragment() {
         dialog.window!!.setGravity(Gravity.BOTTOM)
         dialog.setCanceledOnTouchOutside(true);
 
-        rv_filter_genre = dialog.findViewById(R.id.rv_filter_genre)
+//        rv_filter_genre = dialog.findViewById(R.id.rv_filter_genre)
         rv_filter_kind = dialog.findViewById(R.id.rv_filter_kind)
-        rv_filter_theme = dialog.findViewById(R.id.rv_filter_theme)
+//        rv_filter_theme = dialog.findViewById(R.id.rv_filter_theme)
 
         filter_startDate=dialog.findViewById(R.id.filter_startDate)
         filter_endDate=dialog.findViewById(R.id.filter_endDate)
@@ -177,37 +175,35 @@ class SearchFragment : Fragment() {
         //종료 버튼
         filter_cancelBtn.setOnClickListener(object : View.OnClickListener {
             override fun onClick(p0: View?) {
-                genre = null
                 kind= null
-                theme = null
                 fromD=null
                 toD = null
-                dou = null
-                si = null
+                areacode = null
+                sigungucode = null
                 dialog.dismiss()
             }
         })
 
 
         //장르, 종류, 테마별
-        filterGenreRVAdapter = FilterGenreRVAdapter(getGenreList(), requireContext(), this)
+//        filterGenreRVAdapter = FilterGenreRVAdapter(getGenreList(), requireContext(), this)
         filterKindRVAdapter = FilterKindRVAdapter(getKindList(), requireContext(), this)
-        filterThemeRVAdapter = FilterThemeRVAdapter(getThemeList(), requireContext(),this)
+//        filterThemeRVAdapter = FilterThemeRVAdapter(getThemeList(), requireContext(),this)
 
-        rv_filter_genre.adapter=filterGenreRVAdapter
+//        rv_filter_genre.adapter=filterGenreRVAdapter
         rv_filter_kind.adapter=filterKindRVAdapter
-        rv_filter_theme.adapter = filterThemeRVAdapter
+//        rv_filter_theme.adapter = filterThemeRVAdapter
 
-        val gridLayoutManager1 = GridLayoutManager(context, 2)
+//        val gridLayoutManager1 = GridLayoutManager(context, 2)
         val gridLayoutManager2 = GridLayoutManager(context, 2)
-        val gridLayoutManager3 = GridLayoutManager(context, 2)
-        gridLayoutManager1.orientation=LinearLayoutManager.HORIZONTAL
+//        val gridLayoutManager3 = GridLayoutManager(context, 2)
+//        gridLayoutManager1.orientation=LinearLayoutManager.HORIZONTAL
         gridLayoutManager2.orientation=LinearLayoutManager.HORIZONTAL
-        gridLayoutManager3.orientation=LinearLayoutManager.HORIZONTAL
+//        gridLayoutManager3.orientation=LinearLayoutManager.HORIZONTAL
 
-        rv_filter_genre.layoutManager=gridLayoutManager1
+//        rv_filter_genre.layoutManager=gridLayoutManager1
         rv_filter_kind.layoutManager=gridLayoutManager2
-        rv_filter_theme.layoutManager=gridLayoutManager3
+//        rv_filter_theme.layoutManager=gridLayoutManager3
 
 
 
@@ -254,54 +250,52 @@ class SearchFragment : Fragment() {
 
         for(i in 0.. jsonarr.length() -1){
             var jsonobj = jsonarr.getJSONObject(i) //json 객체
-            if(!douArr.contains(jsonobj.getString("sido"))) {
-                douArr.add(jsonobj.getString("sido"))
-                var adpt = ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_dropdown_item, douArr)
+            if(!areaArr.contains(jsonobj.getString("name"))) {
+                areaArr.add(jsonobj.getString("name"))
+                var adpt = ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_dropdown_item, areaArr)
                 spinner_dou.adapter = adpt
             }
         }
 
-        spinner_dou.onItemSelectedListener= object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                sigunguArr.clear()
-                for(i in 0.. jsonarr.length() -1){
-                    var jsonobj = jsonarr.getJSONObject(i) //json 객체
-                    if(jsonobj.optString("sido")==douArr[p2]){
-                        sigunguArr.add(jsonobj.getString("sigungu"))
-                    }
-                    var adpt = ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_dropdown_item, sigunguArr)
-                    spinner_si.adapter = adpt
-                }
-                if(douArr[p2]=="선택안함") dou=null
-                else  dou=douArr[p2]
-            }
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-            }
-        }
-
-        spinner_si.onItemSelectedListener= object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                if(sigunguArr[p2]=="선택안함") si=null
-                else si=sigunguArr[p2]
-            }
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-            }
-        }
+//        spinner_dou.onItemSelectedListener= object : AdapterView.OnItemSelectedListener {
+//            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+//                sigunguArr.clear()
+//                for(i in 0.. jsonarr.length() -1){
+//                    var jsonobj = jsonarr.getJSONObject(i) //json 객체
+//                    if(jsonobj.optString("sido")==[p2]){
+//                        sigunguArr.add(jsonobj.getString("sigungu"))
+//                    }
+//                    var adpt = ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_dropdown_item, sigunguArr)
+//                    spinner_si.adapter = adpt
+//                }
+//                if(douArr[p2]=="선택안함") dou=null
+//                else  dou=douArr[p2]
+//            }
+//            override fun onNothingSelected(p0: AdapterView<*>?) {
+//            }
+//        }
+//
+//        spinner_si.onItemSelectedListener= object : AdapterView.OnItemSelectedListener {
+//            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+//                if(sigunguArr[p2]=="선택안함") si=null
+//                else si=sigunguArr[p2]
+//            }
+//            override fun onNothingSelected(p0: AdapterView<*>?) {
+//            }
+//        }
 
         resetBtn.setOnClickListener(object: View.OnClickListener{
             override fun onClick(p0: View?) {
-                genre = null
                 kind= null
-                theme = null
                 fromD=null
                 toD = null
-                dou = null
-                si = null
+                areacode = null
+                sigungucode = null
 
                 dialog.onContentChanged()
-                rv_filter_genre.adapter=filterGenreRVAdapter
+//                rv_filter_genre.adapter=filterGenreRVAdapter
                 rv_filter_kind.adapter=filterKindRVAdapter
-                rv_filter_theme.adapter=filterThemeRVAdapter
+//                rv_filter_theme.adapter=filterThemeRVAdapter
 
                 eventService.getEvents(this@SearchFragment, getEventInfo())
             }
@@ -320,22 +314,9 @@ class SearchFragment : Fragment() {
 
 
 
-    fun getGenreList() : ArrayList<String> {
-        var genreList : ArrayList<String> = ArrayList<String>()
-        genreList.add("연극")
-        genreList.add("전시")
-        genreList.add("콘서트")
-        genreList.add("뮤지컬")
-        genreList.add("페어")
-        genreList.add("체험")
-        genreList.add("대회")
-        genreList.add("시장")
-
-        return genreList
-    }
-
     fun getKindList() : ArrayList<String> {
         var kindList : ArrayList<String> = ArrayList<String>()
+
         kindList.add("음악")
         kindList.add("미술")
         kindList.add("음식")
@@ -347,20 +328,6 @@ class SearchFragment : Fragment() {
         return kindList
     }
 
-    fun getThemeList() : ArrayList<String> {
-        var themeList : ArrayList<String> = ArrayList<String>()
-
-        themeList.add("신남")
-        themeList.add("공포")
-        themeList.add("감동")
-        themeList.add("평온")
-        themeList.add("로맨스")
-        themeList.add("재미")
-        themeList.add("어린이")
-
-
-        return themeList
-    }
 
 
     fun setAdapter() {
@@ -385,14 +352,21 @@ class SearchFragment : Fragment() {
     }
 
     fun getEventInfo(): EventInfo{
-        return EventInfo(search, genre, kind, theme, fromD, toD, dou,si, align)
+        return EventInfo(search, kind, fromD, toD, areacode,sigungucode, align)
     }
 
+    fun getAreaList() {
+        val arealist = readJson()
+    }
+
+    fun getSigunguList() {
+
+    }
     fun readJson() : String? {
         val assetManager = resources.assets
         var json : String? = null
         try{
-            val inputStream : InputStream = assetManager.open("sido.json")
+            val inputStream : InputStream = assetManager.open("area.json")
             json=inputStream.bufferedReader().use {it.readText()}
         }catch(e:IOException){
         }

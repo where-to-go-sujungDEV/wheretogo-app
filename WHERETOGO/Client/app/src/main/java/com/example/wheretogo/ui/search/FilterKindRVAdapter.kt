@@ -32,27 +32,27 @@ class FilterKindRVAdapter(var kindList: ArrayList<String>, var con: Context, var
 
         holder.filter_tag_btn.text = kind
 
-        holder.filter_tag_btn.setOnClickListener(View.OnClickListener {
-            if(!holder.filter_tag_btn.isSelected){
-                holder.filter_tag_btn.isSelected =true
-                if(searchFragment.kind == null) {searchFragment.kind="\""+kind+"\""}
-                else{searchFragment.kind += ",\""+kind+"\""}
-                println("선택된 장르는 ${searchFragment.kind}")
-            }
-            else{
-                holder.filter_tag_btn.isSelected =false
-                searchFragment.kind= searchFragment.kind?.replace("\""+kind+"\"", "")
-
-                var tempArr = searchFragment.kind?.split(",")
-                searchFragment.kind=null
-                tempArr?.forEach{s->
-                    if(s!="") {
-                        if(searchFragment.kind == null) {searchFragment.kind=s}
-                        else{searchFragment.kind += ","+s}
-                    }
-                }
-            }
-        })
+//        holder.filter_tag_btn.setOnClickListener(View.OnClickListener {
+//            if(!holder.filter_tag_btn.isSelected){
+//                holder.filter_tag_btn.isSelected =true
+//                if(searchFragment.kind == null) {searchFragment.kind="\""+kind+"\""}
+//                else{searchFragment.kind += ",\""+kind+"\""}
+//                println("선택된 장르는 ${searchFragment.kind}")
+//            }
+//            else{
+//                holder.filter_tag_btn.isSelected =false
+//                searchFragment.kind= searchFragment.kind?.replace("\""+kind+"\"", "")
+//
+//                var tempArr = searchFragment.kind?.split(",")
+//                searchFragment.kind=null
+//                tempArr?.forEach{s->
+//                    if(s!="") {
+//                        if(searchFragment.kind == null) {searchFragment.kind=s}
+//                        else{searchFragment.kind += ","+s}
+//                    }
+//                }
+//            }
+//        })
 
     }
 

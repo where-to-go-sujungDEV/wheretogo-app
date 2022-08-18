@@ -54,3 +54,25 @@ data class DeleteVisitedResponse(
     @SerializedName("code") var code : Int,
     @SerializedName("isSuccess") var isSuccess : Boolean,
 )
+
+data class AreaCodeResponse(
+    @SerializedName("code") var code : Int,
+    @SerializedName("isSuccess") var isSuccess : Boolean,
+    @SerializedName("results") var results : ArrayList<AreaCodeResult>,
+)
+
+data class AreaCodeResult(
+    @SerializedName("aName") var aName : String,
+)
+
+data class SigunguCodeResponse(
+    @SerializedName("code") var code : Int,
+    @SerializedName("isSuccess") var isSuccess : Boolean,
+    @SerializedName("results") var results : ArrayList<SigunguCodeResult>,
+)
+
+data class SigunguCodeResult(
+    @SerializedName("aDCode") var aDCode : String,
+    @SerializedName("aDName") var aDName : String,
+
+)
