@@ -71,7 +71,7 @@
         app:layout_constraintStart_toEndOf="@id/item_mypage_like_start_date_tv"
         />
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/item_mypage_like_check_btn"
+        android:id="@+id/item_mypage_like_visited_btn"
         android:layout_width="22dp"
         android:layout_height="22dp"
         android:layout_marginTop="3dp"
@@ -80,7 +80,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/item_mypage_like_title_tv"/>
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/item_mypage_like_uncheck_btn"
+        android:id="@+id/item_mypage_like_unvisited_btn"
         android:layout_width="22dp"
         android:layout_height="22dp"
         android:layout_marginTop="3dp"
@@ -98,7 +98,7 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="3dp"
         android:src="@drawable/btn_like_click"
-        app:layout_constraintStart_toEndOf="@id/item_mypage_like_check_btn"
+        app:layout_constraintStart_toEndOf="@id/item_mypage_like_visited_btn"
         app:layout_constraintTop_toBottomOf="@id/item_mypage_like_title_tv"/>
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -109,7 +109,7 @@
         android:layout_marginTop="3dp"
         android:src="@drawable/btn_like_unclick"
         android:visibility="invisible"
-        app:layout_constraintStart_toEndOf="@id/item_mypage_like_check_btn"
+        app:layout_constraintStart_toEndOf="@id/item_mypage_like_visited_btn"
         app:layout_constraintTop_toBottomOf="@id/item_mypage_like_title_tv"/>
 
 <!--    <androidx.constraintlayout.widget.ConstraintLayout-->

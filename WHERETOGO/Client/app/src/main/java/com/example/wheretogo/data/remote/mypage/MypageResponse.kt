@@ -50,3 +50,10 @@ data class EventStatusResponse(
     @SerializedName(value = "code")val code:Int,
     @SerializedName(value = "isSuccess")val isSuccess:Boolean
 )
+
+data class HomeEventStatusResponse(
+    @SerializedName(value = "isVisited")val isVisited:Boolean,
+    @SerializedName(value = "isSaved")val isSaved:Boolean,
+    @SerializedName(value = "code")val code:Int,
+    @SerializedName(value = "isSuccess")val isSuccess:Boolean
+)

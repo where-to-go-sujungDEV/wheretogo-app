@@ -23,8 +23,6 @@ import retrofit2.Response
 class UserVisitedEventRVAdapter (private val visitedEventList: ArrayList<VisitedEventResult>) : RecyclerView.Adapter<UserVisitedEventRVAdapter.ViewHolder>() {
     private lateinit var context: Context
     private val eventStatusService = getRetrofit().create(MypageRetrofitInterface::class.java)
-    private var isEventVisited = false
-    private var isEventSaved = false
 
     interface OnItemClickListener {
         fun onItemClick(visitedEventData: VisitedEventResult)
@@ -77,14 +75,14 @@ class UserVisitedEventRVAdapter (private val visitedEventList: ArrayList<Visited
                     binding.itemVisitedStar2.setImageResource(R.drawable.mypage_star_on)
                     binding.itemVisitedStar3.setImageResource(R.drawable.mypage_star_off)
                 }
+                "b"->{
+                    binding.itemVisitedStar1.setImageResource(R.drawable.mypage_star_on)
+                    binding.itemVisitedStar2.setImageResource(R.drawable.mypage_star_off)
+                    binding.itemVisitedStar3.setImageResource(R.drawable.mypage_star_off)
+                }
             }
-            Log.d("getVisited/bind",isEventVisited.toString())
-
-
 
         }
-
-
     }
 
     private fun getEventStatus(eventId: Int, binding: ItemMypageVisitedBinding){
@@ -97,7 +95,6 @@ class UserVisitedEventRVAdapter (private val visitedEventList: ArrayList<Visited
                     200->{
                         Log.d("getVisited/Is?",resp.isVisited.toString())
                         if (resp.isVisited){
-                            Log.d("getVisited/bind",isEventVisited.toString())
                             binding.itemMypageVisitedCheckBtn.visibility = View.VISIBLE
                             binding.itemMypageVisitedUncheckBtn.visibility = View.INVISIBLE
                         }
@@ -114,7 +111,6 @@ class UserVisitedEventRVAdapter (private val visitedEventList: ArrayList<Visited
                             binding.itemMypageVisitedLikeBtn.visibility = View.INVISIBLE
                             binding.itemMypageVisitedDislikeBtn.visibility = View.VISIBLE
                         }
-
                     }
                     else ->{
                     }
@@ -124,7 +120,6 @@ class UserVisitedEventRVAdapter (private val visitedEventList: ArrayList<Visited
             }
         })
     }
-
 
     //유저 인덱스 가져옴
     private fun getIdx(): Int {
