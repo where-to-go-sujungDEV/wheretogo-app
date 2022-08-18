@@ -27,43 +27,11 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
 
     override fun initAfterBinding() {
         val eventIdx = intent.getIntExtra("eventIdx", -1)
-        initLayout()
         initClickListener()
 
         detailService.getDetailInfo(this, eventIdx)
         getVisitedInfo(eventIdx)
         getSavedInfo(eventIdx)
-    }
-
-    private fun initLayout(){
-        val bannerAdapter = DetailVPAdapter(this)
-        //추가할 프래그먼트를 넣어줌
-        bannerAdapter.addFragment(DetailBannerFragment(R.drawable.img_detail_banner))
-        bannerAdapter.addFragment(DetailBannerFragment(R.drawable.img_detail_banner))
-        bannerAdapter.addFragment(DetailBannerFragment(R.drawable.img_detail_banner))
-        bannerAdapter.addFragment(DetailBannerFragment(R.drawable.img_detail_banner))
-        bannerAdapter.addFragment(DetailBannerFragment(R.drawable.img_detail_banner))
-
-        //속성값들
-        binding.detailBannerVp.adapter = bannerAdapter
-        binding.detailBannerVp.orientation = ViewPager2.ORIENTATION_HORIZONTAL
-
-        setBannerIndicator()
-    }
-
-    private fun setBannerIndicator(){
-        val viewPager2 = binding.detailBannerVp
-        val tabLayout = binding.detailTabLayout
-
-        TabLayoutMediator(tabLayout, viewPager2) { tab, position ->
-        }.attach()
-
-        for (i in 0 until binding.detailTabLayout.tabCount) {
-            val tab = (binding.detailTabLayout.getChildAt(0) as ViewGroup).getChildAt(i)
-            val p = tab.layoutParams as ViewGroup.MarginLayoutParams
-            p.setMargins(0, 0, 20, 0)
-            tab.requestLayout()
-        }
     }
 
     private fun initClickListener(){
@@ -106,34 +74,38 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
 
     fun setDetailInfo(result: ArrayList<DetailInfoResult>){
         for (item in result){
-            binding.detailTag1Tv.text = item.genre
-            binding.detailTag2Tv.text = item.kind
-            binding.detailTag3Tv.text = item.theme
+
+            val time= item.playtime?.replace("<br>".toRegex(), "")
+            val cost= item.usetimefestival?.replace("<br>".toRegex(), "")
+            var eventKind=""
+            when (item.kind){
+                "A02070100"->eventKind="문화관광 축제"
+                "A02070200"->eventKind="일반 축제"
+                "A02080100"->eventKind="전통 공연"
+                "A02080200"->eventKind="연극"
+                "A02080300"->eventKind="뮤지컬"
+                "A02080400"->eventKind="오페라"
+                "A02080500"->eventKind="전시회"
+                "A02080600"->eventKind="박람회"
+                "A02080700"->eventKind="컨벤션"
+                "A02080800"->eventKind="무용"
+                "A02080900"->eventKind="클래식음악회"
+                "A02081000"->eventKind="대중콘서트"
+                "A02081100"->eventKind="영화"
+                "A02081200"->eventKind="스포츠경기"
+                "A02081300"->eventKind="기타행사"
+            }
+            binding.detailKindTv.text=eventKind
 
             binding.detailEventTitle.text = item.eventName
-            binding.detailEventPlaceData1.text = String.format("%s %s",item.si,item.dou)
-            binding.detailEventPlaceData2.text = item.place
-            binding.detailEventStartDate.text = String.format("%s~",item.startDate.slice(IntRange(0,9)))
-
-            binding.detailEventGenreData.text = item.genre
-            binding.detailEventKindData.text = item.kind
-            binding.detailEventThemeData.text = item.theme
-
-            binding.detailEventHomepageData.text = item.link
-            binding.detailEventIntroduceData.text = item.content
-
+            binding.detailEventPlaceData1.text = String.format("%s\n%s",item.place,item.eventplace)
+            binding.detailEventTelData.text = item.tel
+            binding.detailEventTimeData.text = time
+            binding.detailEventStartDate.text = String.format("%s~%s",item.startDate.slice(IntRange(0,9)),item.endDate.slice(IntRange(0,9)))
+            binding.detailEventSponsorData.text = String.format("%s\n%s",item.sponsor1, item.sponsor2)
             Glide.with(this).load(item.pic).into(binding.detailEventPlaceIv)
 
-            if (item.time!=null){
-                binding.detailEventTimeData.text = item.time
-            }
-            if (item.cost!=null){
-                binding.detailEventCostData.text = item.cost
-            }
-            if (item.endDate!=null){
-                binding.detailEventEndDate.text = item.endDate.slice(IntRange(0,9))
-            }
-
+            binding.detailEventCostData.text=cost
         }
     }
 
