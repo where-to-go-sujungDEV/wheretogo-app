@@ -35,18 +35,8 @@ ALTER TABLE areaCodeDetailTBL
         REFERENCES areaCodeTBL (aCode) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 CREATE TABLE categoryTBL(
-   cCode VARCHAR(5) NOT NULL PRIMARY KEY
-  ,cName VARCHAR(5) NOT NULL
-);
-
-
-
-CREATE TABLE categoryDetailTBL
-(
-    `cCode`   VARCHAR(5)    NOT NULL, 
-    `cDCode`  VARCHAR(9)    NOT NULL, 
-    `cDName`    VARCHAR(6)    NOT NULL, 
-     PRIMARY KEY (cDCode)
+   cCode VARCHAR(20) NOT NULL PRIMARY KEY
+  ,cName VARCHAR(20) NOT NULL
 );
 
 
@@ -67,84 +57,63 @@ ALTER TABLE userTBL COMMENT '회원 테이블';
 
 CREATE TABLE eventTBL
 (
-    `addr1`           TEXT       NOT NULL, 
-    `addr2`           TEXT        NULL, 
-    `cat2`            VARCHAR(20)        NOT NULL, 
-    `cat3`            VARCHAR(20)        NOT NULL, 
-    `eventID`       BIGINT           NOT NULL, 
-    `startDate`  DATE              NOT NULL, 
-    `endDate`    DATE              NOT NULL, 
-    `firstimage`      TEXT       NULL, 
-    `firstimage2`     TEXT       NULL, 
-    `mapx`            NUMERIC(14,10)    NOT NULL, 
-    `mapy`            NUMERIC(13,10)    NOT NULL, 
-    `mlevel`          integer           NULL, 
-    `areacode`        integer           NOT NULL, 
-    `sigungucode`     integer           NOT NULL, 
-    `tel`             VARCHAR(142)      NULL, 
-    `eventName`       VARCHAR(80)       NOT NULL, 
-    `w1`       BIGINT    NULL        DEFAULT 0 COMMENT '10~19 ; w' DEFAULT 0, 
-    `m1`       BIGINT    NULL        DEFAULT 0 COMMENT '10~19 ; m' DEFAULT 0, 
-    `w2`       BIGINT    NULL        DEFAULT 0 COMMENT '20~29 ; w' DEFAULT 0, 
-    `m2`       BIGINT    NULL        DEFAULT 0 COMMENT '20~29 ; m' DEFAULT 0, 
-    `w3`       BIGINT    NULL        DEFAULT 0 COMMENT '30~39 ; w' DEFAULT 0, 
-    `m3`       BIGINT    NULL        DEFAULT 0 COMMENT '30~39 ; m' DEFAULT 0, 
-    `w4`       BIGINT    NULL        DEFAULT 0 COMMENT '40~59 w' DEFAULT 0, 
-    `m4`       BIGINT    NULL        DEFAULT 0 COMMENT '40~59m' DEFAULT 0, 
-    `w6`       BIGINT    NULL        DEFAULT 0 COMMENT '60~ ; w' DEFAULT 0, 
-    `m6`       BIGINT    NULL        DEFAULT 0 COMMENT '60~ ; m' DEFAULT 0, 
+    `eventID`         BIGINT           NOT NULL, 
+    `eventName`       TEXT       		NOT NULL, 
+	`startDate`  	  DATE              NOT NULL, 
+    `endDate`    	  DATE              NOT NULL, 
+    
+    `addr1`           TEXT       NULL  DEFAULT NULL,
+    `addr2`           TEXT        NULL DEFAULT NULL,
+    `kind`            VARCHAR(20)         NULL DEFAULT NULL,
+    `firstimage`      TEXT       NULL DEFAULT NULL,
+    `firstimage2`     TEXT       NULL	DEFAULT NULL,
+    `mapx`            NUMERIC(14,10)    NULL	DEFAULT NULL, 
+    `mapy`            NUMERIC(13,10)    NULL	DEFAULT NULL, 
+    `mlevel`          integer           NULL	DEFAULT NULL, 
+    `areacode`        integer           NULL	DEFAULT NULL, 
+    `sigungucode`     integer           NULL	DEFAULT NULL, 
+    `tel`             TEXT      		NULL	DEFAULT NULL, 
+	`sponsor1`        TEXT 				NULL	DEFAULT NULL,
+    `sponsor1tel`     TEXT				NULL	DEFAULT NULL,
+    `sponsor2`        TEXT				NULL	DEFAULT NULL,
+	`sponsor2tel`     TEXT				NULL	DEFAULT NULL,
+	`playtime`        TEXT				NULL	DEFAULT NULL,
+	`eventplace`      TEXT				NULL	DEFAULT NULL,
+  `eventhomepage`     TEXT				NULL	DEFAULT NULL,
+  `agelimit`          TEXT				NULL	DEFAULT NULL,
+  `bookingplace`      TEXT				NULL	DEFAULT NULL,
+  `placeinfo`         TEXT				NULL	DEFAULT NULL,
+  `subevent`          TEXT				NULL	DEFAULT NULL,
+  `program`           TEXT				NULL	DEFAULT NULL,
+  `usetimefestival`   TEXT				NULL	DEFAULT NULL,
+  `discountinfofestival` TEXT				NULL	DEFAULT NULL,
+  `spendtimefestival`   TEXT				NULL	DEFAULT NULL,
+    `w1`       BIGINT    NULL        DEFAULT 0 COMMENT '10~19 ; w', 
+    `m1`       BIGINT    NULL        DEFAULT 0 COMMENT '10~19 ; m', 
+    `w2`       BIGINT    NULL        DEFAULT 0 COMMENT '20~29 ; w', 
+    `m2`       BIGINT    NULL        DEFAULT 0 COMMENT '20~29 ; m', 
+    `w3`       BIGINT    NULL        DEFAULT 0 COMMENT '30~39 ; w', 
+    `m3`       BIGINT    NULL        DEFAULT 0 COMMENT '30~39 ; m', 
+    `w4`       BIGINT    NULL        DEFAULT 0 COMMENT '40~59 w', 
+    `m4`       BIGINT    NULL        DEFAULT 0 COMMENT '40~59m' , 
+    `w6`       BIGINT    NULL        DEFAULT 0 COMMENT '60~ ; w', 
+    `m6`       BIGINT    NULL        DEFAULT 0 COMMENT '60~ ; m', 
      PRIMARY KEY (eventID)
 );
-
+ /* 
 ALTER TABLE eventTBL
     ADD CONSTRAINT FK_eventTBL_areacode_areaCodeTBL_aCode FOREIGN KEY (areacode)
         REFERENCES areaCodeTBL (aCode) ON DELETE RESTRICT ON UPDATE CASCADE;
  
  ALTER TABLE eventTBL
-    ADD CONSTRAINT FK_eventTBL_cat2_categoryTBL_cCode FOREIGN KEY (cat2)
+    ADD CONSTRAINT FK_eventTBL_kind_categoryTBL_cCode FOREIGN KEY (kind)
         REFERENCES categoryTBL (cCode) ON DELETE RESTRICT ON UPDATE RESTRICT;
         
- ALTER TABLE eventTBL
-    ADD CONSTRAINT FK_eventTBL_cat3_categoryDetailTBL_cCode FOREIGN KEY (cat3)
-        REFERENCES categoryDetailTBL (cDCode) ON DELETE RESTRICT ON UPDATE RESTRICT;
  /*       
  ALTER TABLE eventTBL
     ADD CONSTRAINT FK_eventTBL_sigungucode_areaCodeDetailTBL_aDCode FOREIGN KEY (sigungucode)
         REFERENCES areaCodeDetailTBL (aDCode) ON DELETE RESTRICT ON UPDATE CASCADE;*/
         
-/*        
-CREATE TABLE eventTBL
-(
-    `eventID`    BIGINT            NOT NULL    AUTO_INCREMENT, 
-    `eventName`  varchar(80)       NOT NULL, 
-    `dou`        varchar(10)       NOT NULL, 
-    `si`         varchar(10)       NOT NULL, 
-    `genre`      varchar(10)       NOT NULL, 
-    `kind`       varchar(10)       NOT NULL, 
-    `theme`      varchar(10)       NOT NULL, 
-    `startDate`  date          	   NOT NULL, 
-    `endDate`    date              NULL, 
-    `pic`        text              NOT NULL, 
-    `time`       varchar(20)       NULL, 
-    `place`      varchar(40)       NOT NULL, 
-    `link`       text      NOT NULL, 
-    `cost`       varchar(1000)     NULL, 
-    `content`    varchar(10000)    NOT NULL,
-	`w1`       BIGINT    NULL        DEFAULT 0 COMMENT '10~19 ; w' DEFAULT 0, 
-    `m1`       BIGINT    NULL        DEFAULT 0 COMMENT '10~19 ; m' DEFAULT 0, 
-    `w2`       BIGINT    NULL        DEFAULT 0 COMMENT '20~29 ; w' DEFAULT 0, 
-    `m2`       BIGINT    NULL        DEFAULT 0 COMMENT '20~29 ; m' DEFAULT 0, 
-    `w3`       BIGINT    NULL        DEFAULT 0 COMMENT '30~39 ; w' DEFAULT 0, 
-    `m3`       BIGINT    NULL        DEFAULT 0 COMMENT '30~39 ; m' DEFAULT 0, 
-    `w4`       BIGINT    NULL        DEFAULT 0 COMMENT '40~59 w' DEFAULT 0, 
-    `m4`       BIGINT    NULL        DEFAULT 0 COMMENT '40~59m' DEFAULT 0, 
-    `w6`       BIGINT    NULL        DEFAULT 0 COMMENT '60~ ; w' DEFAULT 0, 
-    `m6`       BIGINT    NULL        DEFAULT 0 COMMENT '60~ ; m' DEFAULT 0, 
-     PRIMARY KEY (eventID)
-);
-
-ALTER TABLE eventTBL COMMENT '이벤트 테이블';
-*/
 
 
 CREATE TABLE userVisitedTBL
@@ -505,24 +474,23 @@ INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 39, 3 , '서귀포�
 INSERT INTO areaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 39, 4 , '제주시' );
 
 -- 카테고리 데이터 입력 ---------------------------------------------------------------------------
-INSERT INTO categoryTBL(cCode,cName) VALUES ('A0207','축제');
-INSERT INTO categoryTBL(cCode,cName) VALUES ('A0208','공연/행사');
+INSERT INTO categoryTBL(cCode,cName) VALUES ('A02070100','문화관광축제'); /*축제*/
+INSERT INTO categoryTBL(cCode,cName) VALUES ('A02070200','일반축제');
+INSERT INTO categoryTBL(cCode,cName) VALUES ('A02080100','전통공연');/*공연/행사*/
+INSERT INTO categoryTBL(cCode,cName) VALUES ('A02080200','연극');
+INSERT INTO categoryTBL(cCode,cName) VALUES ('A02080300','뮤지컬');
+INSERT INTO categoryTBL(cCode,cName) VALUES ('A02080400','오페라');
+INSERT INTO categoryTBL(cCode,cName) VALUES ('A02080500','전시회');
+INSERT INTO categoryTBL(cCode,cName) VALUES ('A02080600','박람회');
+INSERT INTO categoryTBL(cCode,cName) VALUES ('A02080700','컨벤션');
+INSERT INTO categoryTBL(cCode,cName) VALUES ('A02080800','무용');
+INSERT INTO categoryTBL(cCode,cName) VALUES ('A02080900','클래식음악회');
+INSERT INTO categoryTBL(cCode,cName) VALUES ('A02081000','대중콘서트');
+INSERT INTO categoryTBL(cCode,cName) VALUES ('A02081100','영화');
+INSERT INTO categoryTBL(cCode,cName) VALUES ('A02081200','스포츠경기');
+INSERT INTO categoryTBL(cCode,cName) VALUES ('A02081300','기타행사');
 
-INSERT INTO categoryDetailTBL(cCode,cDcode,cDName) VALUES ('A0207','A02070100','문화관광축제');
-INSERT INTO categoryDetailTBL(cCode,cDcode,cDName) VALUES ('A0207','A02070200','일반축제');
-INSERT INTO categoryDetailTBL(cCode,cDcode,cDName) VALUES ('A0208','A02080100','전통공연');
-INSERT INTO categoryDetailTBL(cCode,cDcode,cDName) VALUES ('A0208','A02080200','연극');
-INSERT INTO categoryDetailTBL(cCode,cDcode,cDName) VALUES ('A0208','A02080300','뮤지컬');
-INSERT INTO categoryDetailTBL(cCode,cDcode,cDName) VALUES ('A0208','A02080400','오페라');
-INSERT INTO categoryDetailTBL(cCode,cDcode,cDName) VALUES ('A0208','A02080500','전시회');
-INSERT INTO categoryDetailTBL(cCode,cDcode,cDName) VALUES ('A0208','A02080600','박람회');
-INSERT INTO categoryDetailTBL(cCode,cDcode,cDName) VALUES ('A0208','A02080700','컨벤션');
-INSERT INTO categoryDetailTBL(cCode,cDcode,cDName) VALUES ('A0208','A02080800','무용');
-INSERT INTO categoryDetailTBL(cCode,cDcode,cDName) VALUES ('A0208','A02080900','클래식음악회');
-INSERT INTO categoryDetailTBL(cCode,cDcode,cDName) VALUES ('A0208','A02081000','대중콘서트');
-INSERT INTO categoryDetailTBL(cCode,cDcode,cDName) VALUES ('A0208','A02081100','영화');
-INSERT INTO categoryDetailTBL(cCode,cDcode,cDName) VALUES ('A0208','A02081200','스포츠경기');
-INSERT INTO categoryDetailTBL(cCode,cDcode,cDName) VALUES ('A0208','A02081300','기타행사');
+
 -- 사용자 데이터 입력 -------------------------------------
 -- 10대 여성 --
 INSERT INTO `userTBL` (email, nickName, pw, sex, age, last_login) VALUES ('bear@gmail.com', '곰돌이', "$2a$10$sm454B3JeElqcatMKRVhweISBzb4Eng4Huzxkf857xhCzy2yW9MuG", 'w', 1, NOW());  /*pw : bearbear*/
@@ -598,17 +566,43 @@ INSERT INTO `userTBL` (email, nickName, pw, sex, age, last_login) VALUES ('jinji
 
 -- 이벤트 정보 입력 ------------------------------------------------------------------------------
 
-INSERT INTO eventTBL(addr1,addr2,cat2,cat3,eventID,startDate,endDate,firstimage,firstimage2,mapx,mapy,mlevel, areacode,sigungucode,tel,eventName) VALUES ( '서울특별시 강남구 논현동', '논현동 가구거리', 'A0208', 'A02080600', 2819403 , '20220826', '20220904', 'http://tong.visitkorea.or.kr/cms/resource/01/2837401_image2_1.jpg', 'http://tong.visitkorea.or.kr/cms/resource/01/2837401_image3_1.jpg', 127.0225157989, 37.5112531257, 6, 1, 1, '02-3423-5532', '강남디자인위크' ); 
-INSERT INTO eventTBL(addr1,addr2,cat2,cat3,eventID,startDate,endDate,firstimage,firstimage2,mapx,mapy,mlevel,areacode,sigungucode,tel,eventName) VALUES ( '강원도 고성군 토성면 잼버리로 244', '', 'A0208', 'A02080600', 2713558 , '20230504', '20230606', 'http://tong.visitkorea.or.kr/cms/resource/24/2804924_image2_1.jpg', 'http://tong.visitkorea.or.kr/cms/resource/24/2804924_image2_1.jpg', 128.5001657397, 38.2236839691, 6, 32, 2, '033-818-2158', '강원세계산림엑스포' ); 
-INSERT INTO eventTBL(addr1,addr2,cat2,cat3,eventID,startDate,endDate,firstimage,firstimage2,mapx,mapy,mlevel,areacode,sigungucode,tel,eventName) VALUES ( '강원도 횡성군 문예로 75 횡성 문화체육공원', '', 'A0208', 'A02080600', 2829875 , '20220914', '20220928', 'http://tong.visitkorea.or.kr/cms/resource/74/2829874_image2_1.png', 'http://tong.visitkorea.or.kr/cms/resource/74/2829874_image3_1.png', 127.9782824672, 37.4907202341, 6, 32, 18, '강원일자리재단 : 033-256-9602<br>운영사무국 : 1644-4845', '강원일자리박람회' ); 
-INSERT INTO eventTBL(addr1,addr2,cat2,cat3,eventID,startDate,endDate,firstimage,firstimage2,mapx,mapy,mlevel,areacode,sigungucode,tel,eventName) VALUES ( '경상남도 고성군 당항만로 1116', '', 'A0207', 'A02070200', 141105 , '20221001', '20221030', 'http://tong.visitkorea.or.kr/cms/resource/38/2828038_image2_1.jpg', 'http://tong.visitkorea.or.kr/cms/resource/38/2828038_image3_1.jpg', 128.3915388600, 35.0533471834, 6, 36, 3, '055)670-3814', '경남고성공룡세계엑스포' ); 
-INSERT INTO eventTBL(addr1,addr2,cat2,cat3,eventID,startDate,endDate,firstimage,firstimage2,mapx,mapy,mlevel,areacode,sigungucode,tel,eventName) VALUES ( '충청남도 계룡시 신도안면 정장리 16', '', 'A0207', 'A02070200', 1362833 , '20221007', '20221023', 'http://tong.visitkorea.or.kr/cms/resource/07/2549807_image2_1.jpg', 'http://tong.visitkorea.or.kr/cms/resource/07/2549807_image2_1.jpg', 127.2371213251, 36.3068152207, 6, 34, 16, '042-840-3907', '계룡세계軍문화엑스포' ); 
-INSERT INTO eventTBL(addr1,addr2,cat2,cat3,eventID,startDate,endDate,firstimage,firstimage2,mapx,mapy,mlevel,areacode,sigungucode,tel,eventName) VALUES ( '전라북도 고창군 녹두로 1265 고창군농산물유통센타', '', 'A0208', 'A02081300', 2809281 , '20221028', '20221030', 'http://tong.visitkorea.or.kr/cms/resource/80/2809280_image2_1.jpg', 'http://tong.visitkorea.or.kr/cms/resource/80/2809280_image2_1.jpg', 126.6846960753, 35.4337773663, 6, 37, 1, '010-3568-7907', '고창농촌영화제' );    
-INSERT INTO eventTBL(addr1,addr2,cat2,cat3,eventID,startDate,endDate,firstimage,firstimage2,mapx,mapy,mlevel,areacode,sigungucode,tel,eventName) VALUES ( '서울특별시 관악구', '(봉천동)', 'A0207', 'A02070200', 2612274 , '20221014', '20221016', 'http://tong.visitkorea.or.kr/cms/resource/16/2667216_image2_1.jpg', 'http://tong.visitkorea.or.kr/cms/resource/16/2667216_image2_1.jpg', 126.9514981970, 37.4782084678, 6, 1, 5, '02) 828-5763', '관악강감찬축제' );
-INSERT INTO eventTBL(addr1,addr2,cat2,cat3,eventID,startDate,endDate,firstimage,firstimage2,mapx,mapy,mlevel,areacode,sigungucode,tel,eventName) VALUES ( '부산광역시 수영구 광안해변로 219', '(광안동)', 'A0208', 'A02081300', 2786391 , '20220402', '20231231', 'http://tong.visitkorea.or.kr/cms/resource/20/2822720_image2_1.jpg', 'http://tong.visitkorea.or.kr/cms/resource/20/2822720_image3_1.jpg', 129.1185505648, '35.1538269450', NULL, 6, 12, '051-610-4884', '광안리 M(Marvelous) 드론 라이트 쇼' );
-INSERT INTO eventTBL(addr1,addr2,cat2,cat3,eventID,startDate,endDate,firstimage,firstimage2,mapx,mapy,mlevel,areacode,sigungucode,tel,eventName) VALUES ( '부산광역시 수영구 광안동', '', 'A0207', 'A02070100', 506545 , '20221014', '20221016', 'http://tong.visitkorea.or.kr/cms/resource/34/2689834_image2_1.png', 'http://tong.visitkorea.or.kr/cms/resource/34/2689834_image2_1.png', 129.1187283431, 35.1532381253, 6, 6, 12, '051-610-4062', '광안리어방축제' );
-INSERT INTO eventTBL(addr1,addr2,cat2,cat3,eventID,startDate,endDate,firstimage,firstimage2,mapx,mapy,mlevel,areacode,sigungucode,tel,eventName) VALUES ( '광주광역시 북구 비엔날레로 111', '', 'A0208', 'A02081300', 2561750 , '20230407', '20230709', 'http://tong.visitkorea.or.kr/cms/resource/48/2561748_image2_1.JPG', 'http://tong.visitkorea.or.kr/cms/resource/48/2561748_image2_1.JPG', 126.8902647155, 35.1825648257, 6, 5, 4, '062-608-4114', '광주비엔날레' );
+INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, firstimage, firstimage2, mapx, mapy, mlevel, areacode, sigungucode, tel, sponsor1, sponsor1tel, sponsor2, sponsor2tel, playtime, eventplace, eventhomepage, agelimit, bookingplace, placeinfo, subevent, program, usetimefestival, discountinfofestival, spendtimefestival) VALUES ( 2819403 , '강남디자인위크' , 20220826 , 20220904 , '서울특별시 강남구 논현동', '논현동 가구거리', 'A02080600', 'http://tong.visitkorea.or.kr/cms/resource/81/2838381_image2_1.jpg', 'http://tong.visitkorea.or.kr/cms/resource/81/2838381_image3_1.jpg', 127.0225157989, 37.5112531257, 6, 1, NULL, '02-3423-5532',
+'강남구', '02-3423-5532', '강남구', NULL, '11:00∼18:00', '논현동 가구거리 및 청담명품거리 일대', NULL, NULL, NULL, NULL, NULL, NULL, '무료', NULL, NULL);
 
+INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, firstimage, firstimage2, mapx, mapy, mlevel, areacode, sigungucode, tel, sponsor1, sponsor1tel, sponsor2, sponsor2tel, playtime, eventplace, eventhomepage, agelimit, bookingplace, placeinfo, subevent, program, usetimefestival, discountinfofestival, spendtimefestival) VALUES ( 2713558 , '강원세계산림엑스포' , 20230504 , 20230606 , '강원도 고성군 토성면 잼버리로 244', '', 'A02080600', 'http://tong.visitkorea.or.kr/cms/resource/24/2804924_image2_1.jpg', 'http://tong.visitkorea.or.kr/cms/resource/24/2804924_image2_1.jpg', 128.5001657397, 38.2236839691, 6, 32, NULL, '033-818-2158',
+'(재)강원세계산림엑스포조직위원회', '033-818-2158', NULL, NULL, NULL, '강원도세계잼버리수련장', NULL, NULL, NULL, NULL, NULL, NULL, '보통권 :<br>일반(만 19세 ~ 64세) 10,000원(예매 8,000원)<br>청소년(만 13세 ~ 18세) 7,000원(예매 6,000원)<br>어린이(만 7세 ~ 12세) 5,000원(예매 4,000원)<br><br>단체권 :<br>일반(만 19세 ~ 64세) 8,000원<br>청소년(만 13세 ~ 18세) 6,000원<br>어린이(만 7세 ~ 12세) 5,000원<br>※ 내국인 :<br>20명 이상 / 외국인 : 10명 이상, 예매요금 동일, 동시입장<br><br>우대권 :<br>일반(만 19세 ~ 64세) 5,000원(예매 5,000원)<br>청소년(만 13세 ~ 18세) 3,500원(예매 3,500원)<br>어린이(만 7세 ~ 12세) 2,500원(예매 2,500원)<br>※ 만 65세 ~74세, 경증(4~6급)장애인, 현역군경(의무복무자), 강원도민<br><br>가족권 : 24,000원(예매 20,000원)<br><br>※ 무료입장 : 국가(독립)유공자, 국민기초생활수급자, 중증(1~3)급  장애인 및 보호자 1명, 만 75세 이상, 만 7세 미만, 공무수행자, 국빈외교사절단 및 수행자, 단체인솔자(20명당 1인), 학교단체 인솔 교사', NULL, NULL);
+
+INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, firstimage, firstimage2, mapx, mapy, mlevel, areacode, sigungucode, tel, sponsor1, sponsor1tel, sponsor2, sponsor2tel, playtime, eventplace, eventhomepage, agelimit, bookingplace, placeinfo, subevent, program, usetimefestival, discountinfofestival, spendtimefestival) VALUES ( 2829875 , '강원일자리박람회' , 20220914 , 20220928 , '강원도 횡성군 문예로 75 횡성 문화체육공원', '', 'A02080600', 'http://tong.visitkorea.or.kr/cms/resource/74/2829874_image2_1.png', 'http://tong.visitkorea.or.kr/cms/resource/74/2829874_image3_1.png', 127.9782824672, 37.4907202341, 6, 32, NULL, '강원일자리재단 : 033-256-9602<br>운영사무국 : 1644-4845',
+'강원도', '강원일자리재단 : 033-256-9602<br>운영사무국 : 1644-4845', '강원일자리재단', NULL, '온라인 메타버스 09.15(목) ~17(토)<br>온라인 10:00 ~ 18:00<br>횡성 09.14(수)<br>강릉 09.19(월)<br>춘천 09.27(화)~28(수)<br>원주 09.28(수)', '온라인 메타버스 박람회 : 2022.09.15(목) ~ 09.17(토)<br>오프라인 박람회<br>횡성 국민 체육센터 - 09.14(수)<br>강릉 아이스아레나 - 09.19(월)<br>춘천 춘천농협농수산물종합유통센터 - 09.23(금)<br>원주 국민체육센터 - 09.28(수)', NULL, NULL, NULL, NULL, NULL, NULL, '무료', NULL, NULL);
+
+INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, firstimage, firstimage2, mapx, mapy, mlevel, areacode, sigungucode, tel, sponsor1, sponsor1tel, sponsor2, sponsor2tel, playtime, eventplace, eventhomepage, agelimit, bookingplace, placeinfo, subevent, program, usetimefestival, discountinfofestival, spendtimefestival) VALUES ( 141105 , '경남고성공룡세계엑스포' , 20221001 , 20221030 , '경상남도 고성군 당항만로 1116', '', 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/38/2828038_image2_1.jpg', 'http://tong.visitkorea.or.kr/cms/resource/38/2828038_image3_1.jpg', 128.3915388600, 35.0533471834, 6, 36, NULL, '055)670-3814',
+'경상남도 고성군', '055)670-3814', '(재)경남고성공룡세계엑스포조직위원회', NULL, '일~목: 09:00 ~ 18:00<br>금,토, 10/2, 10/9 : 09:00 ~ 22:00', '고성군 당항포관광지', NULL, NULL, NULL, NULL, NULL, NULL, '대인(만 19세 ~ 만 64세) 18,000원 (사전예매 12,000원)<br>소인(만 3세 ~ 만 18세) 12,000원 (사전예매 6,000원)<br>※ 무료: 만 3세미만 어린이, 국가(독립)유공자 및 유족, 중증(구 1~3급) 장애인, 교육기관 인솔교사(사전등록필요), 단체관람객 유치자', NULL, NULL);
+
+INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, firstimage, firstimage2, mapx, mapy, mlevel, areacode, sigungucode, tel, sponsor1, sponsor1tel, sponsor2, sponsor2tel, playtime, eventplace, eventhomepage, agelimit, bookingplace, placeinfo, subevent, program, usetimefestival, discountinfofestival, spendtimefestival) VALUES ( 2809281 , '고창농촌영화제' , 20221028 , 20221030 , '전라북도 고창군 녹두로 1265 고창군농산물유통센타', '', 'A02081300', 'http://tong.visitkorea.or.kr/cms/resource/80/2809280_image2_1.jpg', 'http://tong.visitkorea.or.kr/cms/resource/80/2809280_image2_1.jpg', 126.6846960753, 35.4337773663, 6, 37, NULL, '010-3568-7907',
+'고창군', '010-3568-7907', '고창농촌영화제 조직위원회', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '무료', NULL, NULL);
+
+INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, firstimage, firstimage2, mapx, mapy, mlevel, areacode, sigungucode, tel, sponsor1, sponsor1tel, sponsor2, sponsor2tel, playtime, eventplace, eventhomepage, agelimit, bookingplace, placeinfo, subevent, program, usetimefestival, discountinfofestival, spendtimefestival) VALUES ( 2612274 , '관악강감찬축제' , 20221014 , 20221016 , '서울특별시 관악구', '(봉천동)', 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/16/2667216_image2_1.jpg', 'http://tong.visitkorea.or.kr/cms/resource/16/2667216_image2_1.jpg', 126.9514981970, 37.4782084678, 6, 1, NULL, '02) 828-5763',
+'관악구', '02) 828-5763', '관악문화재단', '02) 828-5763', NULL, '비대면 온라인 중심', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+
+INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, 
+kind, firstimage, firstimage2, mapx, mapy, mlevel, areacode, sigungucode, tel, sponsor1,
+ sponsor1tel, sponsor2, sponsor2tel, playtime, eventplace, eventhomepage, agelimit, bookingplace, placeinfo, subevent, 
+ program, usetimefestival, discountinfofestival, spendtimefestival) VALUES ( 2786391 , '광안리 M(Marvelous) 드론 라이트쇼' , 20220402 
+ , 20231231 , '부산광역시 수영구 광안해변로 219', '(광안동)', 
+ 'A02081300', 'http://tong.visitkorea.or.kr/cms/resource/20/2822720_image2_1.jpg',
+ 'http://tong.visitkorea.or.kr/cms/resource/20/2822720_image3_1.jpg', 129.1185505648, 35.1538269450,NULL , 6,
+ NULL, '051-610-4884','부산광역시 수영구', '051-610-4884', NULL, NULL, 
+ '*연중상설 매주 토요일<br>동절기(10월~2월)19:00,21:00 <br>하절기(그외)20:00,21:00', '광안리해변 일원', 
+ NULL, NULL, NULL, NULL, NULL, NULL, '무료', NULL, '10분 내외');
+
+INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, firstimage, firstimage2, mapx, mapy, mlevel, areacode, sigungucode, tel, sponsor1, sponsor1tel, sponsor2, sponsor2tel, playtime, eventplace, eventhomepage, agelimit, bookingplace, placeinfo, subevent, program, usetimefestival, discountinfofestival, spendtimefestival) VALUES ( 506545 , '광안리어방축제' , 20221014 , 20221016 , '부산광역시 수영구 광안동', '', 'A02070100', 'http://tong.visitkorea.or.kr/cms/resource/34/2689834_image2_1.png', 'http://tong.visitkorea.or.kr/cms/resource/34/2689834_image2_1.png', 129.1187283431, 35.1532381253, 6, 6, NULL, '051-610-4062',
+'수영구', '051-610-4062', '부산광역시 수영구 축제위원회', '051-610-4062', '홈페이지 참조', '광안리해변 및 수영사적공원 일원', NULL, '전연령 가능', NULL, NULL, NULL, NULL, '무료', NULL, '기간내 자유');
+
+INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, firstimage, firstimage2, mapx, mapy, mlevel, areacode, sigungucode, tel, sponsor1, sponsor1tel, sponsor2, sponsor2tel, playtime, eventplace, eventhomepage, agelimit, bookingplace, placeinfo, subevent, program, usetimefestival, discountinfofestival, spendtimefestival) VALUES ( 629718 , '광주 왕실도자기축제' , 20220826 , 20220828 , '경기도 광주시 곤지암읍 경충대로 727', '', 'A02070200', '', '', 127.3266121626, 37.3510216352, 6, 31, NULL, '031-760-1714',
+'광주시', '031-760-1714', '광주시문화재단', NULL, '2022.08.26. (14:00~22:00)<br>2022.08.07.~2022.08.28. (11:00~22:00)', '곤지암도자공원 일대', NULL, NULL, NULL, NULL, NULL, NULL, '홈페이지 참조', NULL, NULL);
+
+INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, firstimage, firstimage2, mapx, mapy, mlevel, areacode, sigungucode, tel, sponsor1, sponsor1tel, sponsor2, sponsor2tel, playtime, eventplace, eventhomepage, agelimit, bookingplace, placeinfo, subevent, program, usetimefestival, discountinfofestival, spendtimefestival) VALUES ( 2561750 , '광주비엔날레' , 20230407 , 20230709 , '광주광역시 북구 비엔날레로 111', '', 'A02081300', 'http://tong.visitkorea.or.kr/cms/resource/48/2561748_image2_1.JPG', 'http://tong.visitkorea.or.kr/cms/resource/48/2561748_image2_1.JPG', 126.8902647155, 35.1825648257, 6, 5, NULL, '062-608-4114',
+'(재)광주비엔날레', '062-608-4114', '광주광역시', '062-608-4114', NULL, '광주비엔날레 전시관, 국립광주박물관, 광주극장, 호랑가시나무 아트폴리곤', NULL, '전연령 가능', '현장판매 : 광주비엔날레전시관, 국립아시아문화전당전시관', NULL, NULL, NULL, '홈페이지 참고', NULL, '기간내 자유');
 
 INSERT INTO `mainEventTBL` VALUES (1,'어디가?는 처음이신가요?', 'http://localhost:3000/asset/mainEvent/1.jpg', NULL);
 INSERT INTO `mainEventTBL` VALUES (2,'산림에서 힐링하자', 'http://tong.visitkorea.or.kr/cms/resource/24/2804924_image2_1.jpg',2713558);
@@ -627,7 +621,7 @@ INSERT INTO `keywordTBL` VALUES (1,'축제');
 
 INSERT INTO `userVisitedTBL` VALUES (1, 141105, 'g');
 INSERT INTO `userVisitedTBL` VALUES (1, 506545, 'b');
-INSERT INTO `userVisitedTBL` VALUES (1, 1362833, 's');
+INSERT INTO `userVisitedTBL` VALUES (1, 629718, 's');
 INSERT INTO `userVisitedTBL` VALUES (1, 2561750, 'g');
 INSERT INTO `userVisitedTBL` VALUES (1, 2612274, 'b');
 INSERT INTO `userVisitedTBL` VALUES (11, 141105, 'g');
@@ -667,6 +661,3 @@ INSERT INTO `searchTBL` (word, count) VALUES ('수영', 1);
 INSERT INTO `searchTBL` (word, count) VALUES ('불꽃놀이', 4);
 INSERT INTO `searchTBL` (word, count) VALUES ('수박', 2);
 INSERT INTO `searchTBL` (word, count) VALUES ('야시장', 21);
-
-
-select * from userTBL;
