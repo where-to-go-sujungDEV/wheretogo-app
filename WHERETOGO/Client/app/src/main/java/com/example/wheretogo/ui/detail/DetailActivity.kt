@@ -75,8 +75,8 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
     fun setDetailInfo(result: ArrayList<DetailInfoResult>){
         for (item in result){
 
-            val time= item.playtime?.replace("<br>".toRegex(), "")
-            val cost= item.usetimefestival?.replace("<br>".toRegex(), "")
+            val time= item.playtime?.replace("<br>".toRegex(), "\n")
+            val cost= item.usetimefestival?.replace("<br>".toRegex(), "\n")
             var eventKind=""
             when (item.kind){
                 "A02070100"->eventKind="문화관광 축제"
@@ -95,17 +95,60 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
                 "A02081200"->eventKind="스포츠경기"
                 "A02081300"->eventKind="기타행사"
             }
+//            binding.detailEventHomepageData.text = item.eventhomepage
+//            binding.detailEventBookUrlData.text = item.bookingplace
+            //if eventData
+//            binding.detailEventTelData.text = item.tel
+
+
+
             binding.detailKindTv.text=eventKind
-
             binding.detailEventTitle.text = item.eventName
-            binding.detailEventPlaceData1.text = String.format("%s\n%s",item.place,item.eventplace)
-            binding.detailEventTelData.text = item.tel
-            binding.detailEventTimeData.text = time
-            binding.detailEventStartDate.text = String.format("%s~%s",item.startDate.slice(IntRange(0,9)),item.endDate.slice(IntRange(0,9)))
-            binding.detailEventSponsorData.text = String.format("%s\n%s",item.sponsor1, item.sponsor2)
-            Glide.with(this).load(item.pic).into(binding.detailEventPlaceIv)
+            binding.detailDateDataTv.text = String.format("%s ~ %s",item.startDate.slice(IntRange(0,9)),item.endDate.slice(IntRange(0,9)))
 
-            binding.detailEventCostData.text=cost
+            if (time!=null){
+                binding.detailTimeDataTv.text =time
+            }
+            else binding.detailTimeTv.visibility = View.GONE
+
+            if (cost!=null){
+                binding.detailCostDataTv.text = cost
+            }
+            else binding.detailCostTv.visibility = View.GONE
+
+            if (item.pic!=null){
+                Glide.with(this).load(item.pic).into(binding.detailEventPlaceIv)
+            }
+            else binding.detailEventPlaceIv.visibility = View.GONE
+
+            if (item.sponsor1!=null&& item.sponsor2!=null){
+                binding.detailSponsorDataTv.text = String.format("%s\n%s",item.sponsor1, item.sponsor2)
+            }
+            else if (item.sponsor1==null && item.sponsor2==null){
+                binding.detailSponsorTv.visibility= View.GONE
+            }
+            else
+                binding.detailSponsorDataTv.text = item.sponsor1
+
+            if (item.eventhomepage!=null){
+                binding.detailHomepageDataTv.text = item.eventhomepage
+            }
+            else binding.detailHomepageTv.visibility= View.GONE
+
+            if (item.bookingplace!=null){
+                binding.detailBookUrlDataTv.text = item.bookingplace
+            }
+            else binding.detailBookUrlTv.visibility = View.GONE
+
+            if (item.tel!=null){
+                binding.detailTelDataTv.text = item.tel
+            }
+            else binding.detailTelTv.visibility = View.GONE
+
+            if (item.agelimit!=null){
+                binding.detailAgeDataTv.text = item.agelimit
+            }
+            else binding.detailAgeTv.visibility = View.GONE
         }
     }
 

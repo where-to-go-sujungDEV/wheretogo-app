@@ -25,9 +25,6 @@ data class DetailInfoResult(
     @SerializedName(value = "place")val place: String?,
     @SerializedName(value = "detailedPlace")val detailedPlace: String?,
 
-    @SerializedName(value = "mapx")val mapx: String?,
-    @SerializedName(value = "mapy")val mapy: String?,
-    @SerializedName(value = "mlevel")val mlevel: Int?,
     @SerializedName(value = "tel")val tel: String?,
 
     @SerializedName(value = "sponsor1")val sponsor1: String?,
@@ -68,14 +65,14 @@ data class DetailIsSavedResponse(
 data class DetailSaveEventResponse(
     @SerializedName("msg") var msg : String,
     @SerializedName("code") var code : Int,
-    @SerializedName("isSuccess") var isSuccess : Boolean,
+    @SerializedName("isSuccess") var isSuccess : Boolean
 )
 
 //savedTBL에 삭제
 data class DetailDeleteSavedResponse(
     @SerializedName("msg") var msg : String,
     @SerializedName("code") var code : Int,
-    @SerializedName("isSuccess") var isSuccess : Boolean,
+    @SerializedName("isSuccess") var isSuccess : Boolean
 )
 
 
