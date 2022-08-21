@@ -103,180 +103,195 @@
             android:src="@drawable/btn_like_unclick"
             app:layout_constraintTop_toTopOf="@id/detail_line"
             app:layout_constraintStart_toEndOf="@+id/detail_event_check_btn"/>
-
-        <TextView
-            android:id="@+id/detail_event_date"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="15dp"
-            android:textStyle="bold"
             app:layout_constraintTop_toBottomOf="@id/detail_event_title"
             app:layout_constraintStart_toStartOf="parent"
-            android:text="일시"/>
-        <TextView
-            android:id="@+id/detail_event_start_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="80dp"
-            android:layout_marginTop="15dp"
-            app:layout_constraintTop_toBottomOf="@id/detail_event_title"
-            app:layout_constraintStart_toStartOf="parent"
-            android:text="2022-05-10 ~ "/>
-        <TextView
-            android:id="@+id/detail_event_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:orientation="vertical"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="15dp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/detail_event_start_date"
-            android:text="시간"/>
-        <TextView
-            android:id="@+id/detail_event_time_data"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="80dp"
-            android:layout_marginTop="15dp"
-            app:layout_constraintTop_toBottomOf="@id/detail_event_start_date"
-            app:layout_constraintStart_toStartOf="parent"
-            android:text="프로그램별 상이"/>
-        <TextView
-            android:id="@+id/detail_event_place"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="15dp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/detail_event_time_data"
-            android:text="장소"/>
-        <TextView
-            android:id="@+id/detail_event_place_data1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="80dp"
-            android:layout_marginTop="15dp"
-            app:layout_constraintTop_toBottomOf="@id/detail_event_time_data"
-            app:layout_constraintStart_toStartOf="parent"
-            android:text="서울"/>
-        <TextView
-            android:id="@+id/detail_event_place_data2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="80dp"
-            android:layout_marginTop="5dp"
-            app:layout_constraintTop_toBottomOf="@+id/detail_event_place_data1"
-            app:layout_constraintStart_toStartOf="parent"
-            android:text="경복궁"/>
-        <ImageView
-            android:id="@+id/detail_event_place_iv"
-            android:layout_width="191dp"
-            android:layout_height="113dp"
-            android:layout_marginStart="80dp"
-            android:layout_marginTop="10dp"
-            android:src="@drawable/img_detail_place"
-            app:layout_constraintTop_toBottomOf="@id/detail_event_place_data2"
-            app:layout_constraintStart_toStartOf="parent"/>
-        <TextView
-            android:id="@+id/detail_event_cost"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="15dp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/detail_event_place_iv"
-            android:text="비용"/>
-        <TextView
-            android:id="@+id/detail_event_cost_data"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="80dp"
-            android:layout_marginTop="15dp"
-            app:layout_constraintTop_toBottomOf="@id/detail_event_place_iv"
-            app:layout_constraintStart_toStartOf="parent"
-            android:text="프로그램별 상이"/>
-        <TextView
-            android:id="@+id/detail_event_sponsor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="15dp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/detail_event_cost_data"
-            android:text="후원사"/>
-        <TextView
-            android:id="@+id/detail_event_sponsor_data"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="80dp"
-            android:layout_marginTop="15dp"
-            app:layout_constraintTop_toBottomOf="@id/detail_event_cost_data"
-            app:layout_constraintStart_toStartOf="parent"
-            android:text="축제"/>
+            android:layout_marginTop="15dp">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/detail_event_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toBottomOf="@id/detail_event_title"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:text="일시    "/>
+                <TextView
+                    android:id="@+id/detail_event_start_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="45dp"
+                    app:layout_constraintTop_toBottomOf="@id/detail_event_title"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:text="2022-05-10 ~ "/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="15dp">
+                <TextView
+                    android:id="@+id/detail_event_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/detail_event_start_date"
+                    android:text="시간    "/>
+                <TextView
+                    android:id="@+id/detail_event_time_data"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="45dp"
+                    app:layout_constraintTop_toBottomOf="@id/detail_event_start_date"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:text="프로그램별 상이"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="15dp">
+                <TextView
+                    android:id="@+id/detail_event_place"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/detail_event_time_data"
+                    android:text="장소    "/>
+                <TextView
+                    android:id="@+id/detail_event_place_data"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="45dp"
+                    app:layout_constraintTop_toBottomOf="@id/detail_event_time_data"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:text="서울"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/detail_event_cost"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:text="비용    "/>
+                <TextView
+                    android:id="@+id/detail_event_cost_data"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="45dp"
+                    android:text="프로그램별 상이"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/detail_event_sponsor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:text="후원사  "/>
+                <TextView
+                    android:id="@+id/detail_event_sponsor_data"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="40dp"
+                    android:text="축제"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/detail_event_homepage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:text="홈페이지"/>
+                <TextView
+                    android:id="@+id/detail_event_homepage_data"
+                    android:layout_marginStart="35dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="http://"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/detail_event_bookUrl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:text="예매 사이트"/>
+                <TextView
+                    android:id="@+id/detail_event_bookUrl_data"
+                    android:layout_marginStart="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="dfsdf"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="15dp">
+                <TextView
+                    android:id="@+id/detail_event_tel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:text="전화번호  "/>
+                <TextView
+                    android:id="@+id/detail_event_tel_data"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:text="https://"/>
+            </LinearLayout>
 
-        <TextView
-            android:id="@+id/detail_event_kind"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="15dp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/detail_event_sponsor_data"
-            android:text="종류"/>
-        <TextView
-            android:id="@+id/detail_event_kind_data"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="80dp"
-            android:layout_marginTop="15dp"
-            app:layout_constraintTop_toBottomOf="@+id/detail_event_sponsor_data"
-            app:layout_constraintStart_toStartOf="parent"
-            android:text="음악"/>
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/detail_event_theme"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="15dp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/detail_event_kind_data"
-            android:text="테마"/>
-        <TextView
-            android:id="@+id/detail_event_theme_data"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="80dp"
-            android:layout_marginTop="15dp"
-            app:layout_constraintTop_toBottomOf="@+id/detail_event_kind_data"
-            app:layout_constraintStart_toStartOf="parent"
-            android:text="감동"/>
 
-        <TextView
-            android:id="@+id/detail_event_tel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="15dp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/detail_event_theme_data"
-            android:text="전화번호"/>
-        <TextView
-            android:id="@+id/detail_event_tel_data"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="80dp"
-            android:layout_marginTop="15dp"
-            app:layout_constraintTop_toBottomOf="@+id/detail_event_theme_data"
-            app:layout_constraintStart_toStartOf="parent"
-            android:text="https://"/>
+
+
+
+
+<!--            <ImageView-->
+<!--                android:id="@+id/detail_event_place_iv"-->
+<!--                android:layout_width="191dp"-->
+<!--                android:layout_height="113dp"-->
+<!--                android:layout_marginStart="80dp"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:src="@drawable/img_detail_place"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/detail_event_place_data"-->
+<!--                app:layout_constraintStart_toStartOf="parent"/>-->
+
+
+
+
+
+
+
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/detail_star_panel"

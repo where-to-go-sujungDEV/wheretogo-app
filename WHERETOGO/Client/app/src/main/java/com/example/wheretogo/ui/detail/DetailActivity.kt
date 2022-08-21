@@ -75,8 +75,8 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
     fun setDetailInfo(result: ArrayList<DetailInfoResult>){
         for (item in result){
 
-            val time= item.playtime?.replace("<br>".toRegex(), "")
-            val cost= item.usetimefestival?.replace("<br>".toRegex(), "")
+            val time= item.playtime?.replace("<br>".toRegex(), "\n")
+            val cost= item.usetimefestival?.replace("<br>".toRegex(), "\n")
             var eventKind=""
             when (item.kind){
                 "A02070100"->eventKind="문화관광 축제"
@@ -96,14 +96,15 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
                 "A02081300"->eventKind="기타행사"
             }
             binding.detailKindTv.text=eventKind
-
+            binding.detailEventHomepageData.text = item.eventhomepage
+            binding.detailEventBookUrlData.text = item.bookingplace
             binding.detailEventTitle.text = item.eventName
-            binding.detailEventPlaceData1.text = String.format("%s\n%s",item.place,item.eventplace)
+            binding.detailEventPlaceData.text = String.format("%s\n%s",item.place,item.eventplace)
             binding.detailEventTelData.text = item.tel
             binding.detailEventTimeData.text = time
-            binding.detailEventStartDate.text = String.format("%s~%s",item.startDate.slice(IntRange(0,9)),item.endDate.slice(IntRange(0,9)))
+            binding.detailEventStartDate.text = String.format("%s ~ %s",item.startDate.slice(IntRange(0,9)),item.endDate.slice(IntRange(0,9)))
             binding.detailEventSponsorData.text = String.format("%s\n%s",item.sponsor1, item.sponsor2)
-            Glide.with(this).load(item.pic).into(binding.detailEventPlaceIv)
+            //Glide.with(this).load(item.pic).into(binding.detailEventPlaceIv)
 
             binding.detailEventCostData.text=cost
         }

@@ -68,14 +68,14 @@ data class DetailIsSavedResponse(
 data class DetailSaveEventResponse(
     @SerializedName("msg") var msg : String,
     @SerializedName("code") var code : Int,
-    @SerializedName("isSuccess") var isSuccess : Boolean,
+    @SerializedName("isSuccess") var isSuccess : Boolean
 )
 
 //savedTBL에 삭제
 data class DetailDeleteSavedResponse(
     @SerializedName("msg") var msg : String,
     @SerializedName("code") var code : Int,
-    @SerializedName("isSuccess") var isSuccess : Boolean,
+    @SerializedName("isSuccess") var isSuccess : Boolean
 )
 
 
