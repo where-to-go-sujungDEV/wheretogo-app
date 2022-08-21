@@ -112,6 +112,15 @@
             android:layout_marginStart="25dp"
             android:layout_marginTop="15dp"
             android:layout_marginEnd="25dp">
+            <ImageView
+                android:id="@+id/detail_event_place_iv"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/img_detail_place"/>
+
             <LinearLayout
                 android:id="@+id/detail_date_tv"
                 android:layout_width="wrap_content"
@@ -125,7 +134,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     android:text="일시    "/>
                 <TextView
-                    android:id="@+id/detail_start_date_tv"
+                    android:id="@+id/detail_date_data_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="45dp"
@@ -192,6 +201,24 @@
                     android:text="프로그램별 상이"/>
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/detail_age_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:text="비용    "/>
+                <TextView
+                    android:id="@+id/detail_age_data_tv"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="45dp"
+                    android:text="프로그램별 상이"/>
+            </LinearLayout>
+            <LinearLayout
                 android:id="@+id/detail_sponsor_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -203,7 +230,7 @@
                     android:textStyle="bold"
                     android:text="후원사  "/>
                 <TextView
-                    android:id="@+id/detailsponsor_data_tv"
+                    android:id="@+id/detail_sponsor_data_tv"
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="40dp"
@@ -267,15 +294,7 @@
         </LinearLayout>
 
 
-<!--            <ImageView-->
-<!--                android:id="@+id/detail_event_place_iv"-->
-<!--                android:layout_width="191dp"-->
-<!--                android:layout_height="113dp"-->
-<!--                android:layout_marginStart="80dp"-->
-<!--                android:layout_marginTop="10dp"-->
-<!--                android:src="@drawable/img_detail_place"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/detail_event_place_data"-->
-<!--                app:layout_constraintStart_toStartOf="parent"/>-->
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/detail_star_panel"
