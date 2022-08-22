@@ -73,7 +73,19 @@ export const getSearchResults = (data, result) => {
                         qr += data.search;
                         qr += '\%\' or addr2 like \'\%'
                         qr += data.search;
+                        qr += '\%\' or sponsor1 like \'\%'
+                        qr += data.search;
+                        qr += '\%\' or sponsor2 like \'\%'
+                        qr += data.search;
+                        qr += '\%\' or eventplace like \'\%'
+                        qr += data.search;
+                        qr += '\%\' or usetimefestival like \'\%'
+                        qr += data.search;
                         qr += '\%\') ';
+                    }
+
+                    if(data.free){
+                        qr += ' and usetimefestival like \'\%무료\%\' ';
                     }
                     
                         if((data.k1)||(data.k2)||(data.k3)||(data.k4)||(data.k5)||(data.k6)||(data.k7)||(data.k8)||(data.k9)||(data.k10)||(data.k11)||(data.k12)||(data.k13)||(data.k14)||(data.k15)){
