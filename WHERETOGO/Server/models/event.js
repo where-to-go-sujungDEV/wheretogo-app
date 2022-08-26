@@ -14,7 +14,7 @@ export const getMainBoardContents = (result) => {
 }
 
 export const getTopContents = (result) => { 
-    db.query("select eventID, eventName, startDate, w1+w2+w3+w4+w6+m1+m2+m3+m4+m6 as totalSavedNum, endDate, kind, firstimage as pic from eventTBL ORDER BY totalSavedNum DESC LIMIT 5;", (err, results) => {             
+    db.query("select eventTBL.eventID, eventTBL.eventName, eventTBL.startDate, eventTBL.w1+eventTBL.w2+eventTBL.w3+eventTBL.w4+eventTBL.w6+eventTBL.m1+eventTBL.m2+eventTBL.m3+eventTBL.m4+eventTBL.m6 as totalSavedNum, eventTBL.endDate, categoryTBL.cName as kind, eventTBL.pic from eventTBL, categoryTBL where categoryTBL.cCode = eventTBL.kind ORDER BY totalSavedNum DESC LIMIT 5;", (err, results) => {             
         if(err) {
             result(500, err, null);
         } else {
@@ -31,27 +31,27 @@ export const getUserTopContents = (uid, result) => {
         if(err) {
             result(500, err, null);
         } else { 
-            var qr = 'select eventID,eventName,startDate, endDate, kind, firstimage as pic, ';  
+            var qr = 'select eventTBL.eventID, eventTBL.eventName, eventTBL.startDate, eventTBL.endDate, categoryTBL.cName as kind, eventTBL.pic, ';  
           
             if(userInfo[0].sex == 'w'){
-                if(userInfo[0].age == 1)qr += ' w1 ';
-                else if (userInfo[0].age == 2)qr += ' w2 ';
-                else if (userInfo[0].age == 3)qr += ' w3 ';
-                else if (userInfo[0].age == 4)qr += ' w4 ';
-                else if (userInfo[0].age == 6)qr += ' w6 ';
-                else qr += ' w1+w2+w3+w4+w6 ';
+                if(userInfo[0].age == 1)qr += ' eventTBL.w1 ';
+                else if (userInfo[0].age == 2)qr += ' eventTBL.w2 ';
+                else if (userInfo[0].age == 3)qr += ' eventTBL.w3 ';
+                else if (userInfo[0].age == 4)qr += ' eventTBL.w4 ';
+                else if (userInfo[0].age == 6)qr += ' eventTBL.w6 ';
+                else qr += ' eventTBL.w1+eventTBL.w2+eventTBL.w3+eventTBL.w4+eventTBL.w6 ';
             }
             else if (userInfo[0].sex == 'm') {
-                if(userInfo[0].age == 1)qr += ' m1 ';
-                else if (userInfo[0].age == 2)qr += ' m2 ';
-                else if (userInfo[0].age == 3)qr += ' m3 ';
-                else if (userInfo[0].age == 4)qr += ' m4 ';
-                else if (userInfo[0].age == 6)qr += ' m6 ';
-                else qr += ' m1+m2+m3+m4+m6 ';
+                if(userInfo[0].age == 1)qr += ' eventTBL.m1 ';
+                else if (userInfo[0].age == 2)qr += ' eventTBL.m2 ';
+                else if (userInfo[0].age == 3)qr += ' eventTBL.m3 ';
+                else if (userInfo[0].age == 4)qr += ' eventTBL.m4 ';
+                else if (userInfo[0].age == 6)qr += ' eventTBL.m6 ';
+                else qr += ' eventTBL.m1+eventTBL.m2+eventTBL.m3+eventTBL.m4+eventTBL.m6 ';
             }
-            else qr += ' w1+w2+w3+w4+w6+m1+m2+m3+m4+m6 ';
+            else qr += ' eventTBL.w1+eventTBL.w2+eventTBL.w3+eventTBL.w4+eventTBL.w6+eventTBL.m1+eventTBL.m2+eventTBL.m3+eventTBL.m4+eventTBL.m6 ';
 
-            qr += ' as savedNum from eventTBL ORDER BY savedNum DESC LIMIT 5;' 
+            qr += ' as savedNum from eventTBL, categoryTBL where eventTBL.kind = categoryTBL.cCode ORDER BY savedNum DESC LIMIT 5;' 
 
             db.query(qr, (err, results) => {             
                 if(err) {
@@ -70,7 +70,7 @@ export const getUserTopContents = (uid, result) => {
 }
   
 export const getEventByEventID = (id, result) => { 
-    db.query("select eventID,eventName,startDate, w1+w2+w3+w4+w6+m1+m2+m3+m4+m6 as savedNum , endDate, kind, firstimage2 as pic, areacode, sigungucode, addr1 as place, addr2 as detailedPlace, mapx,mapy,mlevel,tel, sponsor1, sponsor1tel, sponsor2, sponsor2tel, playtime, eventplace, eventhomepage, agelimit, bookingplace, placeinfo, subevent, program, usetimefestival, discountinfofestival, spendtimefestival from eventTBL where eventID = ?;", [id], (err, results) => {             
+    db.query("select eventTBL.eventID,eventTBL.eventName,eventTBL.startDate, eventTBL.w1+eventTBL.w2+eventTBL.w3+eventTBL.w4+eventTBL.w6+eventTBL.m1+eventTBL.m2+eventTBL.m3+eventTBL.m4+eventTBL.m6 as savedNum , eventTBL.endDate, categoryTBL.kind, eventTBL.pic, eventTBL.areacode, eventTBL.sigungucode, eventTBL.addr1 as place, eventTBL.addr2 as detailedPlace, eventTBL.mapx,eventTBL.mapy,eventTBL.mlevel,tel, eventTBL.telname, eventTBL.homepage, eventTBL.overview, eventTBL.eventplace,eventTBL.bookingplace, eventTBL.subevent, eventTBL.price from eventTBL, categoryTBL where eventTBL.kind = categoryTBL.cCode and eventID = ?;", [id], (err, results) => {             
         if(err) {
             result(500, err, null);
         } else {
