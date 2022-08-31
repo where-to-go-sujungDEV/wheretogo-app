@@ -165,7 +165,7 @@
                     android:text="프로그램별 상이"/>
             </LinearLayout>
             <LinearLayout
-                android:id="@+id/detail_event_place_tv"
+                android:id="@+id/detail_place_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -290,6 +290,24 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
                     android:text="https://"/>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/detail_overview_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="15dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:text="상세정보  "/>
+                <TextView
+                    android:id="@+id/detail_overview_data_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:text=""/>
             </LinearLayout>
         </LinearLayout>
 

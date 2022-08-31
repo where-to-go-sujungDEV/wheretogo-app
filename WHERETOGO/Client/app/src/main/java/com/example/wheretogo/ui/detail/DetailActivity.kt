@@ -104,11 +104,22 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
 //            }
 //            else binding.detailTimeTv.visibility = View.GONE
 
+        //장소
+        if (result.place!=null){
+            if (result.eventplace!=null)
+                binding.detailPlaceDataTv.text = String.format("%s\n%s",result.place,result.eventplace)
+            else binding.detailPlaceDataTv.text = result.place
+        }
+        else
+            binding.detailPlaceTv.visibility=View.GONE
+
+        //요금
         if (price!=null){
             binding.detailCostDataTv.text = price
         }
         else binding.detailCostTv.visibility = View.GONE
 
+        //사진
         if (result.pic!=null){
             Glide.with(this).load(result.pic).into(binding.detailEventPlaceIv)
         }
@@ -137,6 +148,11 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
             binding.detailTelDataTv.text = result.tel
         }
         else binding.detailTelTv.visibility = View.GONE
+
+        if (result.overview!=null){
+            binding.detailOverviewDataTv.text = result.overview
+        }
+        else binding.detailOverviewTv.visibility = View.GONE
 
 //            if (item.agelimit!=null){
 //                binding.detailAgeDataTv.text = item.agelimit
