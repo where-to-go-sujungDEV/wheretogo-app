@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 data class DetailInfoResponse(
     @SerializedName(value = "code")val code:Int,
     @SerializedName(value = "isSuccess")val isSuccess:Boolean,
-    @SerializedName(value = "results")val results:ArrayList<DetailInfoResult>,
+    @SerializedName(value = "results")val results:DetailInfoResult
 )
 
 data class DetailInfoResult(
@@ -19,31 +19,24 @@ data class DetailInfoResult(
     @SerializedName(value = "kind")val kind: String?,
     @SerializedName(value = "pic")val pic: String?,
 
-    @SerializedName(value = "areacode")val areacode: Int?,
-    @SerializedName(value = "sigungucode")val sigungucode: Int?,
-
     @SerializedName(value = "place")val place: String?,
     @SerializedName(value = "detailedPlace")val detailedPlace: String?,
 
     @SerializedName(value = "tel")val tel: String?,
+    @SerializedName(value = "telname")val telname: String?,
+//    @SerializedName(value = "sponsor1")val sponsor1: String?,
+//    @SerializedName(value = "sponsor1tel")val sponsor1tel: String?,
+//    @SerializedName(value = "sponsor2")val sponsor2: String?,
+//    @SerializedName(value = "sponsor2tel")val sponsor2tel: String?,
+//    @SerializedName(value = "playtime")val playtime: String?,
 
-    @SerializedName(value = "sponsor1")val sponsor1: String?,
-    @SerializedName(value = "sponsor1tel")val sponsor1tel: String?,
-    @SerializedName(value = "sponsor2")val sponsor2: String?,
-    @SerializedName(value = "sponsor2tel")val sponsor2tel: String?,
-
-    @SerializedName(value = "playtime")val playtime: String?,
+    @SerializedName(value = "homepage")val homepage: String?,//위치 상세정보
+    @SerializedName(value = "overview")val overview: String?,
     @SerializedName(value = "eventplace")val eventplace: String?,
-    @SerializedName(value = "eventhomepage")val eventhomepage: String?,//위치 상세정보
-    @SerializedName(value = "agelimit")val agelimit: String?,
     @SerializedName(value = "bookingplace")val bookingplace: String?,
-    @SerializedName(value = "placeinfo")val placeinfo: String?,
     @SerializedName(value = "subevent")val subevent: String?,
-    @SerializedName(value = "program")val program: String?,
+    @SerializedName(value = "price")val price: String?
 
-    @SerializedName(value = "usetimefestival")val usetimefestival: String?,
-    @SerializedName(value = "discountinfofestival")val discountinfofestival: String?,
-    @SerializedName(value = "spendtimefestival")val spendtimefestival: String?,
 )
 
 //VisitedTBL 저장 여부 조회

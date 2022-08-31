@@ -18,8 +18,8 @@ class BannerMainFragment(private val item: MainEventResult) : BaseFragment<Fragm
 
         binding.bannerImageIv.setOnClickListener{
             if (item.eventID!=null){
-                saveIdx(item.eventID)
                 val intent = Intent(context, DetailActivity::class.java)
+                intent.putExtra("eventIdx", item.eventID)
                 startActivity(intent)
             }
             else {
@@ -30,11 +30,5 @@ class BannerMainFragment(private val item: MainEventResult) : BaseFragment<Fragm
 
         }
     }
-    private fun saveIdx(eventId: Int){
-        val spf = activity?.getSharedPreferences("eventInfo", AppCompatActivity.MODE_PRIVATE)
-        val editor = spf?.edit()
 
-        editor?.putInt("eventId",eventId)
-        editor?.apply()
-    }
 }
