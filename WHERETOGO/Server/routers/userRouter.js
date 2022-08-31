@@ -2,14 +2,16 @@
 import express from "express";
 
 // import function from controller
-import {changeUserInfo, deleteUser, registerUser, loginUser, autoLogin} from "../controllers/userController.js";
+import {changeUserNInfo, changeUserPInfo, deleteUser, registerUser, loginUser, autoLogin} from "../controllers/userController.js";
 
 // init express router
 const userRouter = express.Router();
   
   
-userRouter.patch('/change/:userID', changeUserInfo);
+userRouter.patch('/changeN/:userID', changeUserNInfo);
   
+userRouter.patch('/changeP/:userID', changeUserPInfo);
+
 userRouter.delete('/unregister/:userID', deleteUser);
 
 userRouter.post('/sign-up', registerUser);

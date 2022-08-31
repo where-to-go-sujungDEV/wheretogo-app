@@ -2,7 +2,7 @@ import db from "../config/dbConnection.js";
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken'; 
 
-export const updateUserInfo = (uid, data, result) => {
+export const updateUserNInfo = (uid, data, result) => {
     db.query("select * from userTBL where userID = ?;", uid, (err, count) => {             
         if (err) {
             result(500, {
@@ -19,14 +19,14 @@ export const updateUserInfo = (uid, data, result) => {
             });
         } 
         else {
-            if((!data.nickName)&&(!data.password)){
+            if(!data.nickName){
                 result(200, null, {
                     msg : "변경할 데이터가 입력되지 않았습니다. 변경사항이 없습니다.",
                     code : 204,
                     isSuccess : true
                 });
             }
-            else if((data.nickName)&&(!data.password)){
+            else {
                 db.query("update userTBL set nickName = ? where userID = ?;",[data.nickName, uid], (err, results) => {             
                     if(err) {
                         result(500, {
@@ -44,7 +44,37 @@ export const updateUserInfo = (uid, data, result) => {
                     }
                 }); 
             }
-            else if(data.password){
+        }
+    });  
+}
+
+
+
+export const updateUserPInfo = (uid, data, result) => {
+    db.query("select * from userTBL where userID = ?;", uid, (err, count) => {             
+        if (err) {
+            result(500, {
+                msg : "회원정보 갱신을 실패하였습니다.", 
+                code : 500, 
+                isSuccess : false,
+                err}, null);
+        } 
+        else if(count.length <= 0) {
+            result(200, null,{
+                msg : "존재하지 않는 사용자입니다.",
+                code : 406,
+                isSuccess : false
+            });
+        } 
+        else {
+            if(!data.password){
+                result(200, null, {
+                    msg : "변경할 데이터가 입력되지 않았습니다. 변경사항이 없습니다.",
+                    code : 204,
+                    isSuccess : true
+                });
+            }
+            else{
                 bcrypt.hash(data.password, 10, (err, hash) => {
                     if (err) 
                     {
@@ -56,7 +86,6 @@ export const updateUserInfo = (uid, data, result) => {
                         }, null);
                     }
                     else {
-                        if(!data.nickName){
                             db.query(`update userTBL set pw = ${db.escape(hash)} where userID = ?;`,[uid], (err, results) => {             
                                 if(err) {
                                     result(500, {
@@ -74,26 +103,7 @@ export const updateUserInfo = (uid, data, result) => {
                                 }
                             }); 
                         }
-                        else{
-                            db.query(`update userTBL set nickName = ?, pw = ${db.escape(hash)} where userID = ?;`,[data.nickName, uid], (err, results) => {             
-                                if(err) {
-                                    result(500, {
-                                        msg : "오류가 발생하였습니다.",
-                                        code : 500, 
-                                        isSuccess : false,
-                                        err
-                                    }, null);
-                                }
-                                else {
-                                    result(201, null, {
-                                        msg : "회원정보 갱신을 완료하였습니다.",
-                                        code : 200,
-                                        isSuccess : true});
-                                }
-                            }); 
-                        }
 
-                    }
                 });
             }
         }

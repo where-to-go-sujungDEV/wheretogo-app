@@ -1,11 +1,23 @@
-import {updateUserInfo, deleteUserInfo, registerUserInfo, loginUserInfo, doAutoLogin} from "../models/user.js";
+import {updateUserNInfo, updateUserPInfo, deleteUserInfo, registerUserInfo, loginUserInfo, doAutoLogin} from "../models/user.js";
 
 
   
-export const changeUserInfo = (req, res) => {
+export const changeUserNInfo = (req, res) => {
     const uid = req.params.userID;
     const data = req.body;
-    updateUserInfo(uid, data,(stat, err, results) => {
+    updateUserNInfo(uid, data,(stat, err, results) => {
+        if (err){
+            res.status(stat).send(err);
+        }else{
+            res.status(stat).json(results);
+        }
+    });
+}
+
+export const changeUserPInfo = (req, res) => {
+    const uid = req.params.userID;
+    const data = req.body;
+    updateUserPInfo(uid, data,(stat, err, results) => {
         if (err){
             res.status(stat).send(err);
         }else{
