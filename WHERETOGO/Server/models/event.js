@@ -70,14 +70,14 @@ export const getUserTopContents = (uid, result) => {
 }
   
 export const getEventByEventID = (id, result) => { 
-    db.query("select eventTBL.eventID,eventTBL.eventName,eventTBL.startDate, eventTBL.w1+eventTBL.w2+eventTBL.w3+eventTBL.w4+eventTBL.w6+eventTBL.m1+eventTBL.m2+eventTBL.m3+eventTBL.m4+eventTBL.m6 as savedNum , eventTBL.endDate, categoryTBL.kind, eventTBL.pic, eventTBL.areacode, eventTBL.sigungucode, eventTBL.addr1 as place, eventTBL.addr2 as detailedPlace, eventTBL.mapx,eventTBL.mapy,eventTBL.mlevel,tel, eventTBL.telname, eventTBL.homepage, eventTBL.overview, eventTBL.eventplace,eventTBL.bookingplace, eventTBL.subevent, eventTBL.price from eventTBL, categoryTBL where eventTBL.kind = categoryTBL.cCode and eventID = ?;", [id], (err, results) => {             
+    db.query("select eventTBL.eventID,eventTBL.eventName,eventTBL.startDate, eventTBL.w1+eventTBL.w2+eventTBL.w3+eventTBL.w4+eventTBL.w6+eventTBL.m1+eventTBL.m2+eventTBL.m3+eventTBL.m4+eventTBL.m6 as savedNum , eventTBL.endDate, categoryTBL.cName as kind, eventTBL.pic, areaCodeTBL.aName, areaCodeDetailTBL.aDName, eventTBL.addr1 as place, eventTBL.addr2 as detailedPlace, eventTBL.mapx,eventTBL.mapy,eventTBL.mlevel,tel, eventTBL.telname, eventTBL.homepage, eventTBL.overview, eventTBL.eventplace,eventTBL.bookingplace, eventTBL.subevent, eventTBL.price from eventTBL, categoryTBL,areaCodeTBL,areaCodeDetailTBL where eventTBL.kind = categoryTBL.cCode and eventTBL.areacode = areaCodeTBL.aCode and areaCodeDetailTBL.aDCode = eventTBL.sigungucode and eventID = ?;", [id], (err, results) => {             
         if(err) {
             result(500, err, null);
         } else {
             result(200, null, {
                 code : 200,
                 isSuccess : true,
-                results});
+                results : results[0]});
         }
     });   
 }
