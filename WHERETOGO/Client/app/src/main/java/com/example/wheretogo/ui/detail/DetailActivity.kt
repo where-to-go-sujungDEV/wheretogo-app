@@ -1,19 +1,13 @@
 package com.example.wheretogo.ui.detail
 
-import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.view.ViewGroup
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.example.wheretogo.R
 import com.example.wheretogo.data.remote.auth.getRetrofit
 import com.example.wheretogo.data.remote.detail.*
 import com.example.wheretogo.databinding.ActivityDetailBinding
 import com.example.wheretogo.ui.BaseActivity
-import com.google.android.material.tabs.TabLayoutMediator
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -21,17 +15,20 @@ import retrofit2.Response
 
 class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding::inflate) {
 
+    private var eventIdx=0
+    private var userId=0
     private var status = "g"
-    private val detailService = DetailService
-    private val detailBooleanService = getRetrofit().create(DetailRetrofitInterface::class.java)
+    private val detailService = getRetrofit().create(DetailRetrofitInterface::class.java)
 
     override fun initAfterBinding() {
-        val eventIdx = intent.getIntExtra("eventIdx", -1)
+        eventIdx = intent.getIntExtra("eventIdx", -1)
+        userId=getUserIdx()
+        showToast(eventIdx.toString())
         initClickListener()
 
-        detailService.getDetailInfo(this, eventIdx)
-        getVisitedInfo(eventIdx)
-        getSavedInfo(eventIdx)
+        getDetailInfo()
+        getVisitedInfo()
+        getSavedInfo()
     }
 
     private fun initClickListener(){
@@ -42,7 +39,7 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
 
 
         binding.detailAdaptTv.setOnClickListener {
-            visitEvent(eventIdx,status)
+            visitEvent(status)
             binding.detailStarPanel.visibility = View.INVISIBLE
         }
 
@@ -51,17 +48,17 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
         }
 
         binding.detailEventCheckBtn.setOnClickListener{
-            deleteVisitedEvent(eventIdx)
+            deleteVisitedEvent()
         }
 
         binding.detailEventDislikeBtn.setOnClickListener{
             setSavedButton(true)
-            saveEvent(eventIdx)
+            saveEvent()
         }
 
         binding.detailEventLikeBtn.setOnClickListener{
             setSavedButton(false)
-            deleteSavedEvent(eventIdx)
+            deleteSavedEvent()
         }
 
         binding.detailBackBtn.setOnClickListener {
@@ -72,89 +69,85 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
 
     }
 
-    fun setDetailInfo(result: ArrayList<DetailInfoResult>){
-        for (item in result){
+    private fun getDetailInfo(){
+        detailService.getUserStat(eventIdx).enqueue(object: Callback<DetailInfoResponse> {
+            override fun onResponse(call: Call<DetailInfoResponse>, response: Response<DetailInfoResponse>) {
+                val resp = response.body()!!
+                Log.d("detail/SUCCESS",resp.code.toString())
+                when(resp.code){
+                    200->{
+                        setDetailInfo(resp.results)
+                    }
+                    else ->{
 
-            val time= item.playtime?.replace("<br>".toRegex(), "\n")
-            val cost= item.usetimefestival?.replace("<br>".toRegex(), "\n")
-            var eventKind=""
-            when (item.kind){
-                "A02070100"->eventKind="문화관광 축제"
-                "A02070200"->eventKind="일반 축제"
-                "A02080100"->eventKind="전통 공연"
-                "A02080200"->eventKind="연극"
-                "A02080300"->eventKind="뮤지컬"
-                "A02080400"->eventKind="오페라"
-                "A02080500"->eventKind="전시회"
-                "A02080600"->eventKind="박람회"
-                "A02080700"->eventKind="컨벤션"
-                "A02080800"->eventKind="무용"
-                "A02080900"->eventKind="클래식음악회"
-                "A02081000"->eventKind="대중콘서트"
-                "A02081100"->eventKind="영화"
-                "A02081200"->eventKind="스포츠경기"
-                "A02081300"->eventKind="기타행사"
+                    }
+                }
             }
-//            binding.detailEventHomepageData.text = item.eventhomepage
-//            binding.detailEventBookUrlData.text = item.bookingplace
-            //if eventData
-//            binding.detailEventTelData.text = item.tel
-
-
-
-            binding.detailKindTv.text=eventKind
-            binding.detailEventTitle.text = item.eventName
-            binding.detailDateDataTv.text = String.format("%s ~ %s",item.startDate.slice(IntRange(0,9)),item.endDate.slice(IntRange(0,9)))
-
-            if (time!=null){
-                binding.detailTimeDataTv.text =time
+            override fun onFailure(call: Call<DetailInfoResponse>, t: Throwable) {
+                Log.d("detail/FAILURE", t.message.toString())
             }
-            else binding.detailTimeTv.visibility = View.GONE
+        })
+    }
 
-            if (cost!=null){
-                binding.detailCostDataTv.text = cost
-            }
-            else binding.detailCostTv.visibility = View.GONE
+    fun setDetailInfo(result: DetailInfoResult){
 
-            if (item.pic!=null){
-                Glide.with(this).load(item.pic).into(binding.detailEventPlaceIv)
-            }
-            else binding.detailEventPlaceIv.visibility = View.GONE
 
-            if (item.sponsor1!=null&& item.sponsor2!=null){
-                binding.detailSponsorDataTv.text = String.format("%s\n%s",item.sponsor1, item.sponsor2)
-            }
-            else if (item.sponsor1==null && item.sponsor2==null){
-                binding.detailSponsorTv.visibility= View.GONE
-            }
-            else
-                binding.detailSponsorDataTv.text = item.sponsor1
+        //val time= item.playtime?.replace("<br>".toRegex(), "\n")
+        val price= result.price?.replace("<br>".toRegex(), "\n")
 
-            if (item.eventhomepage!=null){
-                binding.detailHomepageDataTv.text = item.eventhomepage
-            }
-            else binding.detailHomepageTv.visibility= View.GONE
+        binding.detailKindTv.text=result.kind
+        binding.detailEventTitle.text = result.eventName
+        binding.detailDateDataTv.text = String.format("%s ~ %s",result.startDate.slice(IntRange(0,9)),result.endDate.slice(IntRange(0,9)))
 
-            if (item.bookingplace!=null){
-                binding.detailBookUrlDataTv.text = item.bookingplace
-            }
-            else binding.detailBookUrlTv.visibility = View.GONE
+//            if (time!=null){
+//                binding.detailTimeDataTv.text =time
+//            }
+//            else binding.detailTimeTv.visibility = View.GONE
 
-            if (item.tel!=null){
-                binding.detailTelDataTv.text = item.tel
-            }
-            else binding.detailTelTv.visibility = View.GONE
-
-            if (item.agelimit!=null){
-                binding.detailAgeDataTv.text = item.agelimit
-            }
-            else binding.detailAgeTv.visibility = View.GONE
+        if (price!=null){
+            binding.detailCostDataTv.text = price
         }
+        else binding.detailCostTv.visibility = View.GONE
+
+        if (result.pic!=null){
+            Glide.with(this).load(result.pic).into(binding.detailEventPlaceIv)
+        }
+        else binding.detailEventPlaceIv.visibility = View.GONE
+
+//            if (item.sponsor1!=null&& item.sponsor2!=null){
+//                binding.detailSponsorDataTv.text = String.format("%s\n%s",item.sponsor1, item.sponsor2)
+//            }
+//            else if (item.sponsor1==null && item.sponsor2==null){
+//                binding.detailSponsorTv.visibility= View.GONE
+//            }
+//            else
+//                binding.detailSponsorDataTv.text = item.sponsor1
+
+        if (result.homepage!=null){
+            binding.detailHomepageDataTv.text = result.homepage
+        }
+        else binding.detailHomepageTv.visibility= View.GONE
+
+        if (result.bookingplace!=null){
+            binding.detailBookUrlDataTv.text = result.bookingplace
+        }
+        else binding.detailBookUrlTv.visibility = View.GONE
+
+        if (result.tel!=null){
+            binding.detailTelDataTv.text = result.tel
+        }
+        else binding.detailTelTv.visibility = View.GONE
+
+//            if (item.agelimit!=null){
+//                binding.detailAgeDataTv.text = item.agelimit
+//            }
+//            else binding.detailAgeTv.visibility = View.GONE
+
     }
 
 
-    private fun getVisitedInfo(eventId: Int){
-        detailBooleanService.getVisitedInfo(getIdx(),eventId).enqueue(object: Callback<DetailIsVisitedResponse> {
+    private fun getVisitedInfo(){
+        detailService.getVisitedInfo(userId,eventIdx).enqueue(object: Callback<DetailIsVisitedResponse> {
             override fun onResponse(call: Call<DetailIsVisitedResponse>, response: Response<DetailIsVisitedResponse>) {
                 val resp = response.body()!!
                 when(resp.code){
@@ -172,8 +165,8 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
         })
     }
 
-    private fun getSavedInfo(eventId: Int){
-        detailBooleanService.getSavedInfo(getIdx(),eventId).enqueue(object: Callback<DetailIsSavedResponse> {
+    private fun getSavedInfo(){
+        detailService.getSavedInfo(userId,eventIdx).enqueue(object: Callback<DetailIsSavedResponse> {
             override fun onResponse(call: Call<DetailIsSavedResponse>, response: Response<DetailIsSavedResponse>) {
                 val resp = response.body()!!
                 when(resp.code){
@@ -215,8 +208,8 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
     }
 
     //이벤트 저장(서버에 반영)
-    private fun saveEvent(eventId: Int){
-        detailBooleanService.saveEvent(getIdx(),eventId).enqueue(object: Callback<DetailSaveEventResponse> {
+    private fun saveEvent(){
+        detailService.saveEvent(userId,eventIdx).enqueue(object: Callback<DetailSaveEventResponse> {
             override fun onResponse(call: Call<DetailSaveEventResponse>, response: Response<DetailSaveEventResponse>) {
                 val resp = response.body()!!
                 Log.d("isSaved",resp.toString())
@@ -231,10 +224,13 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
         })
     }
 
-    //저장한 이벤트 삭제
-    private fun deleteSavedEvent(eventId: Int){
 
-        detailBooleanService.deleteSavedEvent(getIdx(),eventId).enqueue(object: Callback<DetailDeleteSavedResponse> {
+
+
+
+    //저장한 이벤트 삭제
+    private fun deleteSavedEvent(){
+        detailService.deleteSavedEvent(userId,eventIdx).enqueue(object: Callback<DetailDeleteSavedResponse> {
             override fun onResponse(call: Call<DetailDeleteSavedResponse>, response: Response<DetailDeleteSavedResponse>) {
                 val resp = response.body()!!
                 Log.d("isSaved/delete",resp.toString())
@@ -249,9 +245,8 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
         })
     }
 
-    private fun visitEvent(eventId: Int,assess:String){
-
-        detailBooleanService.visitEvent(getIdx(),eventId,assess).enqueue(object: Callback<DetailVisitEventResponse> {
+    private fun visitEvent(assess:String){
+        detailService.visitEvent(userId,eventIdx,assess).enqueue(object: Callback<DetailVisitEventResponse> {
             override fun onResponse(call: Call<DetailVisitEventResponse>, response: Response<DetailVisitEventResponse>) {
                 val resp = response.body()!!
                 when(resp.code){
@@ -270,9 +265,9 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
     }
 
     //저장한 이벤트 삭제
-    private fun deleteVisitedEvent(eventId: Int){
+    private fun deleteVisitedEvent(){
 
-        detailBooleanService.deleteVisitedEvent(getIdx(),eventId).enqueue(object: Callback<DetailDeleteVisitedResponse> {
+        detailService.deleteVisitedEvent(userId,eventIdx).enqueue(object: Callback<DetailDeleteVisitedResponse> {
             override fun onResponse(call: Call<DetailDeleteVisitedResponse>, response: Response<DetailDeleteVisitedResponse>) {
                 val resp = response.body()!!
                 Log.d("isVisited/delete",resp.toString())
@@ -312,7 +307,7 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
 
     }
 
-    private fun getIdx(): Int {
+    private fun getUserIdx(): Int {
         val spf = getSharedPreferences("userInfo", MODE_PRIVATE)
         return spf!!.getInt("userIdx",-1)
     }

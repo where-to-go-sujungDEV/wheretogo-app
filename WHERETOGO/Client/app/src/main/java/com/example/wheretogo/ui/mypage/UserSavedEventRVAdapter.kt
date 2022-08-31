@@ -57,28 +57,10 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
     inner class ViewHolder(val binding: ItemMypageSavedBinding): RecyclerView.ViewHolder(binding.root){
 
         fun bind(savedEvent: SavedEventResult){
-            var eventKind=""
-            when (savedEvent.kind){
-                "A02070100"->eventKind="문화관광 축제"
-                "A02070200"->eventKind="일반 축제"
-                "A02080100"->eventKind="전통 공연"
-                "A02080200"->eventKind="연극"
-                "A02080300"->eventKind="뮤지컬"
-                "A02080400"->eventKind="오페라"
-                "A02080500"->eventKind="전시회"
-                "A02080600"->eventKind="박람회"
-                "A02080700"->eventKind="컨벤션"
-                "A02080800"->eventKind="무용"
-                "A02080900"->eventKind="클래식음악회"
-                "A02081000"->eventKind="대중콘서트"
-                "A02081100"->eventKind="영화"
-                "A02081200"->eventKind="스포츠경기"
-                "A02081300"->eventKind="기타행사"
-            }
 
             Glide.with(context).load(savedEvent.pic).into(binding.mypageLikeEventIv)
             binding.itemMypageLikeTitleTv.text = savedEvent.eventName
-            binding.itemMypageLikeTagTv.text = eventKind
+            binding.itemMypageLikeTagTv.text = savedEvent.kind
             binding.itemMypageLikeStartDateTv.text = String.format("%s~",savedEvent.startDate.slice(IntRange(0,9)))
             if (savedEvent.endDate!=null)
                 binding.itemMypageLikeEndDateTv.text = savedEvent.endDate.slice(IntRange(0,9))
