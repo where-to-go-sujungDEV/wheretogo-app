@@ -47,12 +47,20 @@
             android:text="계정"
             android:textSize="16sp"
             android:textColor="@color/light_gray"/>
+
         <TextView
             android:id="@+id/setting_change_nickname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="개인정보 변경하기"
             android:layout_marginTop="17dp"
+            android:text="프로필 변경하기"
+            android:textSize="16sp" />
+        <TextView
+            android:id="@+id/setting_change_pwd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="17dp"
+            android:text="비밀번호 변경하기"
             android:textSize="16sp" />
         <TextView
             android:id="@+id/setting_resign_tv"
