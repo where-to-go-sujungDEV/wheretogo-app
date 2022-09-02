@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.wheretogo.data.remote.auth.getRetrofit
 import com.example.wheretogo.data.remote.detail.DetailIsSavedResponse
 import com.example.wheretogo.data.remote.mypage.EventStatusResponse
@@ -58,7 +60,9 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
 
         fun bind(savedEvent: SavedEventResult){
 
-            Glide.with(context).load(savedEvent.pic).into(binding.mypageLikeEventIv)
+            Glide.with(context).load(savedEvent.pic)
+                .transform(CenterCrop(), RoundedCorners(40))
+                .into(binding.mypageLikeEventIv)
             binding.itemMypageLikeTitleTv.text = savedEvent.eventName
             binding.itemMypageLikeTagTv.text = savedEvent.kind
             binding.itemMypageLikeStartDateTv.text = String.format("%s~",savedEvent.startDate.slice(IntRange(0,9)))
