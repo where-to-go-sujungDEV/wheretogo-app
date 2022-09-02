@@ -8,12 +8,22 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContentProviderCompat.requireContext
 import com.example.wheretogo.R
 import com.example.wheretogo.data.local.AppDatabase
+import com.example.wheretogo.data.remote.auth.DeleteUserResponse
+import com.example.wheretogo.data.remote.auth.getRetrofit
+import com.example.wheretogo.data.remote.detail.DetailRetrofitInterface
+import com.example.wheretogo.data.remote.setting.ChangeNameResponse
+import com.example.wheretogo.data.remote.setting.NameInfo
+import com.example.wheretogo.data.remote.setting.SettingInterface
 import com.example.wheretogo.databinding.ActivityChangeInfoBinding
 import com.example.wheretogo.ui.BaseActivity
 import com.example.wheretogo.ui.mypage.MypageFragment
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class ChangeInfoActivity : BaseActivity<ActivityChangeInfoBinding>(ActivityChangeInfoBinding::inflate){
     lateinit var appDB: AppDatabase
+    private val service = getRetrofit().create(SettingInterface::class.java)
 
     companion object {
         const val IMAGE_REQUEST_CODE = 100
@@ -32,8 +42,7 @@ class ChangeInfoActivity : BaseActivity<ActivityChangeInfoBinding>(ActivityChang
             finish()
         }
         binding.changeInfoSaveTv.setOnClickListener {
-            setData()
-            finish()
+            changeName()
         }
         binding.changeInfoSetProfile.setOnClickListener {
             binding.imgOptionBanner.visibility = View.VISIBLE
@@ -71,10 +80,8 @@ class ChangeInfoActivity : BaseActivity<ActivityChangeInfoBinding>(ActivityChang
     private fun initLayout(){
         val id :Int = getIdx()
         if (id!=-1){
-            binding.changeInfoEmailEt.setText(appDB.userDao().getEmail(getIdx()))
             binding.changeInfoNameEt.setText(appDB.userDao().getNickname(getIdx()))
         }
-
     }
 
     private fun getIdx(): Int {
@@ -82,11 +89,37 @@ class ChangeInfoActivity : BaseActivity<ActivityChangeInfoBinding>(ActivityChang
         return spf!!.getInt("userIdx",-1)
     }
 
+    private fun getNameInfo(): NameInfo {
+        var name =""
+        name = binding.changeInfoNameEt.text.toString()
+        return NameInfo(name)
+    }
+
 
     //유저가 개인정보 수정시 DB에 저장된 정보 변경
     private fun setData(){
-        appDB.userDao().setEmail(getIdx(),binding.changeInfoEmailEt.getText().toString())
-        appDB.userDao().setNickName(getIdx(),binding.changeInfoNameEt.getText().toString())
+        val name = binding.changeInfoNameEt.text.toString()
+        appDB.userDao().setNickName(getIdx(),name)
+    }
+
+    private fun changeName(){
+        service.changeName(getIdx(),getNameInfo()).enqueue(object: Callback<ChangeNameResponse> {
+            override fun onResponse(call: Call<ChangeNameResponse>, response: Response<ChangeNameResponse>) {
+                val resp = response.body()!!
+                Log.d("changeName",resp.code.toString())
+                when (resp.code){
+                    200->{
+                        setData()
+                        finish()
+                    }
+                    204->{
+                        showToast("변경할 닉네임을 입력해주세요.")
+                    }
+                }
+            }
+            override fun onFailure(call: Call<ChangeNameResponse>, t: Throwable) {
+            }
+        })
     }
 
 
