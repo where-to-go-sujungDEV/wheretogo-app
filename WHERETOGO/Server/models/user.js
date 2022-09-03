@@ -308,3 +308,74 @@ export const doAutoLogin = (head, result) => {
       });
     }
 }
+
+export const getUserPassword = (uid,data, result) => {
+    db.query("select pw from userTBL where userID = ?;", uid, (err, results) => {             
+        if (err) {
+            result(500, {
+                msg : "서버 에러 발생.", 
+                code : 500, 
+                isSuccess : false,
+                err}, null);
+        } 
+        else if(results.length <= 0) {
+            result(200, null,{
+                msg : "존재하지 않는 사용자입니다.",
+                code : 406,
+                isSuccess : false
+            });
+        } 
+        else {
+            bcrypt.compare(data.pw, results[0].pw, (bErr, bResult) => {
+              if (bErr) {
+                  result(500, {
+                      code : 500,
+                      isSuccess : false,
+                      msg : "오류가 발생하였습니다.",
+                      err}, null
+                  );
+              } else if(!bResult){
+                  result(200,null,{
+                      code : 402,
+                      isSuccess : false,
+                      msg : "비밀번호가 틀렸습니다.",
+                  });
+              }
+              else {
+                result(200,null,{
+                    code : 200,
+                    isSuccess : true,
+                    msg : "비밀번호가 일치합니다.",
+                });
+            }})
+        }
+    });  
+}
+
+
+export const getUserNickName = (uid, result) => {
+    db.query("select nickName from userTBL where userID = ?;", uid, (err, results) => {             
+        if (err) {
+            result(500, {
+                msg : "서버 에러 발생.", 
+                code : 500, 
+                isSuccess : false,
+                err}, null);
+        } 
+        else if(results.length <= 0) {
+            result(200, null,{
+                msg : "존재하지 않는 사용자입니다.",
+                code : 406,
+                isSuccess : false
+            });
+        } 
+        else {
+            result(200, null, {
+                msg : "사용자의 닉네임을 return합니다.",
+                code : 200,
+                isSuccess : true,
+                results
+            });
+        }
+    });  
+}
