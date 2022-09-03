@@ -24,11 +24,9 @@ data class DetailInfoResult(
 
     @SerializedName(value = "tel")val tel: String?,
     @SerializedName(value = "telname")val telname: String?,
-//    @SerializedName(value = "sponsor1")val sponsor1: String?,
-//    @SerializedName(value = "sponsor1tel")val sponsor1tel: String?,
-//    @SerializedName(value = "sponsor2")val sponsor2: String?,
-//    @SerializedName(value = "sponsor2tel")val sponsor2tel: String?,
-//    @SerializedName(value = "playtime")val playtime: String?,
+
+    @SerializedName(value = "agelimit")val agelimit: String?,
+    @SerializedName(value = "eventtime")val eventtime: String?,
 
     @SerializedName(value = "homepage")val homepage: String?,//위치 상세정보
     @SerializedName(value = "overview")val overview: String?,
