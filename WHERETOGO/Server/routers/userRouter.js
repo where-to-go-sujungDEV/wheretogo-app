@@ -14,7 +14,7 @@ userRouter.patch('/changeP/:userID', changeUserPInfo);
 
 userRouter.delete('/unregister/:userID', deleteUser);
 
-userRouter.get('/get-pw/:userID', getUserPW);
+userRouter.post('/check-pw/:userID', getUserPW);
 
 userRouter.get('/get-nickname/:userID', getUserNN);
 

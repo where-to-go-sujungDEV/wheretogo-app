@@ -27,7 +27,8 @@ export const getUserNN = (req, res) => {
 
 export const getUserPW = (req, res) => {
     const uid = req.params.userID;
-    getUserPassword(uid, (stat, err, results) => {
+    const data = req.body;
+    getUserPassword(uid, data, (stat, err, results) => {
         if (err){
             res.status(stat).send(err);
         }else{
