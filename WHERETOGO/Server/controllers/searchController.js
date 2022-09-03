@@ -2,7 +2,6 @@ import {getSearchResults, getHotSearchResults, updateSearchCount} from "../model
 
 export const getSearch = (req, res) => {
     const data = req.query;
-    const areaName = req.params.areaName;
     getSearchResults(data, (stat, err, results) => {
         if (err){
             res.status(stat).send(err);

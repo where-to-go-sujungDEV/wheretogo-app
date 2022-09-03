@@ -1,7 +1,7 @@
 import db from "../config/dbConnection.js";
 
 export const getSearchResults = (data, result) => {
-    var qr = 'select eventID, eventName, kind, startDate, endDate, firstimage as pic, w1+w2+w3+w4+w6+m1+m2+m3+m4+m6 as savedNum from eventTBL ';
+    var qr = 'select eventID, eventName, kind, startDate, endDate, pic, w1+w2+w3+w4+w6+m1+m2+m3+m4+m6 as savedNum from eventTBL ';
     qr += ' where ';
     var areacode = -1, sigungucode = -1;
     var kind = '';
@@ -67,25 +67,23 @@ export const getSearchResults = (data, result) => {
                     if(data.search) {
                         qr += ' and (eventName like \'\%';
                         qr += data.search;
-                        qr += '\%\' or program like \'\%'
+                        qr += '\%\' or overview like \'\%'
                         qr += data.search;
                         qr += '\%\' or addr1 like \'\%'
                         qr += data.search;
                         qr += '\%\' or addr2 like \'\%'
                         qr += data.search;
-                        qr += '\%\' or sponsor1 like \'\%'
-                        qr += data.search;
-                        qr += '\%\' or sponsor2 like \'\%'
+                        qr += '\%\' or telname like \'\%'
                         qr += data.search;
                         qr += '\%\' or eventplace like \'\%'
                         qr += data.search;
-                        qr += '\%\' or usetimefestival like \'\%'
+                        qr += '\%\' or price like \'\%'
                         qr += data.search;
                         qr += '\%\') ';
                     }
 
                     if(data.free){
-                        qr += ' and usetimefestival like \'\%무료\%\' ';
+                        qr += ' and price like \'\%무료\%\' ';
                     }
                     
                         if((data.k1)||(data.k2)||(data.k3)||(data.k4)||(data.k5)||(data.k6)||(data.k7)||(data.k8)||(data.k9)||(data.k10)||(data.k11)||(data.k12)||(data.k13)||(data.k14)||(data.k15)){
