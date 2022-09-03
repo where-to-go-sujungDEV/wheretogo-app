@@ -18,7 +18,7 @@ data class ChangePwdResponse(
     @SerializedName(value = "isSuccess")val isSuccess : Boolean
 )
 
-data class PwdInfo(
+data class NewPwdInfo(
     @SerializedName(value = "password")val password:String
 )
 

@@ -10,5 +10,5 @@ interface SettingInterface {
     fun changeName(@Path("userID") userID: Int,@Body nameInfo: NameInfo): Call<ChangeNameResponse>
 
     @PATCH("/user/changeP/{userID}")
-    fun changePwd(@Path("userID") userID: Int,@Body pwdInfo: PwdInfo): Call<ChangePwdResponse>
+    fun changePwd(@Path("userID") userID: Int,@Body pwdInfo: NewPwdInfo): Call<ChangePwdResponse>
 }

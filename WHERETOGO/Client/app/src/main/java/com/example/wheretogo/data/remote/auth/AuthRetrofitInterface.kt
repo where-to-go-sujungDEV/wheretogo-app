@@ -14,8 +14,11 @@ interface AuthRetrofitInterface {
     @DELETE("/user/unregister/{userID}")
     fun deleteUser(@Path("userID") userID: Int): Call<DeleteUserResponse>
 
-    @GET("user/get-nickname/{userIdx}")
-    fun getName(@Path("userIdx")userIdx: Int) : Call<GetNameResponse>
+    @GET("user/get-nickname/{userID}")
+    fun getName(@Path("userID")userID: Int) : Call<GetNameResponse>
+
+    @POST("/user/check-pw/{userID}")
+    fun checkPwd(@Path ("userID") userID: Int,@Body originPwdInfo: OriginPwdInfo): Call<CheckPwdResponse>
 }
 
 
