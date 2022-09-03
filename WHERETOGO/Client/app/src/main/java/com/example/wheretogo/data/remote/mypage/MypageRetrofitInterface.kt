@@ -1,5 +1,6 @@
 package com.example.wheretogo.data.remote.mypage
 
+import com.example.wheretogo.data.remote.auth.GetNameResponse
 import com.example.wheretogo.data.remote.detail.DetailIsSavedResponse
 import retrofit2.Call
 import retrofit2.http.GET

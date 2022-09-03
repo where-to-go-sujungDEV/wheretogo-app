@@ -47,3 +47,14 @@ data class DeleteUserResponse(
     @SerializedName(value = "code")val code:Int,
     @SerializedName(value = "isSuccess")val isSuccess:Boolean
 )
+
+data class GetNameResponse(
+    @SerializedName(value = "msg")val msg:String,
+    @SerializedName(value = "code")val code:Int,
+    @SerializedName(value = "isSuccess")val isSuccess:Boolean,
+    @SerializedName(value = "results")val results:GetNameResult?
+)
+
+data class GetNameResult(
+    @SerializedName(value = "nickName")val nickName:String
+)
