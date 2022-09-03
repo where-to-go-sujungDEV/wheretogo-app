@@ -308,3 +308,57 @@ export const doAutoLogin = (head, result) => {
       });
     }
 }
+
+export const getUserPassword = (uid, result) => {
+    db.query("select pw from userTBL where userID = ?;", uid, (err, results) => {             
+        if (err) {
+            result(500, {
+                msg : "서버 에러 발생.", 
+                code : 500, 
+                isSuccess : false,
+                err}, null);
+        } 
+        else if(results.length <= 0) {
+            result(200, null,{
+                msg : "존재하지 않는 사용자입니다.",
+                code : 406,
+                isSuccess : false
+            });
+        } 
+        else {
+            result(200, null, {
+                msg : "사용자의 비밀번호를 return합니다.",
+                code : 200,
+                isSuccess : true,
+                results
+            });
+        }
+    });  
+}
+
+export const getUserNickName = (uid, result) => {
+    db.query("select nickName from userTBL where userID = ?;", uid, (err, results) => {             
+        if (err) {
+            result(500, {
+                msg : "서버 에러 발생.", 
+                code : 500, 
+                isSuccess : false,
+                err}, null);
+        } 
+        else if(results.length <= 0) {
+            result(200, null,{
+                msg : "존재하지 않는 사용자입니다.",
+                code : 406,
+                isSuccess : false
+            });
+        } 
+        else {
+            result(200, null, {
+                msg : "사용자의 닉네임을 return합니다.",
+                code : 200,
+                isSuccess : true,
+                results
+            });
+        }
+    });  
+}

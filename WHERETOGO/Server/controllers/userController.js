@@ -1,4 +1,4 @@
-import {updateUserNInfo, updateUserPInfo, deleteUserInfo, registerUserInfo, loginUserInfo, doAutoLogin} from "../models/user.js";
+import {updateUserNInfo, getUserNickName,getUserPassword, updateUserPInfo, deleteUserInfo, registerUserInfo, loginUserInfo, doAutoLogin} from "../models/user.js";
 
 
   
@@ -13,6 +13,29 @@ export const changeUserNInfo = (req, res) => {
         }
     });
 }
+
+export const getUserNN = (req, res) => {
+    const uid = req.params.userID;
+    getUserNickName(uid, (stat, err, results) => {
+        if (err){
+            res.status(stat).send(err);
+        }else{
+            res.status(stat).json(results);
+        }
+    });
+}
+
+export const getUserPW = (req, res) => {
+    const uid = req.params.userID;
+    getUserPassword(uid, (stat, err, results) => {
+        if (err){
+            res.status(stat).send(err);
+        }else{
+            res.status(stat).json(results);
+        }
+    });
+}
+
 
 export const changeUserPInfo = (req, res) => {
     const uid = req.params.userID;
