@@ -2,14 +2,14 @@ import request from 'request';
 
 const serviceKey ="QNnTJy6f3sstORUG9MRvZBkU7%2F3vsnIy%2BAgmf%2FKQpuzsI9iC%2FWV7SHiDqrfUrYfDLoJTDX5TAPIQpUD0mGwwFA%3D%3D";
 const numOfRows = 1;
-const pageNo = 6;
+const pageNo = 2;
 
 let qr = "", dqr ="", eqr = "";
 
 global.qr = qr, global.dqr = dqr;
 var eventID, eventName, startDate, endDate; // NOT NULL
 
-var addr1,addr2,kind ,pic, thumbnail , mapx, mapy , mlevel , areacode , sigungucode , tel , telname , homepage, overview, eventplace , bookingplace , subevent , price;  
+var addr1,addr2,kind ,pic, thumbnail , mapx, mapy , mlevel , areacode , sigungucode , tel , telname , homepage, overview, eventplace , bookingplace , subevent , price, agelimit, eventtime;  
 
 var getInfo = {
   'method': 'GET',
@@ -76,7 +76,7 @@ console.log('출력된 개수 : ' + info['response']['body']['numOfRows']);
     sigungucode = infoRes[i]['sigungucode'];
     tel = infoRes[i]['tel'];
 
-    qr += "INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, thumbnail, mapx, mapy, mlevel, areacode, sigungucode, tel, telname, homepage, overview, eventplace,bookingplace, subevent, price) VALUES ( ";
+    qr += "INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, thumbnail, mapx, mapy, mlevel, areacode, sigungucode, tel, telname, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( ";
 
     qr += eventID; qr += " , '";
     qr += eventName;qr += "' , ";
@@ -140,11 +140,15 @@ console.log('출력된 개수 : ' + info['response']['body']['numOfRows']);
       bookingplace = DinfoRes[0]['bookingplace'];
       subevent = DinfoRes[0]['subevent'];
       price = DinfoRes[0]['usetimefestival'];
+      agelimit = DinfoRes[0]['agelimit'];
+      eventtime = DinfoRes[0]['spendtimefestival'];
 
       if(eventplace.length){ dqr += "'"+eventplace+"'";} else {dqr += "NULL";}dqr += ", ";
       if(bookingplace.length){ dqr += "'"+bookingplace+"'";} else {dqr += "NULL";}dqr += ", ";
       if(subevent.length){ dqr += "'"+subevent+"'";} else {dqr += "NULL";}dqr += ", ";
-      if(price.length){ dqr += "'"+price+"'";} else {dqr += "NULL";}dqr += ");";
+      if(price.length){ dqr += "'"+price+"'";} else {dqr += "NULL";}dqr += ",";
+      if(agelimit.length){ dqr += "'"+agelimit+"'";} else {dqr += "NULL";}dqr += ", ";
+      if(eventtime.length){ dqr += "'"+eventtime+"'";} else {dqr += "NULL";}dqr += ");";
 
     console.log(eqr);
     console.log(dqr);

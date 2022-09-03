@@ -82,6 +82,8 @@ CREATE TABLE eventTBL
   `bookingplace`      TEXT				NULL	DEFAULT NULL,
   `subevent`          TEXT				NULL	DEFAULT NULL,
   `price`   TEXT				NULL	DEFAULT NULL,
+  `agelimit` TEXT				NULL	DEFAULT NULL,
+  `eventtime` TEXT 	NULL	DEFAULT NULL,
     `w1`       BIGINT    NULL        DEFAULT 0 COMMENT '10~19 ; w', 
     `m1`       BIGINT    NULL        DEFAULT 0 COMMENT '10~19 ; m', 
     `w2`       BIGINT    NULL        DEFAULT 0 COMMENT '20~29 ; w', 
@@ -559,6 +561,10 @@ INSERT INTO `userTBL` (email, nickName, pw, sex, age, last_login) VALUES ('norea
 INSERT INTO `userTBL` (email, nickName, pw, sex, age, last_login) VALUES ('jinjinja@gmail.com', '진진자라', "$2a$10$SffPDhslr3.3K0n/RefgKu4U6wI2YPx0uXN3PetVrb5pRfIx1opKG", 'm', 6, NOW());  /*pw : jinjinja*/
 
 -- 이벤트 정보 입력 ------------------------------------------------------------------------------
+
+INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, thumbnail, mapx, mapy, mlevel, areacode, sigungucode, tel, telname, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 2848498 , '감성농부의 도시 나들이' , 20220917 , 20220918 , '경기도 수원시 영통구 법조로 76', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/96/2848496_image2_1.jpg', 'http://tong.visitkorea.or.kr/cms/resource/96/2848496_image3_1.jpg', 127.0679652328, 37.2860245036, 6, 31, 13, '02-554-9570<br>031-8008-9395',
+"경기도농업기술원", '<a href="https://nongup.gg.go.kr/" target="_blank" title="새창 :  감성농부의 도시 나들이">https://nongup.gg.go.kr</a>', "경기도 농촌을 지키는 청년농업인 감성농부들이 2022년 9월 17일(토)~18일(일)까지 도시민을 찾아간다. 경기도농업기술원에서 주최하고 한국4-H경기도본부, 경기도4-H연합회에서 주관하는 감성농부의 도시 나들이는 청년농업인과 도시민이 함께 즐기는 도심 속 팜파티이다. 청년농부들이 땀 흘려 키운 농산물 및 가공상품과 다양한 농촌체험(곤충, 원예 등) 프로그램이 준비되어 있으니, 수확의 계절 가을 도심속 팜파티를 즐겨보자! 청년농부!  감성농부들이 여러분을 초대한다.",
+NULL, NULL, NULL, '무료',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, thumbnail, mapx, mapy, mlevel, areacode, sigungucode, tel, telname, homepage, overview, eventplace,bookingplace, subevent, price) VALUES ( 2819403 , '강남디자인위크' , 20220826 , 20220904 , '서울특별시 강남구 논현동', '논현동 가구거리', 'A02080600', 'http://tong.visitkorea.or.kr/cms/resource/81/2838381_image2_1.jpg', 'http://tong.visitkorea.or.kr/cms/resource/81/2838381_image3_1.jpg', 127.0225157989, 37.5112531257, 6, 1, 1, '02-3423-5532',
 '강남구', '<a href="http://gangnamdesignweek.co.kr" target="_blank" title="새창 : 강남인테리어디자인위크">http://gangnamdesignweek.co.kr</a>', '강남디자인위크는 2020.11월, 2021.5월에 이어 3회째 개최되는 행사로 논현동 가구거리 인프라를 활용한 테마형 거리 페스티벌이다. 가구거리내 입점한 기업들과 협업을 통해 민관 경제문화융합형 프로그램을 제공하여 관광객 유치와 지역경제 활성화를 도모한다.',
