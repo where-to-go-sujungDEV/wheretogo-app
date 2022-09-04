@@ -374,7 +374,7 @@ export const getUserNickName = (uid, result) => {
                 msg : "사용자의 닉네임을 return합니다.",
                 code : 200,
                 isSuccess : true,
-                results
+                results : results[0]
             });
         }
     });  
