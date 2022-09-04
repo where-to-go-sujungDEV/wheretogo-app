@@ -38,3 +38,16 @@ export const getListContent = (areacode, result) => {
         }
     });   
 }
+
+export const getBigListContent = (result) => { 
+    db.query("select aCode, aName from areaCodeTBL;", (err, results) => {             
+        if(err) {
+            result(500, err, null);
+        } else {
+            result(200, null, {
+                code : 200,
+                isSuccess : true,
+                results});
+        }
+    });   
+}

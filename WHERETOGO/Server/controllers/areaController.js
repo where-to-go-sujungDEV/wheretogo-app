@@ -1,4 +1,4 @@
-import {getBigContent, getSmallContent, getListContent} from "../models/area.js";
+import {getBigContent, getSmallContent, getListContent, getBigListContent} from "../models/area.js";
 
 
 export const getBigName = (req, res) => {
@@ -27,6 +27,16 @@ export const getSmallName = (req, res) => {
 export const getList = (req, res) => {
     const areacode = req.params.areacode;
     getListContent(areacode, (stat, err, results) => {
+        if (err){
+            res.status(stat).send(err);
+        }else{
+            res.status(stat).json(results);
+        }
+    });
+}
+
+export const getBigList = (req, res) => {
+    getBigListContent((stat, err, results) => {
         if (err){
             res.status(stat).send(err);
         }else{
