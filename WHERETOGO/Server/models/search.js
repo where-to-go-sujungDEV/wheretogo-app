@@ -211,7 +211,7 @@ export const getSearchResults = (data, result) => {
 
 
 export const getHotSearchResults = (result) => {
-    db.query("Select searchID, word from searchTBL ORDER BY count DESC LIMIT 10;", (err, results) => {             
+    db.query("Select word, count(word) as count from searchTBL Group By word ORDER BY count(*) DESC LIMIT 10;", (err, results) => {             
         if(err) {
             result(500, {
                 code : 500,
