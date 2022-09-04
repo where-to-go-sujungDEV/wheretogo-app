@@ -54,7 +54,6 @@ export const getUserTopContents = (uid, result) => {
 
             qr += ' ) as userTopNum from eventTBL ORDER BY userTopNum DESC LIMIT 5;' 
 
-            console.log(qr);
 
             db.query(qr, (err, results) => {             
                 if(err) {
