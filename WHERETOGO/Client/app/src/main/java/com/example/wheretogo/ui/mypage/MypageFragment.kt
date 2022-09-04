@@ -9,34 +9,34 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
+import com.example.wheretogo.BaseFragment
 import com.example.wheretogo.R
 import com.example.wheretogo.data.local.AppDatabase
+import com.example.wheretogo.data.remote.auth.AuthRetrofitInterface
+import com.example.wheretogo.data.remote.auth.GetNameResponse
+import com.example.wheretogo.data.remote.auth.getRetrofit
 import com.example.wheretogo.databinding.FragmentMypageBinding
 import com.example.wheretogo.ui.MainActivity
 import com.example.wheretogo.ui.home.HomeBannerVPAdapter
 import com.example.wheretogo.ui.login.LoginActivity
 import com.example.wheretogo.ui.setting.SettingActivity
 import com.google.android.material.tabs.TabLayoutMediator
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
-class MypageFragment : Fragment() {
-    lateinit var binding: FragmentMypageBinding
+class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding::inflate) {
+
     lateinit var appDB: AppDatabase
+    private val service = getRetrofit().create(AuthRetrofitInterface::class.java)
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentMypageBinding.inflate(inflater, container, false)
+    override fun initAfterBinding() {
         appDB =AppDatabase.getInstance(requireContext())!!
         initLayout()
         initView()
         setIndicator()
+        getName(getIdx())
         initClickListener()
-        val users = appDB.userDao().getUserList()
-        Log.d("userlist",users.toString())
-
-        return binding.root
     }
 
     override fun onStart() {
@@ -86,6 +86,31 @@ class MypageFragment : Fragment() {
         return spf!!.getInt("userIdx",-1)
     }
 
+    private fun getName(userIdx: Int){
+        service.getName(userIdx).enqueue(object: Callback<GetNameResponse> {
+            override fun onResponse(call: Call<GetNameResponse>, response: Response<GetNameResponse>) {
+                val resp = response.body()!!
+                when(resp.code){
+                    200->{
+                        val spf = activity!!.getSharedPreferences("userInfo", AppCompatActivity.MODE_PRIVATE)
+                        val editor = spf.edit()
+                        Log.d("nickname",resp.results!!.nickName)
+                        editor.putString("nickname",resp.results!!.nickName)
+                        editor.apply()
+                    }
+                }
+            }
+            override fun onFailure(call: Call<GetNameResponse>, t: Throwable) {
+            }
+        })
+    }
+
+    //유저 닉네임 가져옴
+    private fun getName(): String {
+        val spf = activity?.getSharedPreferences("userInfo", AppCompatActivity.MODE_PRIVATE)
+        return spf!!.getString("nickname","USER")!!
+    }
+
 
     private fun initView(){
         val userIdx: Int = getIdx()
@@ -97,7 +122,8 @@ class MypageFragment : Fragment() {
         }
         else{
             binding.mypageLoginTv.text ="로그아웃"
-            binding.mypageNicknameTv.text = appDB.userDao().getNickname(userIdx)
+//            binding.mypageNicknameTv.text = appDB.userDao().getNickname(userIdx)
+            binding.mypageNicknameTv.text = getName()
             binding.mypageEmailTv.text = appDB.userDao().getEmail(userIdx)
 
         }
@@ -110,6 +136,8 @@ class MypageFragment : Fragment() {
         editor.apply()
         binding.mypageLoginTv.text = "로그인"
     }
+
+
 
 
 }

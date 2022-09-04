@@ -18,7 +18,6 @@ import retrofit2.Response
 
 
 class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::inflate), LoginView {
-    private val service = getRetrofit().create(AuthRetrofitInterface::class.java)
     override fun initAfterBinding() {
         val AppDB = AppDatabase.getInstance(this)!!
         val users = AppDB.userDao().getUserList()
@@ -67,24 +66,7 @@ class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::in
         authService.login(getLoginInfo())
     }
 
-    private fun getName(userIdx: Int){
-        service.getName(userIdx).enqueue(object: Callback<GetNameResponse> {
-            override fun onResponse(call: Call<GetNameResponse>, response: Response<GetNameResponse>) {
-                val resp = response.body()!!
-                when(resp.code){
-                    200->{
-                        val spf = getSharedPreferences("userInfo", MODE_PRIVATE)
-                        val editor = spf.edit()
 
-                        //editor.putInt("nickname",resp.nickname)
-                        editor.apply()
-                    }
-                }
-            }
-            override fun onFailure(call: Call<GetNameResponse>, t: Throwable) {
-            }
-        })
-    }
 
 
 
@@ -96,7 +78,6 @@ class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::in
             AppDB.userDao().insert(User(result.userID,result.nickName,result.email,result.pw,result.sex,result.age))
 
         saveIdx(result.userID)
-        getName(result.userID)
         finish()
     }
 
