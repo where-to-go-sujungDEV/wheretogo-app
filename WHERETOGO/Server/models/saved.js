@@ -1,7 +1,7 @@
 import db from "../config/dbConnection.js";
 
 export const getSavedEvent = ([uid], result) => {
-    db.query("Select eventTBL.eventID, eventTBL.eventName, categoryTBL.cName as kind, eventTBL.startDate, eventTBL.endDate,  eventTBL.pic, eventTBL.w1+eventTBL.w2+eventTBL.w3+eventTBL.w4+eventTBL.w6+eventTBL.m1+eventTBL.m2+eventTBL.m3+eventTBL.m4+eventTBL.m6 as savedNum from eventTBL, categoryTBL where eventTBL.kind = categoryTBL.cCode and eventID in (SELECT eventID from userSavedTBL where userID = ?);",[uid], (err, results) => {             
+    db.query("Select eventID, eventName, (select cName from CategoryTBL where CategoryTBL.cCode = EventTBL.kind) as kind, startDate, endDate,  pic, ( select count(*) from userSavedTBL where UserSavedTBL.eventID = EventTBL.eventID) as savedNum,(select count(*) from UserVisitedTBL where UserVisitedTBL.eventID = EventTBL.eventID)as visitedNum from eventTBL where eventID in (SELECT eventID from userSavedTBL where userID = 1);",[uid], (err, results) => {             
         if(err) {
             result(500, {
                 msg : "오류가 발생하였습니다.",
