@@ -1,7 +1,7 @@
 import db from "../config/dbConnection.js";
 
 export const getVisitedEvent = ([uid], result) => {
-    db.query("Select userVisitedTBL.assessment, eventTBL.eventID, eventTBL.eventName, categoryTBL.cName as kind, eventTBL.startDate, eventTBL.endDate, eventTBL.pic, eventTBL.w1+eventTBL.w2+eventTBL.w3+eventTBL.w4+eventTBL.w6+eventTBL.m1+eventTBL.m2+eventTBL.m3+eventTBL.m4+eventTBL.m6 as savedNum from eventTBL, categoryTBL, userVisitedTBL where eventTBL.eventID = userVisitedTBL.eventID and eventTBL.kind = categoryTBL.cCode and userID = ?;",[uid], (err, results) => {             
+    db.query("Select  eventID, eventName, (select cName from CategoryTBL where CategoryTBL.cCode = EventTBL.kind) as kind, startDate, endDate,  pic, (select count(*) from userSavedTBL where UserSavedTBL.eventID = EventTBL.eventID) as savedNum,(select count(*) from UserVisitedTBL where UserVisitedTBL.eventID = EventTBL.eventID)as visitedNum,(select assessment from uservisitedtbl where UserVisitedTBL.eventID = EventTBL.eventID and UserVisitedTBL.userID = ?)as assessment from eventTBL where eventID in (SELECT eventID from userVisitedTBL where userID = ?);",[uid, uid], (err, results) => {             
         if(err) {
             console.log(err);
             result(500, {
