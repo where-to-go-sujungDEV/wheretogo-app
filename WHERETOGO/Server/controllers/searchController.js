@@ -22,7 +22,7 @@ export const getHotSearch = (req, res) => {
 }
 
 export const updateSearch = (req, res) => {
-    const data = req.body;
+    const data = req.query;
     updateSearchCount(data, (stat, err, results) => {
         if (err){
             res.status(stat).send(err);

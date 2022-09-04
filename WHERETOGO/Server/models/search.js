@@ -235,14 +235,7 @@ export const updateSearchCount = (data, result) => {
             msg : "검색어가 입력되지 않았습니다."
         });
     }
-    else{
-    db.query("Select * from searchTBL where word = ?;", [data.search], (err, cnt) => {             
-        if(err) {
-            result(500, {
-                code : 500,
-                isSuccess : false,
-                err}, null);
-        } else if(!cnt.length){
+    else{           
             db.query("insert into searchTBL (word) values (?);", [data.search],(err,results) => {
                 if(err) {
                     result(500, {
@@ -253,28 +246,10 @@ export const updateSearchCount = (data, result) => {
                 else{
                     result(200, null, {
                         code : 200,
-                        msg : "새로운 검색어입니다. 검색어 테이블에 검색어가 입력되었습니다.",
+                        msg : "검색어 테이블에 검색어가 입력되었습니다.",
                         isSuccess : true});
                 }
             })
-        }
-        else {
-            db.query("update searchTBL set count = count + 1 where word = ?;", [data.search],(err,results) => {
-                if(err) {
-                    result(500, {
-                        code : 500,
-                        isSuccess : false,
-                        err}, null);
-                }
-                else{
-                    result(200, null, {
-                        code : 200,
-                        msg : "기존에 존재하던 검색어입니다. 검색어 테이블의 count를 업데이트 하였습니다.",
-                        isSuccess : true,
-                        });
-                }
-            })
-        }
-    });  
+ 
 } 
 }
