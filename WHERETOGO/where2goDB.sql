@@ -148,7 +148,6 @@ CREATE TABLE SearchTBL
 (
     `searchID`  BIGINT         NOT NULL    AUTO_INCREMENT, 
     `word`      VARCHAR(45)    NOT NULL, 
-    `count`     BIGINT         NOT NULL    DEFAULT 0, 
      PRIMARY KEY (searchID)
 );
 
@@ -654,13 +653,25 @@ INSERT INTO `UserSavedTBL` VALUES (35, 2713558);
 INSERT INTO `UserSavedTBL` VALUES (45, 2713558);
 INSERT INTO `UserSavedTBL` VALUES (19, 2713558);
 
-INSERT INTO `SearchTBL` (word, count) VALUES ('워터밤', 10);
-INSERT INTO `SearchTBL` (word, count) VALUES ('물총', 8);
-INSERT INTO `SearchTBL` (word, count) VALUES ('음악', 7);
-INSERT INTO `SearchTBL` (word, count) VALUES ('백예린', 5);
-INSERT INTO `SearchTBL` (word, count) VALUES ('아이유', 10);
-INSERT INTO `SearchTBL` (word, count) VALUES ('재즈', 1);
-INSERT INTO `SearchTBL` (word, count) VALUES ('수영', 1);
-INSERT INTO `SearchTBL` (word, count) VALUES ('불꽃놀이', 4);
-INSERT INTO `SearchTBL` (word, count) VALUES ('수박', 2);
-INSERT INTO `SearchTBL` (word, count) VALUES ('야시장', 21);
+INSERT INTO `SearchTBL` (word) VALUES ('워터밤');
+INSERT INTO `SearchTBL` (word) VALUES ('워터밤');
+INSERT INTO `SearchTBL` (word) VALUES ('워터밤');
+INSERT INTO `SearchTBL` (word) VALUES ('워터밤');
+INSERT INTO `SearchTBL` (word) VALUES ('워터밤');
+INSERT INTO `SearchTBL` (word) VALUES ('워터밤');
+INSERT INTO `SearchTBL` (word) VALUES ('물총');
+INSERT INTO `SearchTBL` (word) VALUES ('물총');
+INSERT INTO `SearchTBL` (word) VALUES ('물총');
+INSERT INTO `SearchTBL` (word) VALUES ('물총');
+INSERT INTO `SearchTBL` (word) VALUES ('물총');
+INSERT INTO `SearchTBL` (word) VALUES ('음악');
+INSERT INTO `SearchTBL` (word) VALUES ('음악');
+INSERT INTO `SearchTBL` (word) VALUES ('음악');
+INSERT INTO `SearchTBL` (word) VALUES ('음악');
+INSERT INTO `SearchTBL` (word) VALUES ('백예린');
+INSERT INTO `SearchTBL` (word) VALUES ('아이유');
+INSERT INTO `SearchTBL` (word) VALUES ('재즈');
+INSERT INTO `SearchTBL` (word) VALUES ('수영');
+INSERT INTO `SearchTBL` (word) VALUES ('불꽃놀이');
+INSERT INTO `SearchTBL` (word) VALUES ('수박');
+INSERT INTO `SearchTBL` (word) VALUES ('야시장');
