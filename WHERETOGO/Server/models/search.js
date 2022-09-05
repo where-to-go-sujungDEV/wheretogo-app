@@ -5,65 +5,65 @@ export const getSearchResults = (data, result) => {
     qr += ' where ';
     var kind = '';           
                 
-                if(!data.aCode){
-                    qr += ' areacode = ';
-                    qr += data.aCode;
-                }
+    if(data.aCode != ""){
+        qr += ' areacode = ';
+        qr += data.aCode;
+    }
                     
 
-                    if(!data.aDCode){
-                        qr += ' and sigungucode = ';
-                        qr += data.aDCode;
-                    }
+    if(data.aCode != ""){
+        qr += ' and sigungucode = ';
+        qr += data.aDCode;
+    }
 
-                    if((!data.aCode)||(!data.aDCode)){
-                        qr += ' and ';
-                    }
+    if((data.aCode != "")||(data.aCode != "")){
+        qr += ' and ';
+    }
 
-                    if((!data.fromD)&&(!data.toD)) {
-                        qr += ' endDate >= now() ';
-                    }
-                    else if((!data.fromD)&&(data.toD)){
-                        qr += ' endDate >= now() and startDate <= \'';
-                        qr += data.toD;
-                        qr += '\' ';
-                    }
-                    else if((data.fromD)&&(!data.toD)){
-                        qr += ' endDate >= \'';
-                        qr += data.fromD;
-                        qr += '\' ';
-                    }
-                    else if((data.fromD)&&(data.toD)){
-                        qr += ' endDate >= \'';
-                        qr += data.fromD;
-                        qr += '\' and startDate <= \'';
-                       qr += data.toD;
-                        qr += '\' ';
-                    }
+    if((data.fromD == "1970-01-01")&&(data.toD == "1970-01-01")) {
+        qr += ' endDate >= now() ';
+    }
+    else if((data.fromD == "1970-01-01")&&(data.toD != "1970-01-01")){
+        qr += ' endDate >= now() and startDate <= \'';
+        qr += data.toD;
+        qr += '\' ';
+    }
+    else if((data.fromD != "1970-01-01")&&(data.toD == "1970-01-01" )){
+        qr += ' endDate >= \'';
+        qr += data.fromD;
+        qr += '\' ';
+    }
+    else if((data.fromD != "1970-01-01")&&(data.toD != "1970-01-01")){
+        qr += ' endDate >= \'';
+        qr += data.fromD;
+        qr += '\' and startDate <= \'';
+        qr += data.toD;
+        qr += '\' ';
+    }
                     
-                    if(data.search.length) {
-                        qr += ' and (eventName like \'\%';
-                        qr += data.search;
-                        qr += '\%\' or overview like \'\%'
-                        qr += data.search;
-                        qr += '\%\' or addr1 like \'\%'
-                        qr += data.search;
-                        qr += '\%\' or addr2 like \'\%'
-                        qr += data.search;
-                        qr += '\%\' or telname like \'\%'
-                        qr += data.search;
-                        qr += '\%\' or eventplace like \'\%'
-                        qr += data.search;
-                        qr += '\%\' or price like \'\%'
-                        qr += data.search;
-                        qr += '\%\') ';
-                    }
+    if(data.search != "") {
+        qr += ' and (eventName like \'\%';
+        qr += data.search;
+        qr += '\%\' or overview like \'\%'
+        qr += data.search;
+        qr += '\%\' or addr1 like \'\%'
+        qr += data.search;
+        qr += '\%\' or addr2 like \'\%'
+        qr += data.search;
+        qr += '\%\' or telname like \'\%'
+        qr += data.search;
+        qr += '\%\' or eventplace like \'\%'
+        qr += data.search;
+        qr += '\%\' or price like \'\%'
+        qr += data.search;
+        qr += '\%\') ';
+    }
 
-                    if(data.free){
-                        qr += ' and price like \'\%무료\%\' ';
-                    }
+    if(data.free == 1){
+        qr += ' and price like \'\%무료\%\' ';
+    }
                     
-                        if((data.k1)||(data.k2)||(data.k3)||(data.k4)||(data.k5)||(data.k6)||(data.k7)||(data.k8)||(data.k9)||(data.k10)||(data.k11)||(data.k12)||(data.k13)||(data.k14)||(data.k15)){
+                        if((data.k1 == 1)||(data.k2== 1)||(data.k3== 1)||(data.k4== 1)||(data.k5== 1)||(data.k6== 1)||(data.k7== 1)||(data.k8== 1)||(data.k9== 1)||(data.k10== 1)||(data.k11== 1)||(data.k12== 1)||(data.k13== 1)||(data.k14== 1)||(data.k15== 1)){
                             qr += ' and kind in (';
 
                             if(data.k1 == 1){
@@ -156,7 +156,6 @@ export const getSearchResults = (data, result) => {
                     else {
                         qr+= ' savedNum DESC;';
                     }
-                    //console.log(qr); 
 
                     db.query(qr, (err, results) => {             
                         if(err) {
