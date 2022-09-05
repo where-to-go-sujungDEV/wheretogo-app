@@ -5,18 +5,18 @@ export const getSearchResults = (data, result) => {
     qr += ' where ';
     var kind = '';           
                 
-    if(data.aCode != ""){
+    if(data.aCode != 0){
         qr += ' areacode = ';
         qr += data.aCode;
     }
                     
 
-    if(data.aCode != ""){
+    if(data.aDCode != 0){
         qr += ' and sigungucode = ';
         qr += data.aDCode;
     }
 
-    if((data.aCode != "")||(data.aCode != "")){
+    if((data.aCode != 0)||(data.aCode != 0)){
         qr += ' and ';
     }
 
@@ -165,7 +165,7 @@ export const getSearchResults = (data, result) => {
                                 err}, null);
                         } 
                         else if(!results.length){
-                            result(200, null, {
+                            result(203, null, {
                                 code : 200,
                                 isSuccess : true,
                                 isExist : false,
