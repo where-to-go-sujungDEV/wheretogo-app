@@ -3,43 +3,20 @@ import db from "../config/dbConnection.js";
 export const getSearchResults = (data, result) => {
     var qr = 'select eventID, eventName, kind, startDate, endDate, pic, (select count(*) from UserSavedTBL where UserSavedTBL.eventID = EventTBL.eventID) as savedNum, (select count(*) from UserVisitedTBL where UserVisitedTBL.eventID = EventTBL.eventID)as visitedNum from eventTBL ';
     qr += ' where ';
-    var areacode = -1, sigungucode = -1;
-    var kind = '';
-
-    db.query("Select aCode from areaCodeTBL where aName = ?;", [data.areaName], (err, areaC) => {             
-        if(err) {
-            result(500, {
-                code : 500,
-                isSuccess : false,
-                err}, null);
-        } else {
-            if(areaC.length){
-                if(areaC[0].aCode)areacode = areaC[0].aCode;
-            } 
-            db.query("Select aDCode from areaCodeDetailTBL where aDName = ?;", [data.dAreaName], (err, dAreaC) => {             
-                if(err) {
-                    result(500, {
-                        code : 500,
-                        isSuccess : false,
-                        err}, null);
-                } 
-                else {
-                    if(dAreaC.length){
-                        if(dAreaC[0].aDCode)sigungucode = dAreaC[0].aDCode; 
-                    } 
-
-                    if(areacode != -1){
-                        qr += ' areacode = ';
-                        qr += areacode;
-                    }
+    var kind = '';           
+                
+                if(!data.aCode){
+                    qr += ' areacode = ';
+                    qr += data.aCode;
+                }
                     
 
-                    if(sigungucode != -1 ){
+                    if(!data.aDCode){
                         qr += ' and sigungucode = ';
-                        qr += sigungucode;
+                        qr += data.aDCode;
                     }
 
-                    if((sigungucode != -1)||(areacode != -1)){
+                    if((!data.aCode)||(!data.aDCode)){
                         qr += ' and ';
                     }
 
@@ -64,7 +41,7 @@ export const getSearchResults = (data, result) => {
                         qr += '\' ';
                     }
                     
-                    if(data.search) {
+                    if(data.search.length) {
                         qr += ' and (eventName like \'\%';
                         qr += data.search;
                         qr += '\%\' or overview like \'\%'
@@ -202,11 +179,7 @@ export const getSearchResults = (data, result) => {
                                 isExist : true,
                                 results});
                         }
-                    })
-                }
-                }); 
-        }
-    }); 
+                    })  
 }
 
 
