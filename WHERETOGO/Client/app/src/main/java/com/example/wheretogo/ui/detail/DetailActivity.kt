@@ -18,7 +18,9 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
 
     private var eventIdx=0
     private var userId=0
-    private var status = "g"
+    private var status = "b"
+    private var visitedNum=0
+    private var savedNum=0
     private val detailService = getRetrofit().create(DetailRetrofitInterface::class.java)
 
     override fun initAfterBinding() {
@@ -33,11 +35,9 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
     }
 
     private fun initClickListener(){
-        val eventIdx = intent.getIntExtra("eventIdx", -1)
         binding.detailEventUncheckBtn.setOnClickListener{
             binding.detailStarPanel.visibility = View.VISIBLE //체크버튼-> 별점 패널 띄우기
         }
-
 
         binding.detailAdaptTv.setOnClickListener {
             visitEvent(status)
@@ -48,7 +48,9 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
             binding.detailStarPanel.visibility = View.INVISIBLE
         }
 
+        //방문 uncheck상태에서 체크를 누르면 버튼이 활성화되기전 별점 패널이 뜸
         binding.detailEventCheckBtn.setOnClickListener{
+            setVisitedButton(false)
             deleteVisitedEvent()
         }
 
@@ -98,10 +100,13 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
         val overview= result.overview?.replace("<br>".toRegex(), "\n")
         val place=result.place?.replace("<br>".toRegex(), "\n")
         val eventPlace=result.eventplace?.replace("<br>".toRegex(), "\n")
+        savedNum=result.savedNum!!
+        visitedNum=result.visitedNum!!
 
         binding.detailKindTv.text=result.kind
         binding.detailEventTitle.text = result.eventName
-        binding.detailEventSavedCount.text = String.format("찜한 유저 수: %s명",result.savedNum)
+        binding.detailEventVisitedCount.text = String.format("방문 유저 수: %s명",visitedNum)
+        binding.detailEventSavedCount.text = String.format("찜한 유저 수: %s명",savedNum)
         binding.detailDateDataTv.text = String.format("%s ~ %s",result.startDate.slice(IntRange(0,9)),result.endDate.slice(IntRange(0,9)))
 
         if (time!=null){
@@ -138,7 +143,7 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
 
 
         if (result.homepage!=null){
-            binding.detailHomepageDataTv.text = Html.fromHtml(result.homepage, Html.FROM_HTML_MODE_LEGACY)
+            binding.detailHomepageDataTv.text = Html.fromHtml(result.homepage)
         }
         else binding.detailHomepageTv.visibility= View.GONE
 
@@ -235,6 +240,7 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
                 Log.d("isSaved",resp.toString())
                 when(resp.code){
                     200->{
+                        binding.detailEventSavedCount.text = String.format("찜한 유저 수: %s명",++savedNum)
                         showToast(resp.msg)
                     }
                 }
@@ -256,6 +262,7 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
                 Log.d("isSaved/delete",resp.toString())
                 when(resp.code){
                     200->{
+                        binding.detailEventSavedCount.text = String.format("찜한 유저 수: %s명",--savedNum)
                         showToast(resp.msg)
                     }
                 }
@@ -271,8 +278,9 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
                 val resp = response.body()!!
                 when(resp.code){
                     200->{
-                        showToast("my> 방문한 이벤트에 담았어요!")
                         setVisitedButton(true)
+                        binding.detailEventVisitedCount.text=String.format("방문 유저 수: %s명",++visitedNum)
+                        showToast("my> 방문한 이벤트에 담았어요!")
                     }
                     500 ->{
                         showToast(resp.msg)
@@ -293,7 +301,7 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
                 Log.d("isVisited/delete",resp.toString())
                 when(resp.code){
                     200->{
-                        setVisitedButton(false)
+                        binding.detailEventVisitedCount.text=String.format("방문 유저 수: %s명",--visitedNum)
                         showToast(resp.msg)
                     }
                     else->{
