@@ -15,7 +15,7 @@ class BannerRecommendFragment (private val item: RecommendEventResult)
     override fun initAfterBinding() {
         binding.homeRecommendTitleTv.text = item.eventName
         binding.homeRecommendSavedCountTv.text = String.format("담은 수: %d건", item.savedNum)
-
+        binding.homeRecommendVisitedCountTv.text = String.format("방문한 수: %d건", item.visitedNum)
         binding.homeRecommendTagTv.text=item.kind
 
         binding.homeRecommendStartDateTv.text =
