@@ -78,10 +78,8 @@ class ChangeInfoActivity : BaseActivity<ActivityChangeInfoBinding>(ActivityChang
     }
 
     private fun initLayout(){
-        val id :Int = getIdx()
-        if (id!=-1){
-            binding.changeInfoNameEt.setText(appDB.userDao().getNickname(getIdx()))
-        }
+        val spf = getSharedPreferences("userInfo", AppCompatActivity.MODE_PRIVATE)
+        binding.changeInfoNameEt.setText(spf!!.getString("nickname","USER")!!)
     }
 
     private fun getIdx(): Int {
@@ -96,20 +94,13 @@ class ChangeInfoActivity : BaseActivity<ActivityChangeInfoBinding>(ActivityChang
     }
 
 
-    //유저가 개인정보 수정시 DB에 저장된 정보 변경
-    private fun setData(){
-        val name = binding.changeInfoNameEt.text.toString()
-        appDB.userDao().setNickName(getIdx(),name)
-    }
-
     private fun changeName(){
         service.changeName(getIdx(),getNameInfo()).enqueue(object: Callback<ChangeNameResponse> {
             override fun onResponse(call: Call<ChangeNameResponse>, response: Response<ChangeNameResponse>) {
                 val resp = response.body()!!
-                Log.d("changeName",resp.code.toString())
                 when (resp.code){
                     200->{
-                        setData()
+                        Log.d("changeName",resp.msg)
                         finish()
                     }
                     204->{

@@ -2,6 +2,9 @@ package com.example.wheretogo.ui.home
 
 import android.content.Intent
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestOptions
 import com.example.wheretogo.BaseFragment
 import com.example.wheretogo.data.remote.home.PopularEventResult
 import com.example.wheretogo.databinding.FragmentPopularBannerBinding
@@ -19,7 +22,10 @@ class BannerPopularFragment(private val item: PopularEventResult) : BaseFragment
         binding.homePopularStartDateTv.text = String.format("%s~",item.startDate.slice(IntRange(0,9)))
         if (item.endDate!=null)
             binding.homePopularEndDateTv.text = item.endDate.slice(IntRange(0,9))
-        Glide.with(this).load(item.pic).into(binding.homePopularIv)
+        Glide.with(this).load(item.pic)
+            .transform(CenterCrop(), RoundedCorners(40))
+            .into(binding.homePopularIv)
+
 
         binding.homePopularIv.setOnClickListener {
             val intent = Intent(context, DetailActivity::class.java)

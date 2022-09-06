@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.wheretogo.R
 import com.example.wheretogo.data.remote.auth.getRetrofit
 import com.example.wheretogo.data.remote.mypage.EventStatusResponse
@@ -60,7 +62,9 @@ class UserVisitedEventRVAdapter (private val visitedEventList: ArrayList<Visited
             getEventStatus(visitedEvent.eventID,binding)
             binding.itemMypageVisitedCountTv.text = String.format("유저들이 방문한 수: %d건",visitedEvent.savedNum)
             binding.itemMypageVisitedTitleTv.text = visitedEvent.eventName
-            Glide.with(context).load(visitedEvent.pic).into(binding.mypageVisitedEventIv)
+            Glide.with(context).load(visitedEvent.pic)
+                .transform(CenterCrop(), RoundedCorners(40))
+                .into(binding.mypageVisitedEventIv)
             binding.itemMypageVisitedTagTv.text = visitedEvent.kind
             binding.itemMypageVisitedStartDate.text = String.format("%s~",visitedEvent.startDate.slice(IntRange(0,9)))
             if (visitedEvent.endDate!=null)

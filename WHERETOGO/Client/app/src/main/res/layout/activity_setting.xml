@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
@@ -187,15 +188,7 @@
             android:textSize="16sp" />
     </LinearLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="USER"
-        android:textSize="16sp"
-        android:textColor="@color/purple"
-        android:layout_marginEnd="34dp"
-        app:layout_constraintBottom_toBottomOf="@+id/area1"
-        app:layout_constraintEnd_toEndOf="parent"/>
+
     <TextView
         android:id="@+id/setting_get_info"
         android:layout_width="wrap_content"

@@ -2,6 +2,8 @@ package com.example.wheretogo.ui.home
 
 import android.content.Intent
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.wheretogo.BaseFragment
 import com.example.wheretogo.data.remote.home.RecommendEventResult
 import com.example.wheretogo.databinding.FragmentRecommendBannerBinding
@@ -21,7 +23,9 @@ class BannerRecommendFragment (private val item: RecommendEventResult)
         if (item.endDate != null)
             binding.homeRecommendEndDateTv.text = item.endDate.slice(IntRange(0, 9))
 
-        Glide.with(this).load(item.pic).into(binding.homeRecommendIv)
+        Glide.with(this).load(item.pic)
+            .transform(CenterCrop(), RoundedCorners(40))
+            .into(binding.homeRecommendIv)
 
         binding.homeRecommendIv.setOnClickListener {
             val intent = Intent(context, DetailActivity::class.java)

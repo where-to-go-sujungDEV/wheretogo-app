@@ -94,9 +94,11 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
 
         //val time= item.playtime?.replace("<br>".toRegex(), "\n")
         val price= result.price?.replace("<br>".toRegex(), "\n")
+        val overview= result.overview?.replace("<br>".toRegex(), "\n")
 
         binding.detailKindTv.text=result.kind
         binding.detailEventTitle.text = result.eventName
+        binding.detailEventSavedCount.text = String.format("찜한 유저 수: %s명",result.savedNum)
         binding.detailDateDataTv.text = String.format("%s ~ %s",result.startDate.slice(IntRange(0,9)),result.endDate.slice(IntRange(0,9)))
 
 //            if (time!=null){
@@ -146,13 +148,18 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
 
         if (result.tel!=null){
             binding.detailTelDataTv.text = result.tel
+            if (result.telname!=null)
+                binding.detailTelDataTv.text = String.format("%s  %s", result.telname,result.tel)
         }
         else binding.detailTelTv.visibility = View.GONE
 
         if (result.overview!=null){
-            binding.detailOverviewDataTv.text = result.overview
+            binding.detailOverviewDataTv.text = overview
         }
-        else binding.detailOverviewTv.visibility = View.GONE
+        else {
+            binding.detailOverviewTv.visibility = View.GONE
+            binding.detailOverviewDataArea.visibility = View.GONE
+        }
 
 //            if (item.agelimit!=null){
 //                binding.detailAgeDataTv.text = item.agelimit

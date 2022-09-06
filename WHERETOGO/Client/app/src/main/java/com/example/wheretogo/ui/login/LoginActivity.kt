@@ -5,18 +5,19 @@ import android.view.View
 import android.widget.Toast
 import com.example.wheretogo.data.entities.User
 import com.example.wheretogo.data.local.AppDatabase
-import com.example.wheretogo.data.remote.auth.AuthService
-import com.example.wheretogo.data.remote.auth.LoginInfo
-import com.example.wheretogo.data.remote.auth.LoginView
-import com.example.wheretogo.data.remote.auth.UserResult
+import com.example.wheretogo.data.remote.auth.*
+import com.example.wheretogo.data.remote.detail.DetailIsVisitedResponse
+import com.example.wheretogo.data.remote.detail.DetailRetrofitInterface
 import com.example.wheretogo.databinding.ActivityLoginBinding
 
 import com.example.wheretogo.ui.BaseActivity
 import com.example.wheretogo.ui.signup.SignUpActivity
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::inflate), LoginView {
-
     override fun initAfterBinding() {
         val AppDB = AppDatabase.getInstance(this)!!
         val users = AppDB.userDao().getUserList()
@@ -67,6 +68,8 @@ class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::in
 
 
 
+
+
     override fun onLoginSuccess(result: UserResult) {
         Log.d("login/","dddddd")
         val AppDB = AppDatabase.getInstance(this)!!
@@ -82,6 +85,7 @@ class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::in
         binding.loginErrorTv.text = message
         binding.loginErrorTv.visibility = View.VISIBLE
     }
+
 
 
 }

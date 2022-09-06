@@ -23,31 +23,17 @@ import retrofit2.Response
 class HomeFragment : BaseFragment<FragmentHomeBinding>(
 FragmentHomeBinding::inflate) {
 
-    lateinit var appDB: AppDatabase
     private val homeService = HomeService
     private val eventStatusService = getRetrofit().create(MypageRetrofitInterface::class.java)
     private var isSaved=false
     private var isVisited=false
     override fun initAfterBinding() {
-        appDB =AppDatabase.getInstance(requireContext())!!
+        binding.homeUserNameTv.text = getName()
 
-        getUserName()
         homeService.getMainEvent(this)
         homeService.getPopularEvent(this)
         homeService.getRecommendEvent(this)
     }
-
-    private fun getUserName(){
-        if (getIdx()!=-1)
-            binding.homeUserNameTv.text = appDB.userDao().getNickname(getIdx())
-    }
-
-    //유저 인덱스 가져옴
-    private fun getIdx(): Int {
-        val spf = activity?.getSharedPreferences("userInfo", AppCompatActivity.MODE_PRIVATE)
-        return spf!!.getInt("userIdx",-1)
-    }
-
 
     private fun setIndicator(){
         val viewPager2 = binding.homeBannerVp
@@ -108,8 +94,11 @@ FragmentHomeBinding::inflate) {
         binding.homeEvent2Vp.orientation = ViewPager2.ORIENTATION_HORIZONTAL
     }
 
-
-
+    //유저 닉네임 가져옴
+    private fun getName(): String {
+        val spf = activity?.getSharedPreferences("userInfo", AppCompatActivity.MODE_PRIVATE)
+        return spf!!.getString("nickname","USER")!!
+    }
 
     private fun saveStatus(isVisited: Boolean, isSaved:Boolean) {
         val spf = activity?.getSharedPreferences("eventInfo", AppCompatActivity.MODE_PRIVATE)
@@ -119,9 +108,4 @@ FragmentHomeBinding::inflate) {
         editor?.putBoolean("isSaved", isSaved)
         editor?.apply()
     }
-
-
-
-
-
 }

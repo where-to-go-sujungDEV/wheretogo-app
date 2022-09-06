@@ -2,10 +2,7 @@ package com.example.wheretogo.data.remote.auth
 
 import androidx.room.Delete
 import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.DELETE
-import retrofit2.http.POST
-import retrofit2.http.Path
+import retrofit2.http.*
 
 interface AuthRetrofitInterface {
     @POST("/user/sign-up")
@@ -17,7 +14,11 @@ interface AuthRetrofitInterface {
     @DELETE("/user/unregister/{userID}")
     fun deleteUser(@Path("userID") userID: Int): Call<DeleteUserResponse>
 
+    @GET("user/get-nickname/{userID}")
+    fun getName(@Path("userID")userID: Int) : Call<GetNameResponse>
 
+    @POST("/user/check-pw/{userID}")
+    fun checkPwd(@Path ("userID") userID: Int,@Body originPwdInfo: OriginPwdInfo): Call<CheckPwdResponse>
 }
 
 
