@@ -17,7 +17,10 @@ class ChangePwdActivity: BaseActivity<ActivityChangePwdBinding>(ActivityChangePw
             finish()
         }
         binding.changePwdSaveTv.setOnClickListener {
-            checkPwd()
+            if (binding.changeOriginPwdEt.text.toString()=="")
+                showPanel("기존 비밀번호를 입력해주세요.")
+            else
+                checkPwd()
         }
     }
 
@@ -28,11 +31,10 @@ class ChangePwdActivity: BaseActivity<ActivityChangePwdBinding>(ActivityChangePw
                 Log.d("changeName",resp.code.toString())
                 when (resp.code){
                     200->{
-                        showToast("변경완료")
-                        finish()
+                        showPanel("변경완료")
                     }
                     204->{
-                        showToast("변경할 비밀번호를 입력해주세요.")
+                        showPanel("변경할 비밀번호를 입력해주세요")
                     }
                 }
             }
@@ -49,9 +51,8 @@ class ChangePwdActivity: BaseActivity<ActivityChangePwdBinding>(ActivityChangePw
                     200->{
                         changePwd()
                     }
-                    402->{
-                        showToast("기존 비밀번호가 일치하지 않습니다.")
-                        Log.d("checkPwd/",resp.msg)
+                    else->{
+                        showPanel(resp.msg)
                     }
                 }
             }
@@ -75,5 +76,13 @@ class ChangePwdActivity: BaseActivity<ActivityChangePwdBinding>(ActivityChangePw
         var pwd =""
         pwd = binding.changeOriginPwdEt.text.toString()
         return OriginPwdInfo(pwd)
+    }
+
+    private fun showPanel(message: String){
+    android.app.AlertDialog.Builder(this)
+        .setMessage(message)
+        .setPositiveButton("확인") { _, _ ->
+        }
+        .show()
     }
 }

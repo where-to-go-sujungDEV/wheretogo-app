@@ -48,8 +48,8 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
             binding.detailStarPanel.visibility = View.INVISIBLE
         }
 
-        //방문 uncheck상태에서 체크를 누르면 버튼이 활성화되기전 별점 패널이 뜸
-        binding.detailEventCheckBtn.setOnClickListener{
+        //방문 uncheck상태에서 체크를 누르면 버튼이 활성화되기전 별점 패널이 뜸뜸
+       binding.detailEventCheckBtn.setOnClickListener{
             setVisitedButton(false)
             deleteVisitedEvent()
         }
