@@ -20,20 +20,20 @@ export const getSearchResults = (data, result) => {
         qr += ' and ';
     }
 
-    if((data.fromD == "1970-01-01")&&(data.toD == "1970-01-01")) {
+    if((data.fromD == "")&&(data.toD == "")) {
         qr += ' endDate >= now() ';
     }
-    else if((data.fromD == "1970-01-01")&&(data.toD != "1970-01-01")){
+    else if((data.fromD == "")&&(data.toD != "")){
         qr += ' endDate >= now() and startDate <= \'';
         qr += data.toD;
         qr += '\' ';
     }
-    else if((data.fromD != "1970-01-01")&&(data.toD == "1970-01-01" )){
+    else if((data.fromD != "")&&(data.toD == "" )){
         qr += ' endDate >= \'';
         qr += data.fromD;
         qr += '\' ';
     }
-    else if((data.fromD != "1970-01-01")&&(data.toD != "1970-01-01")){
+    else if((data.fromD != "")&&(data.toD != "")){
         qr += ' endDate >= \'';
         qr += data.fromD;
         qr += '\' and startDate <= \'';
