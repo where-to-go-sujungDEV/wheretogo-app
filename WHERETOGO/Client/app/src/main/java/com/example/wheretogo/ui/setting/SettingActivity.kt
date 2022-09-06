@@ -1,5 +1,6 @@
 package com.example.wheretogo.ui.setting
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.util.Log
 import android.view.View
@@ -26,6 +27,10 @@ class SettingActivity: BaseActivity<ActivitySettingBinding>(ActivitySettingBindi
             startNextActivity(ChangeInfoActivity::class.java)
         }
 
+        binding.settingResignTv.setOnClickListener {
+            leavePanelClickListener()
+        }
+
         binding.settingChangePwd.setOnClickListener{
             startNextActivity(ChangePwdActivity::class.java)
         }
@@ -45,28 +50,28 @@ class SettingActivity: BaseActivity<ActivitySettingBinding>(ActivitySettingBindi
         binding.uploadKeyword.setOnClickListener{
             startNextActivity(KeywordActivity::class.java)
         }
-
-        leavePanelClickListener()
-
-
     }
+    //회원탈퇴 클릭
     private fun leavePanelClickListener() {
-        //탈퇴하기
-        binding.settingResignTv.setOnClickListener {
-            binding.leaveConfirmPanel.visibility = View.VISIBLE
-        }
-        //탈퇴 확인
-        binding.leaveOkayBtn.setOnClickListener {
-            deleteUser()
-        }
-        //탈퇴 취소
-        binding.leaveCancelBtn.setOnClickListener {
-            binding.leaveConfirmPanel.visibility = View.INVISIBLE
-        }
-        //탈퇴 완료
-        binding.leaveFinishBtn.setOnClickListener {
-            finish()
-        }
+        AlertDialog.Builder(this)
+            .setMessage("회원탈퇴를 진행하시겠습니까?")
+            .setPositiveButton("확인") { _, _ ->
+                deleteUser()
+            }
+            .setNegativeButton("취소") { _, _ ->
+            }
+            .show()
+    }
+
+    //회원탈퇴 결과(성공, 실패)
+    private fun showDeleteResult(msg: String){
+        AlertDialog.Builder(this)
+            .setMessage(msg)
+            .setPositiveButton("확인") { _, _ ->
+                deleteUser()
+            }
+            .show()
+        finish()
     }
 
     private fun deleteUser(){
@@ -77,16 +82,13 @@ class SettingActivity: BaseActivity<ActivitySettingBinding>(ActivitySettingBindi
                 Log.d("deleteUser",resp.code.toString())
                 when (resp.code){
                     200->{
-                        binding.leaveConfirmPanel.visibility= View.INVISIBLE
-                        binding.leaveFinishPanel.visibility= View.VISIBLE
-
+                        showDeleteResult(resp.msg)
                         val spf = getSharedPreferences("userInfo",MODE_PRIVATE)
                         val editor = spf!!.edit()
                         editor.remove("userIdx") //키값에 저장된값 삭제-> idx=-1
                         editor.apply()
                     }
-                    204->showToast(resp.msg)
-
+                    204->showDeleteResult(resp.msg)
                 }
             }
             override fun onFailure(call: Call<DeleteUserResponse>, t: Throwable) {
@@ -99,5 +101,6 @@ class SettingActivity: BaseActivity<ActivitySettingBinding>(ActivitySettingBindi
         val spf = getSharedPreferences("userInfo", MODE_PRIVATE)
         return spf!!.getInt("userIdx",-1)
     }
+
 
 }
