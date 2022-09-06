@@ -1,5 +1,6 @@
 package com.example.wheretogo.ui.detail
 
+import android.text.Html
 import android.util.Log
 import android.view.View
 import com.bumptech.glide.Glide
@@ -90,27 +91,35 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
     }
 
     fun setDetailInfo(result: DetailInfoResult){
-
-
-        //val time= item.playtime?.replace("<br>".toRegex(), "\n")
+        val time= result.eventtime?.replace("<br>".toRegex(), "\n")
+        val age= result.agelimit?.replace("<br>".toRegex(), "\n")
         val price= result.price?.replace("<br>".toRegex(), "\n")
+        val tel= result.tel?.replace("<br>".toRegex(), "\n")
         val overview= result.overview?.replace("<br>".toRegex(), "\n")
+        val place=result.place?.replace("<br>".toRegex(), "\n")
+        val eventPlace=result.eventplace?.replace("<br>".toRegex(), "\n")
 
         binding.detailKindTv.text=result.kind
         binding.detailEventTitle.text = result.eventName
         binding.detailEventSavedCount.text = String.format("찜한 유저 수: %s명",result.savedNum)
         binding.detailDateDataTv.text = String.format("%s ~ %s",result.startDate.slice(IntRange(0,9)),result.endDate.slice(IntRange(0,9)))
 
-//            if (time!=null){
-//                binding.detailTimeDataTv.text =time
-//            }
-//            else binding.detailTimeTv.visibility = View.GONE
+        if (time!=null){
+            binding.detailTimeDataTv.text =time
+        }
+        else binding.detailTimeTv.visibility = View.GONE
+
+        //연령제한
+        if (result.agelimit!=null){
+            binding.detailAgeDataTv.text = age
+        }
+        else binding.detailAgeTv.visibility = View.GONE
 
         //장소
         if (result.place!=null){
             if (result.eventplace!=null)
-                binding.detailPlaceDataTv.text = String.format("%s\n%s",result.place,result.eventplace)
-            else binding.detailPlaceDataTv.text = result.place
+                binding.detailPlaceDataTv.text = String.format("%s\n%s",place,eventPlace)
+            else binding.detailPlaceDataTv.text = place
         }
         else
             binding.detailPlaceTv.visibility=View.GONE
@@ -127,17 +136,9 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
         }
         else binding.detailEventPlaceIv.visibility = View.GONE
 
-//            if (item.sponsor1!=null&& item.sponsor2!=null){
-//                binding.detailSponsorDataTv.text = String.format("%s\n%s",item.sponsor1, item.sponsor2)
-//            }
-//            else if (item.sponsor1==null && item.sponsor2==null){
-//                binding.detailSponsorTv.visibility= View.GONE
-//            }
-//            else
-//                binding.detailSponsorDataTv.text = item.sponsor1
 
         if (result.homepage!=null){
-            binding.detailHomepageDataTv.text = result.homepage
+            binding.detailHomepageDataTv.text = Html.fromHtml(result.homepage, Html.FROM_HTML_MODE_LEGACY)
         }
         else binding.detailHomepageTv.visibility= View.GONE
 
@@ -147,12 +148,13 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
         else binding.detailBookUrlTv.visibility = View.GONE
 
         if (result.tel!=null){
-            binding.detailTelDataTv.text = result.tel
+            binding.detailTelDataTv.text = tel
             if (result.telname!=null)
-                binding.detailTelDataTv.text = String.format("%s  %s", result.telname,result.tel)
+                binding.detailTelDataTv.text = String.format("%s  %s", result.telname,tel)
         }
         else binding.detailTelTv.visibility = View.GONE
 
+        //상세정보
         if (result.overview!=null){
             binding.detailOverviewDataTv.text = overview
         }
@@ -160,11 +162,6 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
             binding.detailOverviewTv.visibility = View.GONE
             binding.detailOverviewDataArea.visibility = View.GONE
         }
-
-//            if (item.agelimit!=null){
-//                binding.detailAgeDataTv.text = item.agelimit
-//            }
-//            else binding.detailAgeTv.visibility = View.GONE
 
     }
 

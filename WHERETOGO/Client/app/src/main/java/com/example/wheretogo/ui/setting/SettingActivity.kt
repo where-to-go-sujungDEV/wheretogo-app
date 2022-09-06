@@ -99,5 +99,5 @@ class SettingActivity: BaseActivity<ActivitySettingBinding>(ActivitySettingBindi
         val spf = getSharedPreferences("userInfo", MODE_PRIVATE)
         return spf!!.getInt("userIdx",-1)
     }
-    
+
 }

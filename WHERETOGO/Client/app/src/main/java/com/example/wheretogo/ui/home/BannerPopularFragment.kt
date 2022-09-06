@@ -16,7 +16,7 @@ class BannerPopularFragment(private val item: PopularEventResult) : BaseFragment
     override fun initAfterBinding() {
         binding.homePopularTitleTv.text = item.eventName
         binding.homePopularSavedCountTv.text = String.format("담은 수: %d건",item.savedNum)
-
+        binding.homePopularVisitedCountTv.text = String.format("방문한 수: %d건",item.visitedNum)
         binding.homePopularTagTv.text=item.kind
 
         binding.homePopularStartDateTv.text = String.format("%s~",item.startDate.slice(IntRange(0,9)))

@@ -208,10 +208,8 @@
                     android:layout_marginStart="45dp"
                     android:text="프로그램별 상이"/>
             </LinearLayout>
-
-
             <LinearLayout
-                android:id="@+id/detail_homepage_tv"
+                android:id="@+id/detail_age_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
@@ -220,14 +218,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
-                    android:text="홈페이지"/>
+                    android:text="연령제한  "/>
                 <TextView
-                    android:id="@+id/detail_homepage_data_tv"
-                    android:layout_marginStart="35dp"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/detail_age_data_tv"
+                    android:layout_width="300dp"
                     android:layout_height="wrap_content"
-                    android:text="http://"
-                    />
+                    android:layout_marginStart="45dp"
+                    android:text="프로그램별 상이"/>
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/detail_bookUrl_tv"
@@ -263,7 +260,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
-                    android:text="https://"/>
+                    android:text=""/>
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/detail_overview_tv"
@@ -277,6 +274,7 @@
                     android:textStyle="bold"
                     android:text="상세정보  "/>
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/detail_overview_data_area"
                 android:layout_width="wrap_content"
@@ -290,7 +288,34 @@
                     android:text=""/>
 
             </LinearLayout>
+            <LinearLayout
+                android:id="@+id/detail_homepage_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="15dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:text="홈페이지  "/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/detail_homepage_data_area"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/detail_homepage_data_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""/>
+
+            </LinearLayout>
         </LinearLayout>
+
 
 
 
