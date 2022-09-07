@@ -55,6 +55,7 @@
         <entry key="..\:/Users/Gahyun/AndroidStudioProjects/WHERETOGO/app/src/main/res/layout/fragment_search.xml" value="0.20625" />
         <entry key="..\:/Users/Gahyun/AndroidStudioProjects/WHERETOGO/app/src/main/res/menu/navi_menu.xml" value="0.20989583333333334" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/drawable/alert_panel_border.xml" value="0.23020833333333332" />
+        <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/drawable/banner_cover.xml" value="0.1" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/drawable/bottom_banner_border.xml" value="0.23020833333333332" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/drawable/bottom_banner_tip.xml" value="0.23020833333333332" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/drawable/home_banner_ic_off.xml" value="0.23020833333333332" />
@@ -85,8 +86,8 @@
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/fragment_search.xml" value="0.20989583333333334" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/item_calendar_popup_dialog.xml" value="0.20989583333333334" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/item_mypage_like.xml" value="0.20989583333333334" />
-        <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/item_mypage_saved.xml" value="0.20989583333333334" />
-        <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/item_mypage_visited.xml" value="0.20989583333333334" />
+        <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/item_mypage_saved.xml" value="0.1" />
+        <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/item_mypage_visited.xml" value="0.1" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/item_recycle_event.xml" value="0.20989583333333334" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/item_recycle_event_like.xml" value="0.20989583333333334" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/mypage_like_banner.xml" value="0.20989583333333334" />

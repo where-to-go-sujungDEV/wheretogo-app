@@ -7,7 +7,7 @@ data class SavedEventResponse(
     @SerializedName(value = "code")val code:Int,
     @SerializedName(value = "isSuccess")val isSuccess : Boolean,
     @SerializedName(value = "userID")val userID:Int?,
-    @SerializedName(value = "results")val result: ArrayList<SavedEventResult>?,
+    @SerializedName(value = "results")val result: ArrayList<SavedEventResult>?
 )
 
 data class SavedEventResult(
@@ -17,7 +17,7 @@ data class SavedEventResult(
     @SerializedName(value = "startDate") val startDate: String,
     @SerializedName(value = "endDate") val endDate: String?,
     @SerializedName(value = "pic") val pic: String,
-    @SerializedName(value = "savedNum") val savedNum: Int,
+    @SerializedName(value = "savedNum") val savedNum: Int
     )
 
 
@@ -26,7 +26,7 @@ data class VisitedEventResponse(
     @SerializedName(value = "code")val code:Int,
     @SerializedName(value = "isSuccess")val isSuccess : Boolean,
     @SerializedName(value = "userID")val userID:Int?,
-    @SerializedName(value = "results")val result: ArrayList<VisitedEventResult>?,
+    @SerializedName(value = "results")val result: ArrayList<VisitedEventResult>?
 )
 
 data class VisitedEventResult(
@@ -37,7 +37,7 @@ data class VisitedEventResult(
     @SerializedName(value = "startDate") val startDate: String,
     @SerializedName(value = "endDate") val endDate: String?,
     @SerializedName(value = "pic") val pic: String,
-    @SerializedName(value = "savedNum") val savedNum: Int,
+    @SerializedName(value = "visitedNum") val visitedNum: Int
 )
 
 data class EventStatusResponse(
