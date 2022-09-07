@@ -48,7 +48,7 @@ export const getRecommandEventsInfos = (sex, age, result) => {
                 qr += ' ) ';
             }
 
-            qr += ' ) as userTopNum from eventTBL ORDER BY userTopNum DESC LIMIT 5;' 
+            qr += ' ) as userTopNum from eventTBL ORDER BY userTopNum DESC;' 
 
 
             db.query(qr, (err, results) => {             
