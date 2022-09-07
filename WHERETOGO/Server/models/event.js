@@ -58,7 +58,8 @@ export const getRecommandEventsInfos = (sex, age, result) => {
                     result(200, null, {
                         code : 200,
                         isSuccess : true,
-                        userInfo,
+                        sex: sex,
+                        age : age,
                         results}
                         );
                     }
