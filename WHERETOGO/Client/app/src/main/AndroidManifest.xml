@@ -33,6 +33,9 @@
             android:name=".ui.detail.DetailActivity"
             android:exported="true" />
         <activity
+            android:name=".ui.recommend.RecommendActivity"
+            android:exported="true" />
+        <activity
             android:name=".ui.login.LoginActivity"
             android:exported="true" />
         <activity

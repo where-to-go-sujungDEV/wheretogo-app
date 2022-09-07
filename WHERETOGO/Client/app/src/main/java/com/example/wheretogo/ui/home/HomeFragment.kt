@@ -1,24 +1,20 @@
 package com.example.wheretogo.ui.home
 
+import android.content.Intent
 import android.util.Log
-import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.MarginLayoutParams
 import androidx.appcompat.app.AppCompatActivity
 
 import androidx.viewpager2.widget.ViewPager2
 import com.example.wheretogo.BaseFragment
-import com.example.wheretogo.data.local.AppDatabase
 import com.example.wheretogo.data.remote.auth.getRetrofit
 import com.example.wheretogo.data.remote.home.*
-import com.example.wheretogo.data.remote.mypage.EventStatusResponse
 import com.example.wheretogo.data.remote.mypage.MypageRetrofitInterface
 import com.example.wheretogo.databinding.FragmentHomeBinding
+import com.example.wheretogo.ui.recommend.RecommendActivity
 
 import com.google.android.material.tabs.TabLayoutMediator
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>(
 FragmentHomeBinding::inflate) {
@@ -29,6 +25,9 @@ FragmentHomeBinding::inflate) {
     private var isVisited=false
     override fun initAfterBinding() {
         binding.homeUserNameTv.text = getName()
+        binding.homeRecommendMoreTv.setOnClickListener {
+            startActivity(Intent(context, RecommendActivity::class.java))
+        }
 
         homeService.getMainEvent(this)
         homeService.getPopularEvent(this)
