@@ -1,26 +1,41 @@
 import request from 'request';
-
+import fs from 'fs';
+//419개까지 넣음 / 22-09-07 업데이트
 const serviceKey ="QNnTJy6f3sstORUG9MRvZBkU7%2F3vsnIy%2BAgmf%2FKQpuzsI9iC%2FWV7SHiDqrfUrYfDLoJTDX5TAPIQpUD0mGwwFA%3D%3D";
 const numOfRows = 1;
-const pageNo = 2;
 
-let qr = "", dqr ="", eqr = "";
 
-global.qr = qr, global.dqr = dqr;
+const pageNo = 1;
+
+let basic="INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( "+'\n', qr = "", dqr ="", eqr = "";
+
+global.basic = basic, global.qr = qr, global.dqr = dqr;
 var eventID, eventName, startDate, endDate; // NOT NULL
 
-var addr1,addr2,kind ,pic, thumbnail , mapx, mapy , mlevel , areacode , sigungucode , tel , telname , homepage, overview, eventplace , bookingplace , subevent , price, agelimit, eventtime;  
+var addr1,addr2,kind ,pic, mapx, mapy , mlevel , areacode , sigungucode , tel , homepage, overview, eventplace , bookingplace , subevent , price, agelimit, eventtime;  
 
-var getInfo = {
+var getTotal = {
   'method': 'GET',
   "rejectUnauthorized": false, 
-  'url': 'https://apis.data.go.kr/B551011/KorService/searchFestival?serviceKey=' + serviceKey +'&numOfRows=' + numOfRows + '&pageNo='+pageNo+'&MobileOS=AND&MobileApp=wheretogo&_type=json&eventStartDate=20220817',
+  'url': 'https://apis.data.go.kr/B551011/KorService/searchFestival?serviceKey=' + serviceKey +'&numOfRows=1&pageNo=1&MobileOS=AND&MobileApp=wheretogo&_type=json&eventStartDate=20220817&arrange=D',
   'headers': {
   },
   form: {
 
   }
 };
+
+var getInfo = {
+  'method': 'GET',
+  "rejectUnauthorized": false, 
+  'url': 'https://apis.data.go.kr/B551011/KorService/searchFestival?serviceKey=' + serviceKey +'&numOfRows=1&MobileOS=AND&MobileApp=wheretogo&_type=json&eventStartDate=20220817&arrange=D&pageNo=',
+  'headers': {
+  },
+  form: {
+
+  }
+};
+
 var getDetailedInfo = { 
   'method': 'GET',
   "rejectUnauthorized": false, 
@@ -41,42 +56,49 @@ var getExplainInfo = {
   form: {
 
   }
-
 }
 
-request(getInfo, function (error, response, body) {
+function getTotalNum(){
+  return new Promise((res, rej) => {
+    request(getTotal, function (error, response, body) {
+      if (error) throw new Error(error);
+      let info = JSON.parse(body);
+      const totalNum = info['response']['body']['totalCount'];
+      console.log(totalNum);
+      res (totalNum);
+      });
+  });
+}
+
+
+function makeQr(i){
+  return new Promise((res, rej) => {
+  getInfo.url = 'https://apis.data.go.kr/B551011/KorService/searchFestival?serviceKey=' + serviceKey +'&numOfRows=1&MobileOS=AND&MobileApp=wheretogo&_type=json&eventStartDate=20220817&arrange=D&pageNo=';
+  getInfo.url += i;
+
+  request(getInfo, function (error, response, body) {
   if (error) throw new Error(error);
   let info = JSON.parse(body);
 
   let infoRes = info['response']['body']['items']['item'];
 
+    qr = "";
 
-  console.log('총 개수 : ' + info['response']['body']['totalCount']);
-console.log('출력된 개수 : ' + info['response']['body']['numOfRows']);
+    eventID = infoRes[0]['contentid'];
+    eventName = infoRes[0]['title'];
+    startDate = infoRes[0]['eventstartdate'];
+    endDate = infoRes[0]['eventenddate'];
 
-  qr = "";
-  
-
-  for (var i = 0; i <  info['response']['body']['numOfRows'] ; i++) {
-
-    eventID = infoRes[i]['contentid'];
-    eventName = infoRes[i]['title'];
-    startDate = infoRes[i]['eventstartdate'];
-    endDate = infoRes[i]['eventenddate'];
-
-    addr1 = infoRes[i]['addr1'];
-    addr2 = infoRes[i]['addr2'];
-    kind = infoRes[i]['cat3'];
-    pic = infoRes[i]['firstimage'];
-    thumbnail = infoRes[i]['firstimage2'];
-    mapx = infoRes[i]['mapx'];
-    mapy = infoRes[i]['mapy'];
-    mlevel = infoRes[i]['mlevel'];
-    areacode = infoRes[i]['areacode'];
-    sigungucode = infoRes[i]['sigungucode'];
-    tel = infoRes[i]['tel'];
-
-    qr += "INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, thumbnail, mapx, mapy, mlevel, areacode, sigungucode, tel, telname, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( ";
+    addr1 = infoRes[0]['addr1'];
+    addr2 = infoRes[0]['addr2'];
+    kind = infoRes[0]['cat3'];
+    pic = infoRes[0]['firstimage'];
+    mapx = infoRes[0]['mapx'];
+    mapy = infoRes[0]['mapy'];
+    mlevel = infoRes[0]['mlevel'];
+    areacode = infoRes[0]['areacode'];
+    sigungucode = infoRes[0]['sigungucode'];
+    tel = infoRes[0]['tel'];
 
     qr += eventID; qr += " , '";
     qr += eventName;qr += "' , ";
@@ -87,74 +109,99 @@ console.log('출력된 개수 : ' + info['response']['body']['numOfRows']);
     if(addr2.length){ qr += "'"+addr2+"'";} else {qr += "NULL";}qr += ", ";
     if(kind.length){ qr += "'"+kind+"'";} else {qr += "NULL";}qr += ", ";
     if(pic.length){ qr += "'"+pic+"'";} else {qr += "NULL";}qr += ", ";
-    if(thumbnail.length){ qr += "'"+thumbnail+"'";} else {qr += "NULL";}qr += ", ";
     if(mapx.length){ qr += mapx;} else {qr += "NULL";}qr += ", ";
     if(mapy.length){ qr += mapy;} else {qr += "NULL";}qr += ", ";
     if(mlevel.length){qr += mlevel;} else {qr += "NULL";}qr += ", ";
-    if(areacode.length){ qr += areacode;} else {qr += "NULL";}qr += ", ";
-    if(sigungucode.length){ qr += sigungucode;} else {qr += "NULL";}qr += ", ";
+    if(areacode.length){ qr += areacode;} else {qr += "100";}qr += ", ";
+    if(sigungucode.length){ qr += sigungucode;} else {qr += "100";}qr += ", ";
     if(tel.length){ qr += "'"+tel+"'";} else {qr += "NULL";}qr += ", ";
 
+    res({qr, eventID});
+  });
+});
+}
     
-    getExplainInfo.url += eventID;
-    getDetailedInfo.url += eventID;
-    //console.log(getDetailedInfo.url);
-    //console.log('=====================qr============================\n');
-    console.log(qr);
 
-    request(getExplainInfo, function (err, response, bd) {
+function makeEqr(eventID){
+  return new Promise((res, rej) => {
+  getExplainInfo.url = 'https://apis.data.go.kr/B551011/KorService/detailCommon?MobileOS=AND&MobileApp=wheretogo&serviceKey=' + serviceKey + '&_type=json&defaultYN=Y&overviewYN=Y&contentId=';
+      getExplainInfo.url += eventID;
+      request(getExplainInfo, function (err, response, bd) {
       if (err) throw new Error(err);
-      //console.log(bd);
       let Einfo = JSON.parse(bd);
 
       eqr = "";
 
       let EinfoRes = Einfo['response']['body']['items']['item'];
 
-     // console.log("==========eventID" +DinfoRes[0]['contentid'] +"=============");
-
-      telname = EinfoRes[0]['telname'];
       homepage = EinfoRes[0]['homepage'];
       overview = EinfoRes[0]['overview'];
 
-      if(telname.length){ eqr += "\""+telname+"\"";} else {eqr += "NULL";}eqr += ", ";
       if(homepage.length){ eqr += "\'"+homepage+"\'";} else {eqr += "NULL";}eqr += ", ";
       if(overview.length){ eqr += "\""+overview+"\"";} else {eqr += "NULL";}eqr += ", ";
 
-      //console.log('=====================eqr============================\n');
+      res(eqr);
 
-      //console.log(eqr);
+      });   
+    }); 
+} 
 
-    });
 
+function makeDqr(eventID){
+  return new Promise((res, rej) => {
+  getDetailedInfo.url = 'https://apis.data.go.kr/B551011/KorService/detailIntro?serviceKey=' + serviceKey +'&numOfRows=1&pageNo=1&MobileOS=AND&MobileApp=wheretogo&_type=json&contentTypeId=15&contentId=';
+        getDetailedInfo.url += eventID;
+        request(getDetailedInfo, function (err, response, dbd) {
+          if (err) throw new Error(err);
+          let Dinfo = JSON.parse(dbd);
+          dqr = "";
+    
+          let DinfoRes = Dinfo['response']['body']['items']['item'];
+    
+          eventplace = DinfoRes[0]['eventplace'];
+          bookingplace = DinfoRes[0]['bookingplace'];
+          subevent = DinfoRes[0]['subevent'];
+          price = DinfoRes[0]['usetimefestival'];
+          agelimit = DinfoRes[0]['agelimit'];
+          eventtime = DinfoRes[0]['spendtimefestival'];
+    
+          if(eventplace.length){ dqr += "'"+eventplace+"'";} else {dqr += "NULL";}dqr += ", ";
+          if(bookingplace.length){ dqr += "'"+bookingplace+"'";} else {dqr += "NULL";}dqr += ", ";
+          if(subevent.length){ dqr += "'"+subevent+"'";} else {dqr += "NULL";}dqr += ", ";
+          if(price.length){ dqr += "'"+price+"'";} else {dqr += "NULL";}dqr += ",";
+          if(agelimit.length){ dqr += "'"+agelimit+"'";} else {dqr += "NULL";}dqr += ", ";
+          if(eventtime.length){ dqr += "'"+eventtime+"'";} else {dqr += "NULL";}dqr += ");";
 
-    request(getDetailedInfo, function (err, response, bd) {
-      if (err) throw new Error(err);
-      //console.log(bd);
-      let Dinfo = JSON.parse(bd);
-      dqr = "";
-
-      let DinfoRes = Dinfo['response']['body']['items']['item'];
-
-      eventplace = DinfoRes[0]['eventplace'];
-      bookingplace = DinfoRes[0]['bookingplace'];
-      subevent = DinfoRes[0]['subevent'];
-      price = DinfoRes[0]['usetimefestival'];
-      agelimit = DinfoRes[0]['agelimit'];
-      eventtime = DinfoRes[0]['spendtimefestival'];
-
-      if(eventplace.length){ dqr += "'"+eventplace+"'";} else {dqr += "NULL";}dqr += ", ";
-      if(bookingplace.length){ dqr += "'"+bookingplace+"'";} else {dqr += "NULL";}dqr += ", ";
-      if(subevent.length){ dqr += "'"+subevent+"'";} else {dqr += "NULL";}dqr += ", ";
-      if(price.length){ dqr += "'"+price+"'";} else {dqr += "NULL";}dqr += ",";
-      if(agelimit.length){ dqr += "'"+agelimit+"'";} else {dqr += "NULL";}dqr += ", ";
-      if(eventtime.length){ dqr += "'"+eventtime+"'";} else {dqr += "NULL";}dqr += ");";
-
-    console.log(eqr);
-    console.log(dqr);
-
-    });
-    getDetailedInfo.url = 'https://apis.data.go.kr/B551011/KorService/detailIntro?serviceKey=' + serviceKey +'&numOfRows=1&pageNo=1&MobileOS=AND&MobileApp=wheretogo&_type=json&contentTypeId=15&contentId=';
-    getExplainInfo.url = 'https://apis.data.go.kr/B551011/KorService/detailCommon?MobileOS=AND&MobileApp=wheretogo&serviceKey=' + serviceKey + '&_type=json&defaultYN=Y&overviewYN=Y&contentId=';
+          res(dqr);
+        });
+      }); 
 }
-});
+
+async function getEveryEvent(){
+  const totalN = await getTotalNum();
+
+  var i = 1;
+
+  for (; i <= totalN; i++){
+    const basic = "INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( ";
+
+    const r1 = await makeQr(i);
+
+    var keys = Object.keys(r1);
+    const qr = r1[keys[0]];
+    const eID = r1[keys[1]];
+    
+    const eqr = await makeEqr(eID);
+    const dqr = await makeDqr(eID);
+    
+    fs.appendFile('event.txt', basic+ '\n'+ qr + '\n'+ eqr+ '\n'+ dqr + '\n'+ '\n', function (err) {
+      if (err) throw err;
+      console.log('The '+ (i - 1)  +'th'+ ' was appended to file!');
+    });
+  }
+
+}
+
+getEveryEvent();
+
+

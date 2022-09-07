@@ -1,564 +1,3 @@
--- Where to go : App project DataBase 
--- team members : Sujin Kang, Gahyun Son, Sihyun Jeon, 
--- Host:     Database: where2goDB
--- Made by Sujin Kang
--- ------------------------------------------------------
-
-
-DROP database IF EXISTS `where2goDB`;
-CREATE database where2goDB;
-use where2goDB;
-
-CREATE TABLE AreaCodeTBL
-(
-    `aCode`  integer       NOT NULL, 
-    `aName`  VARCHAR(7)    NOT NULL, 
-     PRIMARY KEY (aCode)
-);
-
-
-ALTER TABLE AreaCodeTBL COMMENT '광역시/도 단위 지역 코드 테이블. 지역코드 저장 테이블';
-
-
-CREATE TABLE AreaCodeDetailTBL
-(
-    `aCode`   integer        NOT NULL, 
-    `aDCode`  integer        NOT NULL, 
-    `aDName`  VARCHAR(10)    NOT NULL, 
-     PRIMARY KEY (aCode, aDCode)
-);
-
-ALTER TABLE AreaCodeDetailTBL COMMENT '시/군/구 단위 지역코드 테이블. 세부 지역코드 저장 테이블';
-
-ALTER TABLE AreaCodeDetailTBL
-    ADD CONSTRAINT FK_AreaCodeDetailTBL_aCode_AreaCodeTBL_aCode FOREIGN KEY (aCode)
-        REFERENCES AreaCodeTBL (aCode) ON DELETE RESTRICT ON UPDATE RESTRICT;
-
-CREATE TABLE CategoryTBL(
-   cCode VARCHAR(20) NOT NULL PRIMARY KEY
-  ,cName VARCHAR(20) NOT NULL
-);
-
-
-CREATE TABLE UserTBL
-(
-    `userID`      BIGINT          NOT NULL    AUTO_INCREMENT, 
-    `email`       varchar(50)     NOT NULL, 
-    `nickName`    varchar(50)     NOT NULL, 
-    `pw`    varchar(200)    NOT NULL, 
-    `sex`         varchar(1)      NULL        DEFAULT NULL, 
-    `age`         int(1)          NULL        DEFAULT NULL, 
-    `last_login`  datetime        NOT NULL    DEFAULT '2001-03-26', 
-     PRIMARY KEY (userID)
-);
-
-ALTER TABLE UserTBL COMMENT '회원 테이블';
-
-
-CREATE TABLE EventTBL
-(
-    `eventID`         BIGINT           NOT NULL, 
-    `eventName`       TEXT       		NOT NULL, 
-	`startDate`  	  DATE              NOT NULL, 
-    `endDate`    	  DATE              NOT NULL, 
-    
-    `addr1`           TEXT       NULL  DEFAULT NULL,
-    `addr2`           TEXT        NULL DEFAULT NULL,
-    `kind`            VARCHAR(20)         NOT NULL,
-    `pic`      TEXT       NULL DEFAULT NULL,
-    `mapx`            NUMERIC(14,10)    NULL	DEFAULT NULL, 
-    `mapy`            NUMERIC(13,10)    NULL	DEFAULT NULL, 
-    `mlevel`          integer           NULL	DEFAULT NULL, 
-    `areacode`        integer           NOT NULL, 
-    `sigungucode`     integer           NOT NULL, 
-    `tel`             TEXT      		NULL	DEFAULT NULL, 
-	`homepage`        TEXT  			NULL 	DEFAULT NULL, 
-	`overview`        TEXT 				NULL	DEFAULT NULL,
-    
-	`eventplace`      TEXT				NULL	DEFAULT NULL,
-  `bookingplace`      TEXT				NULL	DEFAULT NULL,
-  `subevent`          TEXT				NULL	DEFAULT NULL,
-  `price`   TEXT				NULL	DEFAULT NULL,
-  `agelimit` TEXT				NULL	DEFAULT NULL,
-  `eventtime` TEXT 	NULL	DEFAULT NULL,
-     PRIMARY KEY (eventID)
-);
-
- ALTER TABLE EventTBL
-    ADD CONSTRAINT FK_EventTBL_kind_CategoryTBL_cCode FOREIGN KEY (kind)
-        REFERENCES CategoryTBL (cCode) ON DELETE RESTRICT ON UPDATE CASCADE;
-        
-ALTER TABLE EventTBL
-    ADD CONSTRAINT FK_EventTBL_areacode_AreaCodeDetailTBL_aCode FOREIGN KEY (areacode, sigungucode)
-        REFERENCES AreaCodeDetailTBL (aCode, aDCode) ON DELETE RESTRICT ON UPDATE CASCADE;
-        
-
-CREATE TABLE UserVisitedTBL
-(
-    `userID`      BIGINT        NOT NULL, 
-    `eventID`     BIGINT        NOT NULL, 
-    `assessment`  varchar(1)    NOT NULL, 
-     PRIMARY KEY (userID, eventID)
-);
-
-ALTER TABLE UserVisitedTBL COMMENT '사용자가 방문한 이벤트 테이블';
-
-ALTER TABLE UserVisitedTBL
-    ADD CONSTRAINT FK_UserVisitedTBL_eventID_EventTBL_eventID FOREIGN KEY (eventID)
-        REFERENCES EventTBL (eventID) ON DELETE RESTRICT ON UPDATE RESTRICT;
-
-ALTER TABLE UserVisitedTBL
-    ADD CONSTRAINT FK_UserVisitedTBL_userID_UserTBL_userID FOREIGN KEY (userID)
-        REFERENCES UserTBL (userID) ON DELETE RESTRICT ON UPDATE RESTRICT;
-        
-        
-
-
-CREATE TABLE MainEventTBL
-(
-    `mainEventID`  BIGINT         NOT NULL    AUTO_INCREMENT, 
-    `ment`         varchar(80)    NOT NULL, 
-    `prePic`       text           NOT NULL, 
-    `eventID`     BIGINT         NULL, 
-     PRIMARY KEY (mainEventID)
-);
-
-ALTER TABLE MainEventTBL COMMENT '메인 이벤트 테이블 (홈 상단)';
-
-ALTER TABLE MainEventTBL
-    ADD CONSTRAINT FK_MainEventTBL_eventID_EventTBL_eventID FOREIGN KEY (eventID)
-        REFERENCES EventTBL (eventID) ON DELETE CASCADE ON UPDATE RESTRICT;
-
-
-
-
-CREATE TABLE SearchTBL
-(
-    `searchID`  BIGINT         NOT NULL    AUTO_INCREMENT, 
-    `word`      VARCHAR(45)    NOT NULL, 
-     PRIMARY KEY (searchID)
-);
-
-ALTER TABLE SearchTBL COMMENT '검색어 테이블';
-
-
-
-
-CREATE TABLE KeywordTBL
-(
-    `userID`     BIGINT         NOT NULL, 
-    `content`    varchar(10)    NOT NULL, 
-     PRIMARY KEY (userID, content)
-);
-
-ALTER TABLE KeywordTBL COMMENT '사용자가 등록한 키워드 테이블';
-
-ALTER TABLE KeywordTBL
-    ADD CONSTRAINT FK_KeywordTBL_userID_UserTBL_userID FOREIGN KEY (userID)
-        REFERENCES UserTBL (userID) ON DELETE RESTRICT ON UPDATE RESTRICT;
-
-
-
-CREATE TABLE UserSavedTBL
-(
-    `userID`   BIGINT    NOT NULL, 
-    `eventID`  BIGINT    NOT NULL, 
-     PRIMARY KEY (userID, eventID)
-);
-
-ALTER TABLE UserSavedTBL COMMENT '사용자가 담아둔 이벤트 테이블';
-
-ALTER TABLE UserSavedTBL
-    ADD CONSTRAINT FK_UserSavedTBL_eventID_EventTBL_eventID FOREIGN KEY (eventID)
-        REFERENCES EventTBL (eventID) ON DELETE RESTRICT ON UPDATE RESTRICT;
-
-ALTER TABLE UserSavedTBL
-    ADD CONSTRAINT FK_UserSavedTBL_userID_UserTBL_userID FOREIGN KEY (userID)
-        REFERENCES UserTBL (userID) ON DELETE RESTRICT ON UPDATE RESTRICT;
-
-
--- 지역 코드 입력 ---------
-INSERT INTO AreaCodeTBL(aCode,aName) VALUES (1,'서울');
-INSERT INTO AreaCodeTBL(aCode,aName) VALUES (2,'인천');
-INSERT INTO AreaCodeTBL(aCode,aName) VALUES (3,'대전');
-INSERT INTO AreaCodeTBL(aCode,aName) VALUES (4,'대구');
-INSERT INTO AreaCodeTBL(aCode,aName) VALUES (5,'광주');
-INSERT INTO AreaCodeTBL(aCode,aName) VALUES (6,'부산');
-INSERT INTO AreaCodeTBL(aCode,aName) VALUES (7,'울산');
-INSERT INTO AreaCodeTBL(aCode,aName) VALUES (8,'세종특별자치시');
-INSERT INTO AreaCodeTBL(aCode,aName) VALUES (31,'경기도');
-INSERT INTO AreaCodeTBL(aCode,aName) VALUES (32,'강원도');
-INSERT INTO AreaCodeTBL(aCode,aName) VALUES (33,'충청북도');
-INSERT INTO AreaCodeTBL(aCode,aName) VALUES (34,'충청남도');
-INSERT INTO AreaCodeTBL(aCode,aName) VALUES (35,'경상북도');
-INSERT INTO AreaCodeTBL(aCode,aName) VALUES (36,'경상남도');
-INSERT INTO AreaCodeTBL(aCode,aName) VALUES (37,'전라북도');
-INSERT INTO AreaCodeTBL(aCode,aName) VALUES (38,'전라남도');
-INSERT INTO AreaCodeTBL(aCode,aName) VALUES (39,'제주도');
-INSERT INTO AreaCodeTBL(aCode,aName) VALUES (100,'기타지역');
-
-
--- 지역 상세 코드 입력 ------------
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (1,1,'강남구'); /*서울*/
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (1,2,'강동구');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (1,3,'강북구');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (1,4,'강서구');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (1,5,'관악구');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (1,6,'광진구');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (1,7,'구로구');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (1,8,'금천구');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (1,9,'노원구');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (1,10,'도봉구');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (1,11,'동대문구');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (1,12,'동작구');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (1,13,'마포구');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (1,14,'서대문구');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (1,15,'서초구');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (1,16,'성동구');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (1,17,'성북구');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (1,18,'송파구');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (1,19,'양천구');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (1,20,'영등포구');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (1,21,'용산구');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (1,22,'은평구');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (1,23,'종로구');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (1,24,'중구');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (1,25,'중랑구');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (1,100,'기타지역');
-
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (2,1,'강화군');/*인천*/
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (2,2,'계양구');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (2,3,'미추홀구');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (2,4,'남동구');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (2,5,'동구');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (2,6,'부평구');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (2,7,'서구');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (2,8,'연수구');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (2,9,'옹진군');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (2,10,'중구');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (2,100,'기타지역');
-
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (3,1,'대덕구'); /*대전*/
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (3,2,'동구');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (3,3,'서구');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (3,4,'유성구');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (3,5,'중구');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (3,100,'기타지역');
-
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (4,1,'남구');/*대구*/
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (4,2,'달서구');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (4,3,'달성군');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (4,4,'동구');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (4,5,'북구');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (4,6,'서구');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (4,7,'수성구');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (4,8,'중구');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (4,100,'기타지역');
-
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (5,1,'광산구');/*광주*/
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (5,2,'남구');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (5,3,'동구');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (5,4,'북구');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (5,5,'서구');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (5,100,'기타지역');
-
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (6,1,'강서구');/*부산*/
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (6,2,'금정구');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (6,3,'기장군');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (6,4,'남구');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (6,5,'동구');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (6,6,'동래구');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (6,7,'부산진구');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (6,8,'북구');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (6,9,'사상구');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (6,10,'사하구');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (6,11,'서구');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (6,12,'수영구');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (6,13,'연제구');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (6,14,'영도구');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (6,15,'중구');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (6,16,'해운대구');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (6,100,'기타지역');
-
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (7,1,'중구');/*울산*/
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (7,2,'남구');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (7,3,'동구');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (7,4,'북구');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (7,5,'을주군');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (7,100,'기타지역');
-
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (8,1,'세종특별자치시');/*세종특별자치시*/
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (8,100,'기타지역');
-
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (31,1, '가평군');/*경기도*/
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (31,2,'고양시');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (31,3,'과천시');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (31,4,'광명시');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (31,5,'광주시');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (31,6,'구리시');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (31,7,'군포시');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (31,8,'김포시');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (31,9,'남양주시');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (31,10,'동두천시');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (31,11,'부천시');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (31,12,'성남시');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (31,13,'수원시');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (31,14,'시흥시');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (31,15,'안산시');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (31,16,'안성시');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (31,17,'안양시');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (31,18,'양주시');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (31,19,'양평군');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (31,20,'여주시');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (31,21,'연천군');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (31,22,'오산시');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (31,23,'용인시');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (31,24,'의왕시');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (31,25,'의정부시');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (31,26,'이천시');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (31,27,'파주시');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (31,28,'평택시');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (31,29,'포천시');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (31,30,'하남시');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (31,31,'화성시');
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (31,100,'기타지역');
-
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 32, 1 , '강릉시' ); /*강원도*/
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 32, 2 , '고성군' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 32, 3 , '동해시' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 32, 4 , '삼척시' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 32, 5 , '속초시' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 32, 6 , '양구군' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 32, 7 , '양양군' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 32, 8 , '영월군' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 32, 9 , '원주시' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 32, 10 , '인제군' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 32, 11 , '정선군' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 32, 12 , '철원군' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 32, 13 , '춘천시' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 32, 14 , '태백시' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 32, 15 , '평창군' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 32, 16 , '홍천군' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 32, 17 , '화천군' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 32, 18 , '횡성군' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (32,100,'기타지역');
-
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 33, 1 , '괴산군' ); /*충청북도*/
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 33, 2 , '단양군' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 33, 3 , '보은군' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 33, 4 , '영동군' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 33, 5 , '옥천군' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 33, 6 , '음성군' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 33, 7 , '제천시' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 33, 8 , '진천군' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 33, 9 , '청원군' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 33, 10 , '청주시' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 33, 11 , '충주시' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 33, 12 , '증평군' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (33,100,'기타지역');
-
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 34, 1 , '공주시' ); /*충청남도*/
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 34, 2 , '금산군' ); 
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 34, 3 , '논산시' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 34, 4 , '당진시' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 34, 5 , '보령시' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 34, 6 , '부여군' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 34, 7 , '서산시' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 34, 8 , '서천군' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 34, 9 , '아산시' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 34, 11 , '예산군' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 34, 12 , '천안시' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 34, 13 , '청양군' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 34, 14 , '태안군' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 34, 15 , '홍성군' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 34, 16 , '계룡시' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (34,100,'기타지역');
-
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 35, 1 , '경산시' ); /*경상북도*/
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 35, 2 , '경주시' ); 
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 35, 3 , '고령군' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 35, 4 , '구미시' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 35, 5 , '군위군' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 35, 6 , '김천시' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 35, 7 , '문경시' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 35, 8 , '봉화군' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 35, 9 , '상주시' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 35, 10 , '성주군' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 35, 11 , '안동시' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 35, 12 , '영덕군' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 35, 13 , '영양군' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 35, 14 , '영주시' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 35, 15 , '영천시' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 35, 16 , '예천군' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 35, 17 , '울릉군' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 35, 18 , '울진군' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 35, 19 , '의성군' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 35, 20 , '청도군' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 35, 21 , '청송군' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 35, 22 , '칠곡군' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 35, 23 , '포항시' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (35,100,'기타지역');
-
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 36, 1 , '거제시' ); /*경상남도*/
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 36, 2 , '거창군' ); 
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 36, 3 , '고성군' ); 
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 36, 4 , '김해시' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 36, 5 , '남해군' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 36, 6 , '마산시' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 36, 7 , '밀양시' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 36, 8 , '사천시' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 36, 9 , '산청군' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 36, 10 , '양산시' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 36, 12 , '의령군' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 36, 13 , '진주시' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 36, 14 , '진해시' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 36, 15 , '창녕군' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 36, 16 , '창원시' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 36, 17 , '통영시' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 36, 18 , '하동군' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 36, 19 , '함안군' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 36, 20 , '함양군' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 36, 21 , '합천군' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (36,100,'기타지역');
-
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 37, 1 , '고창군' ); /*전라북도*/
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 37, 2 , '군산시' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 37, 3 , '김제시' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 37, 4 , '남원시' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 37, 5 , '무주군' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 37, 6 , '부안군' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 37, 7 , '순창군' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 37, 8 , '완주군' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 37, 9 , '익산시' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 37, 10 , '임실군' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 37, 11 , '장수군' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 37, 12 , '전주시' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 37, 13 , '정읍시' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 37, 14 , '진안군' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (37,100,'기타지역');
-
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 38, 1 , '강진군' );  /*전라남도*/
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 38, 2 , '고흥군' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 38, 3 , '곡성군' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 38, 4 , '광양시' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 38, 5 , '구례군' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 38, 6 , '나주시' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 38, 7 , '담양군' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 38, 8 , '목포시' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 38, 9 , '무안군' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 38, 10 , '보성군' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 38, 11 , '순천시' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 38, 12 , '신안군' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 38, 13 , '여수시' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 38, 16 , '영광군' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 38, 17 , '영암군' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 38, 18 , '완도군' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 38, 19 , '장성군' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 38, 20 , '장흥군' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 38, 21 , '진도군' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 38, 22 , '함평군' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 38, 23 , '해남군' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 38, 24 , '화순군' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (38,100,'기타지역');
-
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 39, 1 , '남제주군' ); /*제주도*/
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 39, 2 , '북제주군' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 39, 3 , '서귀포시' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES ( 39, 4 , '제주시' );
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (39,100,'기타지역');
-
-INSERT INTO AreaCodeDetailTBL(aCode,aDCode,aDName) VALUES (100,100,'기타지역');
-
--- 카테고리 데이터 입력 ---------------------------------------------------------------------------
-INSERT INTO CategoryTBL(cCode,cName) VALUES ('A02070100','문화관광축제'); /*축제*/
-INSERT INTO CategoryTBL(cCode,cName) VALUES ('A02070200','일반축제');
-INSERT INTO CategoryTBL(cCode,cName) VALUES ('A02080100','전통공연');/*공연/행사*/
-INSERT INTO CategoryTBL(cCode,cName) VALUES ('A02080200','연극');
-INSERT INTO CategoryTBL(cCode,cName) VALUES ('A02080300','뮤지컬');
-INSERT INTO CategoryTBL(cCode,cName) VALUES ('A02080400','오페라');
-INSERT INTO CategoryTBL(cCode,cName) VALUES ('A02080500','전시회');
-INSERT INTO CategoryTBL(cCode,cName) VALUES ('A02080600','박람회');
-INSERT INTO CategoryTBL(cCode,cName) VALUES ('A02080700','컨벤션');
-INSERT INTO CategoryTBL(cCode,cName) VALUES ('A02080800','무용');
-INSERT INTO CategoryTBL(cCode,cName) VALUES ('A02080900','클래식음악회');
-INSERT INTO CategoryTBL(cCode,cName) VALUES ('A02081000','대중콘서트');
-INSERT INTO CategoryTBL(cCode,cName) VALUES ('A02081100','영화');
-INSERT INTO CategoryTBL(cCode,cName) VALUES ('A02081200','스포츠경기');
-INSERT INTO CategoryTBL(cCode,cName) VALUES ('A02081300','기타행사');
-
-
--- 사용자 데이터 입력 -------------------------------------
--- 10대 여성 --
-INSERT INTO `UserTBL` (email, nickName, pw, sex, age, last_login) VALUES ('bear@gmail.com', '곰돌이', "$2a$10$sm454B3JeElqcatMKRVhweISBzb4Eng4Huzxkf857xhCzy2yW9MuG", 'w', 1, NOW());  /*pw : bearbear*/
-INSERT INTO `UserTBL` (email, nickName, pw, sex, age, last_login) VALUES ('sugar@gmail.com', '사탕', "$2a$10$iUq5jMK2jTFI7ZdHIoOUx.a8ApXX1B/.09ul29PhLOh4CbauSGZhq", 'w', 1, NOW());  /*pw : candysugar*/
-INSERT INTO `UserTBL` (email, nickName, pw, sex, age, last_login) VALUES ('doll@gmail.com', '인형좋아', "$2a$10$CTu/WGf6S2XFFUQMnDUVTuL61Cs92dsoi6rp9ptLEMNhxGDLiWq.K", 'w', 1, NOW());  /*pw : dollybabe*/
-INSERT INTO `UserTBL` (email, nickName, pw, sex, age, last_login) VALUES ('mypop@gmail.com', '마이팝', "$2a$10$fhmfCyLP7ucqrV8B27QN4.SksrOr7dHHd4MJugwfytpR0P8hr6W22", 'w', 1, NOW());  /*pw : mypopmypop*/
-INSERT INTO `UserTBL` (email, nickName, pw, sex, age, last_login) VALUES ('heyU@gmail.com', '너누', "$2a$10$/2Sisforynvo8spBRPXZHu8.8CEzxBLdPR9rx3VJnb0czYzn.abaG", 'w', 1, NOW());  /*pw : heyyouu*/
-
--- 20대 여성 -- 
-INSERT INTO `UserTBL` (email, nickName, pw, sex, age, last_login) VALUES ('sujin@gmail.com', '수지니', "$2a$10$pNZAd/ie7/Ipr6Go30ane.GhiRyflwGQgIXwQR7ux91jr.yK7IxrS", 'w', 2, NOW());  /*pw : heysusu*/
-INSERT INTO `UserTBL` (email, nickName, pw, sex, age, last_login) VALUES ('gahyun@gmail.com', '가가', "$2a$10$4RS0v3ayGHIbYVp1NmFS8uslgH8j4VL1ECcCq1.g0iqs.F7iTP4v6", 'w', 2, NOW());  /*pw : heygaga*/
-INSERT INTO `UserTBL` (email, nickName, pw, sex, age, last_login) VALUES ('sihyun@gmail.com', '셔니', "$2a$10$743m9YcvXtU8lH2YJYObbuJPdRCGbOq3dB7GKJLuZEUXOgsW908D2", 'w', 2, NOW());  /*pw : heysisi*/
-INSERT INTO `UserTBL` (email, nickName, pw, sex, age, last_login) VALUES ('sungshin@gmail.com', '성신', "$2a$10$WBYzbW2Yb9fefIx6ZqdK1.eY7.hysMAueYi8tXtus3CuEKkAV7xGG", 'w', 2, NOW());  /*pw : heysung*/
-INSERT INTO `UserTBL` (email, nickName, pw, sex, age, last_login) VALUES ('sooryong@gmail.com', '수룡이', "$2a$10$IZk4SMRabjcjD0WZfSHN7OtOPB6Qy4JWiWetOOJtiiDsXP3dN6oE2", 'w', 2, NOW());  /*pw : sooryong*/
-
--- 30대 여성 --
-INSERT INTO `UserTBL` (email, nickName, pw, sex, age, last_login) VALUES ('company@gmail.com', '회사싫어', "$2a$10$MndpzBlzUugqXuo72Gb.CedMLth30.fjkx0AS8oBL0ghYeCXZ/J2u", 'w', 3, NOW());  /*pw : company*/
-INSERT INTO `UserTBL` (email, nickName, pw, sex, age, last_login) VALUES ('leavenow@gmail.com', '떠나요', "$2a$10$lzvMsIEYuf0syToGzQC7KO0tCqgpC8tA.JuIqClZEv6K2LyEFmpGm", 'w', 3, NOW());  /*pw : leavenow*/
-INSERT INTO `UserTBL` (email, nickName, pw, sex, age, last_login) VALUES ('makemoney@gmail.com', '돈벌자', "$2a$10$VjE6THxyyasqSeY3mpaceeYLWdARNf7.aViyUg4ocni.Wm5yGC5oi", 'w', 3, NOW());  /*pw : makemoney*/
-INSERT INTO `UserTBL` (email, nickName, pw, sex, age, last_login) VALUES ('iamapple@gmail.com', '나는사과', "$2a$10$ZQLqFgzGnVBKc1SLdU4ZGOtiB.rTKBqPxxt.YegqD0tjmFEvO0HHG", 'w', 3, NOW());  /*pw : iamapple*/
-INSERT INTO `UserTBL` (email, nickName, pw, sex, age, last_login) VALUES ('whatever@gmail.com', '어쩌라고', "$2a$10$hOnQIXkKoBP5/JAosAH0Uug/potnK0FpI0BN4f3BXFDBZF/V2QDGe", 'w', 3, NOW());  /*pw : whatever*/
-
--- 40대~50대 여성 --
-INSERT INTO `UserTBL` (email, nickName, pw, sex, age, last_login) VALUES ('momcame@gmail.com', '엄마왔다', "$2a$10$ryLBMAAgKqcceZ1becAjse7UAswndYwQrxdTPPmhURsXLRPzDatOC", 'w', 4, NOW());  /*pw : momcame*/
-INSERT INTO `UserTBL` (email, nickName, pw, sex, age, last_login) VALUES ('jihunmom@gmail.com', '지훈맘', "$2a$10$HKWbSAKr/Wm9RraxPFoLB.5m4xQHf5m/U/tSHWRD4MDAXF5TuU1pG", 'w', 4, NOW());  /*pw : jihunmom*/
-INSERT INTO `UserTBL` (email, nickName, pw, sex, age, last_login) VALUES ('dorokdorok@gmail.com', '도록도록', "$2a$10$EYq3uYhdO7CFqvKRY7nfuuLLuac7tlkNCjNgXrNsjOHbEUxIGPLUm", 'w', 4, NOW());  /*pw : dorokdorok*/
-INSERT INTO `UserTBL` (email, nickName, pw, sex, age, last_login) VALUES ('greengreen@gmail.com', '연두새싹', "$2a$10$wbqdAMT8Jue6hxc.N0JDG.31tJ0lgtkFGAV/RVCUjj4Me6kFqt5Da", 'w', 4, NOW());  /*pw : greengreen*/
-INSERT INTO `UserTBL` (email, nickName, pw, sex, age, last_login) VALUES ('gogoworld@gmail.com', '덤벼라 세상아', "$2a$10$2x4Hui3nZgW9CbK.NQs0nOqS0yNn6RWi11AFqvgOrSAZB9wJ/wyaa", 'w', 4, NOW());  /*pw : gogoworld*/
-
--- 60대 이상 여성
-INSERT INTO `UserTBL` (email, nickName, pw, sex, age, last_login) VALUES ('hikinggo@gmail.com', '등산가자', "$2a$10$6wB7DkobECOkphcxL.k.4./JFmAeSomwB.z6/wcWF99vbFw0tBrm2", 'w', 6, NOW());  /*pw : hikinggo*/
-INSERT INTO `UserTBL` (email, nickName, pw, sex, age, last_login) VALUES ('coolerthan@gmail.com', '멋쟁이', "$2a$10$9A.NEBPNX/JgvTKtqFWaC.4ZyCbfdw4q9sfaoJOirLQY/l9D4wR3i", 'w', 6, NOW());  /*pw : coolerthan*/
-INSERT INTO `UserTBL` (email, nickName, pw, sex, age, last_login) VALUES ('jucyjucy@gmail.com', '주스', "$2a$10$CJJcH9OqBVEXUBdCrduq8.ZLj7TABoJRBwY9TX5U3YGf0xz1rQjN.", 'w', 6, NOW());  /*pw : jucyjucy*/
-INSERT INTO `UserTBL` (email, nickName, pw, sex, age, last_login) VALUES ('unnieunnie@gmail.com', '아는언니', "$2a$10$sb.3LfOCzIPTjIeHW/Lbi.8S6qp35tSGs8qJS1Aj9GqxctVbud77S", 'w', 6, NOW());  /*pw : unnieunnie*/
-INSERT INTO `UserTBL` (email, nickName, pw, sex, age, last_login) VALUES ('wavewave@gmail.com', '파도가 온다', "$2a$10$Wg1nUCjoVc6QluG4srTrtO6bdKVcsAw70SWxmCLhyas3ndBPyE4E2", 'w', 6, NOW());  /*pw : wavewave*/
-
--- 10대 남성
-INSERT INTO `UserTBL` (email, nickName, pw, sex, age, last_login) VALUES ('gamegame@gmail.com', '겜돌이', "$2a$10$hgfTj/sdiNIOvhL8TUNqROf0xakUiJNAT/uEEdgg/zYTOHG4rK98G", 'm', 1, NOW());  /*pw : gamegame*/
-INSERT INTO `UserTBL` (email, nickName, pw, sex, age, last_login) VALUES ('sohotdude@gmail.com', '아 더워', "$2a$10$zNylvHhE95Pci7eU7SH7D.RkZliqCYTc1mft.2ciYx0/aiBEEFe7K", 'm', 1, NOW());  /*pw : sohotdude*/
-INSERT INTO `UserTBL` (email, nickName, pw, sex, age, last_login) VALUES ('television@gmail.com', '어쩔티비', "$2a$10$TChJQ4LadWKUZ7.0nYEBZOO9/z.MEqwUhkOP2n4fB1oe0NzQEfnvy", 'm', 1, NOW());  /*pw : television*/
-INSERT INTO `UserTBL` (email, nickName, pw, sex, age, last_login) VALUES ('pccafegogo@gmail.com', '피방가자', "$2a$10$Gk2Pkb7aFUsJc.cp.FRyrO1iyFWmq7fHMvMLntPTvCkkIsNDfgCVO", 'm', 1, NOW());  /*pw : pccafegogo*/
-INSERT INTO `UserTBL` (email, nickName, pw, sex, age, last_login) VALUES ('youngboy@gmail.com', '어린이', "$2a$10$GZ.qlrQhinIkoeO4EwSI9O6lQYNrJONRnRqPnjEWGyFo8rDvZmjMa", 'm', 1, NOW());  /*pw : youngboy*/
-
--- 20대 남성
-INSERT INTO `UserTBL` (email, nickName, pw, sex, age, last_login) VALUES ('dusickk@gmail.com', '두식', "$2a$10$65ecGxcxrnKHgphfbIR.QO5l.PFpHqqSFv34nVF8eiI1LVu03r.Hm", 'm', 2, NOW());  /*pw : dusickk*/
-INSERT INTO `UserTBL` (email, nickName, pw, sex, age, last_login) VALUES ('chulsoo@gmail.com', '철수', "$2a$10$89M65jt8BOiUEPzItMorX.Wi4HASaI3KOyAUbBwZ3H.vgiZfFZjbG", 'm', 2, NOW());  /*pw : chulsoo*/
-INSERT INTO `UserTBL` (email, nickName, pw, sex, age, last_login) VALUES ('zzanggu@gmail.com', '짱구', "$2a$10$S1OW2ztFG.kTpG16KczwzuNAX/ia05t9ficvzacWI0M7/Tpgrj9xe", 'm', 2, NOW());  /*pw : zzanggu*/
-INSERT INTO `UserTBL` (email, nickName, pw, sex, age, last_login) VALUES ('thisishyg@gmail.com', '형이야', "$2a$10$/J6Ix70uZim0E.T.tYKOdeH6yJPbl0j1bv8X9KvGeJkWfnPrgCFei", 'm', 2, NOW());  /*pw : thisishyg*/
-INSERT INTO `UserTBL` (email, nickName, pw, sex, age, last_login) VALUES ('daehakyes@gmail.com', '대학어제', "$2a$10$SAFRlzPAHYmvL5EUrqvutekfn.mCYxWk3VISB96pH63Es.A/J8MXK", 'm', 2, NOW());  /*pw : daehakyes*/
-
--- 30대 남성
-INSERT INTO `UserTBL` (email, nickName, pw, sex, age, last_login) VALUES ('dontenvy@gmail.com', '부럽지가 않아', "$2a$10$L2MHrBcbSk5Bzg3cG8Z2vuYiZasXA3eSsgB88DPSh/73LIsSCIvDW", 'm', 3, NOW());  /*pw : dontenvy*/
-INSERT INTO `UserTBL` (email, nickName, pw, sex, age, last_login) VALUES ('vennomm@gmail.com', '베놈', "$2a$10$tsFJwaCoPV1aJzIMWlBgsevNkCF8/ncrZRqX4uSp2fKHTWDLWeC1K", 'm', 3, NOW());  /*pw : vennomm*/
-INSERT INTO `UserTBL` (email, nickName, pw, sex, age, last_login) VALUES ('yerinsdad@gmail.com', '예린이아빠', "$2a$10$8ChbC1LE9UI.6lIKqfSlHeWLLBMxkzLFTVeLdWRDhivfgI32T27c6", 'm', 3, NOW());  /*pw : yerinsdad*/
-INSERT INTO `UserTBL` (email, nickName, pw, sex, age, last_login) VALUES ('golfgolf@gmail.com', '골프치자', "$2a$10$YaW7ZrSxpG69gq1maZ/UcOeLreB3Jn89bGKYAQD3oimnr1D8Duhzi", 'm', 3, NOW());  /*pw : golfgolf*/
-INSERT INTO `UserTBL` (email, nickName, pw, sex, age, last_login) VALUES ('goodboy@gmail.com', '멋진형', "$2a$10$npmhD7j8fw.S5JKa.z9SK.eUlh9mlFFWCMRLeR2zcr5x63/25XdHW", 'm', 3, NOW());  /*pw : goodboy*/
-
--- 40대 ~50대 남성
-INSERT INTO `UserTBL` (email, nickName, pw, sex, age, last_login) VALUES ('hwahwa@gmail.com', '화려강산', "$2a$10$NHkFJNPh0J2UQpYOfWajkeWawpsKGMGOjhFNLjXxsf6qMsJ/.Q6kS", 'm', 4, NOW());  /*pw : hwahwa*/
-INSERT INTO `UserTBL` (email, nickName, pw, sex, age, last_login) VALUES ('mugoong@gmail.com', '무궁화', "$2a$10$EvrvKsyQgDNreoXaIWMyweU92.RGmUYl7S2ngkIR5oZ0oao2Wk2Y.", 'm', 4, NOW());  /*pw : mugoong*/
-INSERT INTO `UserTBL` (email, nickName, pw, sex, age, last_login) VALUES ('samcheon@gmail.com', '삼천리 자전거', "$2a$10$xF70yNffWATnuGUF11SY1eugdivxhdn6k/Xbv7ruDrws.b.NtOUdS", 'm', 4, NOW());  /*pw : samcheon*/
-INSERT INTO `UserTBL` (email, nickName, pw, sex, age, last_login) VALUES ('daehann@gmail.com', '대한사람', "$2a$10$8/NGlgnK/6gcutoZu3MC9O3evGlhAaf9fDnkMLxB6fwAOYFF/TYFi", 'm', 4, NOW());  /*pw : daehann*/
-INSERT INTO `UserTBL` (email, nickName, pw, sex, age, last_login) VALUES ('taegukki@gmail.com', '태극기', "$2a$10$OwkSaHoyc0jl/Iv0eMyj0eeR1wyAhfmWiS6V4WJEa.nIu1qVcXeUu", 'm', 4, NOW());  /*pw : taegukki*/
-
--- 60대 이상 남성
-INSERT INTO `UserTBL` (email, nickName, pw, sex, age, last_login) VALUES ('together@gmail.com', '님과함께', "$2a$10$hXLIFtfWsl.g0jBPjMnj1OP0QBbKdMYdPOdgYWs5aIpMFQg4Je8Ge", 'm', 6, NOW());  /*pw : together*/
-INSERT INTO `UserTBL` (email, nickName, pw, sex, age, last_login) VALUES ('songgain@gmail.com', '송가인이 나라를 구한다', "$2a$10$cwLta.5vhtJu3PrMqeSs0eViK/yfAfqVIuCaXxSdc0dF.LR4KsTTS", 'm', 6, NOW());  /*pw : songgain*/
-INSERT INTO `UserTBL` (email, nickName, pw, sex, age, last_login) VALUES ('jaokkaa@gmail.com', '자옥아', "$2a$10$.IfIHNMf0cppjQ2UCygNC.9zhnJq4xjJvI8vokUggw04c6SERvGAq", 'm', 6, NOW());  /*pw : jaokkaa*/
-INSERT INTO `UserTBL` (email, nickName, pw, sex, age, last_login) VALUES ('noreason@gmail.com', '무조건이야', "$2a$10$Csn4CC27mcH6JjqX3WzbIO2Irbq0Ow/t6ZH/3iuccaFfIKX.2JHrW", 'm', 6, NOW());  /*pw : noreason*/
-INSERT INTO `UserTBL` (email, nickName, pw, sex, age, last_login) VALUES ('jinjinja@gmail.com', '진진자라', "$2a$10$SffPDhslr3.3K0n/RefgKu4U6wI2YPx0uXN3PetVrb5pRfIx1opKG", 'm', 6, NOW());  /*pw : jinjinja*/
-
--- 이벤트 정보 입력 ------------------------------------------------------------------------------
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 2849159 , '2022  제10회 연수능허대문화축제' , 20220930 , 20221001 , '인천광역시 연수구 송도동', '14', 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/48/2849148_image2_1.jpg', 126.6588132791, 37.3954517696, 6, 2, 8, '032-749-8932~8934', 
 NULL, "연수능허대문화축제는 고대 해양문화강국 백제의 해상관문인 능허대의 역사를 기념하고 이를 현대적으로 재해석하는 축제의 장으로서 지역대표축제로 자리매김하고 있다. 올해로 10회째를 맞이하는 <2022년 연수능허대문화축제>는 4년만에 개최됨으로써 코로나19로 인하여 지치고 힘든 구민을 위로하고 연수구를 방문하는 관광객들과 함께 즐기고 어울릴 수 있는 축제이다.", 
@@ -566,7 +5,7 @@ NULL, "연수능허대문화축제는 고대 해양문화강국 백제의 해상
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 2849140 , '2022 제주 반려동물 문화축제' , 20220924 , 20220925 , '제주특별자치도 제주시 연삼로 286', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/26/2849126_image2_1.jpg', 126.5238621803, 33.4918756720, 6, 39, 4, '064-710-2665', 
-'<a href="http://www.jejufairs.com" target="_blank" title="새창 : 제주 반려동물 문화축제">http://www.jejufairs.com</a>', '"2022 제주 반려동물 문화축제"는 올바른 반려동물 문화 정착으로 사람과 동물이 행복한 제주를 위한 축제이다. 펫티켓 교육, 성숙한 반려동물 문화 홍보 캠페인부터 각종 반려동물 관련 체험 프로그램까지 반려인과 일반인을 포함한 모든 사람이 함께 즐길 수 있는 다양한 프로그램이 진행될 예정이다. (코로나19 방역 지침에 따라 행사 내용은 변경될 수 있다.)', 
+'<a href="http://www.jejufairs.com" target="_blank" title="새창 : 제주 반려동물 문화축제">http://www.jejufairs.com</a>', ""2022 제주 반려동물 문화축제"는 올바른 반려동물 문화 정착으로 사람과 동물이 행복한 제주를 위한 축제이다. 펫티켓 교육, 성숙한 반려동물 문화 홍보 캠페인부터 각종 반려동물 관련 체험 프로그램까지 반려인과 일반인을 포함한 모든 사람이 함께 즐길 수 있는 다양한 프로그램이 진행될 예정이다. (코로나19 방역 지침에 따라 행사 내용은 변경될 수 있다.)", 
 '제주 시민복지타운광장 일원', NULL, NULL, '무료',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
@@ -576,7 +15,7 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 2848984 , '거리예술 캬라반 ‘가을’' , 20220910 , 20220925 , '서울특별시 종로구 세종대로 175', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/81/2848981_image2_1.jpg', 126.9763210635, 37.5720618985, 6, 1, 23, '02-3437-0059', 
-'홈페이지 <a href="https://www.sfac.or.kr/artspace/artspace/streetArts_notice.do?cbIdx=984&bcIdx=133216&type=" target="_blank" title="새창 : 거리예술 캬라반 <가을>">https://www.sfac.or.kr</a><br>페이스북 <a href="https://www.facebook.com/SeoulStreetArtsCreationCenter/" target="_blank" title="새창 : 거리예술 캬라반 "가을"">https://www.facebook.com</a>', "2014년 '거리예술 시즌제'로 시작된 거리예술 캬라반은 도심 속 시민 일상 공간인 광장, 공원 등을 찾아가 거리예술 작품을 선보이는 서울문화재단 서울거리예술창작센터의 프로그램이다. 오는 10일부터 9월 25일까지 매주말마다 광화문광장, 서울숲, 선유도공원에서 음악극·무용·서커스·연희 총 6편의 거리공연이 24회 이어진다.", 
+'홈페이지 <a href="https://www.sfac.or.kr/artspace/artspace/streetArts_notice.do?cbIdx=984&bcIdx=133216&type=" target="_blank" title="새창 : 거리예술 캬라반 '가을'">https://www.sfac.or.kr</a><br>페이스북 <a href="https://www.facebook.com/SeoulStreetArtsCreationCenter/" target="_blank" title="새창 : 거리예술 캬라반 '가을'">https://www.facebook.com</a>', "2014년 '거리예술 시즌제'로 시작된 거리예술 캬라반은 도심 속 시민 일상 공간인 광장, 공원 등을 찾아가 거리예술 작품을 선보이는 서울문화재단 서울거리예술창작센터의 프로그램이다. 오는 10일부터 9월 25일까지 매주말마다 광화문광장, 서울숲, 선유도공원에서 음악극·무용·서커스·연희 총 6편의 거리공연이 24회 이어진다.", 
 NULL, NULL, NULL, '무료',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
@@ -611,7 +50,7 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 2847471 , '2022 서울새활용주간' , 20220901 , 20220906 , '서울특별시 성동구 자동차시장길 49 서울새활용플라자', NULL, 'A02081300', 'http://tong.visitkorea.or.kr/cms/resource/69/2847469_image2_1.jpg', 127.0578667897, 37.5587371344, 6, 1, 16, '02-2153-0474', 
-'<a href="https://2022seoulupcycling.modoo.at/" target="_blank" title="새창 : 2022 서울새활용주간">https://2022seoulupcycling.modoo.at</a>', '[2022 서울새활용주간 : 아름다운 제로 웨이스트]<br>서울새활용플라자가 개관 5주년과 더불에 [2022 서울새활용주간 : 아름다운 제로 웨이스트] 행사를 진행하게 되었다.<br>업사이클링과 제로 웨이스트에 관심 있는 여러분들의 많은 참여 바란다.<br><br>*공식 홈페이지 : <a href="https://2022seoulupcycling.modoo.at/" target="_blank" title="새창 : 2022 서울새활용주간">https://2022seoulupcycling.modoo.at</a><br>*프로그램 참여 신청 : <a href="https://linktr.ee/2022seoulupcycling" target="_blank" title="새창 : 2022 서울새활용주간">https://linktr.ee/2022seoulupcycling</a>', 
+'<a href="https://2022seoulupcycling.modoo.at/" target="_blank" title="새창 : 2022 서울새활용주간">https://2022seoulupcycling.modoo.at</a>', "[2022 서울새활용주간 : 아름다운 제로 웨이스트]<br>서울새활용플라자가 개관 5주년과 더불에 [2022 서울새활용주간 : 아름다운 제로 웨이스트] 행사를 진행하게 되었다.<br>업사이클링과 제로 웨이스트에 관심 있는 여러분들의 많은 참여 바란다.<br><br>*공식 홈페이지 : <a href="https://2022seoulupcycling.modoo.at/" target="_blank" title="새창 : 2022 서울새활용주간">https://2022seoulupcycling.modoo.at</a><br>*프로그램 참여 신청 : <a href="https://linktr.ee/2022seoulupcycling" target="_blank" title="새창 : 2022 서울새활용주간">https://linktr.ee/2022seoulupcycling</a>", 
 '서울새활용플라자', NULL, NULL, '무료',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
@@ -641,7 +80,7 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 2846192 , '동아시아문화도시 2022 경주 - 난장! 동아시아를 즐겨라!' , 20221007 , 20221009 , '경상북도 경주시 봉황로 21-4', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/43/2846043_image2_1.jpg', 129.2098567093, 35.8415207806, 6, 35, 2, '054-777-5952~4', 
-'<a href="https://www.gyeongju.go.kr/cceagj/index.do" target="_blank" title="새창 : 동아시아문화도시 2022 경주 - 난장! 동아시아를 즐겨라!">www.gyeongju.go.kr</a>', '난장! 동아시아를 즐겨라!<br>3개국 문화 교류의 장이 동아시아 문화도시, 경주에서 펼쳐진다.<br>한·중·일 문화공연, 체험, 부대행사가 가득한 축제이다.<br>동아시아문화도시는 한·중·일 3국간 문화다양성 존중이라는 기치 아래, "동아시아의 의식, 문화교류와 융합, 상대문화 이해"의 정신을 실천하기 위해 매년 개최하는 문화교류행사이다. 2022년 동아시아문화도시로는 한국 경주시, 중국 원저우시와 지난시, 일본 오이타현이 선정되었다.', 
+'<a href="https://www.gyeongju.go.kr/cceagj/index.do" target="_blank" title="새창 : 동아시아문화도시 2022 경주 - 난장! 동아시아를 즐겨라!">www.gyeongju.go.kr</a>', "난장! 동아시아를 즐겨라!<br>3개국 문화 교류의 장이 동아시아 문화도시, 경주에서 펼쳐진다.<br>한·중·일 문화공연, 체험, 부대행사가 가득한 축제이다.<br>동아시아문화도시는 한·중·일 3국간 문화다양성 존중이라는 기치 아래, "동아시아의 의식, 문화교류와 융합, 상대문화 이해"의 정신을 실천하기 위해 매년 개최하는 문화교류행사이다. 2022년 동아시아문화도시로는 한국 경주시, 중국 원저우시와 지난시, 일본 오이타현이 선정되었다.", 
 '경주 시내(봉황대 광장, 중심상가) 일원', NULL, NULL, '무료','전 연령', NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
@@ -650,7 +89,7 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 '10:00 - 21:00', NULL, NULL, '입장료 성인: 9,000원 우대: 7,000원 36개월 이하 유아: 무료','전 연령', NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
-2846113 , '2022 New York Arts Society Festival in Seoul' , 20220801 , 20221231 , NULL, '비대면 대회', 'A02080900', 'http://tong.visitkorea.or.kr/cms/resource/69/2846069_image2_1.jpg', 0, 0, NULL, 100, 100, 'kpmakorea@aol.com', 
+2846113 , '2022 New York Arts Society Festival in Seoul' , 20220801 , 20221231 , NULL, '비대면 대회', 'A02080900', 'http://tong.visitkorea.or.kr/cms/resource/69/2846069_image2_1.jpg', 0, 0, NULL, NULL, NULL, 'kpmakorea@aol.com', 
 '<a href="https://conservatory.modoo.at/" target="_blank" title="새창 : New York Arts Society Festival in Seoul">https://conservatory.modoo.at</a>', "전국민 예술가 만들기 프로젝트 비대면 대회 <내가 미래의 예술가> 라는 취지 아래 대한민국과 재외동포 예술가와 애호가들를 위해 따듯한 손길들이 모여 만들어진 캠페인 입니다. 공동 성장, 상생, 협업 을 슬로건으로 다양한 예술단체들간의 협업을 통하여 대한민국 예술 전파를 위해 힘쓰고 있다.<br>﻿2014년 부터 매년 4회(음악4회, 미술1회, 댄스1회)개최 하였으며, 각 대회마다 평균 약 200명이 참여 하였다.", 
 '<a href="https://www.youtube.com/channel/UC1HBI703kLcwg2kq_0k7_kw" target="_blank" title="새창 : New York Arts Society Festival in Seoul">www.youtube.com</a>', NULL, NULL, '유료<br>탈락시 전액 환불',NULL, NULL);
 
@@ -676,12 +115,12 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 2845946 , '2022 청춘, 커피페스티벌' , 20221008 , 20221009 , '서울특별시 송파구 올림픽로 300 롯데월드타워앤드롯데월드몰', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/41/2845941_image2_1.jpg', 127.1040305171, 37.5142459111, 6, 1, 18, '02-360-4520', 
-'<a href="https://youthcoffee.co.kr" target="_blank" title="새창 : 청춘, 커피페스티벌">https://youthcoffee.co.kr</a>', '"청춘로스팅, 꿈의 향이 퍼지다."<br>로스팅에 따라 무한한 향의 커피가 만들어지듯 청춘의 다양한 꿈과 미래을 응원한다.<br>반복되는 삶과 지친 일상 속에서 똑같은 하루를 살아가는 청춘들에게 작은 쉼이 될 수 있도록 커피 한 잔의 여유와 온기와 희망을 전한다.', 
+'<a href="https://youthcoffee.co.kr" target="_blank" title="새창 : 청춘, 커피페스티벌">https://youthcoffee.co.kr</a>', ""청춘로스팅, 꿈의 향이 퍼지다."<br>로스팅에 따라 무한한 향의 커피가 만들어지듯 청춘의 다양한 꿈과 미래을 응원한다.<br>반복되는 삶과 지친 일상 속에서 똑같은 하루를 살아가는 청춘들에게 작은 쉼이 될 수 있도록 커피 한 잔의 여유와 온기와 희망을 전한다.", 
 '서울 롯데월드타워 잔디광장', NULL, NULL, '무료','전체관람가능', NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 2845940 , '2022장애인창착아트페어' , 20220905 , 20220908 , '서울특별시 서초구 강남대로 27 AT센터', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/39/2845939_image2_1.jpg', 127.0407514903, 37.4673918780, 6, 1, 15, '02-567-9623', 
-'<a href="https://aaartfair.co.kr/" target="_blank" title="새창 : 장애인창착아트페어">https://aaartfair.co.kr</a>', '2014년 장애미술인들의 창작의욕을 고취시키고 장애인미술 발전의 새로운 교두보를 만들자는 취지로 시작한 장애인창작아트페어(Able Access Art Fair)는 “한국 최대규모의 장애인미술 아트페어”로 자리매김하였다.<br>2022 장애인창작아트페어는 기억에 남는 전시를 제공하고 성공적인 결과를 이끌어내 한국 장애인미술의 새로운 지표가 되어 나가겠다.<br>올해 문화체육관광부와 한국 장애인 문화예술원이 후원하는 가장 권위있는 장애인 미술행사인 2022장애인창작아트페어는 ‘DI.VERSE - Eye & Mind’ 으로 "작품은 눈으로 보는 것이 아닌 마음으로 읽는 것이다. - 그 안에 담긴 작가의 세계를" 라는 주제로 다양한 작가들의 작품들과 프로그램들이 진행된다.', 
+'<a href="https://aaartfair.co.kr/" target="_blank" title="새창 : 장애인창착아트페어">https://aaartfair.co.kr</a>', "2014년 장애미술인들의 창작의욕을 고취시키고 장애인미술 발전의 새로운 교두보를 만들자는 취지로 시작한 장애인창작아트페어(Able Access Art Fair)는 “한국 최대규모의 장애인미술 아트페어”로 자리매김하였다.<br>2022 장애인창작아트페어는 기억에 남는 전시를 제공하고 성공적인 결과를 이끌어내 한국 장애인미술의 새로운 지표가 되어 나가겠다.<br>올해 문화체육관광부와 한국 장애인 문화예술원이 후원하는 가장 권위있는 장애인 미술행사인 2022장애인창작아트페어는 ‘DI.VERSE - Eye & Mind’ 으로 "작품은 눈으로 보는 것이 아닌 마음으로 읽는 것이다. - 그 안에 담긴 작가의 세계를" 라는 주제로 다양한 작가들의 작품들과 프로그램들이 진행된다.", 
 '서울 양재 At센터 제2전시장 A홀', NULL, NULL, '무료','전 연령', '자유롭게 관람가능');
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
@@ -720,7 +159,7 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 '예산황새공원', NULL, NULL, '무료',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
-2842412 , '7일간의 동행축제' , 20220901 , 20220907 , NULL, '온라인 개최', 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/75/2842975_image2_1.jpg', 0, 0, NULL, 100, 100, '02-6678-9326', 
+2842412 , '7일간의 동행축제' , 20220901 , 20220907 , NULL, '온라인 개최', 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/75/2842975_image2_1.jpg', 0, 0, NULL, NULL, NULL, '02-6678-9326', 
 '<a href="https://www.ksale.org/" target="_blank" title="새창 : 7일간의 동행축제">www.ksale.org</a>', "1. 7일간의 동핵축제는 국내외 유통사 및 전통시장, 상점가 등이 참여하는 국내 최대규모의 중소기업 소상공인 제품 소비촉진 행사<br>2. 역대 최대규모인 230개 유통채널(온라인 몰 등)에 약 6,000개사 소상공인 및 중소기업 제품 참여, 최대 80% 할인 판매 등<br>3. 전통시장, 지역상관, 지역축제 등에서 댄스, 버스킹, 패션쇼 등 문화공연과 연계한 특별판매전도 추진<br>- 한강달빛야시장*동행축제(9.2~3), 이천 도자기축제*동행축제(9.2~4) 등<br>- 상생소비 복권(총 12억원, 3,500명), 온누리상품권 할인 등 다양한 참여 이벤트 개최", 
 '전야제(광화문), 백화점 및 쇼핑몰 및 전통시장 등 230개 유통채널', NULL, NULL, '할인- 최대 80%까지 할인 제공','전연령', '사전 부대행사는 모두 관람가능, 전야제 행사는 19시~20시');
 
@@ -791,8 +230,8 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 2835832 , '글로벌 메타버스 컨퍼런스 & 한아세안 포럼' , 20220818 , 20220819 , '부산광역시 해운대구 APEC로 55 벡스코', NULL, 'A02081300', 'http://tong.visitkorea.or.kr/cms/resource/07/2835807_image2_1.jpg', 129.1355209016, 35.1687450332, 6, 6, 16, '070-4365-8539', 
-'<a href="https://busanmetaverse2022.modoo.at/" target="_blank" title="새창 : 글로벌 메타버스 컨퍼런스 & 한아세안 포럼">https://busanmetaverse</a>', '"메타버스, 새로운 세상의 시작"이라는 주제로 부산에서 개최되는 이번행사는 메타버스, NFT, 주요 산업 동향에 대한 강연과 함께 한-아세안 지역의 메타버스 산업의 연계협력 및 교류 활성화를 위해 마련되었습니다. 자세한 컨퍼런스 소개 및 참가신청방법은 
-@ict_convergence_village(한아세안 ICT융합빌리지) 또는 (<a href="https://busanmetaverse2022.modoo.at/" target="_blank" title="새창 : 글로벌 메타버스 컨퍼런스 & 한아세안 포럼">https://busanmetaverse</a>)홈페이지를 확인해 바란다.', 
+'<a href="https://busanmetaverse2022.modoo.at/" target="_blank" title="새창 : 글로벌 메타버스 컨퍼런스 & 한아세안 포럼">https://busanmetaverse</a>', "'메타버스, 새로운 세상의 시작'이라는 주제로 부산에서 개최되는 이번행사는 메타버스, NFT, 주요 산업 동향에 대한 강연과 함께 한-아세안 지역의 메타버스 산업의 연계협력 및 교류 활성화를 위해 마련되었습니다. 자세한 컨퍼런스 소개 및 참가신청방법은 
+@ict_convergence_village(한아세안 ICT융합빌리지) 또는 (<a href="https://busanmetaverse2022.modoo.at/" target="_blank" title="새창 : 글로벌 메타버스 컨퍼런스 & 한아세안 포럼">https://busanmetaverse</a>)홈페이지를 확인해 바란다.", 
 'BEXCO 컨벤션홀 1F', NULL, NULL, '무료',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
@@ -817,12 +256,12 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 2833186 , '2022 시흥시청소년동아리축제' , 20221022 , 20221022 , '경기도 시흥시 소래산길 11 시흥ABC행복학습타운', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/74/2833174_image2_1.JPG', 126.7853863703, 37.4489033560, 6, 31, 14, '031-315-1890(내선2)', 
-'<a href="http://www.shyouth.or.kr/" target="_blank" title="새창 : 2022 시흥시청소년동아리축제"적Show"">www.shyouth.or.kr</a>', "시흥시청소년동아리축제는 자기주도적인 청소년동아리 활동을 활성화하고 청소년동아리와 지역사회의 소통, 교류, 참여의 장으로써 시흥시 관내 사회참여, 봉사, 수학, 스포츠, 댄스, 밴드 등 다양한 분야의 360여개 동아리가 만들어가는 전국 최대 규모의 청소년 축제이다.", 
+'<a href="http://www.shyouth.or.kr/" target="_blank" title="새창 : 2022 시흥시청소년동아리축제'적Show'">www.shyouth.or.kr</a>', "시흥시청소년동아리축제는 자기주도적인 청소년동아리 활동을 활성화하고 청소년동아리와 지역사회의 소통, 교류, 참여의 장으로써 시흥시 관내 사회참여, 봉사, 수학, 스포츠, 댄스, 밴드 등 다양한 분야의 360여개 동아리가 만들어가는 전국 최대 규모의 청소년 축제이다.", 
 'ABC 행복학습타운', NULL, NULL, '무료',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 2833084 , '아산시 물총페스티벌 ‘적Show’' , 20220821 , 20220821 , '충청남도 아산시 온천대로 1496 온양온천역', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/74/2833074_image2_1.jpg', 127.0035044825, 36.7805372863, 6, 34, 9, '070-4242-4545', 
-'<a href="https://afesta.modoo.at/" target="_blank" title="새창 : 아산시 물총페스티벌 "적Show"">https://afesta.modoo.at</a>', "물총페스티벌 ‘적Show’는 아산시가 후원하고 협동조합 와트(WATT)가 주관하는 사업으로, 주관단체가 마을축제 명소화 지원사업으로 선정돼 개최된다.<br>‘적Show’는 시민이 직접 참여하고 협업하는 놀이형태의 행사로 코로나19로 지친 시민의 몸과 마음을 회복하고자 준비됐다.<br>온양온천역에서 개최될 물총페스티벌 ‘적Show’는 다채로운 프로그램으로 채워진다.", 
+'<a href="https://afesta.modoo.at/" target="_blank" title="새창 : 아산시 물총페스티벌 '적Show'">https://afesta.modoo.at</a>', "물총페스티벌 ‘적Show’는 아산시가 후원하고 협동조합 와트(WATT)가 주관하는 사업으로, 주관단체가 마을축제 명소화 지원사업으로 선정돼 개최된다.<br>‘적Show’는 시민이 직접 참여하고 협업하는 놀이형태의 행사로 코로나19로 지친 시민의 몸과 마음을 회복하고자 준비됐다.<br>온양온천역에서 개최될 물총페스티벌 ‘적Show’는 다채로운 프로그램으로 채워진다.", 
 '온양온천역 광장', NULL, NULL, '무료',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
@@ -886,8 +325,8 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 '김해시수릉원', NULL, NULL, '무료',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
-2829118 , '시민창작예술축제 <학산마당극"놀래">' , 20221015 , 20221028 , '인천광역시 미추홀구 인하로 126 학산소극장', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/14/2829114_image2_1.jpg', 126.6618920537, 37.4495594272, 6, 2, 3, '032-866-3994', 
-'<a href="https://www.haksanculture.or.kr" target="_blank" title="새창 : 시민창작예술축제 <학산마당극"놀래"> ">www.haksanculture.or.kr</a>', "마을, 이웃, 우리의 이야기가 작품이 되어 무대에서 펼쳐진다!<br>2014년에 시작된 학산마당극놀래는 시민들이 직접 만들고 즐기는 대표적인 시민창작예술축제이다. 주민들이 마을에서 모여 문화로 소통하며 지역의 이슈나 삶의 이야기를 담아 창작한 작품을 이웃과 나누는 신명나는 마당으로, 예술적 표현의 다양한 형식을 넘나드는 장(場)으로 거듭나고 있다. 모두 함께 즐기고 나누는 축제를 위해 주민과 예술가, 관련 단체 및 기관 등이 연대하여 공동체 예술의 성장과 지역문화의 발전을 이루어 가고 있다.", 
+2829118 , '시민창작예술축제 <학산마당극'놀래'>' , 20221015 , 20221028 , '인천광역시 미추홀구 인하로 126 학산소극장', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/14/2829114_image2_1.jpg', 126.6618920537, 37.4495594272, 6, 2, 3, '032-866-3994', 
+'<a href="https://www.haksanculture.or.kr" target="_blank" title="새창 : 시민창작예술축제 <학산마당극'놀래'> ">www.haksanculture.or.kr</a>', "마을, 이웃, 우리의 이야기가 작품이 되어 무대에서 펼쳐진다!<br>2014년에 시작된 학산마당극놀래는 시민들이 직접 만들고 즐기는 대표적인 시민창작예술축제이다. 주민들이 마을에서 모여 문화로 소통하며 지역의 이슈나 삶의 이야기를 담아 창작한 작품을 이웃과 나누는 신명나는 마당으로, 예술적 표현의 다양한 형식을 넘나드는 장(場)으로 거듭나고 있다. 모두 함께 즐기고 나누는 축제를 위해 주민과 예술가, 관련 단체 및 기관 등이 연대하여 공동체 예술의 성장과 지역문화의 발전을 이루어 가고 있다.", 
 '수봉공원 인공폭포 앞 야외마당', NULL, NULL, '무료',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
@@ -902,17 +341,17 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 2827828 , 'K-Metaverse Festival & K-Metaverse Expo 2022' , 20221013 , 20221015 , '서울특별시 강남구 영동대로 513 코엑스', NULL, 'A02080600', 'http://tong.visitkorea.or.kr/cms/resource/59/2827859_image2_1.jpg', 127.0592179950, 37.5119175967, 6, 1, 1, '02-6000-4279', 
-'<a href="https://www.kmetaverseexpo.com:492/seoul/" target="_blank" title="새창 : K-Metaverse Festival & K-Metaverse Expo 2022">www.kmetaverseexpo.com</a>', '10월 서울 코엑스에서 개최되는 "K-Metaverse Festival & K-Metaverse Expo 2022"는 여러 산업분야와 융합된 메타버스 콘텐츠 및 지역특화 콘텐츠, NFT, VFX, 디지털트윈 기술 등 다양한 메타버스 관련 기술들과 국내외 메타버스 최신 동향을 만나볼 수 있는 메타버스 전문 전시회이다.', 
+'<a href="https://www.kmetaverseexpo.com:492/seoul/" target="_blank" title="새창 : K-Metaverse Festival & K-Metaverse Expo 2022">www.kmetaverseexpo.com</a>', "10월 서울 코엑스에서 개최되는 "K-Metaverse Festival & K-Metaverse Expo 2022"는 여러 산업분야와 융합된 메타버스 콘텐츠 및 지역특화 콘텐츠, NFT, VFX, 디지털트윈 기술 등 다양한 메타버스 관련 기술들과 국내외 메타버스 최신 동향을 만나볼 수 있는 메타버스 전문 전시회이다.", 
 '서울 코엑스 1층 B 홀 전관', NULL, NULL, NULL,NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 2827820 , '대한민국 4차산업혁명 페스티벌 2022' , 20220915 , 20220917 , '서울특별시 강남구 영동대로 513 코엑스', NULL, 'A02080600', 'http://tong.visitkorea.or.kr/cms/resource/19/2827819_image2_1.jpg', 127.0592179950, 37.5119175967, 6, 1, 1, '02-6000-4290', 
-'<a href="http://www.4thfestival.net/Home/Main" target="_blank" title="새창 : 대한민국 4차산업혁명 페스티벌">www.4thfestival.net</a>', '국내 디지털 대전환을 선도하는 "대한민국 4차산업혁명 페스티벌 2022"는 4차 산업혁명의 핵심기술인 AI와 빅데이터 뿐만 아니라 메타버스&NFT, 디지털 헬스케어, 미래 혁신 교통수단(드론, 로봇, 자율주행차, 전기차 등), 코로나 펜더믹 이후 새로운 소비 트렌드로 자리잡은 구독경제 등 다양한 4차 산업혁명 관련 분야들과 최신 기술 트렌드를 만나볼 수 있는 전문 산업 박람회이다.', 
+'<a href="http://www.4thfestival.net/Home/Main" target="_blank" title="새창 : 대한민국 4차산업혁명 페스티벌">www.4thfestival.net</a>', "국내 디지털 대전환을 선도하는 "대한민국 4차산업혁명 페스티벌 2022"는 4차 산업혁명의 핵심기술인 AI와 빅데이터 뿐만 아니라 메타버스&NFT, 디지털 헬스케어, 미래 혁신 교통수단(드론, 로봇, 자율주행차, 전기차 등), 코로나 펜더믹 이후 새로운 소비 트렌드로 자리잡은 구독경제 등 다양한 4차 산업혁명 관련 분야들과 최신 기술 트렌드를 만나볼 수 있는 전문 산업 박람회이다.", 
 '서울 코엑스 B홀', NULL, NULL, NULL,NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 2827675 , 'K-Metaverse Expo Busan 2022' , 20220818 , 20220820 , '부산광역시 해운대구 APEC로 55 벡스코', NULL, 'A02080600', 'http://tong.visitkorea.or.kr/cms/resource/46/2828346_image2_1.jpg', 129.1355209016, 35.1687450332, 6, 6, 16, '02-6000-4279', 
-'<a href="https://www.kmetaverseexpo.com:492/busan/" target="_blank" title="새창 : K-Metaverse Expo Busan 2022">www.kmetaverseexpo.com</a>', '메타버스 산업 HUB 부산에서 최초로 개최되는 대한민국 대표 메타버스 전시회 "K-메타버스 엑스포"는 블록체인&NFT, CG/VFX, 메타버스 서비스 요소기술 뿐만 아니라 다양한 산업분야의 메타버스 생태계를 경험할 수 있는 자리이다.', 
+'<a href="https://www.kmetaverseexpo.com:492/busan/" target="_blank" title="새창 : K-Metaverse Expo Busan 2022">www.kmetaverseexpo.com</a>', "메타버스 산업 HUB 부산에서 최초로 개최되는 대한민국 대표 메타버스 전시회 "K-메타버스 엑스포"는 블록체인&NFT, CG/VFX, 메타버스 서비스 요소기술 뿐만 아니라 다양한 산업분야의 메타버스 생태계를 경험할 수 있는 자리이다.", 
 '부산 벡스코 제1전시장', NULL, NULL, NULL,NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
@@ -922,7 +361,7 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 2827060 , '제5회 무중력영화제(MUFF)' , 20220916 , 20220917 , '서울특별시 양천구 오목로 359 무중력지대 양천', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/59/2827059_image2_1.png', 126.8773230917, 37.5246489705, 6, 1, 19, '02-2646-2030', 
-'홈페이지 <a href="https://youth.seoul.go.kr/site/youthzone/center/CT00008/intro" target="_blank" title="새창 : 제5회 무중력영화제(MUFF)">https://youth.seoul.go.kr</a><br>인스타그램 <a href="https://www.instagram.com/youthzone_muff/" target="_blank" title="새창 : 제5회 무중력영화제(MUFF)">www.instagram.com</a><br>블로그 <a href="https://blog.naver.com/youthzone0_0" target="_blank" title="새창 : 제5회 무중력영화제(MUFF)">https://blog.naver.com</a><br>페이스북 <a href="https://www.facebook.com/youthzone3" target="_blank" title="새창 : 제5회 무중력영화제(MUFF)">www.facebook.com</a><br>유튜브 <a href="https://www.youtube.com/channel/UCroz39rvXjicL8SQedEQZMA" target="_blank" title="새창 : 제5회 무중력영화제(MUFF)">www.youtube.com</a>', "서울특별시 청년공간 무중력지대 양천은 2018년부터 매년 무중력영화제(MUFF)를 개최하고 있다. MUFF는 MUjungryuck Film Festival의 줄임말로, 청년들이 영화제 기획과 운영을 맡으며, 출품작 또한 청년 영화인들의 작품으로 채워지는 청년 영화제이다. 무중력영화제는 앞으로 한국 영화계를 이끌어 나갈 청년 영화인들의 훌륭한 작품을 미리 선보이고, 그들이 서로 활발하게 소통할 수 있는 교류의 장을 마련하고 있다. 2020년부터는 개막작은 화면을 음성으로 설명해주는 화면해설과 화자, 대사, 음악, 소리정보를 알려주는 자막을 넣은 가치봄영화로 상영하고, 나머지 상영작에는 한글 자막을 넣어 상영하여 누구나 함께 할 수 있는 축제의 장을 만들기 위해 노력하고 있다.<br>제5회 무중력영화제는 9월 16일(금)부터 17일(토)까지 메가박스 목동에서 '찬란할 내일의 우리에게'라는 슬로건으로 진행되며, '함께', '공존', '상생'의 주제를 담은 10편의 작품을 상영한다.", 
+'홈페이지 <a href="https://youth.seoul.go.kr/site/youthzone/center/CT00008/intro" target="_blank" title="새창 : 제5회 무중력영화제(MUFF)">https://youth.seoul.go.kr</a><br>인스타그램 <a href="https://www.instagram.com/youthzone_muff/" target="_blank" title="새창 : 제5회 무중력영화제(MUFF)">www.instagram.com</a><br>블로그 <a href="https://blog.naver.com/youthzone0_0" target="_blank" title="새창 : 제5회 무중력영화제(MUFF)">https://blog.naver.com</a><br>페이스북 <a href="https://www.facebook.com/youthzone3" target="_blank" title="새창 : 제5회 무중력영화제(MUFF)">www.facebook.com</a><br>유튜브 <a href="https://www.youtube.com/channel/UCroz39rvXjicL8SQedEQZMA" target="_blank" title="새창 : 제5회 무중력영화제(MUFF)">www.youtube.com</a>', "서울특별시 청년공간 무중력지대 양천은 2018년부터 매년 무중력영화제(MUFF)를 개최하고 있다. MUFF는 MUjungryuck Film Festival의 줄임말로, 청년들이 영화제 기획과 운영을 맡으며, 출품작 또한 청년 영화인들의 작품으로 채워지는 청년 영화제이다. 무중력영화제는 앞으로 한국 영화계를 이끌어 나갈 청년 영화인들의 훌륭한 작품을 미리 선보이고, 그들이 서로 활발하게 소통할 수 있는 교류의 장을 마련하고 있다. 2020년부터는 개막작은 화면을 음성으로 설명해주는 화면해설과 화자, 대사, 음악, 소리정보를 알려주는 자막을 넣은 가치봄영화로 상영하고, 나머지 상영작에는 한글 자막을 넣어 상영하여 누구나 함께 할 수 있는 축제의 장을 만들기 위해 노력하고 있다.<br>제5회 무중력영화제는 9월 16일(금)부터 17일(토)까지 메가박스 목동에서 "찬란할 내일의 우리에게"라는 슬로건으로 진행되며, '함께', '공존', '상생'의 주제를 담은 10편의 작품을 상영한다.", 
 '메가박스 목동', NULL, NULL, '개막작 관람 : 3,000원<br>섹션1, 2, 3 : 5,000원',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
@@ -998,7 +437,7 @@ NULL, NULL, NULL, NULL,NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 2823604 , 'VACATION IN SNOOPY GARDEN' , 20220609 , 20220831 , '제주특별자치도 제주시 금백조로 930', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/96/2823596_image2_1.jpg', 126.7786189466, 33.4434017790, 6, 39, 4, '064-1899-3929', 
-'홈페이지 <a href="http://www.snoopygarden.com/" target="_blank" title="새창 : VACATION IN SNOOPY GARDEN">http://www.snoopygarden.com</a><br>인스타그램 <a href="https://www.instagram.com/snoopygardenkorea" target="_blank" title="새창 : VACATION IN SNOOPY GARDEN">https://www.instagram.com</a>', 'VACATION IN SNOOPY GARDEN<br>-올 여름 휴가철 피서도 스누피가든에서 즐기자<br><br> 6월 9일부터 8월 31일까지 진행되는 VACATION IN SNOOPY GARDEN 축제는 제주도 구좌읍 송당리에 위치한 스누피 가든 박물관과 2만5천평의 정원 곳곳에서 진행될 예정이다.<br>이번 축제에서는 여름을 즐길 수 있는 컨셉으로 특별 전시가 진행된다.<br>여름을 맞아 해변에서 서핑을 즐기는 스누피와 모래성을 쌓고 있는 피너츠 친구들의 모습을 볼 수 있다. <br>전시관도 일부 새롭게 개편되어 다시 찾는 방문객들에게도 새로운 즐거움을 선사할 예정이다. <br>VACATION IN SNOOPYGARDEN 축제를 통해 스누피가든에서 피너츠 친구들과 함께 다가오는 여름 휴가에 함께 피서를 즐기며 스누피가든이 건내는 휴식과 위로를 경험해 보기를 기대 한다.<br><br>- 일정 : 2022. 06. 09(목) ~ 2022. 08. 31(수)<br>- 장소 : 제주특별자치도 제주시 구좌읍 금백조로 930 스누피가든<br>- 홈페이지 : <a href="http://www.snoopygarden.com/" target="_blank" title="새창 : VACATION IN SNOOPY GARDEN">http://www.snoopygarden.com</a><br>  인스타그램: <a href="https://www.instagram.com/snoopygardenkorea" target="_blank" title="새창 : VACATION IN SNOOPY GARDEN">https://www.instagram.com</a><br>- 문의 : 064-1899-3929', 
+'홈페이지 <a href="http://www.snoopygarden.com/" target="_blank" title="새창 : VACATION IN SNOOPY GARDEN">http://www.snoopygarden.com</a><br>인스타그램 <a href="https://www.instagram.com/snoopygardenkorea" target="_blank" title="새창 : VACATION IN SNOOPY GARDEN">https://www.instagram.com</a>', "VACATION IN SNOOPY GARDEN<br>-올 여름 휴가철 피서도 스누피가든에서 즐기자<br><br> 6월 9일부터 8월 31일까지 진행되는 VACATION IN SNOOPY GARDEN 축제는 제주도 구좌읍 송당리에 위치한 스누피 가든 박물관과 2만5천평의 정원 곳곳에서 진행될 예정이다.<br>이번 축제에서는 여름을 즐길 수 있는 컨셉으로 특별 전시가 진행된다.<br>여름을 맞아 해변에서 서핑을 즐기는 스누피와 모래성을 쌓고 있는 피너츠 친구들의 모습을 볼 수 있다. <br>전시관도 일부 새롭게 개편되어 다시 찾는 방문객들에게도 새로운 즐거움을 선사할 예정이다. <br>VACATION IN SNOOPYGARDEN 축제를 통해 스누피가든에서 피너츠 친구들과 함께 다가오는 여름 휴가에 함께 피서를 즐기며 스누피가든이 건내는 휴식과 위로를 경험해 보기를 기대 한다.<br><br>- 일정 : 2022. 06. 09(목) ~ 2022. 08. 31(수)<br>- 장소 : 제주특별자치도 제주시 구좌읍 금백조로 930 스누피가든<br>- 홈페이지 : <a href="http://www.snoopygarden.com/" target="_blank" title="새창 : VACATION IN SNOOPY GARDEN">http://www.snoopygarden.com</a><br>  인스타그램: <a href="https://www.instagram.com/snoopygardenkorea" target="_blank" title="새창 : VACATION IN SNOOPY GARDEN">https://www.instagram.com</a><br>- 문의 : 064-1899-3929", 
 '스누피가든 전역', NULL, NULL, '성인 18,000원<br>청소년 15,000원<br>어린인 12,000원',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
@@ -1063,7 +502,7 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 '논현동 가구거리 및 청담명품거리 일대', NULL, NULL, '무료',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
-2819336 , '광태소극장 독립영화관 2022 감독전' , 20220424 , 20221127 , '서울특별시 관악구 호암로22길 51', NULL, 'A02081100', 'http://tong.visitkorea.or.kr/cms/resource/52/2819252_image2_1.jpg', 126.9356471260, 37.4688426049, 6, 1, 5, '<a href="https://www.instagram.com/p/CdLEB4DrDBb/?igshid=YmMyMTA2M2Y=" target="_blank" title="새창 : 광태소극장 독립영화관 2022 감독전">www.instagram.com</a>', 
+2819336 , '광태소극장 독립영화관 2022 감독전' , 20220424 , 20221127 , '서울특별시 관악구 호암로22길 51', NULL, 'A02090100', 'http://tong.visitkorea.or.kr/cms/resource/52/2819252_image2_1.jpg', 126.9356471260, 37.4688426049, 6, 1, 5, '<a href="https://www.instagram.com/p/CdLEB4DrDBb/?igshid=YmMyMTA2M2Y=" target="_blank" title="새창 : 광태소극장 독립영화관 2022 감독전">www.instagram.com</a>', 
 '<a href="https://booking.naver.com/booking/12/bizes/691208
 " target="_blank" title="새창 : 광태소극장 독립영화관 2022 감독전">booking.naver.com</a>', "2022 감독전은 2015년 시작됐다 잠시 문을 닫았던 광태소극장 독립영화관이 다시금 문을 활짝 열었음을 알리는 Reborn Project이다. 본 프로젝트는 <2022 생활문화공동체 활성화 사업>의 일환으로 문화체육관광부가 주최 및 국민체육진흥공단의 후원을 받아 지역문화진흥원과 광야의태양Company가 주관하며 ㈜ 앤노엔이 협력하는 사업이다. 4월 부터 11월까지 매월 마지막 주 일요일 오후 3시에 이루어지며 독립영화도 보고 감독과 이야기도 나누고 관람객들과 네트워킹도 하는 다양한 커뮤니티를 형성할 수 있는 프로그램이다.", 
 '광태소극장', NULL, NULL, '10,000원 (광태vip 멤버십은 20% 할인)',NULL, NULL);
@@ -1099,13 +538,13 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 '서울시 영등포구', NULL, NULL, NULL,NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
-2815107 , '2022 초·중·고등학생 문화공연 관람 지원 [공연봄날]' , 20220601 , 20221231 , NULL, NULL, 'A02080200', 'http://tong.visitkorea.or.kr/cms/resource/32/2827932_image2_1.jpg', 0, 0, NULL, 1, 100, '02-542-2695', 
+2815107 , '2022 초·중·고등학생 문화공연 관람 지원 [공연봄날]' , 20220601 , 20221231 , NULL, NULL, 'A02080200', 'http://tong.visitkorea.or.kr/cms/resource/32/2827932_image2_1.jpg', 0, 0, NULL, 1, NULL, '02-542-2695', 
 '<a href="http://springday.or.kr/" target="_blank" title="새창 : 2022 초·중·고등학생 문화공연 관람 지원 [공연봄날]">http://springday.or.kr/</a>', "서울시 공연봄날은 학생들에게는 문화공연 관람 기회를 제공함으로써 문화예술을 향유하는 어른으로 성장할 수 있도록 도와주는 동시에, 공연예술계에는 무대를 오를 기회를 제공하면서 미래의 관객층까지 형성해주는 선순환 구조의 사업이다.", 
 '서울 소재 공연장', NULL, NULL, '무료',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 2810502 , '동아시아문화도시 경주' , 20220325 , 20221118 , '경상북도 경주시 양정로 260 경주시청', NULL, 'A02081300', 'http://tong.visitkorea.or.kr/cms/resource/01/2810501_image2_1.jpg', 129.2244133550, 35.8559722016, 6, 35, 2, '054-779-8585', 
-'홈페이지 <a href="https://www.gyeongju.go.kr/cceagj/index.do" target="_blank" title="새창 : 2022 동아시아문화도시 경주">https://www.gyeongju.go.kr/cceagj/index.do</a><br>인스타그램 <a href="https://www.instagram.com/culturecity_gyeongju_/" target="_blank" title="새창 : 동아시아문화도시 경주">www.instagram.com</a><br>페이스북 <a href="https://www.facebook.com/2022-%EB%8F%99%EC%95%84%EC%8B%9C%EC%95%84%EB%AC%B8%ED%99%94%EB%8F%84%EC%8B%9C-%EA%B2%BD%EC%A3%BC-109102388394787" target="_blank" title="새창 : 동아시아문화도시 경주">https://www.facebook.com</a>', '동아시아문화도시는 한·중·일 3국간 문화다양성 존중이라는 기치 아래, "동아시아의 의식, 문화교류와 융합, 상대문화 이해"의 정신을 실천하기 위해 매년 개최하는 문화교류행사이다. 2022년 동아시아문화도시로는 한국 경주시, 중국 원저우시와 지난시, 일본 오이타현이 선정되었다. 연중 펼쳐지는 한·중·일 3국의 다채로운 문화교류행사에 여러분의 많은 관심과 참여 부탁드린다.', 
+'홈페이지 <a href="https://www.gyeongju.go.kr/cceagj/index.do" target="_blank" title="새창 : 2022 동아시아문화도시 경주">https://www.gyeongju.go.kr/cceagj/index.do</a><br>인스타그램 <a href="https://www.instagram.com/culturecity_gyeongju_/" target="_blank" title="새창 : 동아시아문화도시 경주">www.instagram.com</a><br>페이스북 <a href="https://www.facebook.com/2022-%EB%8F%99%EC%95%84%EC%8B%9C%EC%95%84%EB%AC%B8%ED%99%94%EB%8F%84%EC%8B%9C-%EA%B2%BD%EC%A3%BC-109102388394787" target="_blank" title="새창 : 동아시아문화도시 경주">https://www.facebook.com</a>', "동아시아문화도시는 한·중·일 3국간 문화다양성 존중이라는 기치 아래, "동아시아의 의식, 문화교류와 융합, 상대문화 이해"의 정신을 실천하기 위해 매년 개최하는 문화교류행사이다. 2022년 동아시아문화도시로는 한국 경주시, 중국 원저우시와 지난시, 일본 오이타현이 선정되었다. 연중 펼쳐지는 한·중·일 3국의 다채로운 문화교류행사에 여러분의 많은 관심과 참여 부탁드린다.", 
 '19:00-21:00', NULL, NULL, '무료',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
@@ -1140,7 +579,7 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 2786391 , '광안리 M(Marvelous) 드론 라이트쇼' , 20220402 , 20231231 , '부산광역시 수영구 광안해변로 219', '(광안동)', 'A02081300', 'http://tong.visitkorea.or.kr/cms/resource/20/2822720_image2_1.jpg', 129.1185505648, 35.1538269450, NULL, 6, 12, '051-610-4884', 
-'<a href="http://gwangallimdrone.co.kr/" target="_blank" title="새창 : 드론 라이트쇼">http://gwangallimdrone.co.kr</a>', '매주 토요일 저녁, 새롭고 다양한 콘텐츠로 광안리 밤하늘을 아름답게 장식하는<광안리 M 드론 라이트쇼><br>"M"은 "놀라운, 경이로운"이라는 뜻의 "Marvelous"를 의미하는 것으로 드론이 뿜어내는 불빛이 광안대교의 야경과 어우러져 광안리를 찾는 방문객들에게 경이로움과 신비로움을 선사할 것이다.<br><br>* 코로나19 상황 및 기상상황(우천,강풍 등)에 따라 공연 일정 변경 가능', 
+'<a href="http://gwangallimdrone.co.kr/" target="_blank" title="새창 : 드론 라이트쇼">http://gwangallimdrone.co.kr</a>', "매주 토요일 저녁, 새롭고 다양한 콘텐츠로 광안리 밤하늘을 아름답게 장식하는<광안리 M 드론 라이트쇼><br>"M"은 '놀라운, 경이로운'이라는 뜻의 'Marvelous'를 의미하는 것으로 드론이 뿜어내는 불빛이 광안대교의 야경과 어우러져 광안리를 찾는 방문객들에게 경이로움과 신비로움을 선사할 것이다.<br><br>* 코로나19 상황 및 기상상황(우천,강풍 등)에 따라 공연 일정 변경 가능", 
 '광안리해변 일원', NULL, NULL, '무료',NULL, '10분 내외');
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
@@ -1150,7 +589,7 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 2778356 , '2022영주세계풍기인삼엑스포' , 20220930 , 20221023 , '경상북도 영주시 신재로 964', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/79/2828079_image2_1.jpg', 128.5193160013, 36.8677160182, 6, 35, 14, '054-639-4801', 
-'o홈페이지 : <a href="http://www.ginsengexpo.org/yjexpo/main.do" target="_blank" title="새창 : 영주세계풍기인삼엑스포">http://www.ginsengexpo.org</a><br>o 네이버블로그 : <a href="https://blog.naver.com/in3expo" target="_blank" title="새창 : 영주세계풍기인삼엑스포">blog.naver.com/</a><br>o 페이스북 : <a href="https://www.facebook.com/in3expo" target="_blank" title="새창 : 영주세계풍기인삼엑스포">www.facebook.com</a><br>o 유튜브 : <a href="https://www.youtube.com/channel/UC-eTfd3F1KPy_OZHBj0ZcXg/featured" target="_blank" title="새창 : 영주세계풍기인삼엑스포">www.youtube.com</a><br>o 인스타그램 : <a href="https://www.instagram.com/in3expo/" target="_blank" title="새창 : 영주세계풍기인삼엑스포">www.instagram.com</a>', '2022영주세계풍기인삼엑스포가 "인삼, 세계를 품고, 미래를 열다!"라는 주제로 2022. 9. 30.일부터 10. 23.일까지 24일간 경상북도 영주시 풍기인삼문화팝업공원 일원에게 개최된다.<br>경상북도 영주시 풍기읍은 고려인삼의 최초 재배지로 알려져 있으며, 태백산 및 소백산맥으로 둘러 쌓인 고원지역에 위치하고 있어 일교차가 크고 유기물이 풍부한 토양과 대륙성 한랭기후, 배수가 잘되는 사질양토에서 인심이 재배되어 육질이 단단하며 유효 사포닌 함량이 높아 면역력 증진 효과가 우수하다.<br>이번 엑스포는 전시, 교역, 컨퍼런스, 이벤트, 체험, 관광 등 다양한 볼거리와 즐길거리로 다채롭게 꾸며질 계획이다.<br>전시관은 주제관, 생활과학관, 인삼미래관 등 6개관을 운영하고 포럼, 학술회의, 토크콘서트와 각종 컨퍼런스를 개최할 계획이다.', 
+'o홈페이지 : <a href="http://www.ginsengexpo.org/yjexpo/main.do" target="_blank" title="새창 : 영주세계풍기인삼엑스포">http://www.ginsengexpo.org</a><br>o 네이버블로그 : <a href="https://blog.naver.com/in3expo" target="_blank" title="새창 : 영주세계풍기인삼엑스포">blog.naver.com/</a><br>o 페이스북 : <a href="https://www.facebook.com/in3expo" target="_blank" title="새창 : 영주세계풍기인삼엑스포">www.facebook.com</a><br>o 유튜브 : <a href="https://www.youtube.com/channel/UC-eTfd3F1KPy_OZHBj0ZcXg/featured" target="_blank" title="새창 : 영주세계풍기인삼엑스포">www.youtube.com</a><br>o 인스타그램 : <a href="https://www.instagram.com/in3expo/" target="_blank" title="새창 : 영주세계풍기인삼엑스포">www.instagram.com</a>', "2022영주세계풍기인삼엑스포가 "인삼, 세계를 품고, 미래를 열다!"라는 주제로 2022. 9. 30.일부터 10. 23.일까지 24일간 경상북도 영주시 풍기인삼문화팝업공원 일원에게 개최된다.<br>경상북도 영주시 풍기읍은 고려인삼의 최초 재배지로 알려져 있으며, 태백산 및 소백산맥으로 둘러 쌓인 고원지역에 위치하고 있어 일교차가 크고 유기물이 풍부한 토양과 대륙성 한랭기후, 배수가 잘되는 사질양토에서 인심이 재배되어 육질이 단단하며 유효 사포닌 함량이 높아 면역력 증진 효과가 우수하다.<br>이번 엑스포는 전시, 교역, 컨퍼런스, 이벤트, 체험, 관광 등 다양한 볼거리와 즐길거리로 다채롭게 꾸며질 계획이다.<br>전시관은 주제관, 생활과학관, 인삼미래관 등 6개관을 운영하고 포럼, 학술회의, 토크콘서트와 각종 컨퍼런스를 개최할 계획이다.", 
 '풍기인삼문화팝업공원 일원', NULL, NULL, 'o 보통권 : 일반 8,000원, 청소년 5,000원, 어린이 3,000원<br>o 단체권 : 일반 7,000원, 청소년 4,000원, 어린이 3,000원<br>o 우대권 : 5,000원<br>o 전기간권 : 일반 30,000원, 청소년(중,고등학생) 20,000원<br>* 입장권 종류에 따라 일정금액의 쿠폰 지급<br>* 보통권 사전 예매시 일정금액을 할인(어린이 제외)<br>* 무료입장 : 국가유공자, 6세이하 영유아, 장애인 및 동반보호자 1인, 80세 이상, 상이군경, 명예홍보대사 등',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
@@ -1175,7 +614,7 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 2756253 , '2022 부여 세계유산 미디어아트 페스티벌' , 20220916 , 20221015 , '충청남도 부여군 부소로 31 부소산성', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/95/2847195_image2_1.jpg', 126.9148563346, 36.2848009909, 6, 34, 6, '070-4348-7715', 
-'<a href="https://www.buyeonight.kr/home/" target="_blank" title="새창 : 2022 부여 세계유산 미디어아트 페스티벌 ">www.buyeonight.kr</a>', '사비백제의 중심이었던 관북리 유적과 부소산성을 배경으로 시공간을 넘나들며 백제의 찬란한 역사와 어라하의 유산을 만날 수 있는 미디어아트 페스티벌이다.', 
+'<a href="https://www.buyeonight.kr/home/" target="_blank" title="새창 : 2022 부여 세계유산 미디어아트 페스티벌 '">www.buyeonight.kr</a>', "사비백제의 중심이었던 관북리 유적과 부소산성을 배경으로 시공간을 넘나들며 백제의 찬란한 역사와 어라하의 유산을 만날 수 있는 미디어아트 페스티벌이다.", 
 '부여 관북리 유적과 부소산성', NULL, NULL, '무료','전체 이용가', NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
@@ -1259,7 +698,7 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 '18:00 ~ 22:00', NULL, NULL, '무료',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
-2736042 , "춘천 커피도시 페스타 Let's COFFEE, 춘천" , 20220916 , 20220918 , '강원도 춘천시 서면 박사로 854', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/72/2839372_image2_1.jpg', 127.6918882316, 37.8930876473, 6, 32, 13, '033-245-6993', 
+2736042 , '춘천 커피도시 페스타 Let's COFFEE, 춘천' , 20220916 , 20220918 , '강원도 춘천시 서면 박사로 854', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/72/2839372_image2_1.jpg', 127.6918882316, 37.8930876473, 6, 32, 13, '033-245-6993', 
 '<a href="http://www.cccf.co.kr/" target="_blank" title="새창 : 관광지">http://www.cccf.co.kr/</a>', "춘천커피산업 육성과 춘천커피도시 브랜드 확장을 위한 ‘2022 춘천커피도시페스타’가 9월16일(금)~18일(일)까지 춘천애니메이션박물관일대와 메타버스가상공간 등에서 다채롭게 열린다.<br>춘천시는 18일 기자간담회를 갖고 이번 2022 춘천커피도시페스타는‘SNS (Shot “N” Shot=샷 앤 샷)’이라는 컨셉으로 커피의 농도를 나타내는 샷과 촬영의 단위인 샷을 담아서 행사장 전체를 하나의 멋진 카페로 구성해 개최한다.<br><br>9월 16일(금)에서 9월 18일(일)까지 낮12시부터 오후8시까지 춘천 애니메이션 박물관 일원에서 펼쳐지는 오프라인 행사는 춘천 시내 로스터리 커피숍 40여개 업소가 참여해 나름의 커피 맛을 선보일 예정이다.", 
 '애니메이션 박물관 일원', NULL, NULL, '무료',NULL, NULL);
 
@@ -1359,7 +798,7 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 2713558 , '강원세계산림엑스포' , 20230504 , 20230606 , '강원도 고성군 토성면 잼버리로 244', NULL, 'A02080600', 'http://tong.visitkorea.or.kr/cms/resource/24/2804924_image2_1.jpg', 128.5001657397, 38.2236839691, 6, 32, 2, '033-818-2158', 
-'홈페이지 <a href="http://www.gwfe.or.kr" target="_blank" title="새창: 홈페이지로 이동">http://www.gwfe.or.kr</a><br>사전예약 <a href="http://ticket.yes24.com/New/Perf/Detail/Detail.aspx?IdPerf=40444" target="_blank" title="새창 : 강원세계산림엑스포">http://ticket.yes24.com</a>', '2023 강원세계산림엑스포는 오는 2023년 5월 4일부터 6월 6일까지 34일 동안 "세계, 인류의 미래, 산림에서 찾는다"라는 주제로 고성군 토성면에 위치한 세계잼버리수련장과 설악~금강권을 연결하는 고성, 속초, 인제, 양양 일원에서 개최된다.', 
+'홈페이지 <a href="http://www.gwfe.or.kr" target="_blank" title="새창: 홈페이지로 이동">http://www.gwfe.or.kr</a><br>사전예약 <a href="http://ticket.yes24.com/New/Perf/Detail/Detail.aspx?IdPerf=40444" target="_blank" title="새창 : 강원세계산림엑스포">http://ticket.yes24.com</a>', "2023 강원세계산림엑스포는 오는 2023년 5월 4일부터 6월 6일까지 34일 동안 "세계, 인류의 미래, 산림에서 찾는다"라는 주제로 고성군 토성면에 위치한 세계잼버리수련장과 설악~금강권을 연결하는 고성, 속초, 인제, 양양 일원에서 개최된다.", 
 '강원도세계잼버리수련장', NULL, NULL, '보통권 :<br>일반(만 19세 ~ 64세) 10,000원(예매 8,000원)<br>청소년(만 13세 ~ 18세) 7,000원(예매 6,000원)<br>어린이(만 7세 ~ 12세) 5,000원(예매 4,000원)<br><br>단체권 :<br>일반(만 19세 ~ 64세) 8,000원<br>청소년(만 13세 ~ 18세) 6,000원<br>어린이(만 7세 ~ 12세) 5,000원<br>※ 내국인 :<br>20명 이상 / 외국인 : 10명 이상, 예매요금 동일, 동시입장<br><br>우대권 :<br>일반(만 19세 ~ 64세) 5,000원(예매 5,000원)<br>청소년(만 13세 ~ 18세) 3,500원(예매 3,500원)<br>어린이(만 7세 ~ 12세) 2,500원(예매 2,500원)<br>※ 만 65세 ~74세, 경증(4~6급)장애인, 현역군경(의무복무자), 강원도민<br><br>가족권 : 24,000원(예매 20,000원)<br><br>※ 무료입장 : 국가(독립)유공자, 국민기초생활수급자, 중증(1~3)급 장애인 및 보호자 1명, 만 75세 이상, 만 7세 미만, 공무수행자, 국빈외교사절단 및 수행자, 단체인솔자(20명당 1인), 학교단체 인솔 교사',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
@@ -1388,8 +827,8 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 '수원화성 일원', NULL, NULL, '7,500원',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
-2673150 , "Let's DMZ" , 20220924 , 20221002 , '경기도 파주시 임진각로 148-40 평화누리', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/12/2849612_image2_1.jpg', 126.7447609198, 37.8920676942, 6, 31, 27, '031-853-6496', 
-'홈페이지 <a href="https://letsdmz.ggcf.kr/" target="_blank" title="새창 : Let\'s DMZ">https://letsdmz.ggcf.kr</a><br>인스타그램 <a href="https://www.instagram.com/letsdmz" target="_blank" title="새창 : Let\'s DMZ">www.instagram.com/letsdmz</a>', "Let's DMZ \"더 큰 평화를 위한 시작\"<br>Let's DMZ는 DMZ가 지닌 평화의 의미와 생태적 가치를 국내외 대중과 교감하는 종합 학술·문화예술 축제이다. 경기도가 주최하고 경기문화재단·킨텍스·경기관광공사가 주관하며, 《DMZ 평화예술제》, 《DMZ 포럼》, 《DMZ RUN(스포츠)》의 행사로 운영된다.", 
+2673150 , 'Let's DMZ' , 20220924 , 20221002 , '경기도 파주시 임진각로 148-40 평화누리', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/12/2849612_image2_1.jpg', 126.7447609198, 37.8920676942, 6, 31, 27, '031-853-6496', 
+'홈페이지 <a href="https://letsdmz.ggcf.kr/" target="_blank" title="새창 : Let's DMZ">https://letsdmz.ggcf.kr</a><br>인스타그램 <a href="https://www.instagram.com/letsdmz" target="_blank" title="새창 : Let's DMZ">www.instagram.com/letsdmz</a>', "Let's DMZ "더 큰 평화를 위한 시작"<br>Let's DMZ는 DMZ가 지닌 평화의 의미와 생태적 가치를 국내외 대중과 교감하는 종합 학술·문화예술 축제이다. 경기도가 주최하고 경기문화재단·킨텍스·경기관광공사가 주관하며, 《DMZ 평화예술제》, 《DMZ 포럼》, 《DMZ RUN(스포츠)》의 행사로 운영된다.", 
 '파주 임진각 평화누리', NULL, NULL, '유료<br>행사별 상이',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
@@ -1409,7 +848,7 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 2666388 , '아이가 행복입니다' , 20220922 , 20220923 , '서울특별시 송파구 올림픽로 300', '(신천동)', 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/23/2839423_image2_1.jpeg', 127.1025668077, 37.5126099637, 6, 1, 18, '1855-3164', 
-'<a href="https://www.behappykorea.kr/" target="_blank" title="새창: 홈페이지로 이동">http://www.behappykorea.kr</a>', "\"아이가 행복입니다\"는 한국의 저출생 문제를 정부와 기업, 사회단체, 국민이 다 함께 힘을 합쳐 극복해야 한다는 공감대를 형성하기 위해 2018년 처음 개최되었다. 일과 생활의 균형, 저출생과 관련된 대책 각 분야 전문가들이 일반 대중들과 소통하는 자리이자,  출생/육아 정책과 건강정보 등 양육의 부담을 덜 수 있는 정보도 제공한다. 동시에 잔디광장에서는 아이와 함께 즐길수 있는 뮤직페스티벌, 가족영화제, 가족 레크레이션 프로그램 등 각종 부대행사로 아이와 함께 즐길 수 있는 다양한 볼거리를 제공한다.", 
+'<a href="https://www.behappykorea.kr/" target="_blank" title="새창: 홈페이지로 이동">http://www.behappykorea.kr</a>', ""아이가 행복입니다"는 한국의 저출생 문제를 정부와 기업, 사회단체, 국민이 다 함께 힘을 합쳐 극복해야 한다는 공감대를 형성하기 위해 2018년 처음 개최되었다. 일과 생활의 균형, 저출생과 관련된 대책 각 분야 전문가들이 일반 대중들과 소통하는 자리이자,  출생/육아 정책과 건강정보 등 양육의 부담을 덜 수 있는 정보도 제공한다. 동시에 잔디광장에서는 아이와 함께 즐길수 있는 뮤직페스티벌, 가족영화제, 가족 레크레이션 프로그램 등 각종 부대행사로 아이와 함께 즐길 수 있는 다양한 볼거리를 제공한다.", 
 '롯데월드타워 SKY31 및 잔디광장', NULL, NULL, NULL,NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
@@ -1418,7 +857,7 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 '경상북도(안동,영주), 수원화성, 제주', NULL, NULL, '프로그램별 상이',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
-2659776 , '전주 한옥마을 \'경기전 사람들\'' , 20220605 , 20221023 , '전라북도 전주시 완산구 태조로 44', '(풍남동3가)', 'A02081300', 'http://tong.visitkorea.or.kr/cms/resource/83/2820183_image2_1.jpg', 127.1493699447, 35.8162807559, 6, 37, 12, '063-232-9938', 
+2659776 , '전주 한옥마을 '경기전 사람들'' , 20220605 , 20221023 , '전라북도 전주시 완산구 태조로 44', '(풍남동3가)', 'A02081300', 'http://tong.visitkorea.or.kr/cms/resource/83/2820183_image2_1.jpg', 127.1493699447, 35.8162807559, 6, 37, 12, '063-232-9938', 
 '<a href="https://www.instagram.com/culture__art/" target="_blank" title="새창: 홈페이지로 이동">https://www.instagram.com/culture__art/</a>', "옛부터 경기전에서 살아온듯한 조선시대 캐릭터가 나타났다!<br>“어디서 오셨소? 혼자 오셨소? 재미난 역사 이야기 듣고 가시오!”, “관상을 미신이라 생각하시오?”, “커플이시오? 부럽소!”<br>한옥마을 경기전에 조선시대 사람들이?! 오늘 하루 웃음을 책임질 캐릭터들이 경기전 안에 모였다! 매주 일요일, 유쾌한 경기전을 만들어줄 9명의 캐릭터가 모였다!<br><br>※ 캐릭터 소개(9명) : △뻥쟁이(관상가) △어진화사(화공) △까막눈(유생) △김꼰대(참봉) △땅부자(지관) △말뚝이(수문장) △핵인싸(이단아) △한입만(기미상궁) △금화(금화군)", 
 '전주 한옥마을 경기전', NULL, NULL, '경기전 입장 시 무료','전연령', NULL);
 
@@ -1441,7 +880,7 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 '서울랜드', NULL, NULL, '1차 티켓 1일권 : 89,000원 (정가 139,000원)<br>1차 티켓 2일권 : 129,000원 (정가 199,000원)',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
-2651042 , '세계유산축전 - \'제주 화산섬과 용암동굴\'' , 20221001 , 20221016 , '제주특별자치도 제주시 조천읍 선교로 569-36', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/34/2845934_image2_1.jpg', 126.7142575546, 33.4569020299, 6, 39, 4, '064-755-2210', 
+2651042 , '세계유산축전 - '제주 화산섬과 용암동굴'' , 20221001 , 20221016 , '제주특별자치도 제주시 조천읍 선교로 569-36', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/34/2845934_image2_1.jpg', 126.7142575546, 33.4569020299, 6, 39, 4, '064-755-2210', 
 '<a href="http://worldheritage.kr" target="_blank" title="새창: 홈페이지로 이동">http://worldheritage.kr</a>', "본 행사는 지난 2020년 처음 시범 시행 후, 올해로 3번째 추진 하는 정부사업으로 유네스코에 등재된 세계유산을 주제로 공연, 전시 등의 가치 확산&향유 프로그램과  참여자가 직접 체험하는 순례단, 워킹투어 등 세계유산에 대한 이해를 돕고 그 가치를 전달하고, 해석하는 프로그램을 결합한 복합 문화 홍보 사업이다.", 
 '제주)프로그램별 상이', NULL, NULL, '프로그램 별 상이','전체연령', '프로그램 별 상이');
 
@@ -1456,12 +895,12 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 '경기도농업기술원 곤충자원센터', NULL, NULL, '무료',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
-2630385 , '코리아그랜드세일' , 20220810 , 20220831 , '온라인개최', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/24/2827924_image2_1.jpg', 126.9848758397, 37.5720426096, 6, 1, 100, '070-7603-3807', 
+2630385 , '코리아그랜드세일' , 20220810 , 20220831 , '온라인개최', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/24/2827924_image2_1.jpg', 126.9848758397, 37.5720426096, 6, 1, NULL, '070-7603-3807', 
 '<a href="https://en.koreagrandsale.co.kr/" target="_blank" title="새창 : 코리아그랜드세일">https://en.koreagrandsale.co.kr</a>', "미리 만나보는 코리아그랜드세일, 'Korea Grand Sale, Summer Special'<br>
 코리아그랜드세일은 관광과 한류가 융복합된 외국인 대상의 한국 대표 쇼핑문화관광축제로, 한국의 쇼핑 즐거움과 함께 항공, 숙박, 뷰티, 엔터테인먼트, 식·음료, 체험 등 다양한 분야에서 풍성한 혜택을 제공한다.<br>
 매년 1~2월 개최하는 본 행사에서는 보다 다양하고 매력적인 한국쇼핑관광 콘텐츠와 프로모션을 통해 한국의 다채로운 매력을 보여준다.<br>
 연중 운영하는 코리아그랜드세일 온라인 플랫폼을 통해서도 대한민국 전역의 다양한 쇼핑관광 콘텐츠와 혜택을 만날 수 있다.<br>
-행사에 대한 자세한 내용은 코리아그랜드세일 온라인 플랫폼(<a href=\"https://en.koreagrandsale.co.kr/\" target=\"_blank\" title=\"새창 : 코리아그랜드세일\">https://en.koreagrandsale.co.kr</a>)에서 확인할 수 있다.", 
+행사에 대한 자세한 내용은 코리아그랜드세일 온라인 플랫폼(<a href="https://en.koreagrandsale.co.kr/" target="_blank" title="새창 : 코리아그랜드세일">https://en.koreagrandsale.co.kr</a>)에서 확인할 수 있다.", 
 '전국(온오프라인)', NULL, NULL, '무료',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
@@ -1475,7 +914,7 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 '서울무역전시컨벤션센터(SETEC)1, 2, 3관/서울국제불교박람회 공식홈페이지(bexpo.kr)', NULL, NULL, '5,000원(입장료의 일부는 비영리 단체 후원 및 문화발전 기금으로 사용)',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
-2620019 , '\'나미콩쿠르\' 수상작 展' , 20210501 , 20230331 , '강원도 춘천시 남산면 남이섬길 1', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/82/2726982_image2_1.jpg', 127.5262424616, 37.7901326639, 6, 32, 13, '031-580-8193', 
+2620019 , ''나미콩쿠르' 수상작 展' , 20210501 , 20230331 , '강원도 춘천시 남산면 남이섬길 1', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/82/2726982_image2_1.jpg', 127.5262424616, 37.7901326639, 6, 32, 13, '031-580-8193', 
 '<a href="http://namiconcours.com/main.php" target="_blank" title="새창 : 관광지">http://namiconcours.com/main.php</a>', "나미콩쿠르는 세계의 그림책 일러스트레이터들에게 창작과 발표의 기회를 제공하고 그림책 일러스트레이션 수준 향상에 기여하기 위해 제정되었으며, 한국의 남이섬이 후원하고 있다.<br>올해 다섯 번째로 열린 나미콩쿠르에는 95개국에서 2,069개 작품이 응모되어 남아프리카공화국, 러시아, 벨기에, 일본, 한국의 국제 심사위원들이 엄정한 심사를 통해 본상 18개 작품을 선정했다.", 
 '남이섬 나미콩쿠르갤러리', NULL, NULL, '남이섬 입장 시 무료 관람 (공예원 체험 프로그램 유료)','전 연령 가능', '기간 내 자유');
 
@@ -1511,7 +950,7 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 2614760 , '2022 경주문화재야행' , 20220930 , 20221002 , '경북 경주시 교동 71', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/13/2838113_image2_1.jpg', 129.2157786981, 35.8314720272, NULL, 35, 2, '054-779-6108', 
-'<a href="http://www.gjnighttrip.or.kr/ko/" target="_blank" title="새창: 홈페이지로 이동">http://www.gjnighttrip.or.kr</a>', "\"천년 역사를 품은 월성 달빛에 노닐다\"<br>천년의 향기 그윽한 경주로 여러분을 초대한다.<br>992년간 신라의 수도였던 경주, 경주의 역사는 신라의 역사이다.<br>절터, 고분, 궁궐터를 비롯한 수많은 문화재와 설화 등 이야기 거리가 풍성한 경주.<br>경주문화재야행의 주 무대인 경주 교촌은 첨성대와 계림, 월성, 월정교를 지척에 두고 향교와 최씨고택을 중심으로 현성된 조선시대 전통 한옥마을이다.<br>8夜로 펼쳐지는 역사와 전설 그리고 신라 속의 조선 문화를 오감으로 만나는 아름다운 추억 여행이 될 것이다.", 
+'<a href="http://www.gjnighttrip.or.kr/ko/" target="_blank" title="새창: 홈페이지로 이동">http://www.gjnighttrip.or.kr</a>', ""천년 역사를 품은 월성 달빛에 노닐다"<br>천년의 향기 그윽한 경주로 여러분을 초대한다.<br>992년간 신라의 수도였던 경주, 경주의 역사는 신라의 역사이다.<br>절터, 고분, 궁궐터를 비롯한 수많은 문화재와 설화 등 이야기 거리가 풍성한 경주.<br>경주문화재야행의 주 무대인 경주 교촌은 첨성대와 계림, 월성, 월정교를 지척에 두고 향교와 최씨고택을 중심으로 현성된 조선시대 전통 한옥마을이다.<br>8夜로 펼쳐지는 역사와 전설 그리고 신라 속의 조선 문화를 오감으로 만나는 아름다운 추억 여행이 될 것이다.", 
 '경주 교촌한옥마을', NULL, NULL, NULL,NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
@@ -1525,7 +964,7 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 '서울시청광장', NULL, NULL, '무료',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
-2612919 , '한국민속촌 \'달빛을 더하다\'' , 20220409 , 20221106 , '경기도 용인시 기흥구 민속촌로 90', '(보라동)', 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/71/2815371_image2_1.png', 127.1205723175, 37.2594535228, 6, 31, 23, '031-288-0000', 
+2612919 , '한국민속촌 '달빛을 더하다'' , 20220409 , 20221106 , '경기도 용인시 기흥구 민속촌로 90', '(보라동)', 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/71/2815371_image2_1.png', 127.1205723175, 37.2594535228, 6, 31, 23, '031-288-0000', 
 '<a href="https://www.koreanfolk.co.kr/event/event_now.asp" target="_blank" title="새창: 홈페이지로 이동">https://www.koreanfolk.co.kr</a>', "야간개장 기간에는 공연장에서 조선 시대 남녀의 사랑 이야기를 LED 퍼포먼스 등으로 표현한 '연분' 특별공연이 펼쳐진다.<br>또 민속촌 곳곳에는 그림자를 이용해 재미난 사진을 찍을 수 있는 포토존이 마련되고, 조선 시대 분위기가 물씬 풍기는 야시장도 열린다.", 
 '한국민속촌', NULL, NULL, 'After4 할인 17,000원 (16시 이후 입장 고객 대상)',NULL, NULL);
 
@@ -1547,7 +986,7 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 '태화강국가정원 일원', NULL, NULL, '무료',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
-2609968 , '한국민속촌 \'그해 시골 여름\'' , 20220709 , 20220821 , '경기도 용인시 기흥구 민속촌로 90', '(보라동)', 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/67/2826167_image2_1.jpg', 127.1205723175, 37.2594535228, 6, 31, 23, '031-288-2933', 
+2609968 , '한국민속촌 '그해 시골 여름'' , 20220709 , 20220821 , '경기도 용인시 기흥구 민속촌로 90', '(보라동)', 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/67/2826167_image2_1.jpg', 127.1205723175, 37.2594535228, 6, 31, 23, '031-288-2933', 
 '<a href="http://www.koreanfolk.co.kr/" target="_blank" title="새창: 한국민속촌 홈페이지로 이동">www.koreanfolk.co.kr/</a>', "한국민속촌이 여름 축제 '그해, 시골 여름'을 개최한다.<br>여름축제 대표 콘텐츠로는 수박밭 주인과의 짜릿한 한판 승부 ‘수박서리’와 무더위를 날릴 이색 물총싸움 ‘살포대첩’을 준비했다.<br>또 시골의 정취를 듬뿍 느낄 수 있는 밀짚모자, 고무신 꾸미기 등 힙하게 촌캉스를 즐길 수 있는 다양한 체험도 마련된다.<br>이 밖에도 촌캉스의 로망을 담은 이색 포토존과 신나게 함께 즐길 수 있는 마을회관 노래교실은 관람객들의 발길을 향하게 만들 것으로 보인다.", 
 '한국민속촌', NULL, NULL, '[유료]<br>매일 선착순 10명에게 수박과 입장권 무료 교환<br>물총을 소지하거나 몸빼바지를 착용한 후 방문하면 최대 50% 할인<br>자세한 사항은 한국민속촌 홈페이지 참조','전연령가능', '기간내자유');
 
@@ -1577,12 +1016,12 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 '노들섬 잔디마당', NULL, NULL, '무료',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
-2592414 , '근현대사 추리여행, \'사라진 열쇠를 찾아라\'' , 20220423 , 20221231 , '서울특별시 강북구 삼양로 561', '(우이동)', 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/20/2752920_image2_1.png', 127.0122877055, 37.6530781245, 6, 1, 3, '02-901-6213', 
+2592414 , '근현대사 추리여행, '사라진 열쇠를 찾아라'' , 20220423 , 20221231 , '서울특별시 강북구 삼양로 561', '(우이동)', 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/20/2752920_image2_1.png', 127.0122877055, 37.6530781245, 6, 1, 3, '02-901-6213', 
 '강북구 홈페이지-<a href="https://www.gangbuk.go.kr/tour/contents.do?key=907" target="_blank" title="새창 : 관광지">www.gangbuk.go.kr/tour</a><br>행사 홈페이지-<a href="https://www.funfarm.kr/shopExperience/117042" target="_blank" title="새창 : 관광지">www.funfarm.kr/</a>', "○ 역사적 사실에 바탕을 둔 이야기 과제를 푸는 체험프로그램이다.<br>○ 스마트폰만 있으면 별도 사전절차나 비용없이 누구나 상시참여 가능하다.<br>○ 북한산 둘레길 1, 2구간을 걸으며 강북구의 역사문화 유산을 체험할 수 있다.<br>○ 게임 진행 도중 막히는 부분이 있다면 스마트폰 화면 왼쪽 상단의 전구아이콘을 눌러 힌트를 확인이 가능하다.<br>○ 2개의 코스로 이루어져 있으며 A코스는 16시, B코스는 18시에 운영종료한다.<br>○ 최초 1회 완료시 모바일상 설문조사 후 5천원 상당의 문화상품권이 지급된다.(선착순이며, 설문조사 다음 달에 지급된다.)<br>*공원 남쪽 놀이터 인근에 솔밭숲속문구함이 있습니다. 참고바랍니다.*", 
 '솔밭근린공원', NULL, NULL, '무료','누구나(초등학교 고학년 이상 참여권장)', '구간별 2~3시간');
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
-2588321 , '오크밸리 3D 라이팅쇼 \'소나타오브라이트\'' , 20220101 , 20231231 , '강원도 원주시 지정면 오크밸리1길 66', NULL, 'A02070200', NULL, 127.8177986180, 37.4346459591, 6, 32, 9, '033-730-3146', 
+2588321 , '오크밸리 3D 라이팅쇼 '소나타오브라이트'' , 20220101 , 20231231 , '강원도 원주시 지정면 오크밸리1길 66', NULL, 'A02070200', NULL, 127.8177986180, 37.4346459591, 6, 32, 9, '033-730-3146', 
 '<a href="http://www.oakvalley.co.kr/oak_new/star6.asp
 " target="_blank" title="새창: 행사 홈페이지로 이동">www.oakvalley.co.kr/oak_new</a>', "내 발걸음만이 소리가 되어 메아리처럼 되돌아오는 자연 그대로의 숨길에 밤이 내리면 아름다운 조명과 신비한 이야기가 있는 환상적인 세계가 펼쳐진다.<br>아름다운 빛의 연주가 겨울의 낭만으로 이끄는 오크밸리의 Sonata Of Light(빛의 소나타)를 걸어보자.<br>빛나는 발자국으로 밤의 숨길을 걷다.<br>문화와 예술이 살아 숨쉬는 오크밸리 조각 공원을 따라가면 산책과 산림욕을 동시에 즐길 수 있는 숨길이 조성되어 있다.<br>계절별로 색다른 아름다움을 자랑하는 갖가지 야생화와 맑은 계곡, 연못 등이 반기는 1km 남짓한 산책로를 걷다보면 어느새 자연과 하나되어 건강과 느림의 미학을 일깨우게 된다.<br>자연 그대로의 쉼터, 오크밸리의 대표 힐링 명소인 숨길이 이번 겨울 더욱 아름답고 신비롭게 변신한다.<br>산책로를 따라 형형색색의 조명을 설치하고 화려한 볼거리를 제공하는 연출을 통해 산책의 낭만을 더하게 된다.<br>‘Sonata Of Light(빛의 소나타)’로 명명되는 숨길 야간 테마는 총거리 1.4km, 5가지 테마로 꾸며진 구간을 약 50분에 걸쳐 감상한 후 오크3번코스로 내려오는 유료 프로그램이다.<br>입장권은 티몬, 유인매표소에서 구매할 수 있다.<br>회원은 50%, 제휴카드 & 단체 40%, 콘도 투숙객 30%, 지역주민 30%등의 할인혜택이 본인 포함 최대 4인까지 제공된다.<br><br>아빠와 함께 가는 밤에 빛나는 골프장 페어웨이, 오크밸리 '소나타오브라이트'의 두번째 변신!<br>아빠들의 전유물로 여겨졌던 골프장 페어웨이가 온 가족을 감동시킬 3D 라이팅쇼의 현장으로 또 한번 변신한다.<br>국내 최초 숲 속 3D 라이팅쇼로 움직이는 숲을 연출한 오크밸리 ‘소나타 오브 라이트’가 이번에는 골프장 페어웨이 위 3D 라이팅쇼를 추가적으로 선보인다.<br>음악 따라 춤추는 달빛, 조명으로 빛나는 꽃 길, 하상욱 시인의 네온사인 로드 등 다양한 콘텐츠 중 숲의 나무와 돌을 배경으로 3D 맵핑을 한 메인쇼가 가장 뜨거운 반응을 받아왔으며, 이에 더욱 풍성하고 감동적인 볼거리를 제공하고자 페어웨이를 3D 맵핑하여 골프장 잔디에 생명을 불어넣었다.<br>이번 골프장 페어웨이 3D 맵핑으로 어디에서도 볼 수 없었던 광활한 대지의 율동감으로 전율을 느낄 수 있게 되었으며 콘텐츠를 관람할 수 있는 전용 데크를 설치하여 전용 관람 포인트에서 압도적인 몰입감을 선사한다.", 
 '오크밸리 리조트 골프빌리지 산책로', '티몬', NULL, '정상가 대인 20,000원 / 소인 15,000원 / 36개월 미만 무료입장','전연령 관람가능', '약 50분');
@@ -1642,7 +1081,7 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 2558735 , '2022 부산국제공연예술제(Busan Performing Arts Festival 2022)' , 20220923 , 20220925 , '부산광역시 금정구 장전온천천로 48 부산대지하철역', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/05/2842405_image2_1.jpg', 129.0893371356, 35.2296540211, 6, 6, 2, '051-715-6982', 
-'홈페이지 <a href="http://www.gjfac.org" target="_blank" title="새창: 부산거리예술축제 홈페이지로 이동">http://www.gjfac.org</a><br><a href="https://www.facebook.com/GJFACsince2016" target="_blank" title="새창: 부산거리예술축제 홈페이지로 이동">www.facebook.com/GJFACsince2016</a>', "지난 2017년부터 시작된 부산금정거리예술축제가 최근 공연예술의 범위 확장과 공연예술이 갖는 다원적이고 복합적인 경향성을 반영하여 보다 포괄적이고 포용적인 축제로 도약하고자 <부산국제공연예술제>로 새롭게 출발한다.<br>금정구민의 산책길로 익숙한 금정구 온천천변 일원을 배경으로 올해는 \"흐르는 도시, 잠시 멈춤\"이라는 주제로 프랑스, 일본을 비롯한 30여개의 국내외 우수 공연 작품과 함께해, 일상에 지친 여러분께 웃음과 감동을 전해드리고자 한다.<br>공연을 비롯한 업사이클링 플리마켓, 전국 예술축제 담당자 라운드테이블, 굴다리를 활용한 체험 프로그램, 금정팔경을 배경으로 하는 특별 공연등 다채로운 프로그램이 준비되어있다.", 
+'홈페이지 <a href="http://www.gjfac.org" target="_blank" title="새창: 부산거리예술축제 홈페이지로 이동">http://www.gjfac.org</a><br><a href="https://www.facebook.com/GJFACsince2016" target="_blank" title="새창: 부산거리예술축제 홈페이지로 이동">www.facebook.com/GJFACsince2016</a>', "지난 2017년부터 시작된 부산금정거리예술축제가 최근 공연예술의 범위 확장과 공연예술이 갖는 다원적이고 복합적인 경향성을 반영하여 보다 포괄적이고 포용적인 축제로 도약하고자 <부산국제공연예술제>로 새롭게 출발한다.<br>금정구민의 산책길로 익숙한 금정구 온천천변 일원을 배경으로 올해는 "흐르는 도시, 잠시 멈춤"이라는 주제로 프랑스, 일본을 비롯한 30여개의 국내외 우수 공연 작품과 함께해, 일상에 지친 여러분께 웃음과 감동을 전해드리고자 한다.<br>공연을 비롯한 업사이클링 플리마켓, 전국 예술축제 담당자 라운드테이블, 굴다리를 활용한 체험 프로그램, 금정팔경을 배경으로 하는 특별 공연등 다채로운 프로그램이 준비되어있다.", 
 '부산광역시 금정구 온천천 일원', NULL, NULL, '무료',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
@@ -1662,7 +1101,7 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 2555958 , '2022 전국생활문화축제' , 20221028 , 20221030 , '강원도 강릉시 경강로2021번길 9-1 명주예술마당', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/63/2847563_image2_1.jpg', 128.8903006749, 37.7504520359, 6, 32, 1, '033-647-6808', 
-'홈페이지 <a href="http://www.everydaylifeculture.net" target="_blank" title="새창 : 2022 전국생활문화축제">http://www.everydaylifeculture.net</a><br>인스타그램 <a href="https://www.instagram.com/2022lifeculturefesta/" target="_blank" title="새창 : 2022 전국생활문화축제">https://www.instagram.com</a><br>페이스북 <a href="https://www.facebook.com/2022lifeculturefesta" target="_blank" title="새창 : 2022 전국생활문화축제">https://www.facebook.com</a>', "문화체육관광부가 주최, 지역문화진흥원, 강릉문화재단이 공동주관하고, 강릉시가 후원하는 전국생활문화축제가 2022년 10월 28일부터 10월 30일까지 강릉 명주예술마당 및 명주동 일원에서 진행된다. \"일상이:지\"라는 슬로건으로 진행되며, 생활문화란 우리에게 일상이고 쉽게 접할 수 있다라는 의미이다. 전국의 생활문화인과 모든 시민이 축제를 통해 함께 교류하며 화합의 장으로 만들고자 한다.", 
+'홈페이지 <a href="http://www.everydaylifeculture.net" target="_blank" title="새창 : 2022 전국생활문화축제">http://www.everydaylifeculture.net</a><br>인스타그램 <a href="https://www.instagram.com/2022lifeculturefesta/" target="_blank" title="새창 : 2022 전국생활문화축제">https://www.instagram.com</a><br>페이스북 <a href="https://www.facebook.com/2022lifeculturefesta" target="_blank" title="새창 : 2022 전국생활문화축제">https://www.facebook.com</a>', "문화체육관광부가 주최, 지역문화진흥원, 강릉문화재단이 공동주관하고, 강릉시가 후원하는 전국생활문화축제가 2022년 10월 28일부터 10월 30일까지 강릉 명주예술마당 및 명주동 일원에서 진행된다. "일상이:지"라는 슬로건으로 진행되며, 생활문화란 우리에게 일상이고 쉽게 접할 수 있다라는 의미이다. 전국의 생활문화인과 모든 시민이 축제를 통해 함께 교류하며 화합의 장으로 만들고자 한다.", 
 '강릉 명주예술마당 및 강릉 명주동 일원', NULL, NULL, '무료','전 연령', '행사진행기간 상시관람가능');
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
@@ -1702,7 +1141,7 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 2544610 , '전주 한옥마을 경기전 “왕과의 산책”' , 20220604 , 20221022 , '전라북도 전주시 완산구 태조로 44', '(풍남동3가)', 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/12/2819612_image2_1.jpg', 127.1493588361, 35.8162252063, 6, 37, 12, '063-232-9938', 
-'<a href="https://www.instagram.com/culture__art/?form=MY01SV&OCID=MY01SV"_blank" title="새창: 홈페이지로 이동">www.instagram.com</a>', "\"전주 경기전\”<br>매주 토요일 저녁 비밀의 문이 열린다.<br>고즈넉한 밤의 경기전을 볼수있는 특별한 시간!. 밤의 경기전을 탐하라.<br><br>달빛아래 펼쳐진 조선역사의 숨결을 느낄수 있는 순간<br>2022 경기전 “왕과의 산책”에 여러분을 초대한다.<br>특별히 열린 전주 경기전에서 역사 해설과 음악의 여유를 통해 가장 아름다운 한국, 전주를 만나 보시길 바란다.<br><br>*티켓 관련 내용은 사이트(옥션/11번가/예스24)에서 확인<br>*문의전화 : 063-232-9938, 전화예매 : 1544-6399", 
+'<a href="https://www.instagram.com/culture__art/?form=MY01SV&OCID=MY01SV"_blank" title="새창: 홈페이지로 이동">www.instagram.com</a>', ""전주 경기전”<br>매주 토요일 저녁 비밀의 문이 열린다.<br>고즈넉한 밤의 경기전을 볼수있는 특별한 시간!. 밤의 경기전을 탐하라.<br><br>달빛아래 펼쳐진 조선역사의 숨결을 느낄수 있는 순간<br>2022 경기전 “왕과의 산책”에 여러분을 초대한다.<br>특별히 열린 전주 경기전에서 역사 해설과 음악의 여유를 통해 가장 아름다운 한국, 전주를 만나 보시길 바란다.<br><br>*티켓 관련 내용은 사이트(옥션/11번가/예스24)에서 확인<br>*문의전화 : 063-232-9938, 전화예매 : 1544-6399", 
 '전주 한옥마을 경기전', NULL, NULL, '1인 1매 10,000원 (별도 할인 없음)<br>예매처 : 예스24티켓 <a href="http://ticket.yes24.com/New/Main.aspx?Gcode=009_201" target="_blank" title="새창 : 2022 전주 경기전 "왕과의 산책"">http://ticket.yes24.com</a><br>예매문의 : 1544-6399','취학아동 부터 관람가능', '100분');
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
@@ -1727,12 +1166,12 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 2508126 , '양주 회암사지 왕실축제' , 20221001 , 20221002 , '경기도 양주시 회암사길 11 회암사지 박물관', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/45/2848445_image2_1.jpg', 127.1029879178, 37.8412745188, 6, 31, 18, '02-782-2721', 
-'<a href="https://yangju-hoeamsaji.kr/2022/html/" target="_blank" title="새창: 양주 회암사지 왕실축제 홈페이지로 이동">https://yangju-hoeamsaji.kr/</a>', "\"치유의 궁, 세계를 품다\"<br>조선 왕실사찰의 고고유적 회암사지를 배경으로 펼쳐지는 역사 힐링 축제!<br>유네스코 세계유산 잠정목록 등재를 기념하는 2022 양주 회암사지 왕실축제는 3년만의 대면 축제로 더욱 풍성해진 볼거리와 다채로운 프로그램으로 돌아온다. 코로나19로 일상의 지친 여러분들을 힐링의 장소 회암사지 왕실축제로 초대한다.", 
+'<a href="https://yangju-hoeamsaji.kr/2022/html/" target="_blank" title="새창: 양주 회암사지 왕실축제 홈페이지로 이동">https://yangju-hoeamsaji.kr/</a>', ""치유의 궁, 세계를 품다"<br>조선 왕실사찰의 고고유적 회암사지를 배경으로 펼쳐지는 역사 힐링 축제!<br>유네스코 세계유산 잠정목록 등재를 기념하는 2022 양주 회암사지 왕실축제는 3년만의 대면 축제로 더욱 풍성해진 볼거리와 다채로운 프로그램으로 돌아온다. 코로나19로 일상의 지친 여러분들을 힐링의 장소 회암사지 왕실축제로 초대한다.", 
 '양주 회암사지 일원', NULL, NULL, '무료','연령무관', NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 2503230 , '2022 청주문화재야행' , 20220827 , 20220828 , '충청북도 청주시 상당구 성안로', '(남문로2가)', 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/86/2823486_image2_1.jpg', 127.4887982220, 36.6329017813, 6, 33, 10, '043-219-1131 / 043-219-1129', 
-'<a href="http://www.cjculturenight.org" target="_blank" title="새창: 청주야행 행사 홈페이지로 이동">www.cjculturenight.org</a>', "청주만의 유‧무형 문화재와 청주 원도심 역사 이야기를 품은 2022 청주문화재야행이 개최된다. \"용두사지철당간과 주성\"에 관한 전설을 기반으로 구성된 올해 청주문화재야행은 가족, 친구, 연인 간에 추억을 만들 수 있도록 다양한 프로그램으로 한 가득 채워져 있다. 2016년부터 2022년까지 7회 연속 개최되고 있는 청주문화재야행! 올해도 많은 관심과 참여 부탁 드린다. 한 여름 밤 달빛 아래에서 청주의 역사를 돌아보며 희망찬 미래를 꿈꿔보자.", 
+'<a href="http://www.cjculturenight.org" target="_blank" title="새창: 청주야행 행사 홈페이지로 이동">www.cjculturenight.org</a>', "청주만의 유‧무형 문화재와 청주 원도심 역사 이야기를 품은 2022 청주문화재야행이 개최된다. "용두사지철당간과 주성"에 관한 전설을 기반으로 구성된 올해 청주문화재야행은 가족, 친구, 연인 간에 추억을 만들 수 있도록 다양한 프로그램으로 한 가득 채워져 있다. 2016년부터 2022년까지 7회 연속 개최되고 있는 청주문화재야행! 올해도 많은 관심과 참여 부탁 드린다. 한 여름 밤 달빛 아래에서 청주의 역사를 돌아보며 희망찬 미래를 꿈꿔보자.", 
 '용두사지철당간, 중앙공원, 청주시청 임시청사, 청주읍성전시관 , 성안길, 서문시장, 남주남문로 한복문화의 거리', NULL, NULL, '무료','전 연령', NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
@@ -1871,7 +1310,7 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 '이월드', NULL, NULL, '이월드 홈페이지 참고','전연령가능', NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
-2384776 , '서울 명산트레킹' , 20220423 , 20220912 , '서울특별시 중구 퇴계로34길 28', '(필동2가)', 'A02081300', NULL, 126.9935365470, 37.5584387906, 6, 1, 100, '02-490-2778', 
+2384776 , '서울 명산트레킹' , 20220423 , 20220912 , '서울특별시 중구 퇴계로34길 28', '(필동2가)', 'A02081300', NULL, 126.9935365470, 37.5584387906, 6, 1, NULL, '02-490-2778', 
 '<a href="https://www.seoulsports.or.kr/user/citizenAction/userCitizenProgramView.do?idx=466&citizenParam=traking" target="_blank" title="새창: 서울특별시체육회 홈페이지로 이동">http://www.seoulsports.or.kr</a>', "서울 명산 트레킹은 서울특별시에서 주최하고 서울특별시체육회에서 주관하는 생활체육 참여 프로그램이다. 서울에 있는 명산을 선별하여 서울 시민(가족, 친구, 연인 등)이 운동을 직접 참여하고 즐거운 시간을 만들 수 있는 분위기를 조성해주기 위함이다. 도심과 자연이 함께 어우러져 있는 서울의 모습을 보며 운동의 중요성도 느낄 수 있으며  여가 문화 확산을 통한 명랑한 사회 분위기를 조성할 수 있다.", 
 '1차: 서울시 걷기 좋은 길(자유선택)<br>2~4차: 홈페이지 참조', NULL, NULL, '무료',NULL, NULL);
 
@@ -1944,7 +1383,7 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 1945450 , '2022 전주독서대전' , 20220930 , 20221002 , '전라북도 전주시 완산구 전주천동로 20 전주한벽문화관', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/48/2816848_image2_1.jpg', 127.1587442277, 35.8118258696, 6, 37, 12, '063-230-1859', 
-'<a href="http://jjbook.kr" target="_blank" title="대한민국독서대전 홈페이지로 이동">http://jjbook.kr</a>', "전주독서대전은 대한민국 최대 규모 책 축제로 올해는 \"책 여행, 발견하는 기쁨\"이라는 주제로 2022년 9월 30일(금)부터 10월 2일(일)까지 전주한벽문화관, 완판본문화관 일원에서 진행 된다.", 
+'<a href="http://jjbook.kr" target="_blank" title="대한민국독서대전 홈페이지로 이동">http://jjbook.kr</a>', "전주독서대전은 대한민국 최대 규모 책 축제로 올해는 "책 여행, 발견하는 기쁨"이라는 주제로 2022년 9월 30일(금)부터 10월 2일(일)까지 전주한벽문화관, 완판본문화관 일원에서 진행 된다.", 
 '전주한벽문화관, 완판본문화관 일원', NULL, NULL, '무료',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
@@ -1985,7 +1424,7 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 1842421 , '제 13회 2022 ACC 월드뮤직페스티벌(AMF)' , 20220826 , 20220827 , '광주광역시 동구 예술길 31-13', NULL, 'A02070200', NULL, 126.9198157026, 35.1497523646, 6, 5, 3, '1899-5566', 
-'<a href="https://www.acc.go.kr/main/contents.do?PID=03010701" target="_blank" title="새창: ACC월드뮤직페스티벌 행사 홈페이지로 이동">https://www.acc.go.kr</a>', "\"세계 음악과 함께하는 도심 속 피크닉\" - ACC 월드뮤직 페스티벌<br>August Festival 2022 8월의 끝자락에 즐기는 세계음악축제!<br>Cool Festival 한여름 밤 무더위를 날리는 종합예술축제! <br>Collaboration Festival 세계음악과 한국 뮤지션의 협연을 통한 글로컬축제!<br>‘월드뮤직’은 전 세계에 존재하는 다양한 문화가 담겨 있는 오늘의 음악이다.<br>아시아와 세계를 담는「ACC 월드뮤직 페스티벌」에서는 친구, 연인, 가족과 함께 다양한 음악과 문화를 경험하는 피크닉을 즐길 수 있다.<br>매 년 여름의 끝자락, 8월. ‘빛의 숲’ 에서 열리는 축제의 밤! 「ACC 월드뮤직 페스티벌」로 여러분을 초대한다.", 
+'<a href="https://www.acc.go.kr/main/contents.do?PID=03010701" target="_blank" title="새창: ACC월드뮤직페스티벌 행사 홈페이지로 이동">https://www.acc.go.kr</a>', ""세계 음악과 함께하는 도심 속 피크닉" - ACC 월드뮤직 페스티벌<br>August Festival 2022 8월의 끝자락에 즐기는 세계음악축제!<br>Cool Festival 한여름 밤 무더위를 날리는 종합예술축제! <br>Collaboration Festival 세계음악과 한국 뮤지션의 협연을 통한 글로컬축제!<br>‘월드뮤직’은 전 세계에 존재하는 다양한 문화가 담겨 있는 오늘의 음악이다.<br>아시아와 세계를 담는「ACC 월드뮤직 페스티벌」에서는 친구, 연인, 가족과 함께 다양한 음악과 문화를 경험하는 피크닉을 즐길 수 있다.<br>매 년 여름의 끝자락, 8월. ‘빛의 숲’ 에서 열리는 축제의 밤! 「ACC 월드뮤직 페스티벌」로 여러분을 초대한다.", 
 '국립아시아문화전당 예술극장, 야외무대, 5·18광장', NULL, NULL, '무료: 야외공연<br>유료: 실내공연(ACC판), 사전예약 및 현장예매',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
@@ -2019,7 +1458,7 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 '해운대 BEXCO', NULL, NULL, '홈페이지 참조',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
-1814499 , '김천나이트투어 \'직지골야행\'' , 20220409 , 20221015 , '경상북도 김천시 직지사길 130 사명대사공원', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/88/2718888_image2_1.JPG', 128.0095382081, 36.1169034720, 6, 35, 6, '054-434-4336', 
+1814499 , '김천나이트투어 '직지골야행'' , 20220409 , 20221015 , '경상북도 김천시 직지사길 130 사명대사공원', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/88/2718888_image2_1.JPG', 128.0095382081, 36.1169034720, 6, 35, 6, '054-434-4336', 
 '<a href="http://www.nighttour.or.kr/" target="_blank" title="새창:김천직지나이트투어 홈페이지로 이동">http://www.nighttour.or.kr/</a>', "김천의 역사와 문화가 어우러진 사명대사공원을 중심으로 진행되는 야간관광프로그램이다.<br>계절별 수확시기에 맞춰 다양한 김천의 농산물을 수확해보는 체험을 시작으로, 120여개 식당이 밀집되어있는 골목식당에서 김천지역의 이색적인 음식을 맛본다.<br>밤이 되면 야경이 아름다운 사명대사공원에서 김천의 특산물로 만든 간식거리를 맛보며 전통 민속놀이 및 다양한 프로그램을 체험한다.", 
 '김청 사명대사공원, 과일농원, 황금시장', NULL, NULL, '1인 15,000원(생후 12개월 이하 무료)',NULL, NULL);
 
@@ -2060,7 +1499,7 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 1748721 , '포항스틸아트페스티벌' , 20221015 , 20221029 , '경상북도 포항시 남구 오천읍 구정리', '247-1', 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/05/2753405_image2_1.png', 129.4108299082, 35.9681436278, 6, 35, 23, '054-289-7853~4', 
-'<a href="https://www.instagram.com/pohang_festa_official/" target="_blank" title="새창:포항스틸아트페스티벌 홈페이지로 이동">www.instagram.com</a>', "2022 포항스틸아트페스티벌이 11회를 맞이하여 \"동행 - 공존하는 다양성\"이라는 주제로 포항 오천 냉천 포은교 인근에서 개최된다. 이번 축제는 다양한 주체들이 동행하며 함께 만들어 왔다는 점에 주목하여 21여 점의 작가 작품, 포항기업 근로자, 포항 시민이 참여한 작품이 함께 15일간 야외에 전시될 예정이다. 배리어프리 투어, 나이트 투어 등의 콘텐츠를 통해 장애인과 비장애인, 남녀노소 누구나 다양한 방식으로 예술을 향유할 수 있는 경험을 제공하고자 하며, 작품은 스틸아트투어 앱을 통해서 언제 어디서나 만나볼 수 있다. 스틸아트페스티벌은 현장을 방문하는 관광객들이 다양한 콘텐츠를 통해 이색적이고 능동적으로 작품을 감상함으로써 예술에 가까워지는 것을 넘어 하나가 되는 경험을 제공한다.", 
+'<a href="https://www.instagram.com/pohang_festa_official/" target="_blank" title="새창:포항스틸아트페스티벌 홈페이지로 이동">www.instagram.com</a>', "2022 포항스틸아트페스티벌이 11회를 맞이하여 "동행 - 공존하는 다양성"이라는 주제로 포항 오천 냉천 포은교 인근에서 개최된다. 이번 축제는 다양한 주체들이 동행하며 함께 만들어 왔다는 점에 주목하여 21여 점의 작가 작품, 포항기업 근로자, 포항 시민이 참여한 작품이 함께 15일간 야외에 전시될 예정이다. 배리어프리 투어, 나이트 투어 등의 콘텐츠를 통해 장애인과 비장애인, 남녀노소 누구나 다양한 방식으로 예술을 향유할 수 있는 경험을 제공하고자 하며, 작품은 스틸아트투어 앱을 통해서 언제 어디서나 만나볼 수 있다. 스틸아트페스티벌은 현장을 방문하는 관광객들이 다양한 콘텐츠를 통해 이색적이고 능동적으로 작품을 감상함으로써 예술에 가까워지는 것을 넘어 하나가 되는 경험을 제공한다.", 
 '포항시 남구 오천 냉천 포은교 광장 일원', NULL, NULL, '무료 (체험 프로그램은 유료)',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
@@ -2070,7 +1509,7 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 1725993 , '고양가을꽃축제' , 20221001 , 20221010 , '경기도 고양시 일산동구 호수로 595', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/39/2848839_image2_1.jpg', 126.7686654803, 37.6538792239, 6, 31, 2, '031-908-7750~2', 
-'<a href="http://www.flower.or.kr" target="_blank" title="새창 : 고양 가을꽃축제 홈페이지로 이동">http://www.flower.or.kr</a>', "\"일산호수공원에서 가을여행 할까요?\"<br>깊어 가는 가을, 꽃의 아름다움과 자연, 문화, 예술의 풍요로움을 만끽할 수 있는 고양가을꽃축제는 우리에게 익숙했던 호수공원의 아름다움을 새롭게 발견하고, 또 다른 ‘나’를 만나게 되는 가을꽃여정을 담았다.", 
+'<a href="http://www.flower.or.kr" target="_blank" title="새창 : 고양 가을꽃축제 홈페이지로 이동">http://www.flower.or.kr</a>', ""일산호수공원에서 가을여행 할까요?"<br>깊어 가는 가을, 꽃의 아름다움과 자연, 문화, 예술의 풍요로움을 만끽할 수 있는 고양가을꽃축제는 우리에게 익숙했던 호수공원의 아름다움을 새롭게 발견하고, 또 다른 ‘나’를 만나게 되는 가을꽃여정을 담았다.", 
 '일산호수공원', NULL, NULL, '무료','전연령 가능함', '기간내 자유');
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
@@ -2126,7 +1565,7 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 1390147 , '2022 우선멈‘춤’ 안양시민축제' , 20220923 , 20220925 , '경기도 안양시 동안구 관평로 149 중앙공원관리부속', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/36/2844336_image2_1.jpg', 126.9613442188, 37.3901883031, 6, 31, 17, '031-687-0500', 
-'<a href="https://www.aydf.kr/default/" target="_blank" title="새창 : 관광지">http://www.aydf.kr</a>', "<2022 우선멈'춤' 안양시민축제> 코로나19를 극복하고 다시 나아가기 위한 프로젝트로  대규모 시민의 군집 이미지를 나타내는 '축제'를 대신하여, 치유와 극복 그리고 희망의 메시지를 담은 사회적 거리두기와 춤의 기원을 담은 \"춤의 도시 안양\"만의 댄스 페스티벌이다.<br>2000년 첫 문을 연 안양시민축제는 20년간 시민들과 함께 하며 매년 30만여명의 관람객이 찾는 안양시 대표 축제로 자리매김 했으며, 시민이 만들고, 참여하고, 관람하는 대표적인 시민 참여형 축제로 시민과 사람, 그리고 시민의 생활예술(Living Arts)콘텐츠를 주제로 지역 예술인 공동체 형성과 시민 문화커뮤니티 육성에 기여하고 있다.<br>특히 ‘안양을 춤추게 하라!’는 슬로건은 안양시민이 안양시민축제의 더 큰 비전을 위해 안양에 잠재되어 있는 Dance에 대한 열정을 발굴해 시민예술가 분들의 에너지와 역동성을 마음껏 펼치도록 독려하고, 더 나아가 안양이 국내외 모두가 다 함께 즐길 수 있는 K-Dance의 성지로 자리매김할 수 있도록 다채롭고 역동적인 공연과 시민 참여 프로그램을 선보이고 있다.<br>이를 통해 안양시민축제는 안양 시민과 안양을 찾는 관람객들이 안양이라는 공간 안에서 ‘춤’과 ‘문화예술’을 매개로 화합할 수 있는 국내 유일의 지역 기반 K-Dance문화예술축제로 거듭나고자 한다.", 
+'<a href="https://www.aydf.kr/default/" target="_blank" title="새창 : 관광지">http://www.aydf.kr</a>', "<2022 우선멈'춤' 안양시민축제> 코로나19를 극복하고 다시 나아가기 위한 프로젝트로  대규모 시민의 군집 이미지를 나타내는 '축제'를 대신하여, 치유와 극복 그리고 희망의 메시지를 담은 사회적 거리두기와 춤의 기원을 담은 "춤의 도시 안양"만의 댄스 페스티벌이다.<br>2000년 첫 문을 연 안양시민축제는 20년간 시민들과 함께 하며 매년 30만여명의 관람객이 찾는 안양시 대표 축제로 자리매김 했으며, 시민이 만들고, 참여하고, 관람하는 대표적인 시민 참여형 축제로 시민과 사람, 그리고 시민의 생활예술(Living Arts)콘텐츠를 주제로 지역 예술인 공동체 형성과 시민 문화커뮤니티 육성에 기여하고 있다.<br>특히 ‘안양을 춤추게 하라!’는 슬로건은 안양시민이 안양시민축제의 더 큰 비전을 위해 안양에 잠재되어 있는 Dance에 대한 열정을 발굴해 시민예술가 분들의 에너지와 역동성을 마음껏 펼치도록 독려하고, 더 나아가 안양이 국내외 모두가 다 함께 즐길 수 있는 K-Dance의 성지로 자리매김할 수 있도록 다채롭고 역동적인 공연과 시민 참여 프로그램을 선보이고 있다.<br>이를 통해 안양시민축제는 안양 시민과 안양을 찾는 관람객들이 안양이라는 공간 안에서 ‘춤’과 ‘문화예술’을 매개로 화합할 수 있는 국내 유일의 지역 기반 K-Dance문화예술축제로 거듭나고자 한다.", 
 '평촌중앙공원, 삼덕공원, 온라인', NULL, NULL, '무료','전연령 가능함', '기간내 자유');
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
@@ -2308,13 +1747,13 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 '양구 서천 레포츠 공원 일대', NULL, NULL, '무료',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
-1018469 , "서울국제작가축제(Seoul International Writers' Festival)" , 20220923 , 20220930 , '서울특별시 마포구 양화로 72', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/28/2822428_image2_1.png', 126.9167298722, 37.5508549625, 6, 1, 13, 'siwf@klti.or.kr', 
+1018469 , '서울국제작가축제(Seoul International Writers' Festival)' , 20220923 , 20220930 , '서울특별시 마포구 양화로 72', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/28/2822428_image2_1.png', 126.9167298722, 37.5508549625, 6, 1, 13, 'siwf@klti.or.kr', 
 '공식 홈페이지 : <a href="https://www.siwf.or.kr" target="_blank" title="새창 : 관광지">https://www.siwf.or.kr</a><br>인스타그램 : <a href="https://www.instagram.com/siwf_insta/" target="_blank" title="새창 : 관광지">https://www.instagram.com/siwf_insta/</a><br>페이스북 : <a href="https://m.facebook.com/siwfest/" target="_blank" title="새창 : 관광지">https://m.facebook.com/siwfest/</a><br>트위터 : <a href="https://twitter.com/siwfest" target="_blank" title="새창 : 관광지">https://twitter.com/siwfest</a>', "서울국제작가축제는 국내 독자들의 문학향유 기회를 확대하고, 한국문학과 세계문학이 서울을 무대로 교류하는 토대를 만들고자 지난 2006년부터 개최해 온 글로벌 문학 축제이다. 올해 제 11회를 맞이한 서울국제작가축제는 '월담: 이야기 너머-Beyond Narrative'를 주제로 전 세계 35인의 작가들이 참여하는 다양한 프로그램과 문학 낭독 행사를 개최한다.", 
 '서교스퀘어, 커뮤니티하우스 마실, 인천국제공항', NULL, NULL, '무료','전 연령', NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 952988 , '백제문화제 「제68회 백제문화제」' , 20221001 , 20221010 , '충청남도 부여군 백강로 135', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/00/2817800_image2_1.jpg', 126.9048904989, 36.2871644357, 6, 34, 6, '041-635-6980', 
-'<a href="http://www.baekje.org" target="_blank" title="새창: 백제문화제 홈페이지로 이동">http://www.baekje.org </a>', "<백제의 왕도(王都),충청남도 공주시와 부여군에서 개최되는 역사문화축제><br>68년을 이어온 백제문화제는 고대 동아시아의 문화강국이었던 백제의 전통성에 근거하여 백제의 수도였던 충청남도 공주시와 부여군에서 1955년부터 매년 개최하는 역사재현형 축제이다.<br>또한 2015년7월 백제역사유적지구의 유네스코 세계유산 등재를 계기로 백제의 후예들과 관광객들이 만들어가는 세계적인 역사문화축제로 나아가고 있다. 제68회 백제문화제는 찬란한 문화를 꽃 피워 이웃나라에 전파함으로써 고대 동아시아의 문화발전에 크게 기여했던 '한류원조로서의 백제문화'를 국내외에 확산시키고, 세계적인 축제로 거듭나기 위하여 2022년 10월 1일부터 10월 10일까지 10일간 충청남도 공주시와 부여군 일원에서 <백제의 빛과 향>이라는 주제로 화려하게 펼쳐진다.<br>세계유산인 백제역사유적지구를 배경으로 펼쳐지는 제68회 백제문화제에서 다양한 축제 프로그램과 더불어 백제로의 흥겨운 시간여행에 흠뻑 빠져보시기 바란다.", 
+'<a href="http://www.baekje.org" target="_blank" title="새창: 백제문화제 홈페이지로 이동">http://www.baekje.org </a>', "<백제의 왕도(王都),충청남도 공주시와 부여군에서 개최되는 역사문화축제><br>68년을 이어온 백제문화제는 고대 동아시아의 문화강국이었던 백제의 전통성에 근거하여 백제의 수도였던 충청남도 공주시와 부여군에서 1955년부터 매년 개최하는 역사재현형 축제이다.<br>또한 2015년7월 백제역사유적지구의 유네스코 세계유산 등재를 계기로 백제의 후예들과 관광객들이 만들어가는 세계적인 역사문화축제로 나아가고 있다. 제68회 백제문화제는 찬란한 문화를 꽃 피워 이웃나라에 전파함으로써 고대 동아시아의 문화발전에 크게 기여했던 '한류원조로서의 백제문화'를 국내외에 확산시키고, 세계적인 축제로 거듭나기 위하여 2022년 10월 1일부터 10월 10일까지 10일간 충청남도 공주시와 부여군 일원에서 "백제의 빛과 향"이라는 주제로 화려하게 펼쳐진다.<br>세계유산인 백제역사유적지구를 배경으로 펼쳐지는 제68회 백제문화제에서 다양한 축제 프로그램과 더불어 백제로의 흥겨운 시간여행에 흠뻑 빠져보시기 바란다.", 
 '부여군 구드래 일원(충청남도 부여군 부여읍 백강로 135)<br>공주시 금강신관공원 일원(충청남도 공주시 금벽로 368)', NULL, NULL, '무료 (별도의 유료 체험프로그램 및 공연료는 홈페이지 참고)',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
@@ -2462,7 +1901,7 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 606549 , '동강국제사진제' , 20220722 , 20221009 , '강원도 영월군 영월읍 영월로 1909-10', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/60/2826360_image2_1.jpg', 128.4615147283, 37.1819788343, 6, 32, 8, '033-375-4554', 
-'<a href="http://www.dgphotofestival.com" target="_blank" title="새창:동강국제사진제 홈페이지로 이동">http://www.dgphotofestival.com</a>', '올해로 20회를 맞이하는 동강국제사진제는 국내외 사진작가와 강원도 영월군 지역민, 사진 애호가들이 함께 만들어 가는 대한민국 대표 사진 축제로2022.07.22(금)-2022.10.09(일)까지 개최된다. 특히 <동강사진상 수상자전>에서는 올해의 동강사진상 수상자 김녕만 작가의 작품들, <국제 주제전>에서는 그룹 f.64의 오리지널 프린트 130여점, 74개국이 출품한 <국제공모전>에 선정된 올해의 작가 팀 스미스외 18명의 작품도 만나 볼 수 있다. 이외에도 <강원도사진가전>, <보도사진가전>, <거리설치전>, <영월군민사진전>, <전국 초등학교 사진일기 공모전>, <평생교육원사진전>, <영월스토리텔링전><아카이브 전시> 등 전 세계 사진인들이 기다리는 연례행사인 만큼 다채로운 전시가 아름다운 강원도 영월군 일대에서 진행된다. *자세한 사항과 지난 축제가 궁금하다면 공식 홈페이지(<a href="http://www.dgphotofestival.com" target="_blank" title="새창 : 동강국제사진제">www.dgphotofestival.com</a>)를 방문하길 바란다.', 
+'<a href="http://www.dgphotofestival.com" target="_blank" title="새창:동강국제사진제 홈페이지로 이동">http://www.dgphotofestival.com</a>', "올해로 20회를 맞이하는 동강국제사진제는 국내외 사진작가와 강원도 영월군 지역민, 사진 애호가들이 함께 만들어 가는 대한민국 대표 사진 축제로2022.07.22(금)-2022.10.09(일)까지 개최된다. 특히 <동강사진상 수상자전>에서는 올해의 동강사진상 수상자 김녕만 작가의 작품들, <국제 주제전>에서는 그룹 f.64의 오리지널 프린트 130여점, 74개국이 출품한 <국제공모전>에 선정된 올해의 작가 팀 스미스외 18명의 작품도 만나 볼 수 있다. 이외에도 <강원도사진가전>, <보도사진가전>, <거리설치전>, <영월군민사진전>, <전국 초등학교 사진일기 공모전>, <평생교육원사진전>, <영월스토리텔링전><아카이브 전시> 등 전 세계 사진인들이 기다리는 연례행사인 만큼 다채로운 전시가 아름다운 강원도 영월군 일대에서 진행된다. *자세한 사항과 지난 축제가 궁금하다면 공식 홈페이지(<a href="http://www.dgphotofestival.com" target="_blank" title="새창 : 동강국제사진제">www.dgphotofestival.com</a>)를 방문하길 바란다.", 
 '동강사진박물관, 동강사진박물관 주변 야외 전시장, 영월문화센터, 영월문화예술회관, 영월군청소년수련관, 영월 일원', NULL, NULL, '어른 3,000원, 청소년/군인 1,500원, 어린이 1,000원<br>단체(20인 이상) 어른 2,000원 청소년/군인 1,000원, 어린이 800원<br>* 미취학 아동, 65세 이상은 무료<br>* 영월군민은 50% 할인',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
@@ -2487,7 +1926,7 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 588175 , '포항국제불빛축제' , 20220923 , 20220925 , '경상북도 포항시 남구 해도동', NULL, 'A02070100', 'http://tong.visitkorea.or.kr/cms/resource/36/2827536_image2_1.jpg', 129.3746288695, 36.0178428762, 6, 35, 23, '054-289-7852', 
-'<a href="https://festival.phcf.or.kr/fireWorks/subMain.do" target="_blank" title="새창:포항 국제불빛축제 홈페이지로 이동">https://festival.phcf.or.kr</a>', "2022 포항국제불빛축제는 포스트 코로나  시대에 맞게, 시민들에게 희망의 불빛을 전달하는 축제로 진행된다.<br>포항만의 연오랑 세오녀 스토리를 담은 개막행사를 시작으로, 축제의 하이라이트인 <국제 불꽃쇼>, 해외 TOP DJ가 진행하는 <DJ PARTY>, 피크닉 컨셉의 <퐝퐝 버스킹>, 불빛 테마존과 키네틱 아트 등 특색 있는 프로그램들을 선보인다.", 
+'<a href="https://festival.phcf.or.kr/fireWorks/subMain.do" target="_blank" title="새창:포항 국제불빛축제 홈페이지로 이동">https://festival.phcf.or.kr</a>', "2022 포항국제불빛축제는 포스트 코로나  시대에 맞게, 시민들에게 희망의 불빛을 전달하는 축제로 진행된다.<br>포항만의 연오랑 세오녀 스토리를 담은 개막행사를 시작으로, 축제의 하이라이트인 "국제 불꽃쇼", 해외 TOP DJ가 진행하는 "DJ PARTY", 피크닉 컨셉의 "퐝퐝 버스킹", 불빛 테마존과 키네틱 아트 등 특색 있는 프로그램들을 선보인다.", 
 '형산강 체육공원 일원', NULL, NULL, '무료',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
@@ -2633,7 +2072,7 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 235076 , '부산불꽃축제' , 20221105 , 20221105 , '부산광역시 수영구 광안해변로 219', '(광안동)', 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/96/2830696_image2_1.jpg', 129.1184922375, 35.1537908369, 6, 6, 12, '051-888-4135', 
-'<a href="http://www.bfo.or.kr" target="_blank" title="새창:부산 세계불꽃축제 홈페이지로 이동">http://www.bfo.or.kr</a>', '매년 광안리해수욕장을 화려하게 수놓는 부산불꽃축제가 어느덧 17회를 맞이하였다. 2005년 APEC정상회의 기념행사 일환으로 시작돼, 해를 거듭할수록 세계적인 관심을 받으며 부산 대표 축제로 자리매김하였다. 부산에서만 볼 수 있는 초대형 불꽃과 광안대교 경관조명을 활용한 미디어파사드 연출, 화려한 불꽃과 조명, 음악이 어우러져 스토리텔링이 가미된 부산멀티불꽃쇼와 해외 초청 불꽃쇼를 만나볼 수 있다. 또한 광안리 해수욕장뿐만 아니라 동백섬, 이기대 앞까지 “3 point" 연출로 다양한 장소에서 불꽃쇼를 관람할 수 있다.<br>가을밤, 불꽃이 내리는 부산! 세계인과 함께하는 부산불꽃축제로 여러분을 초대한다.', 
+'<a href="http://www.bfo.or.kr" target="_blank" title="새창:부산 세계불꽃축제 홈페이지로 이동">http://www.bfo.or.kr</a>', "매년 광안리해수욕장을 화려하게 수놓는 부산불꽃축제가 어느덧 17회를 맞이하였다. 2005년 APEC정상회의 기념행사 일환으로 시작돼, 해를 거듭할수록 세계적인 관심을 받으며 부산 대표 축제로 자리매김하였다. 부산에서만 볼 수 있는 초대형 불꽃과 광안대교 경관조명을 활용한 미디어파사드 연출, 화려한 불꽃과 조명, 음악이 어우러져 스토리텔링이 가미된 부산멀티불꽃쇼와 해외 초청 불꽃쇼를 만나볼 수 있다. 또한 광안리 해수욕장뿐만 아니라 동백섬, 이기대 앞까지 “3 point" 연출로 다양한 장소에서 불꽃쇼를 관람할 수 있다.<br>가을밤, 불꽃이 내리는 부산! 세계인과 함께하는 부산불꽃축제로 여러분을 초대한다.", 
 '광안리해수욕장 일원', NULL, NULL, '무료(일부 유료)',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
@@ -2757,74 +2196,3 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 지금까지  국가지정 무형문화재 예능보유자인 안숙선, 박병천, 이춘희 등이 한국의 집 전통예술공연에 출연하였으며, 현재는 예능보유자 정재만 선생이 예술감독으로 무대를 이끌고 있다", 
 '한국의 집 민속극장', NULL, NULL, '50,000원',NULL, NULL);
 
-
-INSERT INTO `MainEventTBL` VALUES (1,'어디가?는 처음이신가요?', 'http://localhost:3000/asset/mainEvent/1.jpg', NULL);
-INSERT INTO `MainEventTBL` VALUES (2,'산림에서 힐링하자', 'http://tong.visitkorea.or.kr/cms/resource/24/2804924_image2_1.jpg',2713558);
-INSERT INTO `MainEventTBL` VALUES (3,'낭만적인 드론 라이트 쇼!', 'http://tong.visitkorea.or.kr/cms/resource/20/2822720_image2_1.jpg',2786391);
-INSERT INTO `MainEventTBL` VALUES (4,'나랑 공룡보러 갈래?', 'http://tong.visitkorea.or.kr/cms/resource/38/2828038_image2_1.jpg',141105);
-INSERT INTO `MainEventTBL` VALUES (5,'취업난 이겨내자 강원청년 모두모여~~!', 'http://tong.visitkorea.or.kr/cms/resource/74/2829874_image2_1.png',2829875);
-INSERT INTO `MainEventTBL` VALUES (6,'영화제를 한다구요...? 농촌에서요...?', 'http://tong.visitkorea.or.kr/cms/resource/80/2809280_image2_1.jpg',2809281);
-
-
-
-INSERT INTO `KeywordTBL` VALUES (1, '밤');
-INSERT INTO `KeywordTBL` VALUES (1,'야시장');
-INSERT INTO `KeywordTBL` VALUES (1,'먹거리');
-INSERT INTO `KeywordTBL` VALUES (1,'진흙');
-INSERT INTO `KeywordTBL` VALUES (1,'축제');
-
-
-INSERT INTO `UserVisitedTBL` VALUES (1, 141105, 'g');
-INSERT INTO `UserVisitedTBL` VALUES (1, 506545, 'b');
-INSERT INTO `UserVisitedTBL` VALUES (1, 629718, 's');
-INSERT INTO `UserVisitedTBL` VALUES (1, 2561750, 'g');
-INSERT INTO `UserVisitedTBL` VALUES (1, 2612274, 'b');
-INSERT INTO `UserVisitedTBL` VALUES (11, 141105, 'g');
-INSERT INTO `UserVisitedTBL` VALUES (11, 506545, 'b');
-INSERT INTO `UserVisitedTBL` VALUES (34, 141105, 's');
-INSERT INTO `UserVisitedTBL` VALUES (25, 506545, 'g');
-INSERT INTO `UserVisitedTBL` VALUES (41, 141105, 'b');
-INSERT INTO `UserVisitedTBL` VALUES (17, 141105, 'g');
-INSERT INTO `UserVisitedTBL` VALUES (41, 2561750, 'b');
-INSERT INTO `UserVisitedTBL` VALUES (35, 2612274, 's');
-INSERT INTO `UserVisitedTBL` VALUES (45, 2612274, 'g');
-INSERT INTO `UserVisitedTBL` VALUES (19, 2612274, 'b');
-
-INSERT INTO `UserSavedTBL` VALUES (1, 2713558);
-INSERT INTO `UserSavedTBL` VALUES (1, 2786391);
-INSERT INTO `UserSavedTBL` VALUES (1, 2809281);
-INSERT INTO `UserSavedTBL` VALUES (1, 2819403);
-INSERT INTO `UserSavedTBL` VALUES (1, 2829875);
-INSERT INTO `UserSavedTBL` VALUES (12, 2713558);
-INSERT INTO `UserSavedTBL` VALUES (14, 2713558);
-INSERT INTO `UserSavedTBL` VALUES (34, 2713558);
-INSERT INTO `UserSavedTBL` VALUES (25, 2713558);
-INSERT INTO `UserSavedTBL` VALUES (41, 2713558);
-INSERT INTO `UserSavedTBL` VALUES (17, 2713558);
-INSERT INTO `UserSavedTBL` VALUES (41, 2786391);
-INSERT INTO `UserSavedTBL` VALUES (35, 2713558);
-INSERT INTO `UserSavedTBL` VALUES (45, 2713558);
-INSERT INTO `UserSavedTBL` VALUES (19, 2713558);
-
-INSERT INTO `SearchTBL` (word) VALUES ('워터밤');
-INSERT INTO `SearchTBL` (word) VALUES ('워터밤');
-INSERT INTO `SearchTBL` (word) VALUES ('워터밤');
-INSERT INTO `SearchTBL` (word) VALUES ('워터밤');
-INSERT INTO `SearchTBL` (word) VALUES ('워터밤');
-INSERT INTO `SearchTBL` (word) VALUES ('워터밤');
-INSERT INTO `SearchTBL` (word) VALUES ('물총');
-INSERT INTO `SearchTBL` (word) VALUES ('물총');
-INSERT INTO `SearchTBL` (word) VALUES ('물총');
-INSERT INTO `SearchTBL` (word) VALUES ('물총');
-INSERT INTO `SearchTBL` (word) VALUES ('물총');
-INSERT INTO `SearchTBL` (word) VALUES ('음악');
-INSERT INTO `SearchTBL` (word) VALUES ('음악');
-INSERT INTO `SearchTBL` (word) VALUES ('음악');
-INSERT INTO `SearchTBL` (word) VALUES ('음악');
-INSERT INTO `SearchTBL` (word) VALUES ('백예린');
-INSERT INTO `SearchTBL` (word) VALUES ('아이유');
-INSERT INTO `SearchTBL` (word) VALUES ('재즈');
-INSERT INTO `SearchTBL` (word) VALUES ('수영');
-INSERT INTO `SearchTBL` (word) VALUES ('불꽃놀이');
-INSERT INTO `SearchTBL` (word) VALUES ('수박');
-INSERT INTO `SearchTBL` (word) VALUES ('야시장');
