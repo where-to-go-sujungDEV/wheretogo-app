@@ -26,6 +26,45 @@ export const getTopContents = (result) => {
     });   
 }
 
+export const getRecommandEventsInfos = (sex, age, result) => {        
+    var qr = 'select eventID, eventName, startDate, endDate, (select count(*) from UserVisitedTBL where UserVisitedTBL.eventID = EventTBL.eventID)as visitedNum, (select count(*) from userSavedTBL where UserSavedTBL.eventID = EventTBL.eventID) as savedNum, (select cName from CategoryTBL where CategoryTBL.cCode = EventTBL.kind) as kind, pic, (select count(*) from userSavedTBL where UserSavedTBL.eventID = EventTBL.eventID ';  
+          
+    if(sex == 'w'){
+        qr += ' and UserSavedTBL.userID in (select userID from userTBL where sex = "w" ';
+        if(age == 1)qr += ' and age = "1" ';
+         else if (age == 2)qr += ' and age = "2" ';
+         else if (age == 3)qr += ' and age = "3" ';
+         else if (age == 4)qr += ' and age = "4" ';
+         else if (age == 6)qr += ' and age = "6"';
+         qr += ' ) ';
+    }
+            else if (sex == 'm') {
+                qr += ' and UserSavedTBL.userID in (select userID from userTBL where sex = "m" ';
+                if(age == 1)qr += ' and age = "1" ';
+                else if (age == 2)qr += ' and age = "2" ';
+                else if (age == 3)qr += ' and age = "3" ';
+                else if (age == 4)qr += ' and age = "4" ';
+                else if (age == 6)qr += ' and age = "6"';
+                qr += ' ) ';
+            }
+
+            qr += ' ) as userTopNum from eventTBL ORDER BY userTopNum DESC LIMIT 5;' 
+
+
+            db.query(qr, (err, results) => {             
+                if(err) {
+                    result(500, err, null);
+                } else {
+                    result(200, null, {
+                        code : 200,
+                        isSuccess : true,
+                        userInfo,
+                        results}
+                        );
+                    }
+            });
+}
+
 export const getUserTopContents = (uid, result) => { 
     db.query("select sex, age from userTBL where userID = ?;",[uid], (err, userInfo) => {             
         if(err) {
