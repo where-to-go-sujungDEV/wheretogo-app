@@ -60,7 +60,7 @@ class UserVisitedEventRVAdapter (private val visitedEventList: ArrayList<Visited
 
         fun bind(visitedEvent: VisitedEventResult){
             getEventStatus(visitedEvent.eventID,binding)
-            binding.itemMypageVisitedCountTv.text = String.format("유저들이 방문한 수: %d건",visitedEvent.savedNum)
+            binding.itemMypageVisitedCountTv.text = String.format("방문한 수: %d건",visitedEvent.visitedNum)
             binding.itemMypageVisitedTitleTv.text = visitedEvent.eventName
             Glide.with(context).load(visitedEvent.pic)
                 .transform(CenterCrop(), RoundedCorners(40))
