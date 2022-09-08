@@ -21,7 +21,7 @@ import com.example.wheretogo.ui.MainActivity
 class SignUpActivity: BaseActivity<ActivitySignupBinding>(ActivitySignupBinding::inflate),
     SignUpView {
     private val gender = arrayOf("여성","남성","선택 안함")
-    private val age: Array<Int> = arrayOf(10,20,30,40,50,60,70,80,90)
+    private val age = arrayOf("10대","20대","30대","40대","50대","60대 이상")
 
     override fun initAfterBinding() {
         initSpinner()
@@ -66,8 +66,6 @@ class SignUpActivity: BaseActivity<ActivitySignupBinding>(ActivitySignupBinding:
 
         }
     }
-
-
 
     private fun getSignUpInfo() : SignUpInfo {
         val sex : String
