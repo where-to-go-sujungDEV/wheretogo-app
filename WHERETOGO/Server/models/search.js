@@ -50,8 +50,6 @@ export const getSearchResults = (data, result) => {
         qr += data.search;
         qr += '\%\' or addr2 like \'\%'
         qr += data.search;
-        qr += '\%\' or telname like \'\%'
-        qr += data.search;
         qr += '\%\' or eventplace like \'\%'
         qr += data.search;
         qr += '\%\' or price like \'\%'
