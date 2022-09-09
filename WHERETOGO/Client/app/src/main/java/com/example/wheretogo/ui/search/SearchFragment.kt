@@ -16,12 +16,10 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.wheretogo.R
-import com.example.wheretogo.data.remote.search.EventInfo
-import com.example.wheretogo.data.remote.search.EventResult
-import com.example.wheretogo.data.remote.search.EventService
+import com.example.wheretogo.data.remote.search.*
 import com.example.wheretogo.databinding.FragmentSearchBinding
 import com.example.wheretogo.ui.detail.DetailActivity
-import org.json.JSONArray
+import okhttp3.internal.notify
 import java.io.IOException
 import java.io.InputStream
 import java.text.SimpleDateFormat
@@ -32,18 +30,14 @@ class SearchFragment : Fragment() {
     val TAG = "SearchFragment"
 
     lateinit var binding: FragmentSearchBinding
-
+    lateinit var dialog :Dialog
 
     private var events = ArrayList<EventResult>()
     lateinit var searchEventAdapter: SearchEventAdapter
-//    lateinit var filterGenreRVAdapter : FilterGenreRVAdapter
     lateinit var filterKindRVAdapter : FilterKindRVAdapter
-//    lateinit var filterThemeRVAdapter : FilterThemeRVAdapter
 
     lateinit var rv_event: RecyclerView
-    lateinit var rv_filter_genre :RecyclerView
     lateinit var rv_filter_kind :RecyclerView
-    lateinit var rv_filter_theme :RecyclerView
 
     var c = Calendar.getInstance()
     var mYear = c[Calendar.YEAR]
@@ -56,26 +50,44 @@ class SearchFragment : Fragment() {
     lateinit var filterSetBtn : Button
     lateinit var resetBtn : TextView
 
-    var areaArr = arrayListOf<String>()
-    var sigunguArr = arrayListOf<String>()
+    var areaNameArr = arrayListOf<String>()
+    var areaArr = arrayListOf<AreaResult>()
+    var sigunguNameArr = arrayListOf<String>()
+    var sigunguArr = arrayListOf<SigunguResult>()
 
-    lateinit var spinner_dou : Spinner
-    lateinit var spinner_si : Spinner
+    lateinit var spinnerArea : Spinner
+    lateinit var spinnerSigungu : Spinner
 
 
     lateinit var search_bar: SearchView
     lateinit var sortSpinner : Spinner
     lateinit var filter : TextView
 
-    var search: String? = null
-    var kind: String? = null
-    var fromD: Date? = null
-    var toD: Date? = null
-    var areacode: Int? = null
-    var sigungucode: Int? = null
+    var search: String? = ""
+    var aCode : Int? = 0
+    var aDCode : Int? = 0
+    var fromD : String? = ""
+    var toD : String? = ""
+    var k1: Int? = 0
+    var k2: Int? = 0
+    var k3: Int? = 0
+    var k4: Int? = 0
+    var k5: Int? = 0
+    var k6: Int? = 0
+    var k7: Int? = 0
+    var k8: Int? = 0
+    var k9: Int? = 0
+    var k10: Int? = 0
+    var k11: Int? = 0
+    var k12: Int? = 0
+    var k13: Int? = 0
+    var k14: Int? = 0
+    var k15: Int? = 0
+    var free : Int? = 0
     var align: String? = "popular"
 
     private val eventService = EventService
+    private val areaService = AreaService
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -92,7 +104,7 @@ class SearchFragment : Fragment() {
         sortSpinner=binding.root.findViewById(R.id.sortSpinner)
         filter = binding.root.findViewById(R.id.filter)
 
-        eventService.getEvents(this, getEventInfo())
+        eventService.getEvents(this,search,aCode,aDCode,fromD,toD,k1,k2,k3,k4,k5,k6,k7,k8,k9,k10,k11,k12,k13,k14,k15,free,align)
 
 
         val sortBy = resources.getStringArray((R.array.sortBy))
@@ -102,11 +114,11 @@ class SearchFragment : Fragment() {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 when (p2){
                     0-> { align = "popular"
-                        eventService.getEvents(this@SearchFragment, getEventInfo()) }
+                        eventService.getEvents(this@SearchFragment,search,aCode,aDCode,fromD,toD,k1,k2,k3,k4,k5,k6,k7,k8,k9,k10,k11,k12,k13,k14,k15,free,align) }
                     1->{ align = "start"
-                        eventService.getEvents(this@SearchFragment, getEventInfo()) }
+                        eventService.getEvents(this@SearchFragment,search,aCode,aDCode,fromD,toD,k1,k2,k3,k4,k5,k6,k7,k8,k9,k10,k11,k12,k13,k14,k15,free,align) }
                     2->{ align = "end"
-                        eventService.getEvents(this@SearchFragment, getEventInfo()) }
+                        eventService.getEvents(this@SearchFragment,search,aCode,aDCode,fromD,toD,k1,k2,k3,k4,k5,k6,k7,k8,k9,k10,k11,k12,k13,k14,k15,free,align) }
                 }
             }
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -115,20 +127,19 @@ class SearchFragment : Fragment() {
 
         filter.setOnClickListener(View.OnClickListener {
             showDialog()
+            setDialogAdapter()
         })
 
 
         return binding.root
     }
 
-
     //SearchView 텍스트 입력시 이벤트
     var searchViewTextListener: SearchView.OnQueryTextListener =
         object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(s: String): Boolean {
-                Log.d(TAG, "SearchViews Text is entered : $s")
                 search = s
-                eventService.getEvents(this@SearchFragment, getEventInfo())
+                eventService.getEvents(this@SearchFragment,search,aCode,aDCode,fromD,toD,k1,k2,k3,k4,k5,k6,k7,k8,k9,k10,k11,k12,k13,k14,k15,free,align)
 
                 return false
             }
@@ -138,8 +149,11 @@ class SearchFragment : Fragment() {
             }
         }
 
+
     private fun showDialog() {
-        var dialog= Dialog(requireContext(), R.style.CustomFullDialog)
+        setFilterReset()
+
+        dialog = Dialog(requireContext(), R.style.CustomFullDialog)
 
         dialog.window?.setLayout(
             ViewGroup.LayoutParams.MATCH_PARENT,
@@ -159,9 +173,8 @@ class SearchFragment : Fragment() {
         dialog.window!!.setGravity(Gravity.BOTTOM)
         dialog.setCanceledOnTouchOutside(true);
 
-//        rv_filter_genre = dialog.findViewById(R.id.rv_filter_genre)
+
         rv_filter_kind = dialog.findViewById(R.id.rv_filter_kind)
-//        rv_filter_theme = dialog.findViewById(R.id.rv_filter_theme)
 
         filter_startDate=dialog.findViewById(R.id.filter_startDate)
         filter_endDate=dialog.findViewById(R.id.filter_endDate)
@@ -171,63 +184,71 @@ class SearchFragment : Fragment() {
 
         resetBtn = dialog.findViewById(R.id.reset_tv)
 
+        spinnerArea = dialog.findViewById(R.id.spinner_dou)
+        spinnerSigungu = dialog.findViewById(R.id.spinner_si)
+
+        dialog.show()
+    }
+
+
+    fun setDialogAdapter() {
+
+        val gridLayoutManager = GridLayoutManager(context, 4)
+        gridLayoutManager.orientation=LinearLayoutManager.HORIZONTAL
+        rv_filter_kind.layoutManager=gridLayoutManager
+
+        filterKindRVAdapter = FilterKindRVAdapter(getKindList(), requireContext(), this)
+        rv_filter_kind.adapter=filterKindRVAdapter
+
 
         //종료 버튼
         filter_cancelBtn.setOnClickListener(object : View.OnClickListener {
             override fun onClick(p0: View?) {
-                kind= null
-                fromD=null
+                search = ""
+                k1= 0
+                k2= 0
+                k3= 0
+                k4 = 0
+                k5= 0
+                k6 = 0
+                k7= 0
+                k8= 0
+                k9 = 0
+                k10= 0
+                k11 = 0
+                k12 = 0
+                k13= 0
+                k14= 0
+                k15 = 0
+                fromD= null
                 toD = null
-                areacode = null
-                sigungucode = null
+                aCode = 0
+                aDCode  = 0
+                free = 0
+                align = "popular"
+
                 dialog.dismiss()
             }
         })
-
-
-        //장르, 종류, 테마별
-//        filterGenreRVAdapter = FilterGenreRVAdapter(getGenreList(), requireContext(), this)
-        filterKindRVAdapter = FilterKindRVAdapter(getKindList(), requireContext(), this)
-//        filterThemeRVAdapter = FilterThemeRVAdapter(getThemeList(), requireContext(),this)
-
-//        rv_filter_genre.adapter=filterGenreRVAdapter
-        rv_filter_kind.adapter=filterKindRVAdapter
-//        rv_filter_theme.adapter = filterThemeRVAdapter
-
-//        val gridLayoutManager1 = GridLayoutManager(context, 2)
-        val gridLayoutManager2 = GridLayoutManager(context, 2)
-//        val gridLayoutManager3 = GridLayoutManager(context, 2)
-//        gridLayoutManager1.orientation=LinearLayoutManager.HORIZONTAL
-        gridLayoutManager2.orientation=LinearLayoutManager.HORIZONTAL
-//        gridLayoutManager3.orientation=LinearLayoutManager.HORIZONTAL
-
-//        rv_filter_genre.layoutManager=gridLayoutManager1
-        rv_filter_kind.layoutManager=gridLayoutManager2
-//        rv_filter_theme.layoutManager=gridLayoutManager3
-
 
 
         //기간별
         var datePickerDialog_startDate = DatePickerDialog(requireContext(),
             OnDateSetListener {view, year, month, dayOfMonth ->
                 filter_startDate.setText(year.toString() + " / " + (month + 1) +  " / " + dayOfMonth.toString())
-                              //fromD = Date(year.toString() + "-" + (month + 1).toString() +  "-" + dayOfMonth.toString())
-                var strDate = year.toString() + "-" + (month + 1).toString() +  "-" + dayOfMonth.toString()+" 00:00:00"
-                val format = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-                fromD=format.parse(strDate)
+                fromD = year.toString() + "-" + (month + 1).toString() +  "-" + dayOfMonth.toString()
             },
             mYear, mMonth, mDay )
 
         var datePickerDialog_endDate = DatePickerDialog(requireContext(),
             OnDateSetListener {view, year, month, dayOfMonth ->
                 filter_endDate.setText((year.toString() + " / " + (month + 1) +  " / " + dayOfMonth.toString()))
-                var strDate = year.toString() + "-" + (month + 1).toString() +  "-" + dayOfMonth.toString()+" 00:00:00"
-                val format = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-                toD=format.parse(strDate) },
+                toD = year.toString() + "-" + (month + 1).toString() +  "-" + dayOfMonth.toString()
+                },
             mYear, mMonth, mDay )
 
-        filter_startDate.text = mYear.toString()+" / "+mMonth.toString()+" / "+mDay.toString()
-        filter_endDate.text = mYear.toString()+" / "+(mMonth+1).toString()+" / "+mDay.toString()
+//        filter_startDate.text = mYear.toString()+" / "+mMonth.toString()+" / "+mDay.toString()
+//        filter_endDate.text = mYear.toString()+" / "+(mMonth+1).toString()+" / "+mDay.toString()
 
         filter_startDate.setOnClickListener(object: View.OnClickListener {
             override fun onClick(view:View?){
@@ -241,93 +262,77 @@ class SearchFragment : Fragment() {
             }
         })
 
+
         //지역별
-        spinner_dou = dialog.findViewById(R.id.spinner_dou)
-        spinner_si = dialog.findViewById(R.id.spinner_si)
+        areaService.getArea(this)
+        spinnerArea.onItemSelectedListener =  object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                areaService.getSigungu(this@SearchFragment, p2)
 
-        val sidou_list = readJson() //json파일을 읽은 배열
-        val jsonarr = JSONArray(sidou_list) //doulist를 읽은 json형태의 배열
+                if(p2==0){
+                    aCode = 0
+                }
+                else {
+                    aCode = areaArr[p2-1].aCode
+                }
 
-        for(i in 0.. jsonarr.length() -1){
-            var jsonobj = jsonarr.getJSONObject(i) //json 객체
-            if(!areaArr.contains(jsonobj.getString("name"))) {
-                areaArr.add(jsonobj.getString("name"))
-                var adpt = ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_dropdown_item, areaArr)
-                spinner_dou.adapter = adpt
+            }
+            override fun onNothingSelected(p0: AdapterView<*>?) {}
+        }
+        spinnerSigungu.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                if(p2==0)
+                    aDCode = 0
+                else
+                    aDCode = sigunguArr[p2-1].aDCode
+            }
+            override fun onNothingSelected(p0: AdapterView<*>?) {
             }
         }
 
-//        spinner_dou.onItemSelectedListener= object : AdapterView.OnItemSelectedListener {
-//            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-//                sigunguArr.clear()
-//                for(i in 0.. jsonarr.length() -1){
-//                    var jsonobj = jsonarr.getJSONObject(i) //json 객체
-//                    if(jsonobj.optString("sido")==[p2]){
-//                        sigunguArr.add(jsonobj.getString("sigungu"))
-//                    }
-//                    var adpt = ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_dropdown_item, sigunguArr)
-//                    spinner_si.adapter = adpt
-//                }
-//                if(douArr[p2]=="선택안함") dou=null
-//                else  dou=douArr[p2]
-//            }
-//            override fun onNothingSelected(p0: AdapterView<*>?) {
-//            }
-//        }
-//
-//        spinner_si.onItemSelectedListener= object : AdapterView.OnItemSelectedListener {
-//            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-//                if(sigunguArr[p2]=="선택안함") si=null
-//                else si=sigunguArr[p2]
-//            }
-//            override fun onNothingSelected(p0: AdapterView<*>?) {
-//            }
-//        }
 
+        //초기화 버튼
         resetBtn.setOnClickListener(object: View.OnClickListener{
             override fun onClick(p0: View?) {
-                kind= null
-                fromD=null
-                toD = null
-                areacode = null
-                sigungucode = null
+                setFilterReset()
 
                 dialog.onContentChanged()
-//                rv_filter_genre.adapter=filterGenreRVAdapter
                 rv_filter_kind.adapter=filterKindRVAdapter
-//                rv_filter_theme.adapter=filterThemeRVAdapter
 
-                eventService.getEvents(this@SearchFragment, getEventInfo())
+                eventService.getEvents(this@SearchFragment,search,aCode,aDCode,fromD,toD,k1,k2,k3,k4,k5,k6,k7,k8,k9,k10,k11,k12,k13,k14,k15,free,align)
             }
         })
 
         //적용 버튼
         filterSetBtn.setOnClickListener(object : View.OnClickListener {
             override fun onClick(p0: View?) {
+                eventService.getEvents(this@SearchFragment,search,aCode,aDCode,fromD,toD,k1,k2,k3,k4,k5,k6,k7,k8,k9,k10,k11,k12,k13,k14,k15,free,align)
                 dialog.dismiss()
-                eventService.getEvents(this@SearchFragment, getEventInfo())
             }
         })
-
-        dialog.show()
     }
-
-
 
     fun getKindList() : ArrayList<String> {
         var kindList : ArrayList<String> = ArrayList<String>()
 
-        kindList.add("음악")
-        kindList.add("미술")
-        kindList.add("음식")
-        kindList.add("놀이")
-        kindList.add("스포츠")
-        kindList.add("서사")
-
+        kindList.add("문화관광축제")
+        kindList.add("일반축제")
+        kindList.add("전통공연")
+        kindList.add("연극")
+        kindList.add("뮤지컬")
+        kindList.add("오페라")
+        kindList.add("전시회")
+        kindList.add("박람회")
+        kindList.add("컨벤션")
+        kindList.add("무용")
+        kindList.add("클래식음악회")
+        kindList.add("대중콘서트")
+        kindList.add("영화")
+        kindList.add("스포츠경기")
+        kindList.add("기타행사")
 
         return kindList
     }
-
 
 
     fun setAdapter() {
@@ -351,27 +356,56 @@ class SearchFragment : Fragment() {
         setAdapter()
     }
 
-    fun getEventInfo(): EventInfo{
-        return EventInfo(search, kind, fromD, toD, areacode,sigungucode, align)
-    }
 
-    fun getAreaList() {
-        val arealist = readJson()
-    }
-
-    fun getSigunguList() {
-
-    }
-    fun readJson() : String? {
-        val assetManager = resources.assets
-        var json : String? = null
-        try{
-            val inputStream : InputStream = assetManager.open("area.json")
-            json=inputStream.bufferedReader().use {it.readText()}
-        }catch(e:IOException){
+    fun getAreaList(result:List<AreaResult>) {
+        areaNameArr.add("선택안함")
+        result.forEach{area->
+            areaArr.add(area)
+            areaNameArr.add(area.aName)
         }
 
-        return json
+        var adpt = ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_dropdown_item, areaNameArr)
+        spinnerArea.adapter = adpt
+    }
+
+    fun getSigunguList(result:List<SigunguResult>) {
+        sigunguNameArr.clear()
+        sigunguNameArr.add("선택안함")
+        result.forEach { sigungu ->
+            sigunguArr.add(sigungu)
+            sigunguNameArr.add(sigungu.aDName)
+        }
+
+        var adpt = ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_dropdown_item, sigunguNameArr)
+        spinnerSigungu.adapter = adpt
+    }
+
+    fun setFilterReset() {
+        k1= 0
+        k2= 0
+        k3= 0
+        k4= 0
+        k5= 0
+        k6= 0
+        k7= 0
+        k8= 0
+        k9 = 0
+        k10= 0
+        k11 = 0
+        k12 = 0
+        k13= 0
+        k14= 0
+        k15 = 0
+        fromD= ""
+        toD = ""
+        aCode = 0
+        aDCode  = 0
+        free = 0
+        align = "popular"
+    }
+
+    fun noEventMsg() {
+        Toast.makeText(context, "이벤트가 없습니다.", Toast.LENGTH_SHORT).show()
     }
     override fun onAttach(context: Context) {
         super.onAttach(context)

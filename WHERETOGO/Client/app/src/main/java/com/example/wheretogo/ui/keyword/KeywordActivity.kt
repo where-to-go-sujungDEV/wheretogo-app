@@ -27,7 +27,7 @@ class KeywordActivity : BaseActivity<ActivityKeywordBinding>(ActivityKeywordBind
 
     lateinit var tagList : RecyclerView
     lateinit var tagListRVAdapter: KeywordRVAdapter
-    lateinit var keywordList : ArrayList<KeywordResult>
+    var keywordList : ArrayList<KeywordResult> = ArrayList()
 
     lateinit var addBtn : TextView
     lateinit var deleteBtn : TextView
@@ -37,21 +37,24 @@ class KeywordActivity : BaseActivity<ActivityKeywordBinding>(ActivityKeywordBind
     var isAddMode = false
 
     val keywordService = KeywordService
-    val userIdx = getIdx()
-
 
     override fun initAfterBinding() {
-        keywordService.service.getKeyword(userIdx)
+        keywordService.service.getKeyword(getIdx())
         initClickListener()
-//        addBtn = binding.root.findViewById(R.id.keyword_add_btn_tv)
-//        deleteBtn = binding.root.findViewById(R.id.keyword_delete_btn_tv)
-//        tagList = binding.root.findViewById(R.id.keyword_rv)
-//        addInput = binding.root.findViewById(R.id.keyword_input)
+        addBtn = binding.root.findViewById(R.id.keyword_add_btn_tv)
+        deleteBtn = binding.root.findViewById(R.id.keyword_delete_btn_tv)
+        tagList = binding.root.findViewById(R.id.keyword_rv)
+        addInput = binding.root.findViewById(R.id.keyword_input)
+
+        setAdapter()
     }
 
+    private fun getIdx(): Int {
+        val spf = this.getSharedPreferences("userInfo", MODE_PRIVATE)
+        return spf!!.getInt("userIdx",-1)
+    }
 
     private fun initClickListener(){
-
         binding.keywordDeleteBtnTv.setOnClickListener(object : View.OnClickListener {
             override fun onClick(p0: View?) {
                 if(!isDeleteMode) {
@@ -88,16 +91,17 @@ class KeywordActivity : BaseActivity<ActivityKeywordBinding>(ActivityKeywordBind
 
         binding.keywordInput.setOnKeyListener(object : View.OnKeyListener {
             override fun onKey(v: View, keyCode: Int, event: KeyEvent): Boolean {
-                if ((keyCode == KEYCODE_ENTER)) {
+                if ((event.action == KeyEvent.ACTION_DOWN)&&(keyCode==KeyEvent.KEYCODE_ENTER)) {
                     var newKeyword: KeywordResult = KeywordResult(addInput.text.toString())
                     keywordList.add(newKeyword)
-                    setAdapter()
+                    tagListRVAdapter.notifyDataSetChanged()
 
                     return true
                 }
                 return false
             }
         })
+
     }
 
 
@@ -105,15 +109,14 @@ class KeywordActivity : BaseActivity<ActivityKeywordBinding>(ActivityKeywordBind
         val gridLayoutManager = GridLayoutManager(this, 2)
         gridLayoutManager.orientation= LinearLayoutManager.HORIZONTAL
 
+        println("----------------------등록된 키워드 리스트 $keywordList")
+
         tagListRVAdapter = KeywordRVAdapter(keywordList, this, isDeleteMode)
         tagList.adapter = tagListRVAdapter
         tagList.layoutManager = gridLayoutManager
     }
 
-    private fun getIdx(): Int {
-        val spf = this?.getSharedPreferences("userInfo", AppCompatActivity.MODE_PRIVATE)
-        return spf!!.getInt("userIdx",-1)
-    }
+
 
     fun getKeyword(results: ArrayList<KeywordResult>){
         keywordList.clear()

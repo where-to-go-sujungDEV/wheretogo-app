@@ -3,6 +3,7 @@ package com.example.wheretogo.ui.keyword
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.wheretogo.R
 import com.example.wheretogo.data.remote.keyword.KeywordResult
 import com.example.wheretogo.data.remote.keyword.KeywordService
+import com.example.wheretogo.databinding.ItemRecycleEventBinding
 import com.example.wheretogo.ui.search.SearchEventAdapter
 
 class KeywordRVAdapter (var keywordList : ArrayList<KeywordResult>, var con: Context, var isDeleteMode : Boolean) :
@@ -24,8 +26,8 @@ class KeywordRVAdapter (var keywordList : ArrayList<KeywordResult>, var con: Con
 
 
         init{
-            keyword = itemView.findViewById(R.id.keyword_name_tv)
-            deleteMark = itemView.findViewById(R.id.keyword_delete_mark_tv)
+            keyword = itemView.findViewById(R.id.keyword_name_tv)!!
+            deleteMark = itemView.findViewById(R.id.keyword_delete_mark_tv)!!
 
             itemView.setOnClickListener{
                 if(isDeleteMode) {
@@ -36,7 +38,12 @@ class KeywordRVAdapter (var keywordList : ArrayList<KeywordResult>, var con: Con
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        TODO("Not yet implemented")
+        val con = parent.context
+        val binding : ItemRecycleEventBinding = ItemRecycleEventBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val inflater = con.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val view = inflater.inflate(R.layout.item_recycle_filter, parent, false)
+
+        return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

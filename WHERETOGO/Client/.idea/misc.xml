@@ -122,6 +122,9 @@
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/app/src/main/res/layout/item_mypage_like.xml" value="0.1" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/app/src/main/res/menu/navi_menu.xml" value="0.1" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.11458333333333333" />
+        <entry key="..\:/WTG/WHERETOGO/Client/app/src/main/res/layout/item_calendar_popup_dialog.xml" value="0.21822916666666667" />
+        <entry key="..\:/WTG/WHERETOGO/Client/app/src/main/res/layout/item_recycle_popup_dialog.xml" value="0.21822916666666667" />
+        <entry key="..\:/WTG/WHERETOGO/Client/app/src/main/res/layout/item_search_filter_dialog.xml" value="0.33" />
       </map>
     </option>
   </component>

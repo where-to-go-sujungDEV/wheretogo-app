@@ -33,6 +33,29 @@ object KeywordService {
         })
     }
 
+    fun setKeyword(userID:Int, keyword:String) {
+        service.setKeyword(userID, keyword).enqueue(object : Callback<SetKeywordResponse> {
+            override fun onResponse(call: Call<SetKeywordResponse>, response: Response<SetKeywordResponse>) {
+                val resp = response.body()!!
+                when(val code = resp.code){
+                    200->{
+                        Log.d("getKeyword/SUCCESS", resp.msg)
+                    }
+                    202->{
+                        Log.d("setKeyword/ERROR", resp.msg)
+                    }
+                    500-> {
+                        Log.d("setKeyword/ERROR", resp.msg)
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<SetKeywordResponse>, t: Throwable) {
+                Log.d("setKeyword/FAILURE", t.message.toString())
+            }
+        })
+    }
+
 
     fun deleteKeyword(fragment: KeywordRVAdapter, userID:Int){
         service.deleteKeyword(userID).enqueue(object : Callback<DeleteKeywordResponse> {
