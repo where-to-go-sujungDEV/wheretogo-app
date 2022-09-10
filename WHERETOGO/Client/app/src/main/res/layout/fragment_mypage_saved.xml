@@ -18,16 +18,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/mypage_save_like_rv"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                tools:listitem="@layout/item_mypage_saved"
-                android:layout_marginTop="15dp"
-                android:paddingBottom="120dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/mypage_save_explain_tv"
-                app:layout_constraintEnd_toEndOf="parent"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/mypage_save_like_rv"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            tools:listitem="@layout/item_mypage_saved"
+            android:layout_marginTop="15dp"
+            android:paddingBottom="120dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/mypage_save_explain_tv"
+            app:layout_constraintEnd_toEndOf="parent"/>
         <TextView
             android:id="@+id/mypage_save_banner_none_tv"
             android:layout_width="wrap_content"

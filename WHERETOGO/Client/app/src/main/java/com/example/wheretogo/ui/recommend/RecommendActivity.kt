@@ -1,19 +1,33 @@
 package com.example.wheretogo.ui.recommend
 
 
+import android.content.Intent
 import android.graphics.Color
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.wheretogo.R
 import com.example.wheretogo.data.remote.auth.SignUpInfo
+import com.example.wheretogo.data.remote.auth.getRetrofit
+import com.example.wheretogo.data.remote.home.*
+import com.example.wheretogo.data.remote.mypage.MypageService
+import com.example.wheretogo.data.remote.mypage.SavedEventResponse
+import com.example.wheretogo.data.remote.mypage.SavedEventResult
 import com.example.wheretogo.databinding.ActivityRecommendBinding
 import com.example.wheretogo.ui.BaseActivity
+import com.example.wheretogo.ui.detail.DetailActivity
+import com.example.wheretogo.ui.mypage.MypageSavedFragment
+import com.example.wheretogo.ui.mypage.UserSavedEventRVAdapter
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class RecommendActivity: BaseActivity<ActivityRecommendBinding>(ActivityRecommendBinding::inflate) {
-
+    private val service = getRetrofit().create(HomeRetrofitInterface::class.java)
     private val gender = arrayOf("전체","여성","남성")
     private val age = arrayOf("전체","10대","20대","30대","40대","50대","60대 이상")
     override fun initAfterBinding() {
@@ -47,9 +61,7 @@ class RecommendActivity: BaseActivity<ActivityRecommendBinding>(ActivityRecommen
                     (p0.getChildAt(0) as TextView).setTextColor(Color.parseColor("#4C00C4"))
                 }
             }
-
             override fun onNothingSelected(p0: AdapterView<*>?) {
-                TODO("Not yet implemented")
             }
 
         }
@@ -67,6 +79,43 @@ class RecommendActivity: BaseActivity<ActivityRecommendBinding>(ActivityRecommen
             else-> "0"
         }
         val ageValue = binding.recommendAgeSpinner.selectedItemPosition
+        getSavedEvent(sexValue,ageValue)
+    }
 
+    private fun getSavedEvent(sexValue: String, ageValue:Int){
+
+        service.getAllRecommendEvent(sexValue, ageValue).enqueue(object: Callback<AllRecommendEventResponse> {
+            override fun onResponse(call: Call<AllRecommendEventResponse>, response: Response<AllRecommendEventResponse>) {
+                val resp = response.body()!!
+                Log.d("getAllRecommend/SUCCESS",resp.code.toString())
+                when(resp.code){
+                    200->{
+                        setAllRecommendEvent(resp.results!!)
+                    }
+                }
+            }
+            override fun onFailure(call: Call<AllRecommendEventResponse>, t: Throwable) {
+                Log.d("getAllRecommend/FAILURE", t.message.toString())
+            }
+        })
+    }
+
+    fun setAllRecommendEvent(allRecommendList: ArrayList<AllRecommendEventResult>){
+        val adapter = RecommendRVAdapter(allRecommendList)
+        //리사이클러뷰에 어댑터 연결
+        binding.allRecommendEventRv.adapter = adapter
+        binding.allRecommendEventRv.layoutManager = LinearLayoutManager(this,
+            LinearLayoutManager.VERTICAL,false)
+
+        adapter.setMyItemClickListener(object : RecommendRVAdapter.OnItemClickListener {
+            override fun onItemClick(allRecommendData: AllRecommendEventResult) {
+                val intent = Intent(applicationContext,DetailActivity::class.java)
+                intent.putExtra("eventIdx", allRecommendData.eventID)
+                startActivity(intent)
+            }
+        })
+
+
+        adapter.notifyDataSetChanged()
     }
 }
