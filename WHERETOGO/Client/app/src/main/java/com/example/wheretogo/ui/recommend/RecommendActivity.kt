@@ -11,12 +11,13 @@ import android.widget.Spinner
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.wheretogo.R
+import com.example.wheretogo.data.remote.auth.LoginView
 import com.example.wheretogo.data.remote.auth.SignUpInfo
 import com.example.wheretogo.data.remote.auth.getRetrofit
+import com.example.wheretogo.data.remote.detail.DetailIsSavedResponse
+import com.example.wheretogo.data.remote.detail.DetailIsVisitedResponse
+import com.example.wheretogo.data.remote.detail.DetailRetrofitInterface
 import com.example.wheretogo.data.remote.home.*
-import com.example.wheretogo.data.remote.mypage.MypageService
-import com.example.wheretogo.data.remote.mypage.SavedEventResponse
-import com.example.wheretogo.data.remote.mypage.SavedEventResult
 import com.example.wheretogo.databinding.ActivityRecommendBinding
 import com.example.wheretogo.ui.BaseActivity
 import com.example.wheretogo.ui.detail.DetailActivity
@@ -25,9 +26,10 @@ import com.example.wheretogo.ui.mypage.UserSavedEventRVAdapter
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-
-class RecommendActivity: BaseActivity<ActivityRecommendBinding>(ActivityRecommendBinding::inflate) {
+class RecommendActivity: BaseActivity<ActivityRecommendBinding>(ActivityRecommendBinding::inflate){
     private val service = getRetrofit().create(HomeRetrofitInterface::class.java)
+    private var sexValue="0"
+    private var ageValue=0
     private val gender = arrayOf("전체","여성","남성")
     private val age = arrayOf("전체","10대","20대","30대","40대","50대","60대 이상")
     override fun initAfterBinding() {
@@ -35,6 +37,11 @@ class RecommendActivity: BaseActivity<ActivityRecommendBinding>(ActivityRecommen
         binding.recommendShowBtn.setOnClickListener {
             getSpinnerValue()
         }
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        getAllRecommendEvent(sexValue,ageValue)
     }
 
     private fun initSpinner(){
@@ -73,16 +80,16 @@ class RecommendActivity: BaseActivity<ActivityRecommendBinding>(ActivityRecommen
         if (sex=="전체"&&age=="전체")
             binding.recommendTitle.text = "모든 유저에게 인기있는 이벤트입니다."
         else binding.recommendTitle.text = String.format("%s %s에게 인기있는 이벤트입니다.",age,sex)
-        val sexValue = when (sex){
+        sexValue = when (sex){
             "여성"-> "w"
             "남성"-> "m"
             else-> "0"
         }
-        val ageValue = binding.recommendAgeSpinner.selectedItemPosition
-        getSavedEvent(sexValue,ageValue)
+        ageValue = binding.recommendAgeSpinner.selectedItemPosition
+        getAllRecommendEvent(sexValue,ageValue)
     }
 
-    private fun getSavedEvent(sexValue: String, ageValue:Int){
+    private fun getAllRecommendEvent(sexValue: String, ageValue:Int){
 
         service.getAllRecommendEvent(sexValue, ageValue).enqueue(object: Callback<AllRecommendEventResponse> {
             override fun onResponse(call: Call<AllRecommendEventResponse>, response: Response<AllRecommendEventResponse>) {
@@ -114,8 +121,9 @@ class RecommendActivity: BaseActivity<ActivityRecommendBinding>(ActivityRecommen
                 startActivity(intent)
             }
         })
-
-
         adapter.notifyDataSetChanged()
     }
+
+
+
 }
