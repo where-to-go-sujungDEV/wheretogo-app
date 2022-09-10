@@ -33,9 +33,15 @@ class RecommendActivity: BaseActivity<ActivityRecommendBinding>(ActivityRecommen
     private val age = arrayOf("전체","10대","20대","30대","40대","50대","60대 이상")
     override fun initAfterBinding() {
         initSpinner()
+        getSpinnerValue()
         binding.recommendShowBtn.setOnClickListener {
             getSpinnerValue()
         }
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        getSpinnerValue()
     }
 
     private fun initSpinner(){
@@ -115,7 +121,7 @@ class RecommendActivity: BaseActivity<ActivityRecommendBinding>(ActivityRecommen
                 startActivity(intent)
             }
         })
-
+        adapter.notifyDataSetChanged()
     }
 
 

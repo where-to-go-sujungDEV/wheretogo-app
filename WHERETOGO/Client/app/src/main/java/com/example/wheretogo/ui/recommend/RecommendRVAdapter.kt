@@ -33,7 +33,7 @@ class RecommendRVAdapter(private val recommendList: ArrayList<AllRecommendEventR
         fun onItemClick(allRecommendData: AllRecommendEventResult)
     }
 
-    fun setMyItemClickListener(itemClickListener: RecommendRVAdapter.OnItemClickListener) {
+    fun setMyItemClickListener(itemClickListener: OnItemClickListener) {
         mItemClickListener = itemClickListener
     }
 
@@ -44,10 +44,6 @@ class RecommendRVAdapter(private val recommendList: ArrayList<AllRecommendEventR
 
         return ViewHolder(binding)
     }
-
-
-
-
 
     override fun onBindViewHolder(holder: RecommendRVAdapter.ViewHolder, position: Int) {
         holder.bind(recommendList.get(position)) //position=indexid 받아온 뷰홀더에 바인딩을 해주기 위해 해당 포지션의 데이터를 던져줌
