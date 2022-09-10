@@ -42,9 +42,18 @@ class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::in
         editor.apply()
     }
 
+    private fun saveEmail(email: String){
+        val spf = getSharedPreferences("userInfo", MODE_PRIVATE)
+        val editor = spf.edit()
+
+        editor.putString("email",email)
+        editor.apply()
+    }
+
     private fun getLoginInfo(): LoginInfo {
         val email: String = binding.loginIdEt.text.toString()
         val pwd: String = binding.loginPwdEt.text.toString()
+        saveEmail(email)
 
         return LoginInfo(email,pwd)
     }

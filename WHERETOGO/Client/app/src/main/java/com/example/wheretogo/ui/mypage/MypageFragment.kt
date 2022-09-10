@@ -27,15 +27,14 @@ import retrofit2.Response
 
 class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding::inflate) {
 
-    lateinit var appDB: AppDatabase
     private val service = getRetrofit().create(AuthRetrofitInterface::class.java)
 
     override fun initAfterBinding() {
-        appDB =AppDatabase.getInstance(requireContext())!!
         initLayout()
         initView()
         setIndicator()
         getName(getIdx())
+        getEmail()
         initClickListener()
     }
 
@@ -111,21 +110,23 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding
         return spf!!.getString("nickname","USER")!!
     }
 
-
+    private fun getEmail(): String {
+        val spf = activity?.getSharedPreferences("userInfo", AppCompatActivity.MODE_PRIVATE)
+        return spf!!.getString("email","")!!
+    }
     private fun initView(){
         val userIdx: Int = getIdx()
         if (userIdx==-1){
             binding.mypageLoginTv.text ="로그인"
             binding.mypageNicknameTv.text = "로그인하세요"
             binding.mypageEmailTv.text = "로그인 후 사용 가능한 서비스입니다."
-            binding.mypageProfileIv.setImageResource(R.drawable.img_change_info_profile)
+            binding.mypageSettingIv.visibility = View.INVISIBLE
         }
         else{
             binding.mypageLoginTv.text ="로그아웃"
-//            binding.mypageNicknameTv.text = appDB.userDao().getNickname(userIdx)
             binding.mypageNicknameTv.text = getName()
-            binding.mypageEmailTv.text = appDB.userDao().getEmail(userIdx)
-
+            binding.mypageEmailTv.text = getEmail()
+            binding.mypageSettingIv.visibility = View.VISIBLE
         }
     }
 
@@ -136,8 +137,5 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding
         editor.apply()
         binding.mypageLoginTv.text = "로그인"
     }
-
-
-
 
 }
