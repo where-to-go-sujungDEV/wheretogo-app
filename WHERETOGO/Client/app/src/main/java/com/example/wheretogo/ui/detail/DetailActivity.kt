@@ -1,5 +1,6 @@
 package com.example.wheretogo.ui.detail
 
+import android.app.AlertDialog
 import android.text.Html
 import android.util.Log
 import android.view.View
@@ -9,6 +10,7 @@ import com.example.wheretogo.data.remote.auth.getRetrofit
 import com.example.wheretogo.data.remote.detail.*
 import com.example.wheretogo.databinding.ActivityDetailBinding
 import com.example.wheretogo.ui.BaseActivity
+import com.example.wheretogo.ui.login.LoginActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -36,7 +38,10 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
 
     private fun initClickListener(){
         binding.detailEventUncheckBtn.setOnClickListener{
-            binding.detailStarPanel.visibility = View.VISIBLE //체크버튼-> 별점 패널 띄우기
+            when (userId){
+                -1->showLoginAlert()
+                else->binding.detailStarPanel.visibility = View.VISIBLE //체크버튼-> 별점 패널 띄우기
+            }
         }
 
         binding.detailAdaptTv.setOnClickListener {
@@ -48,20 +53,30 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
             binding.detailStarPanel.visibility = View.INVISIBLE
         }
 
-        //방문 uncheck상태에서 체크를 누르면 버튼이 활성화되기전 별점 패널이 뜸뜸
+        //방문 uncheck상태에서 체크를 누르면 버튼이 활성화되기전 별점 패널이 뜸
        binding.detailEventCheckBtn.setOnClickListener{
-            setVisitedButton(false)
-            deleteVisitedEvent()
-        }
+           when (userId){
+               -1->showLoginAlert()
+               else->{
+                   setVisitedButton(false)
+                   deleteVisitedEvent()}
+               }
+           }
 
-        binding.detailEventDislikeBtn.setOnClickListener{
-            setSavedButton(true)
-            saveEvent()
+        binding.detailEventDislikeBtn.setOnClickListener {
+            when (userId) {
+                -1 -> showLoginAlert()
+                else -> {
+                    setSavedButton(true)
+                    saveEvent()
+                }
+            }
         }
-
         binding.detailEventLikeBtn.setOnClickListener{
-            setSavedButton(false)
-            deleteSavedEvent()
+            if (userId!=-1){
+                setSavedButton(false)
+                deleteSavedEvent()
+            }
         }
 
         binding.detailBackBtn.setOnClickListener {
@@ -330,7 +345,17 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
             status="g"
         }
 
+    }
 
+    private fun showLoginAlert() {
+        AlertDialog.Builder(this)
+            .setMessage("해당 기능을 사용하려면 로그인이 필요합니다.\n로그인 페이지로 이동하시겠습니까?")
+            .setPositiveButton("예") { _, _ ->
+                startNextActivity(LoginActivity::class.java)
+            }
+            .setNegativeButton("아니오") { _, _ ->
+            }
+            .show()
     }
 
     private fun getUserIdx(): Int {

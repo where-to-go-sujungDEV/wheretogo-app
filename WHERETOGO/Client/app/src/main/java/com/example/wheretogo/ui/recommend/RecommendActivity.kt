@@ -28,12 +28,12 @@ import retrofit2.Callback
 import retrofit2.Response
 class RecommendActivity: BaseActivity<ActivityRecommendBinding>(ActivityRecommendBinding::inflate){
     private val service = getRetrofit().create(HomeRetrofitInterface::class.java)
-
+    private var sexValue="0"
+    private var ageValue=0
     private val gender = arrayOf("전체","여성","남성")
     private val age = arrayOf("전체","10대","20대","30대","40대","50대","60대 이상")
     override fun initAfterBinding() {
         initSpinner()
-        getSpinnerValue()
         binding.recommendShowBtn.setOnClickListener {
             getSpinnerValue()
         }
@@ -41,7 +41,7 @@ class RecommendActivity: BaseActivity<ActivityRecommendBinding>(ActivityRecommen
 
     override fun onRestart() {
         super.onRestart()
-        getSpinnerValue()
+        getAllRecommendEvent(sexValue,ageValue)
     }
 
     private fun initSpinner(){
@@ -80,12 +80,12 @@ class RecommendActivity: BaseActivity<ActivityRecommendBinding>(ActivityRecommen
         if (sex=="전체"&&age=="전체")
             binding.recommendTitle.text = "모든 유저에게 인기있는 이벤트입니다."
         else binding.recommendTitle.text = String.format("%s %s에게 인기있는 이벤트입니다.",age,sex)
-        val sexValue = when (sex){
+        sexValue = when (sex){
             "여성"-> "w"
             "남성"-> "m"
             else-> "0"
         }
-        val ageValue = binding.recommendAgeSpinner.selectedItemPosition
+        ageValue = binding.recommendAgeSpinner.selectedItemPosition
         getAllRecommendEvent(sexValue,ageValue)
     }
 
