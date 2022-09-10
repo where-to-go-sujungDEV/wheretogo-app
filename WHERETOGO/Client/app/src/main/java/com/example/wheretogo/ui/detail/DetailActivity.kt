@@ -252,8 +252,6 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
 
 
 
-
-
     //저장한 이벤트 삭제
     private fun deleteSavedEvent(){
         detailService.deleteSavedEvent(userId,eventIdx).enqueue(object: Callback<DetailDeleteSavedResponse> {
