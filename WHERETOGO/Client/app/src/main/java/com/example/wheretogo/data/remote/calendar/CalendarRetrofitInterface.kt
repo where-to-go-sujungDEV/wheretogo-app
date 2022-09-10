@@ -1,6 +1,6 @@
 package com.example.wheretogo.data.remote.calendar
 
-import com.example.wheretogo.data.remote.search.EventInfo
+
 import com.example.wheretogo.data.remote.search.EventResponse
 import retrofit2.Call
 import retrofit2.http.GET

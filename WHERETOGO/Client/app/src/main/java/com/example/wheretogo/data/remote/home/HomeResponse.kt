@@ -43,20 +43,40 @@ data class RecommendEventResponse(
     @SerializedName(value = "results")val results:ArrayList<RecommendEventResult>?
 )
 
-data class UserInfo(
-    @SerializedName(value = "sex")val sex:String,
-    @SerializedName(value = "age")val age:Int
-)
-
 data class RecommendEventResult(
     @SerializedName(value = "eventID")val eventID:Int,
     @SerializedName(value = "eventName")val eventName:String,
     @SerializedName(value = "startDate")val startDate:String,
-    @SerializedName(value = "endDate")val endDate:String?,
+    @SerializedName(value = "endDate")val endDate:String,
     @SerializedName(value = "kind")val kind:String,
     @SerializedName(value = "pic")val pic:String,
     @SerializedName(value = "savedNum")val savedNum:Int,
     @SerializedName(value = "visitedNum")val visitedNum:Int
 )
+
+data class UserInfo(
+    @SerializedName(value = "sex")val sex:String,
+    @SerializedName(value = "age")val age:Int
+)
+
+data class AllRecommendEventResponse(
+    @SerializedName(value = "code")val code:Int,
+    @SerializedName(value = "isSuccess")val isSuccess:Boolean,
+    @SerializedName(value = "results")val results:ArrayList<AllRecommendEventResult>?
+)
+
+data class AllRecommendEventResult(
+    @SerializedName(value = "eventID")val eventID:Int,
+    @SerializedName(value = "eventName")val eventName:String,
+    @SerializedName(value = "startDate")val startDate:String,
+    @SerializedName(value = "endDate")val endDate:String,
+    @SerializedName(value = "kind")val kind:String,
+    @SerializedName(value = "pic")val pic:String,
+    @SerializedName(value = "savedNum")val savedNum:Int,
+    @SerializedName(value = "visitedNum")val visitedNum:Int,
+    @SerializedName(value= "userTopNum")val userTopNum:Int
+)
+
+
 
 

@@ -25,6 +25,4 @@ data class SetKeywordResponse(
     @SerializedName(value = "msg")val msg:String
 )
 
-data class NewKeyword(
-    @SerializedName(value = "keyword")val keyword:String
-)
+

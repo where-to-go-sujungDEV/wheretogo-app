@@ -7,6 +7,7 @@ import java.util.*
 data class EventResponse(
         @SerializedName("code") var code : Int,
         @SerializedName("isSuccess") var isSuccess : Boolean,
+        @SerializedName("isExist") var isExist : Boolean,
         @SerializedName("results") var results : List<EventResult>,
 )
 
@@ -17,16 +18,5 @@ data class EventResult (
         @SerializedName("startDate") var startDate : String,
         @SerializedName("endDate") var endDate : String,
         @SerializedName("pic") var pic : String,
-        @SerializedName("saveNum") var saveNum : Int,
+        @SerializedName("savedNum") var savedNum : Int,
 )
-
-data class EventInfo(
-        @SerializedName("search") var search : String?,
-        @SerializedName("kind") var kind : String?,
-        @SerializedName("fromD") var fromD : Date?,
-        @SerializedName("toD") var toD : Date?,
-        @SerializedName("areacode") var areacode : Int?,
-        @SerializedName("sigungucode") var sigungucode : Int?,
-        @SerializedName("align") var align : String?,
-)
-

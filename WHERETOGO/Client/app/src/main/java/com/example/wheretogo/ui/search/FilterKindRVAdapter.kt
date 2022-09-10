@@ -32,6 +32,48 @@ class FilterKindRVAdapter(var kindList: ArrayList<String>, var con: Context, var
 
         holder.filter_tag_btn.text = kind
 
+        holder.filter_tag_btn.setOnClickListener(View.OnClickListener {
+            if(!holder.filter_tag_btn.isSelected) {
+                holder.filter_tag_btn.isSelected=true
+                when(position){
+                    0->searchFragment.k1 = 1
+                    1->searchFragment.k2 = 1
+                    2->searchFragment.k3 = 1
+                    3->searchFragment.k4 = 1
+                    4->searchFragment.k5 = 1
+                    5->searchFragment.k6 = 1
+                    6->searchFragment.k7 = 1
+                    7->searchFragment.k8 = 1
+                    8->searchFragment.k9 = 1
+                    9->searchFragment.k10 = 1
+                    10->searchFragment.k11 = 1
+                    11->searchFragment.k12 = 1
+                    12->searchFragment.k13 = 1
+                    13->searchFragment.k14 = 1
+                    14->searchFragment.k15 = 1
+                }
+            } else{
+                holder.filter_tag_btn.isSelected =false
+                when(position){
+                    0->searchFragment.k1 = 0
+                    1->searchFragment.k2 = 0
+                    2->searchFragment.k3 = 0
+                    3->searchFragment.k4 = 0
+                    4->searchFragment.k5 = 0
+                    5->searchFragment.k6 = 0
+                    6->searchFragment.k7 = 0
+                    7->searchFragment.k8 = 0
+                    8->searchFragment.k9 = 0
+                    9->searchFragment.k10 = 0
+                    10->searchFragment.k11 = 0
+                    11->searchFragment.k12 = 0
+                    12->searchFragment.k13 = 0
+                    13->searchFragment.k14 = 0
+                    14->searchFragment.k15 = 0
+                }
+            }
+        })
+
 //        holder.filter_tag_btn.setOnClickListener(View.OnClickListener {
 //            if(!holder.filter_tag_btn.isSelected){
 //                holder.filter_tag_btn.isSelected =true
