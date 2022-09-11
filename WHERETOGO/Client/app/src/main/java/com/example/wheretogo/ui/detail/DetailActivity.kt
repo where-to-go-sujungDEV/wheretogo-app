@@ -66,7 +66,6 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
     }
 
     private fun initClickListener(){
-
         binding.detailEventUncheckBtn.setOnClickListener{
             when (userId){
                 -1->showLoginAlert()
@@ -394,16 +393,13 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
         binding.detailBlogRv.layoutManager = LinearLayoutManager(applicationContext,
             LinearLayoutManager.VERTICAL,false)
 
-
         adapter.setMyItemClickListener(object : SearchBlogRVAdapter.OnItemClickListener {
             override fun onItemClick(searchBlogData: SearchBlogResult) {
+                Log.d("blogsearch",searchBlogData.link)
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(searchBlogData.link))
                 startActivity(intent)
             }
         })
-
-
-        adapter.notifyDataSetChanged()
     }
 
     //별점 상태 조절

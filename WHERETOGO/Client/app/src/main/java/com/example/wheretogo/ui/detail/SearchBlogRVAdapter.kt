@@ -1,6 +1,7 @@
 package com.example.wheretogo.ui.detail
 
 import android.content.Context
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -33,15 +34,17 @@ class SearchBlogRVAdapter(private val searchBlogList: ArrayList<SearchBlogResult
 
     override fun onBindViewHolder(holder: SearchBlogRVAdapter.ViewHolder, position: Int) {
         holder.bind(searchBlogList.get(position)) //position=indexid 받아온 뷰홀더에 바인딩을 해주기 위해 해당 포지션의 데이터를 던져줌
-
+        holder.binding.itemBlogFrame.setOnClickListener {
+            mItemClickListener.onItemClick(searchBlogList[position])
+        }
     }
 
     inner class ViewHolder(val binding: ItemSearchBlogBinding): RecyclerView.ViewHolder(binding.root){
 
         fun bind(searchBlogData: SearchBlogResult){
-            binding.itemBlogTitle.text = searchBlogData.title
-            binding.itemBlogDescription.text = searchBlogData.description
-            binding.itemBlogDate.text = searchBlogData.postdate
+            binding.itemBlogTitle.text = Html.fromHtml(searchBlogData.title)
+            binding.itemBlogDescription.text = Html.fromHtml(searchBlogData.description)
+            binding.itemBlogDate.text = Html.fromHtml(searchBlogData.postdate)
         }
 
     }
