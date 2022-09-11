@@ -1,17 +1,23 @@
 package com.example.wheretogo.ui.detail
 
 import android.app.AlertDialog
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.text.Html
 import android.util.Log
 import android.view.View
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.wheretogo.R
+import com.example.wheretogo.data.remote.auth.getNaverRetrofit
 import com.example.wheretogo.data.remote.auth.getRetrofit
 import com.example.wheretogo.data.remote.detail.*
+import com.example.wheretogo.data.remote.mypage.SavedEventResult
 import com.example.wheretogo.databinding.ActivityDetailBinding
 import com.example.wheretogo.ui.BaseActivity
 import com.example.wheretogo.ui.login.LoginActivity
+import com.example.wheretogo.ui.mypage.UserSavedEventRVAdapter
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraPosition
 import com.naver.maps.map.MapView
@@ -32,6 +38,7 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
     private var visitedNum=0
     private var savedNum=0
     private val detailService = getRetrofit().create(DetailRetrofitInterface::class.java)
+    private val naverService = getNaverRetrofit().create(DetailRetrofitInterface::class.java)
     private lateinit var mapView: MapView
     private var lat=0.0
     private var long=0.0
@@ -217,6 +224,8 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
             binding.mapView.visibility = View.GONE
         }
 
+        getSearchBlog(result.eventName)
+
     }
 
 
@@ -359,6 +368,42 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
             override fun onFailure(call: Call<DetailDeleteVisitedResponse>, t: Throwable) {
             }
         })
+    }
+
+    private fun getSearchBlog(text: String){
+        val clientId= "79KmpK0f0ggmI6iuiro_"
+        val clientSecret ="GUHPua5cWl"
+        naverService.getSearchBlog(clientId,clientSecret,text).enqueue(object: Callback<SearchBlogResponse>{
+            override fun onResponse(call: Call<SearchBlogResponse>, response: Response<SearchBlogResponse>){
+                val resp = response.body()!!
+                Log.d("getSearch",resp.items.toString())
+                setSearchBlog(resp.items)
+            }
+
+            override fun onFailure(call: Call<SearchBlogResponse>, t: Throwable){
+                Log.d("getSearch","failed")
+            }
+        })
+    }
+
+    fun setSearchBlog(searchBlogList: ArrayList<SearchBlogResult>){
+        val adapter = SearchBlogRVAdapter(searchBlogList)
+        //리사이클러뷰에 어댑터 연결
+        binding.detailBlogRv.visibility = View.VISIBLE
+        binding.detailBlogRv.adapter = adapter
+        binding.detailBlogRv.layoutManager = LinearLayoutManager(applicationContext,
+            LinearLayoutManager.VERTICAL,false)
+
+
+        adapter.setMyItemClickListener(object : SearchBlogRVAdapter.OnItemClickListener {
+            override fun onItemClick(searchBlogData: SearchBlogResult) {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(searchBlogData.link))
+                startActivity(intent)
+            }
+        })
+
+
+        adapter.notifyDataSetChanged()
     }
 
     //별점 상태 조절

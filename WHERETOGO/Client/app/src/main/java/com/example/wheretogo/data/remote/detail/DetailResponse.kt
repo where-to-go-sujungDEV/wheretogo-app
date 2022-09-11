@@ -1,5 +1,6 @@
 package com.example.wheretogo.data.remote.detail
 
+import com.example.wheretogo.data.remote.mypage.SavedEventResult
 import com.google.gson.annotations.SerializedName
 
 //상세정보 조회 응답값
@@ -84,6 +85,17 @@ data class DetailDeleteVisitedResponse(
     @SerializedName("msg") var msg : String,
     @SerializedName("code") var code : Int,
     @SerializedName("isSuccess") var isSuccess : Boolean
+)
+
+data class SearchBlogResponse(
+    @SerializedName(value = "items")val items: ArrayList<SearchBlogResult>
+)
+
+data class SearchBlogResult(
+    @SerializedName("title") var title : String,
+    @SerializedName("link") var link : String,
+    @SerializedName("postdate") var postdate : String,
+    @SerializedName("description") var description : String
 )
 
 
