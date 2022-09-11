@@ -71,23 +71,6 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
             binding.itemMypageLikeCountTv.text = String.format("담은 수: %d건",savedEvent.savedNum)
 
             getEventStatus(savedEvent.eventID, binding)
-            if (isEventVisited){
-                binding.itemMypageLikeVisitedBtn.visibility = View.VISIBLE
-                binding.itemMypageLikeUnvisitedBtn.visibility = View.INVISIBLE
-            }
-            else {
-                binding.itemMypageLikeVisitedBtn.visibility = View.INVISIBLE
-                binding.itemMypageLikeUnvisitedBtn.visibility = View.VISIBLE
-            }
-
-            if (isEventSaved){
-                binding.itemMypageLikeBtn.visibility = View.VISIBLE
-                binding.itemMypageUnlikeBtn.visibility = View.INVISIBLE
-            }
-            else{
-                binding.itemMypageLikeBtn.visibility = View.INVISIBLE
-                binding.itemMypageUnlikeBtn.visibility = View.VISIBLE
-            }
         }
 
 
