@@ -23,6 +23,10 @@ data class DetailInfoResult(
     @SerializedName(value = "place")val place: String?,
     @SerializedName(value = "detailedPlace")val detailedPlace: String?,
 
+    @SerializedName(value = "mapx")val mapx: String?,
+    @SerializedName(value = "mapy")val mapy: String?,
+    @SerializedName(value = "mlevel")val mlevel: Int?,
+
     @SerializedName(value = "tel")val tel: String?,
     @SerializedName(value = "telname")val telname: String?,
 
