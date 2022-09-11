@@ -10,7 +10,7 @@ const keywordRouter = express.Router();
 
 keywordRouter.get('/:userID', getUserKeyword);
   
-keywordRouter.post('/:userID', putUserKeyword);
+keywordRouter.post('/put', putUserKeyword);
 
 keywordRouter.delete('/:userID/:keyword', deleteUserKeyword);
 
