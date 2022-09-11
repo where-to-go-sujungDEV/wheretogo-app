@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "382457307675",
+    "project_id": "wheretogo-39d44",
+    "storage_bucket": "wheretogo-39d44.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:382457307675:android:f047aa5cbcc24ccd9a4ebe",
+        "android_client_info": {
+          "package_name": "com.example.wheretogo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "382457307675-04lamnj0rgs97qc7qvfsl3h9n8079pe9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBpYWmnhN4CYlSA1Rm0fOWfqrjtd2QUAKs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "382457307675-04lamnj0rgs97qc7qvfsl3h9n8079pe9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
