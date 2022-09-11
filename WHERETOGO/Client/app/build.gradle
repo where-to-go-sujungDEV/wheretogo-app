@@ -88,5 +88,8 @@ dependencies {
     //Android Sliding Up Panel
     implementation 'com.sothree.slidinguppanel:library:3.4.0'
 
+    //flexBoxLayout
+    implementation 'com.google.android.flexbox:flexbox:3.0.0'
+
 
 }

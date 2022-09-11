@@ -8,11 +8,15 @@ interface KeywordRetrofitInterface {
     @GET("/keyword/{userID}")
     fun getKeyword(@Path("userID") userID: Int): Call<KeywordResponse>
 
-    @POST("/keyword/{userID}")
-    fun setKeyword(@Path("userID") userID : Int, @Body keyword: String): Call<SetKeywordResponse>
+//    @FormUrlEncoded
+//    @PUT("/keyword/{userID}")
+//    fun setKeyword(@Path("userID") userID : Int, @Field("keyword") keyword: String): Call<SetKeywordResponse>
 
-    @DELETE("/keyword/{userID}")
-    fun deleteKeyword(@Path("userID") userID:Int): Call<DeleteKeywordResponse>
+    @POST("/keyword/put")
+    fun setKeyword(@Query("userID") userID : Int, @Query("keyword") keyword: String): Call<SetKeywordResponse>
+
+    @DELETE("/keyword/delete")
+    fun deleteKeyword(@Query("userID") userID:Int, @Query("keyword") keyword:String): Call<DeleteKeywordResponse>
 
 }
 
