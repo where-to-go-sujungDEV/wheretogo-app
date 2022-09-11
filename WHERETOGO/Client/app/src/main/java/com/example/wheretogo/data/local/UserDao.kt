@@ -33,9 +33,7 @@ interface UserDao {
 
     @Query("UPDATE USER SET email=:email WHERE idx=:userIdx")
     fun setEmail(userIdx:Int, email: String )
-//
-//    @Query("UPDATE USER SET imgUri=:imgUri WHERE idx=:userIdx")
-//    fun setImgUrl(userIdx:Int, imgUri: Int )
+
 
     @Query("DELETE FROM User WHERE idx = :userIdx")
     fun deleteUser(userIdx:Int)

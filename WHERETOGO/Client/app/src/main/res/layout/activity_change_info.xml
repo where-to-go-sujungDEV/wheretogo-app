@@ -42,19 +42,6 @@
         android:layout_marginTop="50dp"
         android:src="@drawable/img_change_info_profile"
         />
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/change_info_set_profile"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="3dp"
-        app:layout_constraintEnd_toEndOf="@id/change_info_profile_iv"
-        app:layout_constraintBottom_toBottomOf="@id/change_info_profile_iv"
-        android:src="@drawable/ic_camera"
-        />
-
-
-
     <TextView
         android:id="@+id/change_info_name_title"
         android:layout_width="wrap_content"
@@ -90,56 +77,5 @@
         app:layout_constraintTop_toBottomOf="@id/change_info_name_title"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
-
-
-
-    <LinearLayout
-        android:id="@+id/img_option_banner"
-        android:layout_width="match_parent"
-        android:layout_height="140dp"
-        android:orientation="vertical"
-        android:visibility="invisible"
-        android:background="@drawable/bottom_banner_border"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        >
-        <View
-            android:id="@+id/img_option_banner_tip"
-            android:layout_width="50dp"
-            android:layout_height="3dp"
-            android:background="@drawable/bottom_banner_tip"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="8dp"
-            />
-        <TextView
-            android:id="@+id/img_option_album_tv"
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:layout_marginTop="18dp"
-            android:layout_marginStart="21dp"
-            android:text="앨범에서 사진/동영상 선택"
-            android:textSize="14sp" />
-        <View
-            android:id="@+id/img_option_banner_line1"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="15dp"
-            android:background="#F4F4F4" />
-        <TextView
-            android:id="@+id/img_option_default_tv"
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginStart="21dp"
-            android:text="기본 프로필로 설정"
-            android:textSize="14sp" />
-        <View
-            android:id="@+id/img_option_banner_line2"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="15dp"
-            android:background="#F4F4F4" />
-
-    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
