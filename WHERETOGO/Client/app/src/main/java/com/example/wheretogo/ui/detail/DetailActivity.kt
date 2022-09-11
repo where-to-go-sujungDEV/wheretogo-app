@@ -37,6 +37,10 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
     }
 
     private fun initClickListener(){
+
+        binding.detailMapTv.setOnClickListener {
+            startNextActivity(MapActivity::class.java)
+        }
         binding.detailEventUncheckBtn.setOnClickListener{
             when (userId){
                 -1->showLoginAlert()
