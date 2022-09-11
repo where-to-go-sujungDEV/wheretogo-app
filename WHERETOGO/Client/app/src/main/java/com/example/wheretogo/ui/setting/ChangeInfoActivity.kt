@@ -22,17 +22,10 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class ChangeInfoActivity : BaseActivity<ActivityChangeInfoBinding>(ActivityChangeInfoBinding::inflate){
-    lateinit var appDB: AppDatabase
     private val service = getRetrofit().create(SettingInterface::class.java)
 
-    companion object {
-        const val IMAGE_REQUEST_CODE = 100
-    }
 
     override fun initAfterBinding() {
-        appDB = AppDatabase.getInstance(this)!!
-        val users = appDB.userDao().getUserList()
-        Log.d("userlist",users.toString())
         initClickListener()
         initLayout()
     }
@@ -44,38 +37,8 @@ class ChangeInfoActivity : BaseActivity<ActivityChangeInfoBinding>(ActivityChang
         binding.changeInfoSaveTv.setOnClickListener {
             changeName()
         }
-        binding.changeInfoSetProfile.setOnClickListener {
-            binding.imgOptionBanner.visibility = View.VISIBLE
-        }
-        binding.imgOptionDefaultTv.setOnClickListener {
-            binding.imgOptionBanner.visibility = View.INVISIBLE
-            binding.changeInfoProfileIv.setImageResource(R.drawable.img_change_info_profile)
-        }
-        binding.imgOptionAlbumTv.setOnClickListener {
-            pickImageGallery()
-            binding.imgOptionBanner.visibility = View.INVISIBLE
-        }
     }
 
-    private fun pickImageGallery() {
-        val intent = Intent(Intent.ACTION_PICK)
-        intent.type = "image/*"
-        startActivityForResult(intent, IMAGE_REQUEST_CODE) //인텐트를 통해 갤러리에 요청 코드 보냄
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data) //URI 객체로 이미지 전달받음
-        if (requestCode == IMAGE_REQUEST_CODE && resultCode == RESULT_OK){
-            binding.changeInfoProfileIv.setImageURI(data?.data)
-            showToast(data?.data.toString())
-
-            //유저 이미지 uri 전달
-            val spf = getSharedPreferences("userInfo", MODE_PRIVATE)
-            val editor = spf.edit()
-            editor.putString("userImg",data?.data.toString())
-            editor.apply()
-        }
-    }
 
     private fun initLayout(){
         val spf = getSharedPreferences("userInfo", AppCompatActivity.MODE_PRIVATE)

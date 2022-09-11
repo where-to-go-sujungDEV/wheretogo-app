@@ -13,7 +13,7 @@ class ChangePwdActivity: BaseActivity<ActivityChangePwdBinding>(ActivityChangePw
     private val service = getRetrofit().create(SettingInterface::class.java)
     private val authService = getRetrofit().create(AuthRetrofitInterface::class.java)
     override fun initAfterBinding() {
-        binding.changePwdCancelTv.setOnClickListener {
+        binding.changePwdBackIv.setOnClickListener {
             finish()
         }
         binding.changePwdSaveTv.setOnClickListener {

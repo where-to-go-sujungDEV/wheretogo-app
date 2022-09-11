@@ -37,6 +37,9 @@ class RecommendActivity: BaseActivity<ActivityRecommendBinding>(ActivityRecommen
         binding.recommendShowBtn.setOnClickListener {
             getSpinnerValue()
         }
+        binding.recommendBackIv.setOnClickListener{
+            finish()
+        }
     }
 
     override fun onRestart() {
@@ -78,8 +81,8 @@ class RecommendActivity: BaseActivity<ActivityRecommendBinding>(ActivityRecommen
         val sex = binding.recommendGenderSpinner.selectedItem.toString()
         val age = binding.recommendAgeSpinner.selectedItem.toString()
         if (sex=="전체"&&age=="전체")
-            binding.recommendTitle.text = "모든 유저에게 인기있는 이벤트입니다."
-        else binding.recommendTitle.text = String.format("%s %s에게 인기있는 이벤트입니다.",age,sex)
+            binding.recommendExplainTv.text = "모든 유저에게 인기있는 이벤트입니다."
+        else binding.recommendExplainTv.text = String.format("%s %s에게 인기있는 이벤트입니다.",age,sex)
         sexValue = when (sex){
             "여성"-> "w"
             "남성"-> "m"

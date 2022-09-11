@@ -19,9 +19,6 @@ import retrofit2.Response
 
 class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::inflate), LoginView {
     override fun initAfterBinding() {
-        val AppDB = AppDatabase.getInstance(this)!!
-        val users = AppDB.userDao().getUserList()
-        Log.d("userlist",users.toString())
         initClickListener()
     }
 
@@ -42,9 +39,18 @@ class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::in
         editor.apply()
     }
 
+    private fun saveEmail(email: String){
+        val spf = getSharedPreferences("userInfo", MODE_PRIVATE)
+        val editor = spf.edit()
+
+        editor.putString("email",email)
+        editor.apply()
+    }
+
     private fun getLoginInfo(): LoginInfo {
         val email: String = binding.loginIdEt.text.toString()
         val pwd: String = binding.loginPwdEt.text.toString()
+        saveEmail(email)
 
         return LoginInfo(email,pwd)
     }
@@ -62,20 +68,10 @@ class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::in
 
         val authService = AuthService()
         authService.setLoginView(this)
-
         authService.login(getLoginInfo())
     }
 
-
-
-
-
     override fun onLoginSuccess(result: UserResult) {
-        val AppDB = AppDatabase.getInstance(this)!!
-        AppDB.userDao().deleteUser(result.userID)
-        if(!AppDB.userDao().isUserExist(result.userID))
-            AppDB.userDao().insert(User(result.userID,result.nickName,result.email,result.pw,result.sex,result.age))
-
         saveIdx(result.userID)
         finish()
     }
@@ -84,7 +80,4 @@ class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::in
         binding.loginErrorTv.text = message
         binding.loginErrorTv.visibility = View.VISIBLE
     }
-
-
-
 }

@@ -4,7 +4,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
+    <ImageView
+        android:id="@+id/change_pwd_back_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="22dp"
+        android:layout_marginStart="30dp"
+        android:src="@drawable/ic_arrow_right"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+    <TextView
+        android:id="@+id/change_pwd_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="19dp"
+        android:text="비밀번호 변경하기"
+        android:textSize="19sp"
+        app:layout_constraintStart_toEndOf="@+id/change_pwd_back_iv"
+        app:layout_constraintTop_toTopOf="parent"/>
     <TextView
         android:id="@+id/change_pwd_save_tv"
         android:layout_width="wrap_content"
@@ -14,27 +32,29 @@
         android:layout_marginEnd="34dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
-    <TextView
-        android:id="@+id/change_pwd_cancel_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="취소"
-        android:layout_marginTop="34dp"
-        android:layout_marginEnd="15dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/change_pwd_save_tv"/>
+    <View
+        android:id="@+id/change_pwd_line1"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/light_gray"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/change_pwd_title"/>
     <TextView
         android:id="@+id/change_origin_pwd_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="68dp"
+        android:layout_marginTop="30dp"
         android:layout_marginStart="37dp"
         android:textSize="16sp"
         android:textColor="@color/black"
         android:text="기존 비밀번호"
         android:lineSpacingExtra="2.9dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@id/change_pwd_line1"/>
 
 
     <EditText
