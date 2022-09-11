@@ -120,10 +120,12 @@
             app:layout_constraintTop_toBottomOf="@+id/detail_event_saved_count"
             app:layout_constraintStart_toStartOf="@id/detail_event_check_btn" />
         <LinearLayout
+            android:id="@+id/detail_linear_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/detail_event_title"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             android:orientation="vertical"
             android:layout_marginStart="25dp"
             android:layout_marginTop="15dp"
@@ -322,8 +324,54 @@
                     android:text=""/>
 
             </LinearLayout>
-        </LinearLayout>
+            <LinearLayout
+                android:id="@+id/detail_map_title_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="15dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:text="지도  "/>
+            </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/detail_map_area"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
+                <com.naver.maps.map.MapView
+                    android:id="@+id/map_view"
+                    android:layout_width="400dp"
+                    android:layout_height="400dp" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/detail_blog_title_area"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="15dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="블로그 후기"/>
+            </LinearLayout>
+        </LinearLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/detail_blog_rv"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
+            tools:listitem="@layout/item_search_blog"
+            app:layout_constraintTop_toBottomOf="@id/detail_linear_layout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
 
 
@@ -356,13 +404,13 @@
                     android:id="@+id/detail_edit_star2"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
                     android:src="@drawable/mypage_star_off" />
                 <ImageView
                     android:id="@+id/detail_edit_star3"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
                     android:src="@drawable/mypage_star_off"
                     />
             </LinearLayout>

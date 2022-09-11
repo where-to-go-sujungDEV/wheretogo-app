@@ -1,22 +1,36 @@
 package com.example.wheretogo.ui.detail
 
 import android.app.AlertDialog
+import android.content.Intent
+import android.net.Uri
+import android.os.Bundle
 import android.text.Html
 import android.util.Log
 import android.view.View
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.wheretogo.R
+import com.example.wheretogo.data.remote.auth.getNaverRetrofit
 import com.example.wheretogo.data.remote.auth.getRetrofit
 import com.example.wheretogo.data.remote.detail.*
+import com.example.wheretogo.data.remote.mypage.SavedEventResult
 import com.example.wheretogo.databinding.ActivityDetailBinding
 import com.example.wheretogo.ui.BaseActivity
 import com.example.wheretogo.ui.login.LoginActivity
+import com.example.wheretogo.ui.mypage.UserSavedEventRVAdapter
+import com.naver.maps.geometry.LatLng
+import com.naver.maps.map.CameraPosition
+import com.naver.maps.map.MapView
+import com.naver.maps.map.NaverMap
+import com.naver.maps.map.OnMapReadyCallback
+import com.naver.maps.map.overlay.Marker
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 
-class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding::inflate) {
+class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding::inflate),
+    OnMapReadyCallback {
 
     private var eventIdx=0
     private var userId=0
@@ -24,6 +38,18 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
     private var visitedNum=0
     private var savedNum=0
     private val detailService = getRetrofit().create(DetailRetrofitInterface::class.java)
+    private val naverService = getNaverRetrofit().create(DetailRetrofitInterface::class.java)
+    private lateinit var mapView: MapView
+    private var lat=0.0
+    private var long=0.0
+    private var level=0
+    private val marker = Marker()
+
+
+
+    companion object{
+        lateinit var naverMap: NaverMap
+    }
 
     override fun initAfterBinding() {
         eventIdx = intent.getIntExtra("eventIdx", -1)
@@ -34,6 +60,9 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
         getDetailInfo()
         getVisitedInfo()
         getSavedInfo()
+
+        mapView = binding.mapView
+        mapView.getMapAsync(this)
     }
 
     private fun initClickListener(){
@@ -183,6 +212,19 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
             binding.detailOverviewDataArea.visibility = View.GONE
         }
 
+        if (result.mapx!=null){
+            long = result.mapx.toDouble()
+            lat = result.mapy!!.toDouble()
+            level = result.mlevel!!
+            showToast(lat.toString())
+        }
+        else {
+            binding.detailMapArea.visibility = View.GONE
+            binding.mapView.visibility = View.GONE
+        }
+
+        getSearchBlog(result.eventName)
+
     }
 
 
@@ -327,6 +369,39 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
         })
     }
 
+    private fun getSearchBlog(text: String){
+        val clientId= "79KmpK0f0ggmI6iuiro_"
+        val clientSecret ="GUHPua5cWl"
+        naverService.getSearchBlog(clientId,clientSecret,text).enqueue(object: Callback<SearchBlogResponse>{
+            override fun onResponse(call: Call<SearchBlogResponse>, response: Response<SearchBlogResponse>){
+                val resp = response.body()!!
+                Log.d("getSearch",resp.items.toString())
+                setSearchBlog(resp.items)
+            }
+
+            override fun onFailure(call: Call<SearchBlogResponse>, t: Throwable){
+                Log.d("getSearch","failed")
+            }
+        })
+    }
+
+    fun setSearchBlog(searchBlogList: ArrayList<SearchBlogResult>){
+        val adapter = SearchBlogRVAdapter(searchBlogList)
+        //리사이클러뷰에 어댑터 연결
+        binding.detailBlogRv.visibility = View.VISIBLE
+        binding.detailBlogRv.adapter = adapter
+        binding.detailBlogRv.layoutManager = LinearLayoutManager(applicationContext,
+            LinearLayoutManager.VERTICAL,false)
+
+        adapter.setMyItemClickListener(object : SearchBlogRVAdapter.OnItemClickListener {
+            override fun onItemClick(searchBlogData: SearchBlogResult) {
+                Log.d("blogsearch",searchBlogData.link)
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(searchBlogData.link))
+                startActivity(intent)
+            }
+        })
+    }
+
     //별점 상태 조절
     private fun initStar(){
        binding.detailEditStar1.setOnClickListener {
@@ -363,6 +438,54 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
         return spf!!.getInt("userIdx",-1)
     }
 
+    override fun onMapReady(naverMap: NaverMap) {
+        DetailActivity.naverMap = naverMap
+
+        var camPos = CameraPosition(
+            LatLng(lat,long),
+            12.toDouble()
+        )
+        DetailActivity.naverMap.cameraPosition = camPos
+
+        marker.position = LatLng(lat, long)
+        marker.map = naverMap
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+        mapView.onStart()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mapView.onResume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        mapView.onPause()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        mapView.onSaveInstanceState(outState)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        mapView.onStop()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mapView.onDestroy()
+    }
+
+    override fun onLowMemory() {
+        super.onLowMemory()
+        mapView.onLowMemory()
+    }
 
 }
 
