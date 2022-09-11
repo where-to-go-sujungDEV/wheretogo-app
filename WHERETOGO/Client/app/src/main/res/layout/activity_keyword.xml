@@ -88,6 +88,9 @@
             android:layout_marginRight="30dp"
             android:layout_marginLeft="30dp"
 
+            android:nestedScrollingEnabled="false"
+            android:overScrollMode="never"
+
             tools:listitem="@layout/item_keyword"
             />
 
@@ -107,7 +110,7 @@
             android:enabled="false"
             android:visibility="invisible"
 
-            android:text="등록할 키워드를 입력해주세요."
+
             android:textColor="#7D44C2"
 
             android:background="@drawable/keyword_add_text_input"/>

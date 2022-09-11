@@ -12,17 +12,21 @@ import retrofit2.Response
 object KeywordService {
     val service = getRetrofit().create(KeywordRetrofitInterface::class.java)
 
-    fun getKeyword(activity : KeywordActivity, userID: Int){
-        service.getKeyword(userID).enqueue(object:Callback<KeywordResponse>{
+    fun getKeyword(activity: KeywordActivity, userID: Int){
+        service.getKeyword(userID).enqueue(object: Callback<KeywordResponse> {
             override fun onResponse(
                 call: Call<KeywordResponse>,
                 response: Response<KeywordResponse>
             ) {
-               val resp = response.body()!!
+                val resp = response.body()!!
+                println("키워드 가져오기 성공여부 ${resp.code}")
                 when(val code = resp.code){
                     200->{
-                        activity.getKeyword(resp.results)
+                        println("등록된 키워드는 ${resp.results}")
+                        activity.getKeywordList(resp.results)
                     }
+                    else ->{}
+
                 }
             }
 
@@ -39,7 +43,7 @@ object KeywordService {
                 val resp = response.body()!!
                 when(val code = resp.code){
                     200->{
-                        Log.d("getKeyword/SUCCESS", resp.msg)
+                        Log.d("setKeyword/SUCCESS", resp.msg)
                     }
                     202->{
                         Log.d("setKeyword/ERROR", resp.msg)
@@ -57,8 +61,8 @@ object KeywordService {
     }
 
 
-    fun deleteKeyword(fragment: KeywordRVAdapter, userID:Int){
-        service.deleteKeyword(userID).enqueue(object : Callback<DeleteKeywordResponse> {
+    fun deleteKeyword(userID:Int, keyword:String){
+        service.deleteKeyword(userID,keyword).enqueue(object : Callback<DeleteKeywordResponse> {
             override fun onResponse(
                 call: Call<DeleteKeywordResponse>,
                 response: Response<DeleteKeywordResponse>
@@ -66,13 +70,13 @@ object KeywordService {
                 val resp = response.body()!!
                 when(val code = resp.code){
                     200->{
-                        Log.d("getKeyword/SUCCESS", resp.msg)
+                        Log.d("deleteKeyword/SUCCESS", resp.msg)
                     }
                     202->{
-                        Log.d("getKeyword/ERROR", resp.msg)
+                        Log.d("deleteKeyword/ERROR", resp.msg)
                     }
                     500-> {
-                        Log.d("getKeyword/ERROR", resp.msg)
+                        Log.d("deleteKeyword/ERROR", resp.msg)
                     }
                 }
             }
