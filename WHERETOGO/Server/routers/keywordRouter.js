@@ -12,7 +12,7 @@ keywordRouter.get('/:userID', getUserKeyword);
   
 keywordRouter.post('/put', putUserKeyword);
 
-keywordRouter.delete('/:userID/:keyword', deleteUserKeyword);
+keywordRouter.delete('/delete', deleteUserKeyword);
 
 
 export default keywordRouter;
