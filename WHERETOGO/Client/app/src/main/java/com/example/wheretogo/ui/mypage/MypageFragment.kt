@@ -1,17 +1,10 @@
 package com.example.wheretogo.ui.mypage
 
 import android.content.Intent
-import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.example.wheretogo.BaseFragment
-import com.example.wheretogo.R
-import com.example.wheretogo.data.local.AppDatabase
 import com.example.wheretogo.data.remote.auth.AuthRetrofitInterface
 import com.example.wheretogo.data.remote.auth.GetNameResponse
 import com.example.wheretogo.data.remote.auth.getRetrofit
@@ -33,14 +26,11 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding
         initLayout()
         initView()
         setIndicator()
-        //saveName(getIdx())
         getEmail()
         initClickListener()
     }
 
-
-
-    private fun initLayout(){
+   private fun initLayout(){
         val bannerAdapter = HomeBannerVPAdapter(this)
         //추가할 프래그먼트를 넣어줌
         bannerAdapter.addFragment(MypageSavedFragment())
