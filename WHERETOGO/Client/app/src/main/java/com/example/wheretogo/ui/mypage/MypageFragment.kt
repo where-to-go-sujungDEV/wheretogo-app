@@ -33,15 +33,12 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding
         initLayout()
         initView()
         setIndicator()
-        getName(getIdx())
+        //saveName(getIdx())
         getEmail()
         initClickListener()
     }
 
-    override fun onStart() {
-        super.onStart()
-        initView()
-    }
+
 
     private fun initLayout(){
         val bannerAdapter = HomeBannerVPAdapter(this)
@@ -85,16 +82,17 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding
         return spf!!.getInt("userIdx",-1)
     }
 
-    private fun getName(userIdx: Int){
+    private fun saveName(userIdx: Int){
         service.getName(userIdx).enqueue(object: Callback<GetNameResponse> {
             override fun onResponse(call: Call<GetNameResponse>, response: Response<GetNameResponse>) {
                 val resp = response.body()!!
                 when(resp.code){
                     200->{
+                        binding.mypageNicknameTv.text = resp.results!!.nickName
                         val spf = activity!!.getSharedPreferences("userInfo", AppCompatActivity.MODE_PRIVATE)
                         val editor = spf.edit()
-                        Log.d("nickname",resp.results!!.nickName)
-                        editor.putString("nickname",resp.results!!.nickName)
+                        editor.putString("nickname", resp.results.nickName)
+
                         editor.apply()
                     }
                 }
@@ -104,11 +102,6 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding
         })
     }
 
-    //유저 닉네임 가져옴
-    private fun getName(): String {
-        val spf = activity?.getSharedPreferences("userInfo", AppCompatActivity.MODE_PRIVATE)
-        return spf!!.getString("nickname","USER")!!
-    }
 
     private fun getEmail(): String {
         val spf = activity?.getSharedPreferences("userInfo", AppCompatActivity.MODE_PRIVATE)
@@ -116,6 +109,7 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding
     }
     private fun initView(){
         val userIdx: Int = getIdx()
+        saveName(userIdx)
         if (userIdx==-1){
             binding.mypageLoginTv.text ="로그인"
             binding.mypageNicknameTv.text = "로그인하세요"
@@ -124,7 +118,6 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding
         }
         else{
             binding.mypageLoginTv.text ="로그아웃"
-            binding.mypageNicknameTv.text = getName()
             binding.mypageEmailTv.text = getEmail()
             binding.mypageSettingIv.visibility = View.VISIBLE
         }

@@ -65,6 +65,11 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
         mapView.getMapAsync(this)
     }
 
+    override fun onRestart() {
+        super.onRestart()
+        userId = getUserIdx()
+    }
+
     private fun initClickListener(){
         binding.detailEventUncheckBtn.setOnClickListener{
             when (userId){
@@ -375,12 +380,10 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
         naverService.getSearchBlog(clientId,clientSecret,text).enqueue(object: Callback<SearchBlogResponse>{
             override fun onResponse(call: Call<SearchBlogResponse>, response: Response<SearchBlogResponse>){
                 val resp = response.body()!!
-                Log.d("getSearch",resp.items.toString())
                 setSearchBlog(resp.items)
             }
 
             override fun onFailure(call: Call<SearchBlogResponse>, t: Throwable){
-                Log.d("getSearch","failed")
             }
         })
     }
@@ -395,7 +398,6 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
 
         adapter.setMyItemClickListener(object : SearchBlogRVAdapter.OnItemClickListener {
             override fun onItemClick(searchBlogData: SearchBlogResult) {
-                Log.d("blogsearch",searchBlogData.link)
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(searchBlogData.link))
                 startActivity(intent)
             }
@@ -441,15 +443,15 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
     override fun onMapReady(naverMap: NaverMap) {
         DetailActivity.naverMap = naverMap
 
-        var camPos = CameraPosition(
+        val camPos = CameraPosition(
             LatLng(lat,long),
             12.toDouble()
         )
         DetailActivity.naverMap.cameraPosition = camPos
 
+        //마커 찍기
         marker.position = LatLng(lat, long)
         marker.map = naverMap
-
     }
 
     override fun onStart() {
