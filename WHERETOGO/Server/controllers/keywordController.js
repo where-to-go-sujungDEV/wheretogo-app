@@ -15,8 +15,8 @@ export const getUserKeyword = (req, res) => {
   
 
 export const putUserKeyword = (req, res) => {
-    const uid = req.params.userID;
-    const data = req.body.keyword;
+    const uid = req.query.userID;
+    const data = req.query.keyword;
     putUserKeywordByID(uid, data, (stat, err, results) => {
         if (err){
             res.status(stat).send(err);
@@ -27,8 +27,8 @@ export const putUserKeyword = (req, res) => {
 }
 
 export const deleteUserKeyword = (req, res) => {
-    const uid = req.params.userID;
-    const data = req.params.keyword;
+    const uid = req.query.userID;
+    const data = req.query.keyword;
     deleteUserKeywordByID(uid, data, (stat, err, results) => {
         if (err){
             res.status(stat).send(err);
