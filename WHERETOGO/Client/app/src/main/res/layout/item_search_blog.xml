@@ -30,6 +30,7 @@
         android:textSize="15sp"
         android:ellipsize="end"
         android:maxLines="3"
+        android:lineSpacingExtra="3dp"
         app:layout_constraintStart_toStartOf="@id/item_blog_title"
         app:layout_constraintTop_toBottomOf="@id/item_blog_title"
         app:layout_constraintEnd_toEndOf="parent"/>
