@@ -1,17 +1,10 @@
 package com.example.wheretogo.ui.mypage
 
 import android.content.Intent
-import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.example.wheretogo.BaseFragment
-import com.example.wheretogo.R
-import com.example.wheretogo.data.local.AppDatabase
 import com.example.wheretogo.data.remote.auth.AuthRetrofitInterface
 import com.example.wheretogo.data.remote.auth.GetNameResponse
 import com.example.wheretogo.data.remote.auth.getRetrofit
@@ -33,14 +26,11 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding
         initLayout()
         initView()
         setIndicator()
-        //saveName(getIdx())
         getEmail()
         initClickListener()
     }
 
-
-
-    private fun initLayout(){
+   private fun initLayout(){
         val bannerAdapter = HomeBannerVPAdapter(this)
         //추가할 프래그먼트를 넣어줌
         bannerAdapter.addFragment(MypageSavedFragment())
@@ -88,10 +78,9 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding
                 val resp = response.body()!!
                 when(resp.code){
                     200->{
-                        binding.mypageNicknameTv.text = resp.results!!.nickName
                         val spf = activity!!.getSharedPreferences("userInfo", AppCompatActivity.MODE_PRIVATE)
                         val editor = spf.edit()
-                        editor.putString("nickname", resp.results.nickName)
+                        editor.putString("nickname", resp.results!!.nickName)
 
                         editor.apply()
                     }
@@ -107,6 +96,13 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding
         val spf = activity?.getSharedPreferences("userInfo", AppCompatActivity.MODE_PRIVATE)
         return spf!!.getString("email","")!!
     }
+
+    //유저 닉네임 가져옴
+    private fun getName(): String {
+        val spf = activity?.getSharedPreferences("userInfo", AppCompatActivity.MODE_PRIVATE)
+        return spf!!.getString("nickname","USER")!!
+    }
+
     private fun initView(){
         val userIdx: Int = getIdx()
         saveName(userIdx)
@@ -120,6 +116,7 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding
             binding.mypageLoginTv.text ="로그아웃"
             binding.mypageEmailTv.text = getEmail()
             binding.mypageSettingIv.visibility = View.VISIBLE
+            binding.mypageNicknameTv.text = getName()
         }
     }
 

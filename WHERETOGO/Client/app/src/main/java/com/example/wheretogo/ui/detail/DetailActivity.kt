@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.text.Html
+import android.text.method.LinkMovementMethod
 import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -161,13 +162,13 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
         if (time!=null){
             binding.detailTimeDataTv.text =time
         }
-        else binding.detailTimeTv.visibility = View.GONE
+        else binding.detailTimeArea.visibility = View.GONE
 
         //연령제한
         if (result.agelimit!=null){
             binding.detailAgeDataTv.text = age
         }
-        else binding.detailAgeTv.visibility = View.GONE
+        else binding.detailAgeArea.visibility = View.GONE
 
         //장소
         if (result.place!=null){
@@ -176,13 +177,13 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
             else binding.detailPlaceDataTv.text = place
         }
         else
-            binding.detailPlaceTv.visibility=View.GONE
+            binding.detailPlaceArea.visibility=View.GONE
 
         //요금
         if (price!=null){
             binding.detailCostDataTv.text = price
         }
-        else binding.detailCostTv.visibility = View.GONE
+        else binding.detailCostArea.visibility = View.GONE
 
         //사진
         if (result.pic!=null){
@@ -193,20 +194,21 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
 
         if (result.homepage!=null){
             binding.detailHomepageDataTv.text = Html.fromHtml(result.homepage)
+            binding.detailHomepageDataTv.movementMethod = LinkMovementMethod.getInstance();
         }
         else binding.detailHomepageTv.visibility= View.GONE
 
         if (result.bookingplace!=null){
             binding.detailBookUrlDataTv.text = result.bookingplace
         }
-        else binding.detailBookUrlTv.visibility = View.GONE
+        else binding.detailBookUrlArea.visibility = View.GONE
 
         if (result.tel!=null){
             binding.detailTelDataTv.text = tel
             if (result.telname!=null)
                 binding.detailTelDataTv.text = String.format("%s  %s", result.telname,tel)
         }
-        else binding.detailTelTv.visibility = View.GONE
+        else binding.detailTelArea.visibility = View.GONE
 
         //상세정보
         if (result.overview!=null){

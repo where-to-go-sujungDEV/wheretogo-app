@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.wheretogo.ApplicationClass
 import com.example.wheretogo.data.remote.auth.AuthRetrofitInterface
 import com.example.wheretogo.data.remote.auth.DeleteUserResponse
+import com.example.wheretogo.data.remote.auth.GetNameResponse
 import com.example.wheretogo.data.remote.auth.getRetrofit
 import com.example.wheretogo.databinding.ActivitySettingBinding
 import com.example.wheretogo.ui.BaseActivity
@@ -22,7 +23,7 @@ class SettingActivity: BaseActivity<ActivitySettingBinding>(ActivitySettingBindi
     private val service = getRetrofit().create(AuthRetrofitInterface::class.java)
 
     override fun initAfterBinding() {
-
+        saveName(getIdx())
         binding.settingChangeNickname.setOnClickListener {
             startNextActivity(ChangeInfoActivity::class.java)
         }
@@ -97,11 +98,29 @@ class SettingActivity: BaseActivity<ActivitySettingBinding>(ActivitySettingBindi
         })
     }
 
+    private fun saveName(userIdx: Int){
+        service.getName(userIdx).enqueue(object: Callback<GetNameResponse> {
+            override fun onResponse(call: Call<GetNameResponse>, response: Response<GetNameResponse>) {
+                val resp = response.body()!!
+                when(resp.code){
+                    200->{
+                        val spf = getSharedPreferences("userInfo", MODE_PRIVATE)
+                        val editor = spf.edit()
+                        editor.putString("nickname", resp.results!!.nickName)
+
+                        editor.apply()
+                    }
+                }
+            }
+            override fun onFailure(call: Call<GetNameResponse>, t: Throwable) {
+            }
+        })
+    }
+
     //유저 인덱스 가져옴
     private fun getIdx(): Int {
         val spf = getSharedPreferences("userInfo", MODE_PRIVATE)
         return spf!!.getInt("userIdx",-1)
     }
-
 
 }
