@@ -41,7 +41,6 @@
         android:textColor="@color/white"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="10dp"
-        android:text="#지금_인기있는 #서울시 #자연"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
     <TextView
@@ -54,7 +53,8 @@
         android:layout_marginTop="98dp"
         android:textSize="21sp"
         android:textColor="@color/white"
-        android:text="포항국제불빛축제"
+        android:fontFamily="@font/pd_semibold"
+        android:letterSpacing="0.05"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
     <TextView
@@ -64,7 +64,6 @@
         android:textColor="@color/white"
         android:layout_marginStart="15dp"
         android:layout_marginTop="3dp"
-        android:text="05/10~"
         app:layout_constraintTop_toBottomOf="@id/item_mypage_like_title_tv"
         app:layout_constraintStart_toStartOf="parent"
         />
