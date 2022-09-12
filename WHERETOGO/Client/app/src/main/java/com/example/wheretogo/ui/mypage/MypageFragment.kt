@@ -88,10 +88,9 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding
                 val resp = response.body()!!
                 when(resp.code){
                     200->{
-                        binding.mypageNicknameTv.text = resp.results!!.nickName
                         val spf = activity!!.getSharedPreferences("userInfo", AppCompatActivity.MODE_PRIVATE)
                         val editor = spf.edit()
-                        editor.putString("nickname", resp.results.nickName)
+                        editor.putString("nickname", resp.results!!.nickName)
 
                         editor.apply()
                     }
@@ -107,6 +106,13 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding
         val spf = activity?.getSharedPreferences("userInfo", AppCompatActivity.MODE_PRIVATE)
         return spf!!.getString("email","")!!
     }
+
+    //유저 닉네임 가져옴
+    private fun getName(): String {
+        val spf = activity?.getSharedPreferences("userInfo", AppCompatActivity.MODE_PRIVATE)
+        return spf!!.getString("nickname","USER")!!
+    }
+
     private fun initView(){
         val userIdx: Int = getIdx()
         saveName(userIdx)
@@ -120,6 +126,7 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding
             binding.mypageLoginTv.text ="로그아웃"
             binding.mypageEmailTv.text = getEmail()
             binding.mypageSettingIv.visibility = View.VISIBLE
+            binding.mypageNicknameTv.text = getName()
         }
     }
 
