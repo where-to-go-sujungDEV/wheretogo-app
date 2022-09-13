@@ -1,5 +1,6 @@
 package com.example.wheretogo.ui.setting
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
 import android.util.Log
@@ -67,7 +68,7 @@ class ChangeInfoActivity : BaseActivity<ActivityChangeInfoBinding>(ActivityChang
                         finish()
                     }
                     204->{
-                        showToast("변경할 닉네임을 입력해주세요.")
+                        showChangeInfoResult(resp.msg)
                     }
                 }
             }
@@ -76,5 +77,11 @@ class ChangeInfoActivity : BaseActivity<ActivityChangeInfoBinding>(ActivityChang
         })
     }
 
-
+    private fun showChangeInfoResult(msg: String){
+        AlertDialog.Builder(this)
+            .setMessage(msg)
+            .setPositiveButton("확인") { _, _ ->
+            }
+            .show()
+    }
 }
