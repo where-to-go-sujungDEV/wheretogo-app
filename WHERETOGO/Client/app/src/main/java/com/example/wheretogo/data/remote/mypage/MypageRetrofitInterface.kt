@@ -17,7 +17,4 @@ interface MypageRetrofitInterface {
     @GET("event/{userIdx}/{eventIdx}")
     fun getEventStatus(@Path("userIdx")userIdx: Int, @Path("eventIdx")eventIdx:Int) : Call<EventStatusResponse>
 
-    //이벤트 방문,저장 여부 확인
-    @GET("event/{userIdx}/{eventIdx}")
-    fun getHomeEventStatus(@Path("userIdx")userIdx: Int, @Path("eventIdx")eventIdx:Int) : Call<HomeEventStatusResponse>
 }

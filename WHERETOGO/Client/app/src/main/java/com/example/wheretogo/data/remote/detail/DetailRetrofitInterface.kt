@@ -1,11 +1,7 @@
 package com.example.wheretogo.data.remote.detail
 
-import com.example.wheretogo.data.remote.mypage.VisitedEventResponse
-import com.example.wheretogo.data.remote.search.DeleteSavedResponse
-import com.example.wheretogo.data.remote.search.SetSavedEventResponse
 import retrofit2.Call
 import retrofit2.http.*
-import javax.crypto.SecretKey
 
 interface DetailRetrofitInterface {
     @GET("event/{userIdx}")

@@ -47,9 +47,8 @@ data class EventStatusResponse(
     @SerializedName(value = "isSuccess")val isSuccess:Boolean
 )
 
-data class HomeEventStatusResponse(
-    @SerializedName(value = "isVisited")val isVisited:Boolean,
-    @SerializedName(value = "isSaved")val isSaved:Boolean,
-    @SerializedName(value = "code")val code:Int,
-    @SerializedName(value = "isSuccess")val isSuccess:Boolean
+data class EditEventResponse(
+    @SerializedName("msg") var msg : String,
+    @SerializedName("code") var code : Int,
+    @SerializedName("isSuccess") var isSuccess : Boolean
 )

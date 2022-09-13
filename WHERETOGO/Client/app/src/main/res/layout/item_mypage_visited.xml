@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/item_mypage_like_frame"
     android:layout_width="326dp"
     android:layout_height="wrap_content"
@@ -102,48 +102,30 @@
         app:layout_constraintTop_toBottomOf="@id/item_mypage_visited_title_tv"
         app:layout_constraintStart_toEndOf="@id/item_mypage_visited_start_date"
         />
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/item_mypage_visited_check_btn"
+
+    <ImageButton
+        android:id="@+id/item_mypage_visit_visited_btn"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_marginTop="3dp"
         android:layout_marginStart="250dp"
-        android:src="@drawable/btn_check_click"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/item_mypage_visited_title_tv"/>
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/item_mypage_visited_uncheck_btn"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginTop="3dp"
-        android:layout_marginStart="250dp"
-        android:src="@drawable/btn_check_unclick"
-        android:visibility="invisible"
+        tools:srcCompat="@drawable/btn_check_unclick"
+        android:background="@color/transparent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/item_mypage_visited_title_tv"/>
 
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/item_mypage_visited_like_btn"
+    <ImageButton
+        android:id="@+id/item_mypage_visit_liked_btn"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="3dp"
-        android:src="@drawable/btn_like_click"
-        app:layout_constraintStart_toEndOf="@id/item_mypage_visited_check_btn"
+        tools:srcCompat="@drawable/btn_like_unclick"
+        android:background="@color/transparent"
+        app:layout_constraintStart_toEndOf="@+id/item_mypage_visit_visited_btn"
         app:layout_constraintTop_toBottomOf="@id/item_mypage_visited_title_tv"/>
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/item_mypage_visited_dislike_btn"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="3dp"
-        android:src="@drawable/btn_like_unclick"
-        android:visibility="invisible"
-        app:layout_constraintStart_toEndOf="@id/item_mypage_visited_check_btn"
-        app:layout_constraintTop_toBottomOf="@id/item_mypage_visited_title_tv"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
