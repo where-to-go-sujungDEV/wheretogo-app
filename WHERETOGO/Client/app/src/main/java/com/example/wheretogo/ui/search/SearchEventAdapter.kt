@@ -6,10 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.wheretogo.R
 import com.example.wheretogo.data.remote.search.EventResult
 import com.example.wheretogo.data.remote.search.SearchService
@@ -27,6 +31,7 @@ class SearchEventAdapter(var events: ArrayList<EventResult>, var con: Context) :
     lateinit var listener :OnItemClickListener
 
     private val searchService = SearchService
+    private lateinit var context: Context
     var filteredEvents = ArrayList<EventResult>()
     var isSavedBtnSelected :Boolean = false
     var isVisitedBtnSelected :Boolean = false
@@ -50,32 +55,25 @@ class SearchEventAdapter(var events: ArrayList<EventResult>, var con: Context) :
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         var eventName : TextView
-        var startDate : TextView
-        var endDate:TextView
-        var hashtag1:TextView
-        var hashtag2:TextView
-        var hashtag3:TextView
+        var date : TextView
+        var kind:TextView
 
         var visitedBtn : ImageButton
         var likedBtn : ImageButton
 
         var background : View
-
+        var eventImage: ImageView
 
         init {
-            eventName = itemView.findViewById(R.id.eventName)
-            startDate = itemView.findViewById(R.id.startDate)
-            endDate = itemView.findViewById(R.id.endDate)
+            eventName = itemView.findViewById(R.id.item_search_title_tv)
+            date = itemView.findViewById(R.id.item_search_date_tv)
+            background = itemView.findViewById(R.id.item_search_background)
+            eventImage = itemView.findViewById(R.id.item_search_iv)
+            kind = itemView.findViewById(R.id.item_search_kind_tv)
 
+            visitedBtn = itemView.findViewById(R.id.item_search_visited_btn)
+            likedBtn = itemView.findViewById(R.id.item_search_like_btn)
 
-            hashtag1 = itemView.findViewById(R.id.hashtag1)
-            hashtag2 = itemView.findViewById(R.id.hashtag2)
-            hashtag3 = itemView.findViewById(R.id.hashtag3)
-
-            visitedBtn = itemView.findViewById(R.id.visitedBtn)
-            likedBtn = itemView.findViewById(R.id.likedBtn)
-
-            background = itemView.findViewById(R.id.background)
 /*
             itemView.setOnClickListener {
               //val intent = Intent(con, DetailActivity::class.java)
@@ -103,16 +101,12 @@ class SearchEventAdapter(var events: ArrayList<EventResult>, var con: Context) :
         SearchService.getIsVisitedEvent(this, userIdx, event.eventID)
 
         holder.eventName.text = event.eventName
-        holder.startDate.text = event.startDate.slice(IntRange(0,9))
-        if(event.endDate != null)
-            holder.endDate.text = event.endDate.slice((IntRange(0,9)))
-        else event.endDate
+        holder.date.text =String.format("%s ~ %s",event.startDate.slice(IntRange(0,9)), event.endDate.slice(IntRange(0,9)))
+        holder.kind.text = event.kind
 
-
-//        holder.hashtag1.text = "#" + event.genre
-//        holder.hashtag2.text = "#" + event.theme
-//        holder.hashtag3.text = "#" + event.kind
-
+        Glide.with(con).load(event.pic)
+            .transform(CenterCrop(), RoundedCorners(40))
+            .into(holder.eventImage)
 
         if(isSavedBtnSelected)
             holder.likedBtn.setBackgroundResource(R.drawable.btn_like_click)
@@ -142,7 +136,7 @@ class SearchEventAdapter(var events: ArrayList<EventResult>, var con: Context) :
                 //로컬 savedDB에 저장
 
             }
-            // visited 이벤트일 경우우
+            // visited 이벤트일 경우
            else{
                 Toast.makeText(con, "방문한 이벤트에서 삭제했어요.", Toast.LENGTH_SHORT).show()
                 holder.visitedBtn.setBackgroundResource(R.drawable.btn_check_unclick)
@@ -200,11 +194,8 @@ class SearchEventAdapter(var events: ArrayList<EventResult>, var con: Context) :
 
     //유저 인덱스 가져오는 함수
     private fun getIdx(): Int {
-        val spf = con?.getSharedPreferences("userInfo", AppCompatActivity.MODE_PRIVATE)
+        val spf = con.getSharedPreferences("userInfo", AppCompatActivity.MODE_PRIVATE)
         return spf!!.getInt("userIdx",-1)
     }
-
-
-
 
 }
