@@ -104,8 +104,8 @@
         />
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/item_mypage_visited_check_btn"
-        android:layout_width="22dp"
-        android:layout_height="22dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:layout_marginTop="3dp"
         android:layout_marginStart="250dp"
         android:src="@drawable/btn_check_click"
@@ -114,8 +114,8 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/item_mypage_visited_uncheck_btn"
-        android:layout_width="22dp"
-        android:layout_height="22dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:layout_marginTop="3dp"
         android:layout_marginStart="250dp"
         android:src="@drawable/btn_check_unclick"
@@ -126,8 +126,8 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/item_mypage_visited_like_btn"
-        android:layout_width="22dp"
-        android:layout_height="22dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="3dp"
         android:src="@drawable/btn_like_click"
@@ -136,8 +136,8 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/item_mypage_visited_dislike_btn"
-        android:layout_width="22dp"
-        android:layout_height="22dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="3dp"
         android:src="@drawable/btn_like_unclick"

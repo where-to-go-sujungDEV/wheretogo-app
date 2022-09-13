@@ -16,8 +16,7 @@ import com.example.wheretogo.ui.recommend.RecommendActivity
 
 import com.google.android.material.tabs.TabLayoutMediator
 
-class HomeFragment : BaseFragment<FragmentHomeBinding>(
-FragmentHomeBinding::inflate) {
+class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
 
     private val homeService = HomeService
     private val eventStatusService = getRetrofit().create(MypageRetrofitInterface::class.java)
