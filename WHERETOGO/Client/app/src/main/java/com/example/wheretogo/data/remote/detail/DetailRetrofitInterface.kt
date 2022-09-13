@@ -2,8 +2,6 @@ package com.example.wheretogo.data.remote.detail
 
 import com.example.wheretogo.data.remote.mypage.VisitedEventResponse
 import com.example.wheretogo.data.remote.search.DeleteSavedResponse
-import com.example.wheretogo.data.remote.search.IsSavedResponse
-import com.example.wheretogo.data.remote.search.IsVisitedResponse
 import com.example.wheretogo.data.remote.search.SetSavedEventResponse
 import retrofit2.Call
 import retrofit2.http.*

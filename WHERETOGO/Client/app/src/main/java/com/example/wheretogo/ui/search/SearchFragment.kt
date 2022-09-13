@@ -106,7 +106,6 @@ class SearchFragment : Fragment() {
 
         eventService.getEvents(this,search,aCode,aDCode,fromD,toD,k1,k2,k3,k4,k5,k6,k7,k8,k9,k10,k11,k12,k13,k14,k15,free,align)
 
-
         val sortBy = resources.getStringArray((R.array.sortBy))
         val sortAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item,sortBy)
         sortSpinner.adapter= sortAdapter
@@ -130,8 +129,17 @@ class SearchFragment : Fragment() {
             setDialogAdapter()
         })
 
-
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setAdapter()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        setAdapter()
     }
 
     //SearchView 텍스트 입력시 이벤트
@@ -347,6 +355,7 @@ class SearchFragment : Fragment() {
                 startActivity(intent)
             }
         })
+        searchEventAdapter.notifyDataSetChanged()
     }
 
 
@@ -410,10 +419,5 @@ class SearchFragment : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
     }
-
-
-
-
-
 
 }

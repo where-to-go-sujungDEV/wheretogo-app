@@ -2,6 +2,7 @@ package com.example.wheretogo.ui.search
 
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,9 +16,16 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.wheretogo.R
+import com.example.wheretogo.data.remote.auth.getRetrofit
+import com.example.wheretogo.data.remote.mypage.EventStatusResponse
+import com.example.wheretogo.data.remote.mypage.MypageRetrofitInterface
 import com.example.wheretogo.data.remote.search.EventResult
 import com.example.wheretogo.data.remote.search.SearchService
+import com.example.wheretogo.databinding.ItemMypageSavedBinding
 import com.example.wheretogo.databinding.ItemRecycleEventBinding
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.util.*
 
 
@@ -31,7 +39,8 @@ class SearchEventAdapter(var events: ArrayList<EventResult>, var con: Context) :
     lateinit var listener :OnItemClickListener
 
     private val searchService = SearchService
-    private lateinit var context: Context
+    private val eventStatusService = getRetrofit().create(MypageRetrofitInterface::class.java)
+
     var filteredEvents = ArrayList<EventResult>()
     var isSavedBtnSelected :Boolean = false
     var isVisitedBtnSelected :Boolean = false
@@ -97,8 +106,6 @@ class SearchEventAdapter(var events: ArrayList<EventResult>, var con: Context) :
         }
 
 
-        SearchService.getIsSavedEvent(this, userIdx, event.eventID)
-        SearchService.getIsVisitedEvent(this, userIdx, event.eventID)
 
         holder.eventName.text = event.eventName
         holder.date.text =String.format("%s ~ %s",event.startDate.slice(IntRange(0,9)), event.endDate.slice(IntRange(0,9)))
@@ -107,6 +114,8 @@ class SearchEventAdapter(var events: ArrayList<EventResult>, var con: Context) :
         Glide.with(con).load(event.pic)
             .transform(CenterCrop(), RoundedCorners(40))
             .into(holder.eventImage)
+
+        getEventStatus(event.eventID,holder)
 
         if(isSavedBtnSelected)
             holder.likedBtn.setBackgroundResource(R.drawable.btn_like_click)
@@ -176,6 +185,42 @@ class SearchEventAdapter(var events: ArrayList<EventResult>, var con: Context) :
             }
         }
 //        }
+    }
+
+    private fun getEventStatus(eventId: Int, holder: SearchEventAdapter.ViewHolder){
+        val userId = getIdx()
+        eventStatusService.getEventStatus(userId,eventId).enqueue(object:
+            Callback<EventStatusResponse> {
+            override fun onResponse(call: Call<EventStatusResponse>, response: Response<EventStatusResponse>) {
+                val resp = response.body()!!
+                when(resp.code){
+                    200->{
+                        if (resp.isVisited){
+                            holder.visitedBtn.setBackgroundResource(R.drawable.btn_check_click)
+                            isVisitedBtnSelected=true
+                        }
+                        else {
+                            holder.visitedBtn.setBackgroundResource(R.drawable.btn_check_unclick)
+                            isVisitedBtnSelected=false
+                        }
+
+                        if (resp.isSaved){
+                            holder.likedBtn.setBackgroundResource(R.drawable.btn_like_click)
+                            isSavedBtnSelected=true
+                        }
+                        else{
+                            holder.likedBtn.setBackgroundResource(R.drawable.btn_like_unclick)
+                            isSavedBtnSelected=false
+                        }
+                    }
+                    else ->{
+
+                    }
+                }
+            }
+            override fun onFailure(call: Call<EventStatusResponse>, t: Throwable) {
+            }
+        })
     }
 
     override fun getItemCount(): Int {
