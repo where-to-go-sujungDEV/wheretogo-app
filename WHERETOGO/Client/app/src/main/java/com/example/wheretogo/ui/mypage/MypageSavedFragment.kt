@@ -16,19 +16,20 @@ import com.example.wheretogo.ui.detail.DetailActivity
 
 class MypageSavedFragment() : BaseFragment<FragmentMypageBannerBinding>(FragmentMypageBannerBinding::inflate) {
     private val mypageService = MypageService
-
+    private var userId = 0
     override fun initAfterBinding() {
-        mypageService.getSavedEvent(this,getIdx())
+        userId = getIdx()
+        mypageService.getSavedEvent(this,userId)
     }
 
     override fun onStart() {
         super.onStart()
-        mypageService.getSavedEvent(this,getIdx())
+        mypageService.getSavedEvent(this,userId)
     }
 
     override fun onResume(){
         super.onResume()
-        mypageService.getSavedEvent(this,getIdx())
+        mypageService.getSavedEvent(this,userId)
     }
 
     fun setSavedEvent(savedEventList: ArrayList<SavedEventResult>){

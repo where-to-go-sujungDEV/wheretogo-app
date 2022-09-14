@@ -48,7 +48,7 @@ class UserVisitedEventRVAdapter (private val visitedEventList: ArrayList<Visited
     }
 
     override fun onBindViewHolder(holder: UserVisitedEventRVAdapter.ViewHolder, position: Int) {
-        holder.bind(visitedEventList[position]) //position=indexid 받아온 뷰홀더에 바인딩을 해주기 위해 해당 포지션의 데이터를 던져줌
+        holder.bind(visitedEventList[position], holder) //position=indexid 받아온 뷰홀더에 바인딩을 해주기 위해 해당 포지션의 데이터를 던져줌
         holder.binding.itemMypageLikeFrame.setOnClickListener {
             mItemClickListener.onItemClick(visitedEventList[position])
         }
@@ -60,7 +60,7 @@ class UserVisitedEventRVAdapter (private val visitedEventList: ArrayList<Visited
 
     inner class ViewHolder(val binding: ItemMypageVisitedBinding): RecyclerView.ViewHolder(binding.root){
 
-        fun bind(visitedEvent: VisitedEventResult){
+        fun bind(visitedEvent: VisitedEventResult, holder: UserVisitedEventRVAdapter.ViewHolder){
             getEventStatus(visitedEvent.eventID,binding)
             binding.itemMypageVisitedCountTv.text = String.format("방문한 수: %d건",visitedEvent.visitedNum)
             binding.itemMypageVisitedTitleTv.text = visitedEvent.eventName
@@ -94,13 +94,16 @@ class UserVisitedEventRVAdapter (private val visitedEventList: ArrayList<Visited
                 if (isEventVisited){
                     setDeleteVisitedEvent(getIdx(),visitedEvent.eventID)
                     binding.itemMypageVisitVisitedBtn.setBackgroundResource(R.drawable.btn_check_unclick)
-                    Toast.makeText(context, "방문한 이벤트에 추가했어요.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "방문한 이벤트에서 삭제했어요.", Toast.LENGTH_SHORT).show()
                     isEventVisited=false
+                    visitedEventList.removeAt(holder.adapterPosition)
+                    notifyItemRemoved(holder.adapterPosition)
+                    notifyItemChanged(holder.adapterPosition)
                 }
                 else {
                     setVisitedEvent(getIdx(), visitedEvent.eventID,"g")
                     binding.itemMypageVisitVisitedBtn.setBackgroundResource(R.drawable.btn_check_click)
-                    Toast.makeText(context, "방문한 이벤트에서 삭제했어요.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "방문한 이벤트에 추가했어요.", Toast.LENGTH_SHORT).show()
                     isEventVisited=true
                 }
             }
@@ -108,13 +111,13 @@ class UserVisitedEventRVAdapter (private val visitedEventList: ArrayList<Visited
                 if (isEventSaved){
                     setDeleteSavedEvent(getIdx(),visitedEvent.eventID)
                     isEventSaved=false
-                    Toast.makeText(context, "저장한 이벤트에 추가했어요.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "저장한 이벤트에서 삭제했어요.", Toast.LENGTH_SHORT).show()
                     binding.itemMypageVisitLikedBtn.setBackgroundResource(R.drawable.btn_like_unclick)
                 }
                 else {
                     setSavedEvent(getIdx(), visitedEvent.eventID)
                     isEventSaved=true
-                    Toast.makeText(context, "저장한 이벤트에서 삭제했어요.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "저장한 이벤트에 추가했어요.", Toast.LENGTH_SHORT).show()
                     binding.itemMypageVisitLikedBtn.setBackgroundResource(R.drawable.btn_like_click)
                 }
             }
