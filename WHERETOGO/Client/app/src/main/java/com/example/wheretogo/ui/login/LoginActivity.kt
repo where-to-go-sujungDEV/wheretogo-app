@@ -1,8 +1,10 @@
 package com.example.wheretogo.ui.login
 
+import android.content.Context
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.example.wheretogo.data.entities.User
 import com.example.wheretogo.data.local.AppDatabase
 import com.example.wheretogo.data.remote.auth.*
@@ -20,6 +22,7 @@ import retrofit2.Response
 class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::inflate), LoginView {
     override fun initAfterBinding() {
         initClickListener()
+        Log.d("fcmToken",getFcmToken())
     }
 
     private fun initClickListener(){
@@ -29,6 +32,11 @@ class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::in
         binding.loginSignInBtn.setOnClickListener {
             startNextActivity(SignUpActivity::class.java)
         }
+    }
+
+    private fun getFcmToken(): String {
+        val spf = getSharedPreferences("token", Context.MODE_PRIVATE)
+        return spf!!.getString("token","USER")!!
     }
 
     private fun saveIdx(userIdx: Int){
