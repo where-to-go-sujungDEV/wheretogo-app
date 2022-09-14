@@ -48,6 +48,7 @@ CREATE TABLE UserTBL
     `pw`    varchar(200)    NOT NULL, 
     `sex`         varchar(1)      NULL        DEFAULT NULL, 
     `age`         int(1)          NULL        DEFAULT NULL, 
+    `pic`    text 	NULL,
     `last_login`  datetime        NOT NULL    DEFAULT '2001-03-26', 
     `deviceToken` text	NULL DEFAULT NULL,
      PRIMARY KEY (userID)
@@ -66,7 +67,7 @@ CREATE TABLE EventTBL
     `addr1`           TEXT       NULL  DEFAULT NULL,
     `addr2`           TEXT        NULL DEFAULT NULL,
     `kind`            VARCHAR(20)         NOT NULL,
-    `pic`      TEXT       NULL DEFAULT NULL,
+    `pic`      TEXT       NULL ,
     `mapx`            NUMERIC(14,10)    NULL	DEFAULT NULL, 
     `mapy`            NUMERIC(13,10)    NULL	DEFAULT NULL, 
     `mlevel`          integer           NULL	DEFAULT NULL, 
@@ -2901,7 +2902,7 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 '한국의 집 민속극장', NULL, NULL, '50,000원',NULL, NULL);
 
 
-INSERT INTO `MainEventTBL` VALUES (1,'어디가?는 처음이신가요?', 'http://localhost:3000/asset/mainEvent/1.jpg', NULL);
+INSERT INTO `MainEventTBL` VALUES (1,'어디가?는 처음이신가요?', 'https://asset.cloudinary.com/drgsu4lyo/8d2274a6637ba6401ddea4e6f081c9ac', NULL);
 INSERT INTO `MainEventTBL` VALUES (2,'산림에서 힐링하자', 'http://tong.visitkorea.or.kr/cms/resource/24/2804924_image2_1.jpg',2713558);
 INSERT INTO `MainEventTBL` VALUES (3,'낭만적인 드론 라이트 쇼!', 'http://tong.visitkorea.or.kr/cms/resource/20/2822720_image2_1.jpg',2786391);
 INSERT INTO `MainEventTBL` VALUES (4,'나랑 공룡보러 갈래?', 'http://tong.visitkorea.or.kr/cms/resource/38/2828038_image2_1.jpg',141105);
