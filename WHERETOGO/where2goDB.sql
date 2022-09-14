@@ -49,6 +49,7 @@ CREATE TABLE UserTBL
     `sex`         varchar(1)      NULL        DEFAULT NULL, 
     `age`         int(1)          NULL        DEFAULT NULL, 
     `last_login`  datetime        NOT NULL    DEFAULT '2001-03-26', 
+    `deviceToken` text	NULL DEFAULT NULL,
      PRIMARY KEY (userID)
 );
 
@@ -81,6 +82,8 @@ CREATE TABLE EventTBL
   `price`   TEXT				NULL	DEFAULT NULL,
   `agelimit` TEXT				NULL	DEFAULT NULL,
   `eventtime` TEXT 	NULL	DEFAULT NULL,
+  `createdAt` DATETIME NULL DEFAULT NOW(),
+  `updatedAt` DATETIME NULL DEFAULT NOW(),
      PRIMARY KEY (eventID)
 );
 
@@ -560,23 +563,73 @@ INSERT INTO `UserTBL` (email, nickName, pw, sex, age, last_login) VALUES ('jinji
 
 -- 이벤트 정보 입력 ------------------------------------------------------------------------------
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
+2852424 , 'DMZ RUN 평화 걷기' , 20221029 , 20221029 , '경기도 파주시 임진각로 148-40 평화누리', NULL, 'A02081200', 'http://tong.visitkorea.or.kr/cms/resource/22/2852422_image2_1.jpg', 126.7447609198, 37.8920676942, 6, 31, 27, '02-540-3462', 
+'<a href="http://www.dmzrun.or.kr/" target="_blank" title="새창 : DMZ RUN 평화 걷기">http://www.dmzrun.or.kr/</a>', "DMZ 일원을 스포츠로 즐긴다.<br>DMZ 일원으로 떠나는 평화와 희망의 대질주! <br>DMZ RUN을 파주 임진각 평화누리 일원에서 개최한다.<br><br>DMZ RUN은 평화 마라톤, 평화 자전거, 평화 걷기 총 3개 행사를 아우르는 말로 DMZ 일원을 직접 뛰고, 타고, 걸으며 평화의 의미를 되새기고 생태적 가치를 몸소 느끼는 체험의 장이다.<br>특히 평화 걷기는 군 순찰로를 활용한 임진강변 생태탐방로 코스를 포함하고 있어 철책을 옆에 끼고 임진강 너머 민통선 풍광을 즐길 수 있는 트레킹이 될 것이다.", 
+'평화누리 야외공연장', NULL, NULL, '유료 (20km 10,000원 / 10km 10,000원)','누구나', '4시간');
+
+INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
+2852421 , 'DMZ RUN 평화 자전거' , 20221015 , 20221015 , '경기도 파주시 임진각로 148-40 평화누리', NULL, 'A02081200', 'http://tong.visitkorea.or.kr/cms/resource/20/2852420_image2_1.jpg', 126.7447609198, 37.8920676942, 6, 31, 27, '02-540-3462', 
+'<a href="http://www.dmzrun.or.kr/" target="_blank" title="새창 : DMZ RUN 평화 자전거">http://www.dmzrun.or.kr/</a>', "DMZ 일원을 스포츠로 즐긴다.<br>DMZ 일원으로 떠나는 평화와 희망의 대질주! <br>DMZ RUN을 파주 임진각 평화누리 일원에서 개최한다.<br><br>DMZ RUN은 평화 마라톤, 평화 자전거, 평화 걷기 총 3개 행사를 아우르는 말로 DMZ 일원을 직접 뛰고, 타고, 걸으며 평화의 의미를 되새기고 생태적 가치를 몸소 느끼는 체험의 장이다.<br>특히 평화 자전거는 민간인 통제구역은 물론 남북출입사무소(CIQ) 앞까지 총 75km를 달릴 수 있어 더욱 특별한 경험이 될 예정이다.", 
+'평화누리 야외공연장', NULL, NULL, '유료 (현장참가 15,000원 / 버스참가 30,000원)',NULL, NULL);
+
+INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
+2852365 , 'DMZ RUN 평화 마라톤' , 20221002 , 20221002 , '경기도 파주시 임진각로 148-40 평화누리', NULL, 'A02081200', 'http://tong.visitkorea.or.kr/cms/resource/64/2852364_image2_1.jpg', 126.7447609198, 37.8920676942, 6, 31, 27, '02-540-3462', 
+'<a href="http://www.dmzrun.or.kr/" target="_blank" title="새창 : DMZ RUN 평화 마라톤">http://www.dmzrun.or.kr</a>', "DMZ 일원을 스포츠로 즐긴다.<br>DMZ 일원으로 떠나는 평화와 희망의 대질주! <br>DMZ RUN을 파주 임진각 평화누리 일원에서 개최한다.<br>DMZ RUN은 평화 마라톤, 평화 자전거, 평화 걷기 총 3개 행사를 아우르는 말로 DMZ 일원을 직접 뛰고, 타고, 걸으며 평화의 의미를 되새기고 생태적 가치를 몸소 느끼는 체험의 장이다.<br>특히 평화 마라톤은 민간인 통제구역은 물론 남북출입사무소(CIQ) 앞까지 달릴 수 있어 더욱 특별한 경험이 될 예정이다.", 
+'평화누리 야외공연장', NULL, NULL, '유료 (21km 35,000원 / 10km 30,000원)',NULL, NULL);
+
+INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
+2852362 , '반려동물라이프스타일페어 (반려동물건강박람회)' , 20221104 , 20221106 , '서울특별시 강남구 영동대로 513 코엑스', NULL, 'A02080600', 'http://tong.visitkorea.or.kr/cms/resource/61/2852361_image2_1.jpg', 127.0592179950, 37.5119175967, 6, 1, 1, '02-761-2864', 
+'<a href="http://www.withcreature.com" target="_blank" title="새창 : 반려동물라이프스타일페어 (반려동물건강박람회)">www.withcreature.com</a>', "반려동물의 신체적 건강과 정신적 안정, 그리고 반려동물의 삶의 질을 개선하기 위한 제품과 컨텐츠를 중심으로 반려인 및 반려동물 산업계 종사자, 제조업체, 유통업체, 동물병원 등이 함께 참여하는 반려동물 헬스케어 전문 박람회이다.", 
+'코엑스 3층 D홀', NULL, NULL, '현장구매 : 7,000원<br>사전등록 및 온라인구매 : 5,000원(~11/3)',NULL, NULL);
+
+INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
+2852354 , '2022청도세계코미디아트페스티벌' , 20221014 , 20221016 , '경상북도 청도군 청려로 1846', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/53/2852353_image2_1.jpg', 128.7202383285, 35.6512053494, 6, 35, 20, '054-370-6376', 
+NULL, "한국코미디타운 등 지역의 코미디 문화 인프라를 기반으로 한 차별화된 문화관광콘텐츠 육성으로 대한민국 코미디 1번지 청도의 브랜드 정체성 확립에 기여하기 위해 개최하는 청도세계코미디아트페스티벌은 2015년 제1회 개최를 시작으로 매년 10월, 청도야외공연장 일원에서 지역 대표 축제인 청도반시축제와 연계하여 진행된다. 국내외 초청 코미디 및 마술 공연, 전시‧체험 프로그램 등 각종 볼거리가 풍성하다.", 
+'청도야외공연장', NULL, NULL, '무료',NULL, NULL);
+
+INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
+2852199 , '2022 순천문화도시박람회' , 20221014 , 20221016 , '전라남도 순천시 행동', '81-12', 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/21/2852121_image2_1.jpg', 127.4830182188, 34.9548367139, 6, 38, 11, '061-749-3577', 
+'<a href="http://scculture.co.kr/" target="_blank" title="새창 : 순천문화도시박람회">http://scculture.co.kr</a>', "2022년 10월 14일 부터 16일 까지 3일 간 개최되는 순천문화도시박람회는 전시, 공연, 투어, 플리마켓을 포함한 종합 문화예술축제이며, 지난 5년간 순천문화도시센터가 걸어온 발자취를 돌아보는 <문화도시 아카이브展>, 시민의 이야기로 광장을 수 놓는 <시민이야기꾼> 지역 예술인들의 창작/창의문화를 엿볼 수 있는 <아트마켓>, <예술품 하프옥션>, <문화의거리 갤러리투어> 및 다채로운 무대공연 등을 즐길 수 있다.", 
+'순천문화의거리 일원', NULL, NULL, '무료','연령 제한 없음', '8시간');
+
+INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
+2852051 , '목포미식페스타' , 20220923 , 20220924 , '전라남도 목포시 해안로 179 버스전용공영주차장', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/34/2852034_image2_1.jpg', 126.3833832278, 34.7826098407, 6, 38, 8, '061-270-3512', 
+'인스타그램 <a href="https://www.instagram.com/mokpotastyfoodfesta" target="_blank" title="새창 : 목포미식페스타">www.instagram.com</a><br>페이스북 <a href="https://www.facebook.com/mokpotastyfoodfesta/" target="_blank" title="새창 : 목포미식페스타">www.facebook.com</a>', "대한민국에서 음식이 가장 맛있는 도시라고 하면 단연 목포를 언급한다.<br>대한민국 음식의 깊이와 미래의 청사진을 함께 제시하는 목포미식페스타는 음식관련한 다큐멘터리 상영, 음식 인문학콘서트, 음식 시식회 등 목포음식과 관련한 모든 것이 한자리에 모여 있다.", 
+'목포미식문화갤러리 해관1897', NULL, NULL, '무료<br>일부유료(다큐멘터리 및 시식회 10,000원)','전연령', NULL);
+
+INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
+2852022 , '2022 레저스포츠페스티벌 in 구미' , 20221001 , 20221003 , '경상북도 구미시 낙동제방길 200', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/08/2852008_image2_1.jpg', 128.3677280976, 36.1376965336, 6, 35, 4, '02-2039-0049', 
+'<a href="https://leisure-sports.co.kr/" target="_blank" title="새창 : 2022 레저스포츠페스티벌 in 구미 홈페이지로 이동">https://leisure-sports.co.kr/</a>', "'재미있게 즐기고 안전하게 체험하는 레저스포츠'를 주제로 도심에서 다양하게 펼쳐지는 레저스포츠를 무료로 체험할 수 있는 국내 최대의 스포츠 행사다.<br>레저스포츠가 어렵고 위험하다는 인식을 깨기 위해 안전하고 다양한 레저스포츠대회와 체험을 즐길 수 있는 행사가 구미에서 이루어진다.<br>관련 동호인과 선수들도 대거 참여해 이색적인 시범 경기와 각종 이벤트 대회 및 체험전이 진행되며 레저스포츠와 문화가 만나 새롭고 이색적인 페스티벌을 선사할 예정이다.<br>이번 페스티벌은 레저 스포츠의 인기와 트렌드를 반영해 스케이트보드, 드론축구, 서바이벌, 플라잉디스크, 스포츠클라이밍(인공 암벽등반) 등 최근 관심이 높은 프로그램들로 구성되었다.<br>뿐만아니라 구미시장배 유소년 전국드론축구대회, 플라잉디스크 챔피온쉽, 구미 단체 대항전 서바이벌 대회 종목에서는 선수들과 동호인들의 멋진 시범 경기 및 시민들이 직접 체험할 수 있는 프로그램, 부대행사와 축하공연도 준비되어 즐거운 기억을 안겨줄 것이다.", 
+'낙동강체육공원', NULL, NULL, '무료',NULL, NULL);
+
+INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
+2851985 , '2022년의왕백운호수축제' , 20220924 , 20220925 , '경기도 의왕시 백운로 526', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/73/2851973_image2_1.jpg', 127.0006158435, 37.3832509208, 6, 31, 24, '031-345-2565', 
+'<a href="https://www.uwfest.com" target="_blank" title="새창 : 2022년의왕백운호수축제">https://www.uwfest.com</a>', "시민이 참여하고 즐기는 참여형 축제, 공연, 다양한 체험, 먹거리, 백운호수에서 열린다.", 
+'백운호수공영주차장', NULL, NULL, '무료<br>일부 체험 및 먹거리 유료',NULL, NULL);
+
+INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
+2851888 , '광주청년주간' , 20220923 , 20220925 , '광주광역시 동구 금남로 210 금남지하상가', NULL, 'A02081300', 'http://tong.visitkorea.or.kr/cms/resource/81/2851881_image2_1.jpg', 126.9148244566, 35.1505799644, 6, 5, 3, '062-383-6526', 
+'<a href="https://blog.naver.com/kkotdae/222865105886" target="_blank" title="새창 : 광주청년주간">https://blog.naver.com/kkotdae</a>', "청년에게 묻는다! WHAT'S YOUR COLOR?<br>광주청년주간은 광주광역시에서 청년들을 위해 개최하는 행사로, 올해로 8회째 진행되는 축제다.<br>2022 광주청년주간은 청년들의 다양성과 개성을 존중하고, 청년들이  스스로를 정의하자는 의미를 담고자 'WHAT'S YOUR COLOR?' 라는 슬로건을 내세웠다. 본 행사는 여러가지 테마로 이뤄진 문화예술공연(EDM Festival, K-pop 공연, 힙합 공연 등)과 다양한 색깔을 지닌 길거리 버스킹으로 구성된다.<br>또한 청년 창업가들의 다양한 상품을 접할 수 있고, 청년들을 위한 다양한 정책 소개는 물론, MBTI 성격 진단 검사 및 퍼스널컬러 진단이 가능하니 광주청년주간에 방문하여 자신만의 색깔을 찾길 바란다.", 
+'금남로 일대', NULL, NULL, '무료',NULL, NULL);
+
+INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 2849159 , '2022  제10회 연수능허대문화축제' , 20220930 , 20221001 , '인천광역시 연수구 송도동', '14', 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/48/2849148_image2_1.jpg', 126.6588132791, 37.3954517696, 6, 2, 8, '032-749-8932~8934', 
 NULL, "연수능허대문화축제는 고대 해양문화강국 백제의 해상관문인 능허대의 역사를 기념하고 이를 현대적으로 재해석하는 축제의 장으로서 지역대표축제로 자리매김하고 있다. 올해로 10회째를 맞이하는 <2022년 연수능허대문화축제>는 4년만에 개최됨으로써 코로나19로 인하여 지치고 힘든 구민을 위로하고 연수구를 방문하는 관광객들과 함께 즐기고 어울릴 수 있는 축제이다.", 
 '송도달빛공원 및 능허대공원', NULL, NULL, '무료','전연령', NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 2849140 , '2022 제주 반려동물 문화축제' , 20220924 , 20220925 , '제주특별자치도 제주시 연삼로 286', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/26/2849126_image2_1.jpg', 126.5238621803, 33.4918756720, 6, 39, 4, '064-710-2665', 
-'<a href="http://www.jejufairs.com" target="_blank" title="새창 : 제주 반려동물 문화축제">http://www.jejufairs.com</a>', '"2022 제주 반려동물 문화축제"는 올바른 반려동물 문화 정착으로 사람과 동물이 행복한 제주를 위한 축제이다. 펫티켓 교육, 성숙한 반려동물 문화 홍보 캠페인부터 각종 반려동물 관련 체험 프로그램까지 반려인과 일반인을 포함한 모든 사람이 함께 즐길 수 있는 다양한 프로그램이 진행될 예정이다. (코로나19 방역 지침에 따라 행사 내용은 변경될 수 있다.)', 
+'<a href="http://www.jejufairs.com" target="_blank" title="새창 : 제주 반려동물 문화축제">http://www.jejufairs.com</a>', "\"2022 제주 반려동물 문화축제\"는 올바른 반려동물 문화 정착으로 사람과 동물이 행복한 제주를 위한 축제이다. 펫티켓 교육, 성숙한 반려동물 문화 홍보 캠페인부터 각종 반려동물 관련 체험 프로그램까지 반려인과 일반인을 포함한 모든 사람이 함께 즐길 수 있는 다양한 프로그램이 진행될 예정이다. (코로나19 방역 지침에 따라 행사 내용은 변경될 수 있다.)", 
 '제주 시민복지타운광장 일원', NULL, NULL, '무료',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
-2849025 , '2022 남한산성 세계유산 활용 프로그램' , 20220826 , 20221126 , '경기도 광주시 남한산성면 산성리', '935-1', 'A02081300', 'http://tong.visitkorea.or.kr/cms/resource/05/2849005_image2_1.jpg', 127.1809161601, 37.4801512546, 6, 31, 5, '02-482-7647', 
+2849025 , '2022 남한산성 세계유산 활용 프로그램' , 20220826 , 20221127 , '경기도 광주시 남한산성면 산성리', '935-1', 'A02081300', 'http://tong.visitkorea.or.kr/cms/resource/05/2849005_image2_1.jpg', 127.1809161601, 37.4801512546, 6, 31, 5, '02-482-7647', 
 '<a href="https://play-namhansansung.notion.site/2022-09adf187fb53460db4ede25aa79b7aec" target="_blank" title="새창 : 2022 남한산성 세계유산 활용 프로그램">https://play-namhansansung</a>', "유네스코 세계유산 남한산성에서 진행되는 2022 남한산성 세계유산 활용 프로그램<br>국가사적 제 57호이자 세계유산으로 등재된 남한산성은 험준한 자연지형을 따라 12km에 이르는 성벽을 쌓고 유사시 임시수도의 역할을 한 산성도시이다. 오랜 역사 속 다양한 이야기를 품은 세계유산 남한산성에서 다양한 볼거리와 체험거리를 즐겨보는 시간을 가지길 바란다.", 
 '남한산성행궁', NULL, NULL, '행궁입장료 / 다담(2000원) / 다담 외 모든 프로그램 무료',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 2848984 , '거리예술 캬라반 ‘가을’' , 20220910 , 20220925 , '서울특별시 종로구 세종대로 175', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/81/2848981_image2_1.jpg', 126.9763210635, 37.5720618985, 6, 1, 23, '02-3437-0059', 
-'홈페이지 <a href="https://www.sfac.or.kr/artspace/artspace/streetArts_notice.do?cbIdx=984&bcIdx=133216&type=" target="_blank" title="새창 : 거리예술 캬라반 <가을>">https://www.sfac.or.kr</a><br>페이스북 <a href="https://www.facebook.com/SeoulStreetArtsCreationCenter/" target="_blank" title="새창 : 거리예술 캬라반 "가을"">https://www.facebook.com</a>', "2014년 '거리예술 시즌제'로 시작된 거리예술 캬라반은 도심 속 시민 일상 공간인 광장, 공원 등을 찾아가 거리예술 작품을 선보이는 서울문화재단 서울거리예술창작센터의 프로그램이다. 오는 10일부터 9월 25일까지 매주말마다 광화문광장, 서울숲, 선유도공원에서 음악극·무용·서커스·연희 총 6편의 거리공연이 24회 이어진다.", 
+'홈페이지 <a href="https://www.sfac.or.kr/artspace/artspace/streetArts_notice.do?cbIdx=984&bcIdx=133216&type=" target="_blank" title="새창 : 거리예술 캬라반 \'가을\'">https://www.sfac.or.kr</a><br>페이스북 <a href="https://www.facebook.com/SeoulStreetArtsCreationCenter/" target="_blank" title="새창 : 거리예술 캬라반 \'가을\'">https://www.facebook.com</a>', "2014년 '거리예술 시즌제'로 시작된 거리예술 캬라반은 도심 속 시민 일상 공간인 광장, 공원 등을 찾아가 거리예술 작품을 선보이는 서울문화재단 서울거리예술창작센터의 프로그램이다. 오는 10일부터 9월 25일까지 매주말마다 광화문광장, 서울숲, 선유도공원에서 음악극·무용·서커스·연희 총 6편의 거리공연이 24회 이어진다.", 
 NULL, NULL, NULL, '무료',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
@@ -611,7 +664,7 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 2847471 , '2022 서울새활용주간' , 20220901 , 20220906 , '서울특별시 성동구 자동차시장길 49 서울새활용플라자', NULL, 'A02081300', 'http://tong.visitkorea.or.kr/cms/resource/69/2847469_image2_1.jpg', 127.0578667897, 37.5587371344, 6, 1, 16, '02-2153-0474', 
-'<a href="https://2022seoulupcycling.modoo.at/" target="_blank" title="새창 : 2022 서울새활용주간">https://2022seoulupcycling.modoo.at</a>', '[2022 서울새활용주간 : 아름다운 제로 웨이스트]<br>서울새활용플라자가 개관 5주년과 더불에 [2022 서울새활용주간 : 아름다운 제로 웨이스트] 행사를 진행하게 되었다.<br>업사이클링과 제로 웨이스트에 관심 있는 여러분들의 많은 참여 바란다.<br><br>*공식 홈페이지 : <a href="https://2022seoulupcycling.modoo.at/" target="_blank" title="새창 : 2022 서울새활용주간">https://2022seoulupcycling.modoo.at</a><br>*프로그램 참여 신청 : <a href="https://linktr.ee/2022seoulupcycling" target="_blank" title="새창 : 2022 서울새활용주간">https://linktr.ee/2022seoulupcycling</a>', 
+'<a href="https://2022seoulupcycling.modoo.at/" target="_blank" title="새창 : 2022 서울새활용주간">https://2022seoulupcycling.modoo.at</a>', "[2022 서울새활용주간 : 아름다운 제로 웨이스트]<br>서울새활용플라자가 개관 5주년과 더불에 [2022 서울새활용주간 : 아름다운 제로 웨이스트] 행사를 진행하게 되었다.<br>업사이클링과 제로 웨이스트에 관심 있는 여러분들의 많은 참여 바란다.<br><br>*공식 홈페이지 : <a href=\"https://2022seoulupcycling.modoo.at/\" target=\"_blank\" title=\"새창 : 2022 서울새활용주간\">https://2022seoulupcycling.modoo.at</a><br>*프로그램 참여 신청 : <a href=\"https://linktr.ee/2022seoulupcycling\" target=\"_blank\" title=\"새창 : 2022 서울새활용주간\">https://linktr.ee/2022seoulupcycling</a>", 
 '서울새활용플라자', NULL, NULL, '무료',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
@@ -641,7 +694,7 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 2846192 , '동아시아문화도시 2022 경주 - 난장! 동아시아를 즐겨라!' , 20221007 , 20221009 , '경상북도 경주시 봉황로 21-4', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/43/2846043_image2_1.jpg', 129.2098567093, 35.8415207806, 6, 35, 2, '054-777-5952~4', 
-'<a href="https://www.gyeongju.go.kr/cceagj/index.do" target="_blank" title="새창 : 동아시아문화도시 2022 경주 - 난장! 동아시아를 즐겨라!">www.gyeongju.go.kr</a>', '난장! 동아시아를 즐겨라!<br>3개국 문화 교류의 장이 동아시아 문화도시, 경주에서 펼쳐진다.<br>한·중·일 문화공연, 체험, 부대행사가 가득한 축제이다.<br>동아시아문화도시는 한·중·일 3국간 문화다양성 존중이라는 기치 아래, "동아시아의 의식, 문화교류와 융합, 상대문화 이해"의 정신을 실천하기 위해 매년 개최하는 문화교류행사이다. 2022년 동아시아문화도시로는 한국 경주시, 중국 원저우시와 지난시, 일본 오이타현이 선정되었다.', 
+'<a href="https://www.gyeongju.go.kr/cceagj/index.do" target="_blank" title="새창 : 동아시아문화도시 2022 경주 - 난장! 동아시아를 즐겨라!">www.gyeongju.go.kr</a>', "난장! 동아시아를 즐겨라!<br>3개국 문화 교류의 장이 동아시아 문화도시, 경주에서 펼쳐진다.<br>한·중·일 문화공연, 체험, 부대행사가 가득한 축제이다.<br>동아시아문화도시는 한·중·일 3국간 문화다양성 존중이라는 기치 아래, \"동아시아의 의식, 문화교류와 융합, 상대문화 이해\"의 정신을 실천하기 위해 매년 개최하는 문화교류행사이다. 2022년 동아시아문화도시로는 한국 경주시, 중국 원저우시와 지난시, 일본 오이타현이 선정되었다.", 
 '경주 시내(봉황대 광장, 중심상가) 일원', NULL, NULL, '무료','전 연령', NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
@@ -676,12 +729,12 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 2845946 , '2022 청춘, 커피페스티벌' , 20221008 , 20221009 , '서울특별시 송파구 올림픽로 300 롯데월드타워앤드롯데월드몰', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/41/2845941_image2_1.jpg', 127.1040305171, 37.5142459111, 6, 1, 18, '02-360-4520', 
-'<a href="https://youthcoffee.co.kr" target="_blank" title="새창 : 청춘, 커피페스티벌">https://youthcoffee.co.kr</a>', '"청춘로스팅, 꿈의 향이 퍼지다."<br>로스팅에 따라 무한한 향의 커피가 만들어지듯 청춘의 다양한 꿈과 미래을 응원한다.<br>반복되는 삶과 지친 일상 속에서 똑같은 하루를 살아가는 청춘들에게 작은 쉼이 될 수 있도록 커피 한 잔의 여유와 온기와 희망을 전한다.', 
+'<a href="https://youthcoffee.co.kr" target="_blank" title="새창 : 청춘, 커피페스티벌">https://youthcoffee.co.kr</a>', "\"청춘로스팅, 꿈의 향이 퍼지다.\"<br>로스팅에 따라 무한한 향의 커피가 만들어지듯 청춘의 다양한 꿈과 미래을 응원한다.<br>반복되는 삶과 지친 일상 속에서 똑같은 하루를 살아가는 청춘들에게 작은 쉼이 될 수 있도록 커피 한 잔의 여유와 온기와 희망을 전한다.", 
 '서울 롯데월드타워 잔디광장', NULL, NULL, '무료','전체관람가능', NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 2845940 , '2022장애인창착아트페어' , 20220905 , 20220908 , '서울특별시 서초구 강남대로 27 AT센터', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/39/2845939_image2_1.jpg', 127.0407514903, 37.4673918780, 6, 1, 15, '02-567-9623', 
-'<a href="https://aaartfair.co.kr/" target="_blank" title="새창 : 장애인창착아트페어">https://aaartfair.co.kr</a>', '2014년 장애미술인들의 창작의욕을 고취시키고 장애인미술 발전의 새로운 교두보를 만들자는 취지로 시작한 장애인창작아트페어(Able Access Art Fair)는 “한국 최대규모의 장애인미술 아트페어”로 자리매김하였다.<br>2022 장애인창작아트페어는 기억에 남는 전시를 제공하고 성공적인 결과를 이끌어내 한국 장애인미술의 새로운 지표가 되어 나가겠다.<br>올해 문화체육관광부와 한국 장애인 문화예술원이 후원하는 가장 권위있는 장애인 미술행사인 2022장애인창작아트페어는 ‘DI.VERSE - Eye & Mind’ 으로 "작품은 눈으로 보는 것이 아닌 마음으로 읽는 것이다. - 그 안에 담긴 작가의 세계를" 라는 주제로 다양한 작가들의 작품들과 프로그램들이 진행된다.', 
+'<a href="https://aaartfair.co.kr/" target="_blank" title="새창 : 장애인창착아트페어">https://aaartfair.co.kr</a>', "2014년 장애미술인들의 창작의욕을 고취시키고 장애인미술 발전의 새로운 교두보를 만들자는 취지로 시작한 장애인창작아트페어(Able Access Art Fair)는 “한국 최대규모의 장애인미술 아트페어”로 자리매김하였다.<br>2022 장애인창작아트페어는 기억에 남는 전시를 제공하고 성공적인 결과를 이끌어내 한국 장애인미술의 새로운 지표가 되어 나가겠다.<br>올해 문화체육관광부와 한국 장애인 문화예술원이 후원하는 가장 권위있는 장애인 미술행사인 2022장애인창작아트페어는 ‘DI.VERSE - Eye & Mind’ 으로 \"작품은 눈으로 보는 것이 아닌 마음으로 읽는 것이다. - 그 안에 담긴 작가의 세계를\" 라는 주제로 다양한 작가들의 작품들과 프로그램들이 진행된다.", 
 '서울 양재 At센터 제2전시장 A홀', NULL, NULL, '무료','전 연령', '자유롭게 관람가능');
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
@@ -747,7 +800,7 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 2841087 , '부안문화재야행' , 20220930 , 20221001 , '전라북도 부안군 동문안1길 20', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/81/2841081_image2_1.jpg', 126.7339867980, 35.7360049751, 6, 37, 6, '063-244-3177', 
 '<a href="http://ifaf.kr" target="_blank" title="새창 : 서해바다를 품은 부안, 오대양을 향하다">http://ifaf.kr</a>', "부안읍 내의 당산을 비롯한 문화재를 활용한 6夜를 가족과 친구, 연인간의 행복한 추억을 만들수 있도록 풍성한 프로그램이 준비되어 있다. 많은 관심과 참여를 부탁한다.", 
-'부안동문안당산 및 일대 역사문화자원', NULL, NULL, '무료',NULL, NULL);
+'부안동문안당산 및 일대 역사문화자원', NULL, NULL, '무료<br>일부 유료',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 2841074 , '영도커피페스티벌' , 20221104 , 20221106 , '부산광역시 영도구 해양로301번길 55', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/73/2841073_image2_1.jpg', 129.0819836173, 35.0772042891, 6, 6, 14, '051-419-4472, 051-714-7309', 
@@ -791,8 +844,8 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 2835832 , '글로벌 메타버스 컨퍼런스 & 한아세안 포럼' , 20220818 , 20220819 , '부산광역시 해운대구 APEC로 55 벡스코', NULL, 'A02081300', 'http://tong.visitkorea.or.kr/cms/resource/07/2835807_image2_1.jpg', 129.1355209016, 35.1687450332, 6, 6, 16, '070-4365-8539', 
-'<a href="https://busanmetaverse2022.modoo.at/" target="_blank" title="새창 : 글로벌 메타버스 컨퍼런스 & 한아세안 포럼">https://busanmetaverse</a>', '"메타버스, 새로운 세상의 시작"이라는 주제로 부산에서 개최되는 이번행사는 메타버스, NFT, 주요 산업 동향에 대한 강연과 함께 한-아세안 지역의 메타버스 산업의 연계협력 및 교류 활성화를 위해 마련되었습니다. 자세한 컨퍼런스 소개 및 참가신청방법은 
-@ict_convergence_village(한아세안 ICT융합빌리지) 또는 (<a href="https://busanmetaverse2022.modoo.at/" target="_blank" title="새창 : 글로벌 메타버스 컨퍼런스 & 한아세안 포럼">https://busanmetaverse</a>)홈페이지를 확인해 바란다.', 
+'<a href="https://busanmetaverse2022.modoo.at/" target="_blank" title="새창 : 글로벌 메타버스 컨퍼런스 & 한아세안 포럼">https://busanmetaverse</a>', "'메타버스, 새로운 세상의 시작'이라는 주제로 부산에서 개최되는 이번행사는 메타버스, NFT, 주요 산업 동향에 대한 강연과 함께 한-아세안 지역의 메타버스 산업의 연계협력 및 교류 활성화를 위해 마련되었습니다. 자세한 컨퍼런스 소개 및 참가신청방법은 
+@ict_convergence_village(한아세안 ICT융합빌리지) 또는 (<a href=\"https://busanmetaverse2022.modoo.at/\" target=\"_blank\" title=\"새창 : 글로벌 메타버스 컨퍼런스 & 한아세안 포럼\">https://busanmetaverse</a>)홈페이지를 확인해 바란다.", 
 'BEXCO 컨벤션홀 1F', NULL, NULL, '무료',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
@@ -817,12 +870,12 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 2833186 , '2022 시흥시청소년동아리축제' , 20221022 , 20221022 , '경기도 시흥시 소래산길 11 시흥ABC행복학습타운', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/74/2833174_image2_1.JPG', 126.7853863703, 37.4489033560, 6, 31, 14, '031-315-1890(내선2)', 
-'<a href="http://www.shyouth.or.kr/" target="_blank" title="새창 : 2022 시흥시청소년동아리축제"적Show"">www.shyouth.or.kr</a>', "시흥시청소년동아리축제는 자기주도적인 청소년동아리 활동을 활성화하고 청소년동아리와 지역사회의 소통, 교류, 참여의 장으로써 시흥시 관내 사회참여, 봉사, 수학, 스포츠, 댄스, 밴드 등 다양한 분야의 360여개 동아리가 만들어가는 전국 최대 규모의 청소년 축제이다.", 
+'<a href="http://www.shyouth.or.kr/" target="_blank" title="새창 : 2022 시흥시청소년동아리축제\'적Show\'">www.shyouth.or.kr</a>', "시흥시청소년동아리축제는 자기주도적인 청소년동아리 활동을 활성화하고 청소년동아리와 지역사회의 소통, 교류, 참여의 장으로써 시흥시 관내 사회참여, 봉사, 수학, 스포츠, 댄스, 밴드 등 다양한 분야의 360여개 동아리가 만들어가는 전국 최대 규모의 청소년 축제이다.", 
 'ABC 행복학습타운', NULL, NULL, '무료',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 2833084 , '아산시 물총페스티벌 ‘적Show’' , 20220821 , 20220821 , '충청남도 아산시 온천대로 1496 온양온천역', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/74/2833074_image2_1.jpg', 127.0035044825, 36.7805372863, 6, 34, 9, '070-4242-4545', 
-'<a href="https://afesta.modoo.at/" target="_blank" title="새창 : 아산시 물총페스티벌 "적Show"">https://afesta.modoo.at</a>', "물총페스티벌 ‘적Show’는 아산시가 후원하고 협동조합 와트(WATT)가 주관하는 사업으로, 주관단체가 마을축제 명소화 지원사업으로 선정돼 개최된다.<br>‘적Show’는 시민이 직접 참여하고 협업하는 놀이형태의 행사로 코로나19로 지친 시민의 몸과 마음을 회복하고자 준비됐다.<br>온양온천역에서 개최될 물총페스티벌 ‘적Show’는 다채로운 프로그램으로 채워진다.", 
+'<a href="https://afesta.modoo.at/" target="_blank" title="새창 : 아산시 물총페스티벌 \'적Show\'">https://afesta.modoo.at</a>', "물총페스티벌 ‘적Show’는 아산시가 후원하고 협동조합 와트(WATT)가 주관하는 사업으로, 주관단체가 마을축제 명소화 지원사업으로 선정돼 개최된다.<br>‘적Show’는 시민이 직접 참여하고 협업하는 놀이형태의 행사로 코로나19로 지친 시민의 몸과 마음을 회복하고자 준비됐다.<br>온양온천역에서 개최될 물총페스티벌 ‘적Show’는 다채로운 프로그램으로 채워진다.", 
 '온양온천역 광장', NULL, NULL, '무료',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
@@ -837,7 +890,7 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 2832761 , '2022 서울뷰티위크' , 20220930 , 20221002 , '서울특별시 중구 을지로 281', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/60/2832760_image2_1.jpg', 127.0095709797, 37.5661076320, 6, 1, 24, '02-550-2547 서울뷰티위크 운영사무국', 
-'<a href="https://seoulbeautyweek.or.kr/" target="_blank" title="새창 : 2022 서울뷰티위크">https://seoulbeautyweek.or.kr</a><br><a href="http://www.seoulbeautymonth.or.kr" target="_blank" title="새창 : 2022 서울뷰티위크">www.seoulbeautymonth.or.kr</a>', "올해 처음으로 개최되는 2022 서울뷰티위크는 최신 뷰티 트렌드가 한자리에 모이는 글로벌 뷰티 페스티벌로, 뷰티산업을 활성화하기 위한 다양한 프로그램과 이벤트가 진행된다.<br>'산업의 낮'과 '축제의 밤'으로 구성된 서울뷰티위크는 뷰티산업 활성화를 위한 지원 프로그램 및 뷰티 문화와 한류를 즐길 수 있는 콘텐츠가 제공되어 기업,시민,관광객 누구나 즐길 수 있다.<br>공식 홈페이지를 통한 사전관람신청을 하면 현장방문시 원활한 행사 관람이 가능하다.<br>오는 2022.09.30.금 - 2022.10.02.일 , 서울 동대문디자인 플라자에서 2022 서울뷰티위크를 만나볼 수 있다.", 
+'서울뷰티위크 <a href="https://seoulbeautyweek.or.kr/" target="_blank" title="새창 : 2022 서울뷰티위크 홈페이지로 이동">https://seoulbeautyweek.or.kr</a><br>서울시뷰티먼스 <a href="http://www.seoulbeautymonth.or.kr" target="_blank" title="새창 : 서울시뷰티먼스 홈페이지로 이동">www.seoulbeautymonth.or.kr</a>', "올해 처음으로 개최되는 2022 서울뷰티위크는 최신 뷰티 트렌드가 한자리에 모이는 글로벌 뷰티 페스티벌로, 뷰티산업을 활성화하기 위한 다양한 프로그램과 이벤트가 진행된다.<br>'산업의 낮'과 '축제의 밤'으로 구성된 서울뷰티위크는 뷰티산업 활성화를 위한 지원 프로그램 및 뷰티 문화와 한류를 즐길 수 있는 콘텐츠가 제공되어 기업,시민,관광객 누구나 즐길 수 있다.<br>공식 홈페이지를 통한 사전관람신청을 하면 현장방문시 원활한 행사 관람이 가능하다.<br>오는 2022.09.30.금 - 2022.10.02.일 , 서울 동대문디자인 플라자에서 2022 서울뷰티위크를 만나볼 수 있다.", 
 '프로그램별 상이', NULL, NULL, '무료',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
@@ -886,8 +939,8 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 '김해시수릉원', NULL, NULL, '무료',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
-2829118 , '시민창작예술축제 <학산마당극"놀래">' , 20221015 , 20221028 , '인천광역시 미추홀구 인하로 126 학산소극장', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/14/2829114_image2_1.jpg', 126.6618920537, 37.4495594272, 6, 2, 3, '032-866-3994', 
-'<a href="https://www.haksanculture.or.kr" target="_blank" title="새창 : 시민창작예술축제 <학산마당극"놀래"> ">www.haksanculture.or.kr</a>', "마을, 이웃, 우리의 이야기가 작품이 되어 무대에서 펼쳐진다!<br>2014년에 시작된 학산마당극놀래는 시민들이 직접 만들고 즐기는 대표적인 시민창작예술축제이다. 주민들이 마을에서 모여 문화로 소통하며 지역의 이슈나 삶의 이야기를 담아 창작한 작품을 이웃과 나누는 신명나는 마당으로, 예술적 표현의 다양한 형식을 넘나드는 장(場)으로 거듭나고 있다. 모두 함께 즐기고 나누는 축제를 위해 주민과 예술가, 관련 단체 및 기관 등이 연대하여 공동체 예술의 성장과 지역문화의 발전을 이루어 가고 있다.", 
+2829118 , '시민창작예술축제 <학산마당극\'놀래\'>' , 20221015 , 20221028 , '인천광역시 미추홀구 인하로 126 학산소극장', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/14/2829114_image2_1.jpg', 126.6618920537, 37.4495594272, 6, 2, 3, '032-866-3994', 
+'<a href="https://www.haksanculture.or.kr" target="_blank" title="새창 : 시민창작예술축제 <학산마당극\'놀래\'> ">www.haksanculture.or.kr</a>', "마을, 이웃, 우리의 이야기가 작품이 되어 무대에서 펼쳐진다!<br>2014년에 시작된 학산마당극놀래는 시민들이 직접 만들고 즐기는 대표적인 시민창작예술축제이다. 주민들이 마을에서 모여 문화로 소통하며 지역의 이슈나 삶의 이야기를 담아 창작한 작품을 이웃과 나누는 신명나는 마당으로, 예술적 표현의 다양한 형식을 넘나드는 장(場)으로 거듭나고 있다. 모두 함께 즐기고 나누는 축제를 위해 주민과 예술가, 관련 단체 및 기관 등이 연대하여 공동체 예술의 성장과 지역문화의 발전을 이루어 가고 있다.", 
 '수봉공원 인공폭포 앞 야외마당', NULL, NULL, '무료',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
@@ -901,18 +954,23 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 'DGB 대구은행파크 중앙광장', NULL, NULL, '유료<br>현장 결제, 대구 떡볶이 페스티벌 공식 SNS에 업로드 된 게시물 리그램을 통한 할인쿠폰 발급 예정',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
+2828336 , '시흥월곶포구축제' , 20221021 , 20221023 , '경기도 시흥시 월곶중앙로 37-1', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/88/2852388_image2_1.jpg', 126.7408199144, 37.3876152382, 6, 31, 14, '031)318-4061', 
+'<a href="https://www.siheung.go.kr/portal/contents.do?mId=0801010900" target="_blank" title="새창 : 월곶포구축제">www.siheung.go.kr</a>', "2021년 경기문화관광축제로 선정된 월곶포구축제는 10월 21일부터 23일까지 3일간 개최되며, 바다와 도시가 어우러진 월곶만의 지역적 특색을 살려 포구 특성과 도시 풍경을 접목한 다양한 체험 프로그램을 운영한다. 대표프로그램으로는 ▲어선승선체험, ▲맨손고기잡이체험, ▲왕새우잡이체험, ▲새우젓담그기체험 ▲어구전시행사 등이 있다. 또한 태권트롯 나태주, 트로트 신동 김태연, 트로트의 신 김연자와 남진, 박영수 등 감동이 있는 초대가수 공연과 포구의 다양한 해산물을 활용한 풍부한 먹거리, 밤하늘을 화려하게 수놓은 불꽃놀이, 플리마켓 운영 등 남녀노소가 즐길 수 있는 다채로운 행사가 축제장 곳곳에서 펼쳐질 예정이다.", 
+'월곶포구 미래탑공원 및 해안가 일원', NULL, NULL, '무료',NULL, NULL);
+
+INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 2827828 , 'K-Metaverse Festival & K-Metaverse Expo 2022' , 20221013 , 20221015 , '서울특별시 강남구 영동대로 513 코엑스', NULL, 'A02080600', 'http://tong.visitkorea.or.kr/cms/resource/59/2827859_image2_1.jpg', 127.0592179950, 37.5119175967, 6, 1, 1, '02-6000-4279', 
-'<a href="https://www.kmetaverseexpo.com:492/seoul/" target="_blank" title="새창 : K-Metaverse Festival & K-Metaverse Expo 2022">www.kmetaverseexpo.com</a>', '10월 서울 코엑스에서 개최되는 "K-Metaverse Festival & K-Metaverse Expo 2022"는 여러 산업분야와 융합된 메타버스 콘텐츠 및 지역특화 콘텐츠, NFT, VFX, 디지털트윈 기술 등 다양한 메타버스 관련 기술들과 국내외 메타버스 최신 동향을 만나볼 수 있는 메타버스 전문 전시회이다.', 
+'<a href="https://www.kmetaverseexpo.com:492/seoul/" target="_blank" title="새창 : K-Metaverse Festival & K-Metaverse Expo 2022">www.kmetaverseexpo.com</a>', "10월 서울 코엑스에서 개최되는 \"K-Metaverse Festival & K-Metaverse Expo 2022\"는 여러 산업분야와 융합된 메타버스 콘텐츠 및 지역특화 콘텐츠, NFT, VFX, 디지털트윈 기술 등 다양한 메타버스 관련 기술들과 국내외 메타버스 최신 동향을 만나볼 수 있는 메타버스 전문 전시회이다.", 
 '서울 코엑스 1층 B 홀 전관', NULL, NULL, NULL,NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 2827820 , '대한민국 4차산업혁명 페스티벌 2022' , 20220915 , 20220917 , '서울특별시 강남구 영동대로 513 코엑스', NULL, 'A02080600', 'http://tong.visitkorea.or.kr/cms/resource/19/2827819_image2_1.jpg', 127.0592179950, 37.5119175967, 6, 1, 1, '02-6000-4290', 
-'<a href="http://www.4thfestival.net/Home/Main" target="_blank" title="새창 : 대한민국 4차산업혁명 페스티벌">www.4thfestival.net</a>', '국내 디지털 대전환을 선도하는 "대한민국 4차산업혁명 페스티벌 2022"는 4차 산업혁명의 핵심기술인 AI와 빅데이터 뿐만 아니라 메타버스&NFT, 디지털 헬스케어, 미래 혁신 교통수단(드론, 로봇, 자율주행차, 전기차 등), 코로나 펜더믹 이후 새로운 소비 트렌드로 자리잡은 구독경제 등 다양한 4차 산업혁명 관련 분야들과 최신 기술 트렌드를 만나볼 수 있는 전문 산업 박람회이다.', 
+'<a href="http://www.4thfestival.net/Home/Main" target="_blank" title="새창 : 대한민국 4차산업혁명 페스티벌">www.4thfestival.net</a>', "국내 디지털 대전환을 선도하는 \"대한민국 4차산업혁명 페스티벌 2022\"는 4차 산업혁명의 핵심기술인 AI와 빅데이터 뿐만 아니라 메타버스&NFT, 디지털 헬스케어, 미래 혁신 교통수단(드론, 로봇, 자율주행차, 전기차 등), 코로나 펜더믹 이후 새로운 소비 트렌드로 자리잡은 구독경제 등 다양한 4차 산업혁명 관련 분야들과 최신 기술 트렌드를 만나볼 수 있는 전문 산업 박람회이다.", 
 '서울 코엑스 B홀', NULL, NULL, NULL,NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 2827675 , 'K-Metaverse Expo Busan 2022' , 20220818 , 20220820 , '부산광역시 해운대구 APEC로 55 벡스코', NULL, 'A02080600', 'http://tong.visitkorea.or.kr/cms/resource/46/2828346_image2_1.jpg', 129.1355209016, 35.1687450332, 6, 6, 16, '02-6000-4279', 
-'<a href="https://www.kmetaverseexpo.com:492/busan/" target="_blank" title="새창 : K-Metaverse Expo Busan 2022">www.kmetaverseexpo.com</a>', '메타버스 산업 HUB 부산에서 최초로 개최되는 대한민국 대표 메타버스 전시회 "K-메타버스 엑스포"는 블록체인&NFT, CG/VFX, 메타버스 서비스 요소기술 뿐만 아니라 다양한 산업분야의 메타버스 생태계를 경험할 수 있는 자리이다.', 
+'<a href="https://www.kmetaverseexpo.com:492/busan/" target="_blank" title="새창 : K-Metaverse Expo Busan 2022">www.kmetaverseexpo.com</a>', "메타버스 산업 HUB 부산에서 최초로 개최되는 대한민국 대표 메타버스 전시회 \"K-메타버스 엑스포\"는 블록체인&NFT, CG/VFX, 메타버스 서비스 요소기술 뿐만 아니라 다양한 산업분야의 메타버스 생태계를 경험할 수 있는 자리이다.", 
 '부산 벡스코 제1전시장', NULL, NULL, NULL,NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
@@ -922,7 +980,7 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 2827060 , '제5회 무중력영화제(MUFF)' , 20220916 , 20220917 , '서울특별시 양천구 오목로 359 무중력지대 양천', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/59/2827059_image2_1.png', 126.8773230917, 37.5246489705, 6, 1, 19, '02-2646-2030', 
-'홈페이지 <a href="https://youth.seoul.go.kr/site/youthzone/center/CT00008/intro" target="_blank" title="새창 : 제5회 무중력영화제(MUFF)">https://youth.seoul.go.kr</a><br>인스타그램 <a href="https://www.instagram.com/youthzone_muff/" target="_blank" title="새창 : 제5회 무중력영화제(MUFF)">www.instagram.com</a><br>블로그 <a href="https://blog.naver.com/youthzone0_0" target="_blank" title="새창 : 제5회 무중력영화제(MUFF)">https://blog.naver.com</a><br>페이스북 <a href="https://www.facebook.com/youthzone3" target="_blank" title="새창 : 제5회 무중력영화제(MUFF)">www.facebook.com</a><br>유튜브 <a href="https://www.youtube.com/channel/UCroz39rvXjicL8SQedEQZMA" target="_blank" title="새창 : 제5회 무중력영화제(MUFF)">www.youtube.com</a>', "서울특별시 청년공간 무중력지대 양천은 2018년부터 매년 무중력영화제(MUFF)를 개최하고 있다. MUFF는 MUjungryuck Film Festival의 줄임말로, 청년들이 영화제 기획과 운영을 맡으며, 출품작 또한 청년 영화인들의 작품으로 채워지는 청년 영화제이다. 무중력영화제는 앞으로 한국 영화계를 이끌어 나갈 청년 영화인들의 훌륭한 작품을 미리 선보이고, 그들이 서로 활발하게 소통할 수 있는 교류의 장을 마련하고 있다. 2020년부터는 개막작은 화면을 음성으로 설명해주는 화면해설과 화자, 대사, 음악, 소리정보를 알려주는 자막을 넣은 가치봄영화로 상영하고, 나머지 상영작에는 한글 자막을 넣어 상영하여 누구나 함께 할 수 있는 축제의 장을 만들기 위해 노력하고 있다.<br>제5회 무중력영화제는 9월 16일(금)부터 17일(토)까지 메가박스 목동에서 '찬란할 내일의 우리에게'라는 슬로건으로 진행되며, '함께', '공존', '상생'의 주제를 담은 10편의 작품을 상영한다.", 
+'홈페이지 <a href="https://youth.seoul.go.kr/site/youthzone/center/CT00008/intro" target="_blank" title="새창 : 제5회 무중력영화제(MUFF)">https://youth.seoul.go.kr</a><br>인스타그램 <a href="https://www.instagram.com/youthzone_muff/" target="_blank" title="새창 : 제5회 무중력영화제(MUFF)">www.instagram.com</a><br>블로그 <a href="https://blog.naver.com/youthzone0_0" target="_blank" title="새창 : 제5회 무중력영화제(MUFF)">https://blog.naver.com</a><br>페이스북 <a href="https://www.facebook.com/youthzone3" target="_blank" title="새창 : 제5회 무중력영화제(MUFF)">www.facebook.com</a><br>유튜브 <a href="https://www.youtube.com/channel/UCroz39rvXjicL8SQedEQZMA" target="_blank" title="새창 : 제5회 무중력영화제(MUFF)">www.youtube.com</a>', "서울특별시 청년공간 무중력지대 양천은 2018년부터 매년 무중력영화제(MUFF)를 개최하고 있다. MUFF는 MUjungryuck Film Festival의 줄임말로, 청년들이 영화제 기획과 운영을 맡으며, 출품작 또한 청년 영화인들의 작품으로 채워지는 청년 영화제이다. 무중력영화제는 앞으로 한국 영화계를 이끌어 나갈 청년 영화인들의 훌륭한 작품을 미리 선보이고, 그들이 서로 활발하게 소통할 수 있는 교류의 장을 마련하고 있다. 2020년부터는 개막작은 화면을 음성으로 설명해주는 화면해설과 화자, 대사, 음악, 소리정보를 알려주는 자막을 넣은 가치봄영화로 상영하고, 나머지 상영작에는 한글 자막을 넣어 상영하여 누구나 함께 할 수 있는 축제의 장을 만들기 위해 노력하고 있다.<br>제5회 무중력영화제는 9월 16일(금)부터 17일(토)까지 메가박스 목동에서 \"찬란할 내일의 우리에게\"라는 슬로건으로 진행되며, '함께', '공존', '상생'의 주제를 담은 10편의 작품을 상영한다.", 
 '메가박스 목동', NULL, NULL, '개막작 관람 : 3,000원<br>섹션1, 2, 3 : 5,000원',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
@@ -953,7 +1011,8 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 2826051 , '2022 한옥자원활용 야간상설공연 남원창극 “가인춘향”' , 20220514 , 20220924 , '전라북도 남원시 월매길 12', NULL, 'A02080100', 'http://tong.visitkorea.or.kr/cms/resource/49/2826049_image2_1.jpg', 127.3808851544, 35.4034538163, 6, 37, 4, '063)636-1855', 
-'<a href="http://www.seomjingang.co.kr/" target="_blank" title="새창 : 한옥자원활용 야간상설공연 남원창극 "가인춘향"">http://www.seomjingang.co.kr/</a>', "남원창극 가인춘향은 기존의 특정 바디소리나 스토리에 연연하지 않고 모든 바디소리의 창본 및 다양한 소설 춘향전에서 스토리를 채택하고 새로운 상상력을 발휘하여 그간 잘 알려져 있지 않았던 춘향전의 이본 이야기를 적극 활용하여 작품도의 신선도를 높이고 극 진행을 위해 스토리의 연결고리 또는 진행과정을 현대적 기법을 활용하여 간략하면서도 담백하게 구성하여 판소리의 백미를 만끽할 수 있는 작품의 수준 높은 창극 공연이다.", 
+'<a href="http://www.seomjingang.co.kr/" target="_blank" title="새창 : 한옥자원활용 야간상설공연 남원창극 "가인춘향"">http://www.seomjingang.co.kr/</a>', "남원창극 가인춘향은 기존의 특정 바디소리나 스토리에 연연하지 않고 모든 바디소리의 창본 및 다양한 소설 춘향전에서 스토리를 채택하고 새로운 상상력을 발휘하여 그간 잘 알려져 있지 않았던 춘향전의 이본 이야기를 적극 활용하여 작품도의 신선도를 높이고 극 진행을 위해 스토리의 연결고리 또는 진행과정을 현대적 기법을 활용하여 간략하면서도 담백하게 구성하여 판소리의 백미를 만끽할 수 있는 작품의 수준 높은 창극 공연이다.
+*우천 시 취소 된 공연으로 인해 9월 24일 연장 공연 진행합니다. 9월 16일(금)에도 공연을 진행하니 많은 관심 부탁드립니다.", 
 '화인당 야외공연장<br>(우천취소 시 공연일정 연장)', NULL, NULL, '일반 10,000 / 인터넷예매(인터파크) 5,000 / 남원시민 5,000 / 청소년,어린이 5,000 / 문화누리카드 5,000',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
@@ -998,7 +1057,7 @@ NULL, NULL, NULL, NULL,NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 2823604 , 'VACATION IN SNOOPY GARDEN' , 20220609 , 20220831 , '제주특별자치도 제주시 금백조로 930', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/96/2823596_image2_1.jpg', 126.7786189466, 33.4434017790, 6, 39, 4, '064-1899-3929', 
-'홈페이지 <a href="http://www.snoopygarden.com/" target="_blank" title="새창 : VACATION IN SNOOPY GARDEN">http://www.snoopygarden.com</a><br>인스타그램 <a href="https://www.instagram.com/snoopygardenkorea" target="_blank" title="새창 : VACATION IN SNOOPY GARDEN">https://www.instagram.com</a>', 'VACATION IN SNOOPY GARDEN<br>-올 여름 휴가철 피서도 스누피가든에서 즐기자<br><br> 6월 9일부터 8월 31일까지 진행되는 VACATION IN SNOOPY GARDEN 축제는 제주도 구좌읍 송당리에 위치한 스누피 가든 박물관과 2만5천평의 정원 곳곳에서 진행될 예정이다.<br>이번 축제에서는 여름을 즐길 수 있는 컨셉으로 특별 전시가 진행된다.<br>여름을 맞아 해변에서 서핑을 즐기는 스누피와 모래성을 쌓고 있는 피너츠 친구들의 모습을 볼 수 있다. <br>전시관도 일부 새롭게 개편되어 다시 찾는 방문객들에게도 새로운 즐거움을 선사할 예정이다. <br>VACATION IN SNOOPYGARDEN 축제를 통해 스누피가든에서 피너츠 친구들과 함께 다가오는 여름 휴가에 함께 피서를 즐기며 스누피가든이 건내는 휴식과 위로를 경험해 보기를 기대 한다.<br><br>- 일정 : 2022. 06. 09(목) ~ 2022. 08. 31(수)<br>- 장소 : 제주특별자치도 제주시 구좌읍 금백조로 930 스누피가든<br>- 홈페이지 : <a href="http://www.snoopygarden.com/" target="_blank" title="새창 : VACATION IN SNOOPY GARDEN">http://www.snoopygarden.com</a><br>  인스타그램: <a href="https://www.instagram.com/snoopygardenkorea" target="_blank" title="새창 : VACATION IN SNOOPY GARDEN">https://www.instagram.com</a><br>- 문의 : 064-1899-3929', 
+'홈페이지 <a href="http://www.snoopygarden.com/" target="_blank" title="새창 : VACATION IN SNOOPY GARDEN">http://www.snoopygarden.com</a><br>인스타그램 <a href="https://www.instagram.com/snoopygardenkorea" target="_blank" title="새창 : VACATION IN SNOOPY GARDEN">https://www.instagram.com</a>', "VACATION IN SNOOPY GARDEN<br>-올 여름 휴가철 피서도 스누피가든에서 즐기자<br><br> 6월 9일부터 8월 31일까지 진행되는 VACATION IN SNOOPY GARDEN 축제는 제주도 구좌읍 송당리에 위치한 스누피 가든 박물관과 2만5천평의 정원 곳곳에서 진행될 예정이다.<br>이번 축제에서는 여름을 즐길 수 있는 컨셉으로 특별 전시가 진행된다.<br>여름을 맞아 해변에서 서핑을 즐기는 스누피와 모래성을 쌓고 있는 피너츠 친구들의 모습을 볼 수 있다. <br>전시관도 일부 새롭게 개편되어 다시 찾는 방문객들에게도 새로운 즐거움을 선사할 예정이다. <br>VACATION IN SNOOPYGARDEN 축제를 통해 스누피가든에서 피너츠 친구들과 함께 다가오는 여름 휴가에 함께 피서를 즐기며 스누피가든이 건내는 휴식과 위로를 경험해 보기를 기대 한다.<br><br>- 일정 : 2022. 06. 09(목) ~ 2022. 08. 31(수)<br>- 장소 : 제주특별자치도 제주시 구좌읍 금백조로 930 스누피가든<br>- 홈페이지 : <a href=\"http://www.snoopygarden.com/\" target=\"_blank\" title=\"새창 : VACATION IN SNOOPY GARDEN\">http://www.snoopygarden.com</a><br>  인스타그램: <a href=\"https://www.instagram.com/snoopygardenkorea\" target=\"_blank\" title=\"새창 : VACATION IN SNOOPY GARDEN\">https://www.instagram.com</a><br>- 문의 : 064-1899-3929", 
 '스누피가든 전역', NULL, NULL, '성인 18,000원<br>청소년 15,000원<br>어린인 12,000원',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
@@ -1084,6 +1143,11 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 '국립생태원 에코리움 기획전시실', NULL, NULL, '어른:5,000원 / 청소년: 3,000원 / 어린이: 2,000원 / 유아,경로우대자, 장애인, 국가유공자, 기초생활수급자: 무료 20인 이상 단체의 인솔자 1인 무료 유아, 경로우대자, 장애인, 국가유공자, 기초생활수급자는 증명서 필히 지참 장애 1~3급 장애인 동반 1인 무료, 장애4급 이상 본인만 무료 50% 할인 서천군민(본인에 한함)',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
+2818138 , '2022 창경궁 야연' , 20220922 , 20221006 , '서울특별시 종로구 창경궁로 185 창경궁', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/33/2852433_image2_1.jpg', 126.9964634775, 37.5789336838, 6, 1, 23, '02-3210-4802', 
+'<a href="https://www.chf.or.kr/chf" target="_blank" title="새창 : 2022 창경궁 야연">https://www.chf.or.kr</a>', "창경궁 야연은 ‘효심’을 주제로 창경궁의 역사·문화적 가치를 반영하여 기획한 야간 체험 프로그램이다. 창경궁 야연은 기존 궁궐 체험과 달리 부모님 중 한 분이 체험자로 직접 참여하고 가족들이 관람객이 되는 프로그램이다. 체험자는 궁중의상과 전통음식을 체험할 수 있으며, 장수사진 및 가족사진을 촬영하여 행사가 끝난 후에는 액자에 담아 기념품으로 증정한다. 자세한 내용은 한국문화재재단 누리집(<a href=\"https://www.chf.or.kr/chf\" target=\"_blank\" title=\"새창 : 2022 창경궁 야연\">https://www.chf.or.kr</a>)에서 확인할 수 있다.", 
+'창경궁 통명전', NULL, NULL, '1인 100,000원(체험객 1인 외 가족 관람객 최대 4인 참가), 할인정보: 장애인 1-6급(본인) 50% 할인, 국가유공자(본인) 50% 할인',NULL, NULL);
+
+INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 2816941 , '지성(知性)애(愛) 빠지다, 부평향교' , 20220513 , 20221022 , '인천광역시 계양구 향교로 19 부평향교(지정문화재)', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/36/2816936_image2_1.jpg', 126.7207175131, 37.5395472304, 6, 2, 2, '032-450-5753', 
 '공식홈페이지: <a href=http://www.igycc.or.kr/" target="_blank" title="새창 : 지성(知性)애(愛) 빠지다, 부평향교">http://www.igycc.or.kr/</a><br>블로그: <a href="https://blog.naver.com/PostList.naver?blogId=gycc5753&from=postList&categoryNo=14" target="_blank" title="새창 : 지성(知性)애(愛) 빠지다, 부평향교">https://blog.naver.com</a><br>인스타그램: <a href="https://www.instagram.com/gyeyang_cultural_center/" target="_blank" title="새창 : 지성(知性)애(愛) 빠지다, 부평향교">https://www.instagram.com</a>', "2022 <지성(知性)애(愛) 빠지다, 부평향교>는 고려시대에 세워져 오랜 기간 유생들의 역사를 간직하고 인문정신이 살아 숨 쉬는 유서 깊은 문화유산 부평향교에서 다양한 주제의 교육·체험·공연 프로그램을 통해 구민들이 즐겁게 지성(知性)을 함양하고, 내가 사는 지역 문화재 향교에 대한 애정을 키우며 남녀노소 빠져들 수 있게 한다.", 
 '부평향교 (계양구 향교로 19)', NULL, NULL, '무료',NULL, NULL);
@@ -1105,7 +1169,7 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 2810502 , '동아시아문화도시 경주' , 20220325 , 20221118 , '경상북도 경주시 양정로 260 경주시청', NULL, 'A02081300', 'http://tong.visitkorea.or.kr/cms/resource/01/2810501_image2_1.jpg', 129.2244133550, 35.8559722016, 6, 35, 2, '054-779-8585', 
-'홈페이지 <a href="https://www.gyeongju.go.kr/cceagj/index.do" target="_blank" title="새창 : 2022 동아시아문화도시 경주">https://www.gyeongju.go.kr/cceagj/index.do</a><br>인스타그램 <a href="https://www.instagram.com/culturecity_gyeongju_/" target="_blank" title="새창 : 동아시아문화도시 경주">www.instagram.com</a><br>페이스북 <a href="https://www.facebook.com/2022-%EB%8F%99%EC%95%84%EC%8B%9C%EC%95%84%EB%AC%B8%ED%99%94%EB%8F%84%EC%8B%9C-%EA%B2%BD%EC%A3%BC-109102388394787" target="_blank" title="새창 : 동아시아문화도시 경주">https://www.facebook.com</a>', '동아시아문화도시는 한·중·일 3국간 문화다양성 존중이라는 기치 아래, "동아시아의 의식, 문화교류와 융합, 상대문화 이해"의 정신을 실천하기 위해 매년 개최하는 문화교류행사이다. 2022년 동아시아문화도시로는 한국 경주시, 중국 원저우시와 지난시, 일본 오이타현이 선정되었다. 연중 펼쳐지는 한·중·일 3국의 다채로운 문화교류행사에 여러분의 많은 관심과 참여 부탁드린다.', 
+'홈페이지 <a href="https://www.gyeongju.go.kr/cceagj/index.do" target="_blank" title="새창 : 2022 동아시아문화도시 경주">https://www.gyeongju.go.kr/cceagj/index.do</a><br>인스타그램 <a href="https://www.instagram.com/culturecity_gyeongju_/" target="_blank" title="새창 : 동아시아문화도시 경주">www.instagram.com</a><br>페이스북 <a href="https://www.facebook.com/2022-%EB%8F%99%EC%95%84%EC%8B%9C%EC%95%84%EB%AC%B8%ED%99%94%EB%8F%84%EC%8B%9C-%EA%B2%BD%EC%A3%BC-109102388394787" target="_blank" title="새창 : 동아시아문화도시 경주">https://www.facebook.com</a>', "동아시아문화도시는 한·중·일 3국간 문화다양성 존중이라는 기치 아래, \"동아시아의 의식, 문화교류와 융합, 상대문화 이해\"의 정신을 실천하기 위해 매년 개최하는 문화교류행사이다. 2022년 동아시아문화도시로는 한국 경주시, 중국 원저우시와 지난시, 일본 오이타현이 선정되었다. 연중 펼쳐지는 한·중·일 3국의 다채로운 문화교류행사에 여러분의 많은 관심과 참여 부탁드린다.", 
 '19:00-21:00', NULL, NULL, '무료',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
@@ -1140,7 +1204,7 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 2786391 , '광안리 M(Marvelous) 드론 라이트쇼' , 20220402 , 20231231 , '부산광역시 수영구 광안해변로 219', '(광안동)', 'A02081300', 'http://tong.visitkorea.or.kr/cms/resource/20/2822720_image2_1.jpg', 129.1185505648, 35.1538269450, NULL, 6, 12, '051-610-4884', 
-'<a href="http://gwangallimdrone.co.kr/" target="_blank" title="새창 : 드론 라이트쇼">http://gwangallimdrone.co.kr</a>', '매주 토요일 저녁, 새롭고 다양한 콘텐츠로 광안리 밤하늘을 아름답게 장식하는<광안리 M 드론 라이트쇼><br>"M"은 "놀라운, 경이로운"이라는 뜻의 "Marvelous"를 의미하는 것으로 드론이 뿜어내는 불빛이 광안대교의 야경과 어우러져 광안리를 찾는 방문객들에게 경이로움과 신비로움을 선사할 것이다.<br><br>* 코로나19 상황 및 기상상황(우천,강풍 등)에 따라 공연 일정 변경 가능', 
+'<a href="http://gwangallimdrone.co.kr/" target="_blank" title="새창 : 드론 라이트쇼">http://gwangallimdrone.co.kr</a>', "매주 토요일 저녁, 새롭고 다양한 콘텐츠로 광안리 밤하늘을 아름답게 장식하는<광안리 M 드론 라이트쇼><br>\"M\"은 '놀라운, 경이로운'이라는 뜻의 'Marvelous'를 의미하는 것으로 드론이 뿜어내는 불빛이 광안대교의 야경과 어우러져 광안리를 찾는 방문객들에게 경이로움과 신비로움을 선사할 것이다.<br><br>* 코로나19 상황 및 기상상황(우천,강풍 등)에 따라 공연 일정 변경 가능", 
 '광안리해변 일원', NULL, NULL, '무료',NULL, '10분 내외');
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
@@ -1150,7 +1214,7 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 2778356 , '2022영주세계풍기인삼엑스포' , 20220930 , 20221023 , '경상북도 영주시 신재로 964', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/79/2828079_image2_1.jpg', 128.5193160013, 36.8677160182, 6, 35, 14, '054-639-4801', 
-'o홈페이지 : <a href="http://www.ginsengexpo.org/yjexpo/main.do" target="_blank" title="새창 : 영주세계풍기인삼엑스포">http://www.ginsengexpo.org</a><br>o 네이버블로그 : <a href="https://blog.naver.com/in3expo" target="_blank" title="새창 : 영주세계풍기인삼엑스포">blog.naver.com/</a><br>o 페이스북 : <a href="https://www.facebook.com/in3expo" target="_blank" title="새창 : 영주세계풍기인삼엑스포">www.facebook.com</a><br>o 유튜브 : <a href="https://www.youtube.com/channel/UC-eTfd3F1KPy_OZHBj0ZcXg/featured" target="_blank" title="새창 : 영주세계풍기인삼엑스포">www.youtube.com</a><br>o 인스타그램 : <a href="https://www.instagram.com/in3expo/" target="_blank" title="새창 : 영주세계풍기인삼엑스포">www.instagram.com</a>', '2022영주세계풍기인삼엑스포가 "인삼, 세계를 품고, 미래를 열다!"라는 주제로 2022. 9. 30.일부터 10. 23.일까지 24일간 경상북도 영주시 풍기인삼문화팝업공원 일원에게 개최된다.<br>경상북도 영주시 풍기읍은 고려인삼의 최초 재배지로 알려져 있으며, 태백산 및 소백산맥으로 둘러 쌓인 고원지역에 위치하고 있어 일교차가 크고 유기물이 풍부한 토양과 대륙성 한랭기후, 배수가 잘되는 사질양토에서 인심이 재배되어 육질이 단단하며 유효 사포닌 함량이 높아 면역력 증진 효과가 우수하다.<br>이번 엑스포는 전시, 교역, 컨퍼런스, 이벤트, 체험, 관광 등 다양한 볼거리와 즐길거리로 다채롭게 꾸며질 계획이다.<br>전시관은 주제관, 생활과학관, 인삼미래관 등 6개관을 운영하고 포럼, 학술회의, 토크콘서트와 각종 컨퍼런스를 개최할 계획이다.', 
+'o홈페이지 : <a href="http://www.ginsengexpo.org/yjexpo/main.do" target="_blank" title="새창 : 영주세계풍기인삼엑스포">http://www.ginsengexpo.org</a><br>o 네이버블로그 : <a href="https://blog.naver.com/in3expo" target="_blank" title="새창 : 영주세계풍기인삼엑스포">blog.naver.com/</a><br>o 페이스북 : <a href="https://www.facebook.com/in3expo" target="_blank" title="새창 : 영주세계풍기인삼엑스포">www.facebook.com</a><br>o 유튜브 : <a href="https://www.youtube.com/channel/UC-eTfd3F1KPy_OZHBj0ZcXg/featured" target="_blank" title="새창 : 영주세계풍기인삼엑스포">www.youtube.com</a><br>o 인스타그램 : <a href="https://www.instagram.com/in3expo/" target="_blank" title="새창 : 영주세계풍기인삼엑스포">www.instagram.com</a>', "2022영주세계풍기인삼엑스포가 \"인삼, 세계를 품고, 미래를 열다!\"라는 주제로 2022. 9. 30.일부터 10. 23.일까지 24일간 경상북도 영주시 풍기인삼문화팝업공원 일원에게 개최된다.<br>경상북도 영주시 풍기읍은 고려인삼의 최초 재배지로 알려져 있으며, 태백산 및 소백산맥으로 둘러 쌓인 고원지역에 위치하고 있어 일교차가 크고 유기물이 풍부한 토양과 대륙성 한랭기후, 배수가 잘되는 사질양토에서 인심이 재배되어 육질이 단단하며 유효 사포닌 함량이 높아 면역력 증진 효과가 우수하다.<br>이번 엑스포는 전시, 교역, 컨퍼런스, 이벤트, 체험, 관광 등 다양한 볼거리와 즐길거리로 다채롭게 꾸며질 계획이다.<br>전시관은 주제관, 생활과학관, 인삼미래관 등 6개관을 운영하고 포럼, 학술회의, 토크콘서트와 각종 컨퍼런스를 개최할 계획이다.", 
 '풍기인삼문화팝업공원 일원', NULL, NULL, 'o 보통권 : 일반 8,000원, 청소년 5,000원, 어린이 3,000원<br>o 단체권 : 일반 7,000원, 청소년 4,000원, 어린이 3,000원<br>o 우대권 : 5,000원<br>o 전기간권 : 일반 30,000원, 청소년(중,고등학생) 20,000원<br>* 입장권 종류에 따라 일정금액의 쿠폰 지급<br>* 보통권 사전 예매시 일정금액을 할인(어린이 제외)<br>* 무료입장 : 국가유공자, 6세이하 영유아, 장애인 및 동반보호자 1인, 80세 이상, 상이군경, 명예홍보대사 등',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
@@ -1159,9 +1223,19 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 '목포 평화광장 일대', NULL, NULL, '무료','전체', '50분');
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
+2769942 , '제6회 강원도 평생학습박람회 & 제13회 횡성 평생학습축제' , 20220923 , 20220925 , '강원도 횡성군 문예로 75 횡성 문화체육공원', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/90/2852090_image2_1.jpg', 127.9782824672, 37.4907202341, 6, 32, 18, '1644-4845', 
+'<a href="https://www.gwlle.co.kr/" target="_blank" title="새창 : 평생학습박람회">www.gwlle.co.kr</a>', "\"강원도 평생학습박람회\"는 강원도의 다양한 평생학습정보를 소개하고 평생학습성과를 공유하는 강원도 최대의 평생학습 축제이며, 전시, 공연, 체험, 관람 등 다채로운 행사를 경험할 수 있는 축제이다.", 
+'횡성문화체육공원 일원', NULL, NULL, '무료',NULL, NULL);
+
+INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 2767541 , '제16회 전북과학축전' , 20220826 , 20220901 , '전라북도 전주시 덕진구 보훈누리로 63 창의체험관', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/49/2836449_image2_1.jpg', 127.1282680169, 35.8555842510, 6, 37, 12, '063-260-9333~6', 
 '<a href="http://jbsf.co.kr/" target="_blank" title="새창 : 전라북도과학축전">http://jbsf.co.kr/</a>', "제16회 전북과학축전은 온·오프라인 동시 진행 및 찾아가는 과학축전을 통해 폭넓은 체험 기회를 제공하고 보다 가까이 여러분께 다가가고자 한다. 또한 메타버스(젭)을 통해 온라인으로도 부대행사를 즐길 수 있도록 기획했다.<br>오프라인 전북과학축전에서는 총 56개, 온라인으로는 47개의 체험 및 전시 프로그램을 즐길 수 있다.<br>온라인 전북과학축전에서는 홈페이지의 3D 전시관을 통해 전북핵심산업에 관한 초고화질 전시를 감상할 수 있으며, 전북과학기술관에서는 전주기상지청, 한국과학기술연구원, 한국원자력연구원, 한국전자기술연구원, 전북LINC3.0사업단의 연구 성과와 과학기술을 살펴볼 수 있다.", 
 '전북 어린이창의체험관', NULL, NULL, '무료',NULL, NULL);
+
+INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
+2764526 , '2022 인천 독서대전' , 20220924 , 20221002 , '인천광역시 연수구 해돋이로 51', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/42/2850642_image2_1.jpeg', 126.6552221330, 37.3884664061, 6, 2, 8, '032-440-7873', 
+'<a href="https://blog.naver.com/libpolicy" target="_blank" title="새창 : 인천독서대전 블로그로 이동">https://blog.naver.com/libpolicy</a>', "인천광역시 공공도서관 개관 100주년을 맞아 도서관, 출판, 서점,작가 와 시민 모두가 함께하는 다채로운 독서의 향연.<br>9월 24일 11시 송도 해돋이공원에서의 개막식을 시작으로 1주일간 인천 전역에서 풍성한 독서 주제 행사가 진행된다.", 
+'송도 해돋이공원 및 인천광역시 전역', NULL, NULL, '무료',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 2758373 , '2022 대청호대덕뮤직페스티벌' , 20220916 , 20220918 , '대전광역시 대덕구 대청로570번길 57-13', '(미호동)', 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/99/2841099_image2_1.jpg', 127.4748428601, 36.4693536128, 6, 3, 1, '042-608-6732', 
@@ -1174,8 +1248,13 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 '강릉시 일원, 강원도 DMZ 박물관', NULL, NULL, '유료-등록비(Registration Fee): 각 합창단(단체 단위)은 선택한 첫 활동*에 500유로, 추가 활동 시 250유로 납부',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
+2756476 , '2022 조선왕릉문화제' , 20220924 , 20221023 , '서울특별시 노원구 화랑로 727 대한체육회선수촌', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/68/2852368_image2_1.jpg', 127.1015912499, 37.6328737518, 6, 1, 9, '02-6354-7223', 
+'<a href="https://www.jrtf.or.kr/" target="_blank" title="새창 : 2022 조선왕릉문화제">https://www.jrtf.or.kr/</a>', "유네스코 세계문화유산인 조선왕릉의 가치와 품격을 널리 알리기 위해 2020년부터 시작된 제3회 조선왕릉문화제는 '새로 보다, 조선 왕릉'이라는 슬로건과 함께 개최된다. 능에서 펼쳐지는 융복합 콘텐츠와 힐링 테마, 야행 프로그램을 통해 조선왕릉만의 색다른 모습을 경험할 수 있다.", 
+'태강릉, 홍유릉, 동구릉, 선정릉, 헌인릉, 의릉, 서오릉, 융건릉, 세종대왕릉', NULL, NULL, '무료',NULL, NULL);
+
+INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 2756253 , '2022 부여 세계유산 미디어아트 페스티벌' , 20220916 , 20221015 , '충청남도 부여군 부소로 31 부소산성', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/95/2847195_image2_1.jpg', 126.9148563346, 36.2848009909, 6, 34, 6, '070-4348-7715', 
-'<a href="https://www.buyeonight.kr/home/" target="_blank" title="새창 : 2022 부여 세계유산 미디어아트 페스티벌 ">www.buyeonight.kr</a>', '사비백제의 중심이었던 관북리 유적과 부소산성을 배경으로 시공간을 넘나들며 백제의 찬란한 역사와 어라하의 유산을 만날 수 있는 미디어아트 페스티벌이다.', 
+'<a href="https://www.buyeonight.kr/home/" target="_blank" title="새창 : 2022 부여 세계유산 미디어아트 페스티벌">www.buyeonight.kr</a>', "사비백제의 중심이었던 관북리 유적과 부소산성을 배경으로 시공간을 넘나들며 백제의 찬란한 역사와 어라하의 유산을 만날 수 있는 미디어아트 페스티벌이다.", 
 '부여 관북리 유적과 부소산성', NULL, NULL, '무료','전체 이용가', NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
@@ -1200,7 +1279,7 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 2753041 , '제2회 피나클랜드 국화축제' , 20220923 , 20221127 , '충청남도 아산시 월선길 20-42', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/42/2827642_image2_1.jpg', 126.9263422708, 36.8725197718, 6, 34, 9, '041-541-2582', 
-'<a href="https://blog.naver.com/pinnacle_land/222500749142" target="_blank" title="새창 : 제2회 피나클랜드 국화축제">blog.naver.com</a>', "피나클랜드에서 두번째로 선보이는 가을 '국화축제'. 수십가지 조형물들로 표현한 국화작품과 탁트인 풍경 속에 어우러진 가을 정취. 피나클랜드에서 직접 마을주민들과 함께 손수 키운 30여종 백만송이 국화향기와 함께 가을의 정취를 느껴보자. 카페 드 피나클에서 준비한 가을 특선 메뉴와 푸드트럭 존을 함께 만나보자.  문의) 041-541-2582  ※ 일부 행사는 현장상황에 따라 변경 및 취소될 수 있다.", 
+'<a href="https://blog.naver.com/pinnacle_land/222500749142" target="_blank" title="새창 : 제2회 피나클랜드 국화축제">blog.naver.com</a>', "피나클랜드에서 두번째로 선보이는 가을 '국화축제'. 수십가지 조형물들로 표현한 국화작품과 탁트인 풍경 속에 어우러진 가을 정취. 피나클랜드에서 직접 마을주민들과 함께 손수 키운 이백만송이 국화향기와 함께 가을의 정취를 느껴보자. 잔디광장에서는 그림그리기대회, 손글씨대회, 사진전, 할로윈, 음악회, 버블쇼, 마술쇼 등 매주 다양한 이벤트를 진행한다. 그리고 카페 드 피나클에서 준비한 가을 특선 메뉴와 축제장 특설 매장에서 진행하는 가을 대하축제를 함께 만나보자.<br>문의) 041-541-2582<br>※ 일부 행사는 현장상황에 따라 변경 및 취소될 수 있다.", 
 '피나클랜드 수목원 일대', NULL, NULL, '성인 12,000원 / 청소년 10,000원 / 어린이 8,000원',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
@@ -1259,12 +1338,12 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 '18:00 ~ 22:00', NULL, NULL, '무료',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
-2736042 , "춘천 커피도시 페스타 Let's COFFEE, 춘천" , 20220916 , 20220918 , '강원도 춘천시 서면 박사로 854', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/72/2839372_image2_1.jpg', 127.6918882316, 37.8930876473, 6, 32, 13, '033-245-6993', 
-'<a href="http://www.cccf.co.kr/" target="_blank" title="새창 : 관광지">http://www.cccf.co.kr/</a>', "춘천커피산업 육성과 춘천커피도시 브랜드 확장을 위한 ‘2022 춘천커피도시페스타’가 9월16일(금)~18일(일)까지 춘천애니메이션박물관일대와 메타버스가상공간 등에서 다채롭게 열린다.<br>춘천시는 18일 기자간담회를 갖고 이번 2022 춘천커피도시페스타는‘SNS (Shot “N” Shot=샷 앤 샷)’이라는 컨셉으로 커피의 농도를 나타내는 샷과 촬영의 단위인 샷을 담아서 행사장 전체를 하나의 멋진 카페로 구성해 개최한다.<br><br>9월 16일(금)에서 9월 18일(일)까지 낮12시부터 오후8시까지 춘천 애니메이션 박물관 일원에서 펼쳐지는 오프라인 행사는 춘천 시내 로스터리 커피숍 40여개 업소가 참여해 나름의 커피 맛을 선보일 예정이다.", 
+2736042 , '춘천 커피도시 페스타 Let\'s COFFEE, 춘천' , 20220916 , 20220918 , '강원도 춘천시 서면 박사로 854', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/72/2839372_image2_1.jpg', 127.6918882316, 37.8930876473, 6, 32, 13, '033-245-6993', 
+'<a href="http://www.cccf.co.kr/" target="_blank" title="새창 : 관광지">http://www.cccf.co.kr/</a>', "춘천커피산업 육성과 춘천커피도시 브랜드 확장을 위한 ‘2022 춘천커피도시페스타’가 9월16일(금)~18일(일)까지 춘천애니메이션박물관일대와 메타버스가상공간 등에서 다채롭게 열린다.<br>이번 2022 춘천커피도시페스타는‘SNS (Shot “N” Shot=샷 앤 샷)’이라는 컨셉으로 커피의 농도를 나타내는 샷과 촬영의 단위인 샷을 담아서 행사장 전체를 하나의 멋진 카페로 구성해 개최한다.<br><br>9월 16일(금)에서 9월 18일(일)까지 낮12시부터 오후8시까지 춘천 애니메이션 박물관 일원에서 펼쳐지는 오프라인 행사는 춘천 시내 로스터리 커피숍 40여개 업소가 참여해 나름의 커피 맛을 선보일 예정이다.", 
 '애니메이션 박물관 일원', NULL, NULL, '무료',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
-2736033 , '부산인디커넥트페스티벌 2022' , 20220901 , 20220930 , '부산광역시 동구 충장대로 206 부산항 국제여객터미널', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/27/2831027_image2_1.jpg', 129.0491742511, 35.1177852539, 6, 6, 5, 'BIC2022 운영사무국 010-3371-2999<br>BIC조직위 070-8855-5058', 
+2736033 , '부산인디커넥트페스티벌 2022' , 20220901 , 20220904 , '부산광역시 동구 충장대로 206 부산항 국제여객터미널', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/27/2831027_image2_1.jpg', 129.0491742511, 35.1177852539, 6, 6, 5, 'BIC2022 운영사무국 010-3371-2999<br>BIC조직위 070-8855-5058', 
 '홈페이지 <a href="https://bicfest.org/" target="_blank" title="새창 : 부산인디커넥트페스티벌">https://bicfest.org</a><br>페이스북 <a href="https://www.facebook.com/BICfestival" target="_blank" title="새창 : 부산인디커넥트페스티벌">https://www.instagram.com/cafe_osongwave/</a><br>인스타그램 <a href="https://www.instagram.com/bicfest_official/" target="_blank" title="새창 : 부산인디커넥트페스티벌">https://www.instagram.com</a><br>트위터 <a href="https://twitter.com/BIC_Festival" target="_blank" title="새창 : 부산인디커넥트페스티벌">https://twitter.com</a>', "인디게임 개발자와 게이머를 위한 글로벌 인디게임 페스티벌<br>부산인디커넥트페스티벌(BIC Festival)은 2015년부터 매년 대한민국 부산에서 열리는 글로벌 인디게임 페스티벌로, 인디게임 만을 위한 단일 행사로는 대한민국 최대규모로 성장했다.<br>올해 2022년도에는 9월 1일 부터 4일까지 2년만에 더욱 확대된 규모의 오프라인 행사로 부산항국제전시컨벤션센터에서 진행되며, 온라인 행사도 9월 1일 부터 30일까지 BIC 공식누리집에서 진행된다.<br>- 9월 1일(목) ~2일(금) : 비즈니스 데이 (일반 관람객 관람 불가)<br>- 9월 3일(토)~4일(일) : 페스티벌 데이", 
 '부산항국제전시컨벤션터', NULL, NULL, '얼리버드 예매 기간 : 2022. 8.5.(금), 10:00 ~ 9.2.(금), 23:59 (네이버 예약 페이지에서 구매 가능)<br>- 성인 : 12,000원 / 청소년 : 9,600원<br>오프라인 현장 예매기간 : 2022. 9.1.(목), 9:00 ~ 9.4.(일), 9:00  ~ 17:00<br> - 성인 : 15,000원 / 청소년 12,000원',NULL, NULL);
 
@@ -1294,6 +1373,11 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 산림청의 지원으로 매년 열리는 목재산업박람회는 국내 목재산업의 현재를 보여주고 미래를 예측하게 하는 행사로 목재의 가치와 효용 증진 및 산림정책 홍보, 대국민 인식 전환 계기를 마련하며 지속 가능한 탄소중립의 산림 흡수원 기능 증진 및 사회적 가치 확산을 목적으로 하고 있다.
 또한 목재산업 육성을 통한 새로운 일자리 창출로 경제 활성화에도 기여할 것을 기대하고 있다.", 
 '대전컨벤션센터 제2전시장', NULL, NULL, NULL,NULL, NULL);
+
+INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
+2728867 , '대한민국문화의달(밀양)' , 20221014 , 20221016 , '경상남도 밀양시 중앙로 324 영남루', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/30/2850630_image2_1.jpg', 128.7547091490, 35.4917461810, 6, 36, 7, '055-359-4597', 
+'<a href="http://culturemoon.co.kr" target="_blank" title="새창 : 관광지">http://culturemoon.co.kr</a>', "2022 대한민국 문화의 달 행사는 경상남도(밀양시)에서 개최된다. 2022년은 아리랑「유네스코 세계인류무형유산」등재 10주년으로 대한민국 3대 아리랑 공동 협의체 밀양, 정선, 진도 3개 시군이 공동 참여하여 아리랑, 지역문화, 청년예술가, 미래세대를 주제로 공연, 전시, 인형극, 체험 프로그램으로 구성된다.", 
+'영남루 밀양강변 일원', NULL, NULL, '무료','전연령', NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 2728613 , '[제주] 제주민속촌 귀몽아일랜드' , 20220701 , 20221017 , '제주특별자치도 서귀포시 표선면 민속해안로 631-34', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/60/2825160_image2_1.jpg', 126.8430383774, 33.3213690665, 6, 39, 3, '064-787-4501', 
@@ -1359,7 +1443,7 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 2713558 , '강원세계산림엑스포' , 20230504 , 20230606 , '강원도 고성군 토성면 잼버리로 244', NULL, 'A02080600', 'http://tong.visitkorea.or.kr/cms/resource/24/2804924_image2_1.jpg', 128.5001657397, 38.2236839691, 6, 32, 2, '033-818-2158', 
-'홈페이지 <a href="http://www.gwfe.or.kr" target="_blank" title="새창: 홈페이지로 이동">http://www.gwfe.or.kr</a><br>사전예약 <a href="http://ticket.yes24.com/New/Perf/Detail/Detail.aspx?IdPerf=40444" target="_blank" title="새창 : 강원세계산림엑스포">http://ticket.yes24.com</a>', '2023 강원세계산림엑스포는 오는 2023년 5월 4일부터 6월 6일까지 34일 동안 "세계, 인류의 미래, 산림에서 찾는다"라는 주제로 고성군 토성면에 위치한 세계잼버리수련장과 설악~금강권을 연결하는 고성, 속초, 인제, 양양 일원에서 개최된다.', 
+'홈페이지 <a href="http://www.gwfe.or.kr" target="_blank" title="새창: 홈페이지로 이동">http://www.gwfe.or.kr</a><br>사전예약 <a href="http://ticket.yes24.com/New/Perf/Detail/Detail.aspx?IdPerf=40444" target="_blank" title="새창 : 강원세계산림엑스포">http://ticket.yes24.com</a>', "2023 강원세계산림엑스포는 오는 2023년 5월 4일부터 6월 6일까지 34일 동안 \"세계, 인류의 미래, 산림에서 찾는다\"라는 주제로 고성군 토성면에 위치한 세계잼버리수련장과 설악~금강권을 연결하는 고성, 속초, 인제, 양양 일원에서 개최된다.", 
 '강원도세계잼버리수련장', NULL, NULL, '보통권 :<br>일반(만 19세 ~ 64세) 10,000원(예매 8,000원)<br>청소년(만 13세 ~ 18세) 7,000원(예매 6,000원)<br>어린이(만 7세 ~ 12세) 5,000원(예매 4,000원)<br><br>단체권 :<br>일반(만 19세 ~ 64세) 8,000원<br>청소년(만 13세 ~ 18세) 6,000원<br>어린이(만 7세 ~ 12세) 5,000원<br>※ 내국인 :<br>20명 이상 / 외국인 : 10명 이상, 예매요금 동일, 동시입장<br><br>우대권 :<br>일반(만 19세 ~ 64세) 5,000원(예매 5,000원)<br>청소년(만 13세 ~ 18세) 3,500원(예매 3,500원)<br>어린이(만 7세 ~ 12세) 2,500원(예매 2,500원)<br>※ 만 65세 ~74세, 경증(4~6급)장애인, 현역군경(의무복무자), 강원도민<br><br>가족권 : 24,000원(예매 20,000원)<br><br>※ 무료입장 : 국가(독립)유공자, 국민기초생활수급자, 중증(1~3)급 장애인 및 보호자 1명, 만 75세 이상, 만 7세 미만, 공무수행자, 국빈외교사절단 및 수행자, 단체인솔자(20명당 1인), 학교단체 인솔 교사',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
@@ -1388,7 +1472,7 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 '수원화성 일원', NULL, NULL, '7,500원',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
-2673150 , "Let's DMZ" , 20220924 , 20221002 , '경기도 파주시 임진각로 148-40 평화누리', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/12/2849612_image2_1.jpg', 126.7447609198, 37.8920676942, 6, 31, 27, '031-853-6496', 
+2673150 , 'Let\'s DMZ' , 20220916 , 20221002 , '경기도 파주시 임진각로 148-40 평화누리', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/09/2852409_image2_1.jpg', 126.7447609198, 37.8920676942, 6, 31, 27, '031-853-6496', 
 '홈페이지 <a href="https://letsdmz.ggcf.kr/" target="_blank" title="새창 : Let\'s DMZ">https://letsdmz.ggcf.kr</a><br>인스타그램 <a href="https://www.instagram.com/letsdmz" target="_blank" title="새창 : Let\'s DMZ">www.instagram.com/letsdmz</a>', "Let's DMZ \"더 큰 평화를 위한 시작\"<br>Let's DMZ는 DMZ가 지닌 평화의 의미와 생태적 가치를 국내외 대중과 교감하는 종합 학술·문화예술 축제이다. 경기도가 주최하고 경기문화재단·킨텍스·경기관광공사가 주관하며, 《DMZ 평화예술제》, 《DMZ 포럼》, 《DMZ RUN(스포츠)》의 행사로 운영된다.", 
 '파주 임진각 평화누리', NULL, NULL, '유료<br>행사별 상이',NULL, NULL);
 
@@ -1398,12 +1482,17 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 '대학로 일원', NULL, NULL, '무료',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
+2671149 , '제8회 고양국제무용제' , 20220928 , 20221002 , '경기도 고양시 일산동구 중앙로 1286', '(마두동)', 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/57/2852357_image2_1.jpg', 126.7740064529, 37.6612006889, 6, 31, 2, '010-7794-5101', 
+'<a href="http://www.gidf.kr/" target="_blank" title="새창: 홈페이지로 이동">www.gidf.kr</a>', "고양국제무용제는 고양안무가협회(회장 임미경)의 주최로 지난 2015년 첫 회를 시작으로 올해 8년째를 맞이하는 고양시 유일의 국제 무용축제이다. 고양시 지역문화예술 발전과 무용예술 보급, 지역 무용예술가 창작활동 지원, 국제적 문화교류를 위해 지속적인 노력을 거듭한 결과 올해는 특히 고양시와 고양문화재단 주최로 축제가 치러진다. 지난 2년간 코로나19의 영향으로 국내무용단에 입단한 해외 무용수팀과 국제적 위상을 지닌 국내 안무가의 작품들로 프로그램을 구성하였다. 온라인상영, 거리두기 관객 입장 등 제한적인 상황에서 공연을 했음에도 수준 높은 프로그램과 완성도 높은 실연으로 큰 관심을 받으며 성공리에 행사를 치렀다. 코로나19라는 국제적 위기에도 불구하고 실시간 공연실황 중계를 통해 세계적으로 인정받고 있는 무용가들을 고양시민에게 널리 소개할 수 있는 기회가 되었으며 또한 국제무용축제로써의 위상을 더욱 강화하였다.<br>이번 축제는 9월26일부터 10월2일까지 일주일간 고양아람누리 새라새극장에서 개최된다. 매년 탄탄한 라인업을 자랑하는 본 축제는 올해 국내외 유명 안무가들의 총 13작품이 무대에 오르며, 고양시민 참여 워크숍 및 전문무용가를 위한 마스터클래스 등 부대행사가 진행된다. 전화 및 홈페이지 예약을 통해 누구나 무료로 관람할 수 있다.", 
+'고양아람누리 새라새극장', NULL, NULL, '무료(사전예약필수)',NULL, NULL);
+
+INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 2670718 , '청주전통공예페스티벌' , 20220921 , 20220925 , '충청북도 청주시 청원구 상당로 314 문화제조창 청주시청제2임시청사', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/13/2670713_image2_1.jpg', 127.4889281085, 36.6566740551, 6, 33, 10, '070-7777-7636', 
 '<a href="http://www.okcj.org/bbs/content.php?co_id=menu02040101" target="_blank" title="새창: 청주공예비엔날레조직위원회 홈페이지로 이동">http://www.okcj.org</a>', "'천년의 숨결, 미래의 유산'을 주제로 열리는 '2022 청주전통공예페스티벌'은 천년을 이어온 선인들의 고귀한 장인 정신과 공예의 혼을 계승하고, 이를 창의적인 감각으로 발전시켜 동시대에 현대적 가치를 발현하며 미래 세대에게는 아름다운 유산으로 전하고자 한다.", 
 '문화제조창 본관 3층 (청주시한국공예관 갤러리 6) 및 온라인', NULL, NULL, NULL,NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
-2667307 , '고창 핑크뮬리 축제' , 20220910 , 20221031 , '전라북도 고창군 부안면 복분자로 307', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/19/2735319_image2_1.jpg', 126.6264384089, 35.5027352266, 6, 37, 1, '0507-1375-3250', 
+2667307 , '고창 핑크뮬리 축제' , 20220915 , 20221031 , '전라북도 고창군 부안면 복분자로 307', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/19/2735319_image2_1.jpg', 126.6264384089, 35.5027352266, 6, 37, 1, '0507-1375-3250', 
 '<a href="https://blog.naver.com/feelkkot" target="_blank" title="새창: 꽃객프로젝트 네이버 블로그로 이동">https://blog.naver.com/feelkkot</a>', "고창 핑크뮬리 축제는 식물 및 정원관광 콘텐츠를 발굴하여 정원관광을 활성화하고 방문객들의 관광소비가 지역에 골고루 흡수되며 소멸해가는 지역을 살리는 방향으로 재투자되기를 희망하며 조용한 정원축제를 진행한다. 특히 올가을 코로나19로 위축된 지역 관광업계도 살리고 안전한 로컬여행을 계획해보자.", 
 '꽃객프로젝트 팜정원 내', NULL, NULL, '5,000원/인 (36개월 미만 무료)',NULL, NULL);
 
@@ -1454,6 +1543,11 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 2648430 , '2022 경기곤충페스티벌' , 20220924 , 20220925 , '경기도 화성시 병점중앙로 283-33', '(기산동)', 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/91/2830591_image2_1.jpg', 127.0429415014, 37.2225202975, 6, 31, 31, '031-8008-9445', 
 '<a href="https://blog.naver.com/ggbug20" target="_blank" title="새창: 행사 홈페이지로 이동">https://blog.naver.com/ggbug20</a>', "코로나19로 인해 비대면으로 진행되었던 경기곤충페스티벌이 다시 대면으로 돌아왔다. 지루하고 갑갑하게 눈으로만 관찰하던 곤충을 직접 만지며 관찰할 수 있는 다양한 체험들이 준비되어 있다. 살아있는 곤충 전시부터, 커다란 참나무위에서 놀고 있는 장수풍뎅이와 사슴벌레, 귀뚤귀뚤 울고 있는 쌍별귀뚜라미, 전시관 안에서 뛰어다니는 메뚜기, 여러 종류의 애벌레까지.. 야외에서 만나볼 수 있는 다양한 곤충들과 곤충콘덴츠 공모전의 수상작들로 꾸며진 전시, 경기도 곤충농가들이 직접 사육하고 판매하는 곤충 제품들도 볼 수 있다. 코로나19의 확산 방지를 위하여 오전/오후 각 4시간씩만 관람이 가능하고 예약하지 않은 관람객은 입장이 불가능하다.", 
 '경기도농업기술원 곤충자원센터', NULL, NULL, '무료',NULL, NULL);
+
+INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
+2640874 , '서울라이트 DDP' , 20220930 , 20221009 , '서울특별시 중구 을지로 281', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/19/2852319_image2_1.jpg', 127.0099486810, 37.5675991318, 6, 1, 24, '02-6953-9010', 
+'<a href="http://ddp.or.kr" target="_blank" title="새창 :서울라이트쇼">https://www.ddp.or.kr</a>', "2022 서울라이트는 다가오는 9월 30일부터 12월까지 풍성한 프로그램으로 서울 시민들을 맞이한다.<br>가을의 서울라이트는 <버추얼 패션 미디어아트>를 메인으로 하여, 우주적 삶을 향해 걸어가는 거대한 캐릭터의 유쾌하고 신나는 그래피컬한 패션 워킹웨이가 어울림 광장 외벽에 펼쳐진다.  <br>12월에는 <DDP 포럼 ‘Your Dream Space’>이 서울라이트 겨울의 막을 연다. 예술&과학 분야의 전문가들을 초빙해 ‘우주’를 어떻게 해석하고 표현하는지에 대한 포럼이 진행된다. 누구나 온라인으로 참여 가능하다. 서울라이트의 주요 행사인 <DDP 우주와의 만남, Rendez-Vous(랑데-부)>개막식에는 유난샘, Nsyme(엔자임), 범민 등 유명 작가들의 작품이 한데 어우러진 환상적 미디어아트 쇼가 진행된다. 스티키몬스터랩, HELLOMAN이 참여하는 크리스마스 및 새해 카운트다운 행사 등도 함께 진행될 예정이다.", 
+'DDP', NULL, NULL, '무료',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 2630385 , '코리아그랜드세일' , 20220810 , 20220831 , '온라인개최', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/24/2827924_image2_1.jpg', 126.9848758397, 37.5720426096, 6, 1, 100, '070-7603-3807', 
@@ -1555,6 +1649,11 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 2601899 , '서울랜드 불빛축제 루나파크' , 20210101 , 20221231 , '경기도 과천시 광명로 181', '(막계동)', 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/68/2769668_image2_1.jpg', 127.0169239697, 37.4366477965, 6, 31, 3, '02-509-6000', 
 '<a href="http://www.seoulland.co.kr" target="_blank" title="새창: 서울랜드 루나파크 홈페이지로 이동">http://www.seoulland.co.kr</a>', "서울랜드 빛축제 '루나파크'는 서울에서 가장 가까운 빛 축제로, 매일 밤 서울랜드의 28만 2250㎡의 넓은 공간 전체가 거대한 빛의 공연장으로 새롭게 변신해 환상적인 분위기의 라이트닝 공연이 펼쳐진다. 서울랜드의 상징 '지구별'에서는 3D맵핑과 음악이 어우러진 공연이 펼쳐진다. 특히 6m 크기의 국내 최대규모 미러볼이 등장해 빛축제의 하이라이트를 선보인다. 루나레이크에서는 LED일루미네이션이 화려한 빛으로 관람객들의 시선을 사로잡는다. 또한 로맨틱가든에서는 웨딩을 테마로 한 가제보와 대형 LED 장미꽃이 형형색색 빛으로 낭만적인 분위기를 더한다. 여기에 공원 곳곳 위치한 보름달 실루엣, 초승달 등 다양한 포토존은 관람객들이 인생샷을 남기기에 충분하다.", 
 '서울랜드', NULL, NULL, '서울랜드 파크이용권(주간권 혹은 야간권) 구매 시 무료','전연령가능', '1시간');
+
+INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
+2601242 , '도봉한글잔치' , 20221009 , 20221009 , '서울특별시 도봉구 해등로32가길 16', '(방학동)', 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/81/2725681_image2_1.jpg', 127.0222976961, 37.6603469037, 6, 1, 10, '02-905-4026', 
+'<a href="http://www.dobong.or.kr" target="_blank" title="새창: 도봉한글잔치 홈페이지로 이동">http://www.dobong.or.kr/</a>', "훈민정음 반포 제 575돌 한글날을 기념하고, 한글의 우수성과 한글을 주제로 만든 설치미술 및 한글을 표현한 다양한 프로그램을 통해 제11회 도봉한글잔치를 개최하고자 한다.", 
+'원당샘 공원(서울 도봉구 해등로32가길 16 )', NULL, NULL, '무료',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 2600837 , '제8회 흥페스티벌 - [RE:BOOT] 흥의 부활 ll' , 20221003 , 20220904 , '서울특별시 중구 퇴계로34길 28 남산골한옥마을', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/32/2847232_image2_1.jpg', 126.9932865315, 37.5597775194, 6, 1, 24, '02-6925-1255', 
@@ -1736,6 +1835,11 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 '용두사지철당간, 중앙공원, 청주시청 임시청사, 청주읍성전시관 , 성안길, 서문시장, 남주남문로 한복문화의 거리', NULL, NULL, '무료','전 연령', NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
+2503125 , '2022 브릿지워크서울' , 20221015 , 20221015 , '서울특별시 영등포구 노들로 113 양화개나리점', NULL, 'A02081200', 'http://tong.visitkorea.or.kr/cms/resource/58/2852358_image2_1.jpg', 126.8933655127, 37.5445580545, 6, 1, 20, '070-4705-2008', 
+'<a href="https://www.instagram.com/urbansports.kr/" target="_blank" title="새창: 브릿지워크서울 행사 홈페이지로 이동">www.instagram.com/urbansports.kr</a>', "서울에서 가장 아름다운 걷기대회인 2022 브릿지워크서울이 3년 만에 돌아왔습니다. 가을, 노을 사이를 걷다라는 캐치프레이즈로 진행되는 이번 행사는 양화 한강공원(성수하늘다리 옆 공터)에서 시작해 한강대교~원효대교~마포대교를 경유하여 다시 양화대교로 돌아오는 20K 코스는 물론, 많은 참가자들의 성원으로 새롭게 생긴 10K 코스 등 다채로움으로 가득 채웠다.", 
+'양화 한강공원', NULL, NULL, '유료(정가: 42,000원 / 얼리버드: 39,000원(8월 31일부터 일정 수량) / 수퍼얼리버드: 36,000원(수량 조기마감))','성별 연령 제한 없음', '20K 코스 제한시간 5시간 30분 / 10K 코스 제한시간 3시간');
+
+INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 2502973 , '플라잉(FLYing)' , 20220415 , 20221230 , '경상북도 경주시 경감로 614', '(천군동)', 'A02081300', 'http://tong.visitkorea.or.kr/cms/resource/68/2502968_image2_1.jpg', 129.2892916998, 35.8315650725, 6, 35, 2, '054-775-0815', 
 '<a href="https://www.cultureexpo.or.kr/open.content/ko/program/performance/flying/" target="_blank" title="새창: 플라잉 행사 홈페이지로 이동">http://www.cultureexpo.or.kr</a>', "익스트림 퍼포먼스 <플라잉>은 경상북도, 경주시와 한국 넌버벌 창작의 대표주자 최철기(‘난타’ 연출, ‘점프’, ‘비밥’ 총감독)가 만든 작품이다. 전 국가대표 출신 선수(리듬체조, 기계체조, 마샬아츠, 비보잉)들이 펼치는 화려한 기술의 향연과 친근한 도깨비의 유쾌함이 접목되어 남녀노소 누구나 쉽게 즐기실 수 있다.<br /><br />기존 '플라잉' 상설공연의 업그레이드를 통하여 공연의 다이내믹한 연출과 무대효과 극대화 추진
 3D 영상 및 홀로그램과 로봇 등의 최첨단 공연기술을 접목하여 배우의 실연 공연과 영상이 만나는 판타지 효과를 연출한다.", 
@@ -1786,6 +1890,11 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 '임시수도기념거리 일원 및 부산시민공원', NULL, NULL, '무료',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
+2485123 , '순천 푸드앤아트 페스티벌' , 20221007 , 20221009 , '전라남도 순천시 중앙로 125-1 종합문구사', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/90/2852390_image2_1.jpg', 127.4840014124, 34.9569309401, 6, 38, 11, '061-749-5796', 
+'<a href="http://sc-fafestival.com/" target="_blank" title="새창: 행사 홈페이지로 이동">http://sc-fafestival.com/</a>', "2022년 순천푸드앤아트페스티벌은  « 순천, 맛의 정원에 멋을 피우다 »라는 주제로, 순천 원도심에서 10월7일(금)~9일(일) 3일간 진행된다. 10월 7일 바이브, 포맨, 바다, 이하늘과 함께하는 EDM파티로 축제의 개막을 알린다. 순천의 고즈넉한 문화를 느낄 수 있는 중앙동 일대인 의료원 로터리~남교오거리, 문화의 거리~연자로, 남문터광장, 옥천변에서 진행되는 이번 축제는 순천 시민들이 직접 참여하는 푸드포차, 아트마켓 등으로 풍성한 볼거리, 먹을거리, 즐길 거리를 제공한다. 10월 가을에 순천 시민들에게 풍성하고 마음이 따뜻해지는 소중한 추억을 선물로 제공하는 2022 순천 푸드앤아트페스티벌로 놀러가자.", 
+'중앙로일원<br>(의료원로타리~남교오거리/문화의거리~연자로,남문터광장,옥천변)', NULL, NULL, '무료<br>부스별 요금 상이','전연령 관람 및 체험 가능', '120분');
+
+INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 2446530 , '웅진성 수문병 근무교대식' , 20220423 , 20221127 , '충청남도 공주시 웅진로 280', NULL, 'A02081300', NULL, 127.1236550047, 36.4651867499, 6, 34, 1, '공산성 관광안내소 041-856-7700', 
 NULL, "2015년 유네스코 세계문화유산에 등재된 백제역사유적지구 중 공산성을 배경으로 펼쳐지는 '웅진성 수문병 근무교대식'은 철저한 역사적 고증 아래 제작된 의상과 소품을 활용하여 당시 왕성을 호위하던 수문병의 근무를 재현한다. 혹서기인 6월 둘째 주부터 8월 말까지 제외하고 4월부터 11월까지 매주 토,일요일에 진행된다. 특히, 올해부터는 기존 1일 6회 진행하던 교대식을 프로그램의 완성도를 높이기 위해 1일 2회(11시, 16시) 실시한다. 교대식에 참여하는 인원을 전원 전문 배우로 선정해 보다 역동적이고 현실감 있는 퍼포먼스를 선보일 예정이다. 이와 함께 매주 주말 오후 2시 진행되는 공산성 앞 무령왕 동상 회전의식에도 수문병들이 직접 참여해 관람객들에게 보다 풍성한 볼거리를 제공할 계획이다.", 
 '공산성 금서루 및 연문광장 내 무령왕동상 주변', NULL, NULL, NULL,'전 연령 가능', NULL);
@@ -1821,7 +1930,7 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 '올림픽공원 평화의광장', NULL, NULL, '무료',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
-2405329 , '종로한복축제' , 20221008 , 20221009 , '서울특별시 종로구 세종대로 172 5호선 광화문역', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/12/2848712_image2_1.jpeg', 126.9767821434, 37.5716786179, 6, 1, 23, '02-6263-1185', 
+2405329 , '종로한복축제' , 20221008 , 20221009 , '서울특별시 종로구 세종대로 172 5호선 광화문역', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/55/2852355_image2_1.jpg', 126.9767821434, 37.5716786179, 6, 1, 23, '02-6263-1185', 
 '<a href="https://jongnohanbok.kr/site/main/home" target="_blank" title="새창 : 종로한복축제">https://jongnohanbok.kr</a>', "종로한복축제는 한복의 아름다움과 우수성을 널리 알리고 한복의 대중화와 한복입기 생활화를 위해 2016년부터 개최온 축제로, 한복과 다양한 전통문화콘텐츠를 활용한 행사 및 다채로운 볼거리를 제공해왔다.", 
 '광화문광장', NULL, NULL, '무료',NULL, NULL);
 
@@ -1910,8 +2019,8 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 '과천시민광장(과천시민회관 옆 잔디마당) 및 과천시민회관 일대', NULL, NULL, '무료',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
-2028440 , '한강달빛야시장' , 20220910 , 20221023 , '서울특별시 서초구 신반포로11길 40 한강공원 반포 안내센터', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/49/2848549_image2_1.jpg', 126.9927658294, 37.5077391108, 6, 1, 15, '02-120', 
-'홈페이지 <a href="http://www.bamdokkaebi.org" target="_blank" title="새창 : 서울 밤도깨비 야시장 홈페이지로 이동">http://www.bamdokkaebi.org</a><br>인스타그램 <a href="https://www.instagram.com/hangangmoonlightmarket/" target="_blank" title="새창 : 한강달빛야시장 홈페이지로 이동">www.instagram.com</a>', "※ 행사지의 주차장이 협소하오니 대중교통을 이용해 주시기 바랍니다. <br>● 9월 10일 (토) - 9월 25일 (일) 중 매주 토·일 반포한강공원 개장 예정<br>● 10월 22일 (토) - 10월 23일 (일) 여의도한강공원 개장 예정<br>※운영 기간 중 우천 시 휴장<br><br>한강 위, 달빛이 떠오르면 맛있는 먹거리는 물론 다양한 행사와 예술가가 참여하는 장터, 오랫동안 간직하고 싶은 수공예 상품까지 낭만적인 야경을 배경으로 모두 한자리에 모인다. 한강 달빛 야시장은 달빛 아래 예술과 낭만이 있는 서울형 야시장이다.", 
+2028440 , '한강달빛야시장' , 20220917 , 20221030 , '서울특별시 서초구 신반포로11길 40 한강공원 반포 안내센터', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/49/2848549_image2_1.jpg', 126.9927658294, 37.5077391108, 6, 1, 15, '02-120', 
+'홈페이지 <a href="http://www.bamdokkaebi.org" target="_blank" title="새창 : 서울 밤도깨비 야시장 홈페이지로 이동">http://www.bamdokkaebi.org</a><br>인스타그램 <a href="https://www.instagram.com/hangangmoonlightmarket/" target="_blank" title="새창 : 한강달빛야시장 홈페이지로 이동">www.instagram.com</a>', "※ 9/10 - 9/11 태풍 11호 힌남노의 영향으로 인한 공원 침수 복구로 휴장<br>※ 행사지의 주차장이 협소하오니 대중교통을 이용해 주시기 바랍니다. <br>● 9월 17일 (토) - 9월 25일 (일) 중 매주 토·일 반포한강공원 개장 예정<br>● 10월 22일 (토) - 10월 30일 (일) 중 매주 토·일 여의도한강공원 개장 예정<br>※운영 기간 중 우천 시 휴장<br><br>한강 위, 달빛이 떠오르면 맛있는 먹거리는 물론 다양한 행사와 예술가가 참여하는 장터, 오랫동안 간직하고 싶은 수공예 상품까지 낭만적인 야경을 배경으로 모두 한자리에 모인다. 한강 달빛 야시장은 달빛 아래 예술과 낭만이 있는 서울형 야시장이다.", 
 '반포한강공원 달빛광장 일대, 여의도한강공원 일대', NULL, NULL, '무료',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
@@ -1923,6 +2032,11 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 2021717 , '청주읍성큰잔치' , 20220902 , 20220904 , '충청북도 청주시 상당구 상당로55번길 33 청주중앙공원', '(남문로2가)', 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/48/2839848_image2_1.jpg', 127.4887982220, 36.6329017813, 6, 33, 10, '043-265-3624', 
 '<a href="http://www.xn--oj4bt5iegj5c8wilzcf9e.kr/#visual" target="_blank" title="새창 : 청주읍성큰잔치 홈페이지로 이동">www.청주읍성큰잔치.kr</a>', "1,592년 임진왜란 당시 의병과 승병들이 주도한 연합군이 처음으로 성을 지켜낸 역사적 사건을 기념하는 시민참여형 역사·문화 축제이다. 청주성 탈환 전투의 정신적, 역사적 의미를 이어가며 청주의 정체성 확립과 청주 시민의 자긍심을 높이고자 하는데 목적을 두고 있다. 시민참여와 체험 지향형 축제로써 정체성과 독창성을 살린 다양한 프로그램들을 만나볼 수 있다.", 
 '청주중앙공원 일원', NULL, NULL, NULL,NULL, NULL);
+
+INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
+2005233 , '2022 정동야행' , 20220923 , 20220924 , '서울특별시 중구 세종대로 99 덕수궁', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/56/2851856_image2_1.jpg', 126.9765906796, 37.5651071556, 6, 1, 24, '010-9232-8571', 
+'<a href="http://jeongdong-culturenight.kr" target="_blank" title="새창: 2022 정동야행 홈페이지 이동">jeongdong-culturenight.kr</a>', "정동의 르네상스라는 주제로 정동이 과거와 미래를 잇는 대한민국 문화 중심으로의 재도약을 위한 2022 정동야행을 개최한다.", 
+'서울 중구 정동 일대', NULL, NULL, '무료',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 1998564 , '궁중문화축전' , 20221001 , 20221009 , '서울특별시 종로구 사직로 161', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/07/2718907_image2_1.png', 126.9769930325, 37.5788222356, 6, 1, 23, '02-3210-4683', 
@@ -1974,7 +2088,7 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 '수성못 일원, 울루루 문화광장 등', NULL, NULL, NULL,NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
-1846797 , '제9회 군산시간여행축제' , 20221007 , 20221010 , '전북 군산시 중앙로1가 11-1', '전북 군산시 중앙로1가 11-1', 'A02070100', 'http://tong.visitkorea.or.kr/cms/resource/95/2843895_image2_1.jpg', 126.7116906420, 35.9878092242, NULL, 37, 2, '063-454-3302', 
+1846797 , '제10회 군산시간여행축제' , 20221007 , 20221010 , '전북 군산시 중앙로1가 11-1', '전북 군산시 중앙로1가 11-1', 'A02070100', 'http://tong.visitkorea.or.kr/cms/resource/95/2843895_image2_1.jpg', 126.7116906420, 35.9878092242, NULL, 37, 2, '063-454-3302', 
 '<a href="http://festival.gunsan.go.kr/" target="_blank" title="새창:군산시간여행축제 홈페이지로 이동">http://festival.gunsan.go.kr</a>', "일제 강점기 수탈의 만행속에 군산 공동체의 고통과 항거, 치열한 삶의 역사를 공유하고 새기는 근대 군산으로의 시간여행을 시작으로, 시간을 되돌려 근대 이전 과거로 그리고 근현대를 지나 미래로의 시간여행을 통해 군산의 정체성을 대내외적으로 드러내고 지역 공동체의 새 희망을 만들어가는 대동놀이로 승화해 나가고자 함", 
 '군산시간여행마을일원', NULL, NULL, '무료(일부 유료)',NULL, NULL);
 
@@ -2024,7 +2138,7 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 '김청 사명대사공원, 과일농원, 황금시장', NULL, NULL, '1인 15,000원(생후 12개월 이하 무료)',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
-1813223 , '제19회 안양사이버과학축제' , 20220917 , 20220918 , '경기도 안양시 동안구 평촌대로 389', '(비산동)', 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/01/2601401_image2_1.jpg', 126.9491782381, 37.4051891236, 6, 31, 17, '031-8045-5135', 
+1813223 , '제19회 안양사이버과학축제' , 20220917 , 20220918 , '경기도 안양시 동안구 평촌대로 389', '(비산동)', 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/18/2851718_image2_1.jpg', 126.9491782381, 37.4051891236, 6, 31, 17, '031-8045-5135', 
 '<a href="https://www.anyang.go.kr/" target="_blank" title="새창:안양사이버과학축제 홈페이지로 이동">https://www.anyang.go.kr/</a>', "안양시는 글로벌 ICT 및 과학 인재 양성과 건전한 정보문화 확산을 위해 2002년부터 안양사이버과학축제를 개최하고 있다. 올해는 지난 2년간 코로나19의 여파로 축제를 개최하지 못한 아쉬움이 있었으나, 멈춰있던 시계를 다시 돌려 「제19회 안양사이버과학축제」로 여러분들을 찾아온다. 오랫동안 축제를 기다려오신 만큼 최신 IT 트렌드를 반영한 양질의 프로그램과 온 가족이 함께 참여하는 다양한 볼거리‧즐길 거리를 마련하였다. 「제19회 안양사이버과학축제」에 온 가족이 함께 오셔서 멋진 추억 만드시고 행복한 시간 보내기를 바란다.", 
 '안양실내체육관 일원', NULL, NULL, '무료','전연령가능', '기간내자유');
 
@@ -2119,6 +2233,11 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 '원주 댄싱공연장 및 원주시 일대', NULL, NULL, NULL,NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
+1399407 , '2022청도반시축제' , 20221014 , 20221016 , '경상북도 청도군 청려로 1846', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/43/2852343_image2_1.jpg', 128.7202383285, 35.6512053494, 6, 35, 20, '054-370-6376', 
+'<a href="http://www.청도반시축제.kr" target="_blank" title="새창:청도반시축제 홈페이지로 이동">http://www.청도반시축제.kr</a>', "청도야외공연장", 
+'청도야외공연장', NULL, NULL, '무료','전연령', '11:00 ~ 21:00');
+
+INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 1394326 , '뮤직드라마 당신만이' , 20211029 , 20221231 , '서울특별시 종로구 이화장길 26', '(이화동)', 'A02080300', 'http://tong.visitkorea.or.kr/cms/resource/72/2489672_image2_1.jpg', 127.0039128630, 37.5766424167, 6, 1, 23, '070-8245-2602', 
 '<a href="https://booking.naver.com/booking/12/bizes/22830" target="_blank" title="새창 : 뮤직드라마 당신만이">https://booking.naver.com</a>', "옴니버스 형식으로 펼쳐지는 결혼 5년차 부터 37년차까지 부부 이야기, '부부여, 무엇으로 사는가?' 뮤직드라마 &lt;당신만이&gt;는 경상도 부부의 결혼 5년차부터 결혼 37년차까지의 부부의 이야기를 담은 내용이다. 긴 세월을 ‘연인’에서 ‘웬수’ 그리고 ‘동반자’로 살아온 그들만의 이야기를 꺼내어, 보통 부부들의 사는 이야기를 풀어보고자 한다. 또한, 부부이야기에서 빠질 수 없는 것이 자식 문제. 어느새 훌쩍 자라, 이제는 내 맘처럼 되지 않는 자식들이지만, 여전히 놓을 수 없는 부모와 자식의 이야기를 덧대어, 이 부부의 삶을 좀 더 자세히 보고자 한다.<br>
 보통사람들이 살아가는 이야기에, 추억과 향수로 남은 명곡을 더해, 좀 더 찐한 사람 냄새나는 이야기를 그려보고자 한다. 빛 바랜 추억 속 가요를 통해 지난날을 추억하고, 공연 속 부부의 삶과 어우러진 가요를 들으며 새로운 추억을 만들어, 10대부터 80대까지 전 세대가 공감할 수 있는 추억꺼리를 만들어 보고자 한다. 부부의 일상부터죽음까지의 모습을 보여줌으로, 이 땅에서 힘들게 혹은 알콩달콩하게 살고 있는 모든 부부들에게 위성신 연출이 들려주고자 하는 감동스럽고, 끈끈한, 진실된 부부의 이야기’를 담아냈다.<br>", 
@@ -2183,6 +2302,11 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 재즈와 록음악이 만나 누구나 편안하게 즐길 수 있는 '록 재즈' 등
 다양한 재즈의 선율을 즐길 수 있다.", 
 '칠포해수욕장 상설무대', NULL, NULL, '유료','전연령', '9/16(금) 18:00 ~ 21:00<br>9/17(토), 9/18(일) 17:00 ~ 22:00');
+
+INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
+1344850 , '세종대왕과 초정약수축제' , 20221007 , 20221009 , '충청북도 청주시 청원구 초정약수로 851 초정행궁', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/93/2852393_image2_1.jpg', 127.6006940627, 36.7213297572, 6, 33, 10, '043-223-4030', 
+'<a href="http://www.cjart21.org/index.php?mid=cjart2_1_1&act=dispBusinessInfo&its_business_srl=17" target="_blank" title="새창: 초정약수축제 홈페이지로 이동">http://www.cjmh.or.kr/</a>', "세종대왕이 1444년 두 차례 걸쳐 초정에 머물며 질병을 치료하고 훈민정음 창제 등 애민정책을 펼친 초정행궁 121일 이야기의 재발견과 세계 3대 광천수의 가치를 재조명하고 지역 문화브랜딩 및 문화 자원을 재창조하겠다는 마음을 담은 세종대왕과 초정약수의 역사성, 문화적 가치에 초점을 두는 행사이다.<br>이번 세종대왕과 초정약수축제는 콘텐츠 중심의 축제, 참여와 공감의 축제, 지속가능한 축제로 특화해 내실 있는 행사를 만들고자하는 마음을 담았다.", 
+'초정문화공원 및 초정행궁 일원', NULL, NULL, '무료(체험부스 이용 시 요금발생)','전연령', NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 1336591 , '완주 와일드&로컬푸드축제' , 20220908 , 20221002 , '전라북도 완주군 고산휴양림로 246 고산휴양림', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/33/2827633_image2_1.jpg', 127.2331642183, 35.9615878959, 6, 37, 8, '063-290-2623, 2622', 
@@ -2308,13 +2432,13 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 '양구 서천 레포츠 공원 일대', NULL, NULL, '무료',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
-1018469 , "서울국제작가축제(Seoul International Writers' Festival)" , 20220923 , 20220930 , '서울특별시 마포구 양화로 72', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/28/2822428_image2_1.png', 126.9167298722, 37.5508549625, 6, 1, 13, 'siwf@klti.or.kr', 
+1018469 , '서울국제작가축제(Seoul International Writers\' Festival)' , 20220923 , 20220930 , '서울특별시 마포구 양화로 72', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/28/2822428_image2_1.png', 126.9167298722, 37.5508549625, 6, 1, 13, 'siwf@klti.or.kr', 
 '공식 홈페이지 : <a href="https://www.siwf.or.kr" target="_blank" title="새창 : 관광지">https://www.siwf.or.kr</a><br>인스타그램 : <a href="https://www.instagram.com/siwf_insta/" target="_blank" title="새창 : 관광지">https://www.instagram.com/siwf_insta/</a><br>페이스북 : <a href="https://m.facebook.com/siwfest/" target="_blank" title="새창 : 관광지">https://m.facebook.com/siwfest/</a><br>트위터 : <a href="https://twitter.com/siwfest" target="_blank" title="새창 : 관광지">https://twitter.com/siwfest</a>', "서울국제작가축제는 국내 독자들의 문학향유 기회를 확대하고, 한국문학과 세계문학이 서울을 무대로 교류하는 토대를 만들고자 지난 2006년부터 개최해 온 글로벌 문학 축제이다. 올해 제 11회를 맞이한 서울국제작가축제는 '월담: 이야기 너머-Beyond Narrative'를 주제로 전 세계 35인의 작가들이 참여하는 다양한 프로그램과 문학 낭독 행사를 개최한다.", 
 '서교스퀘어, 커뮤니티하우스 마실, 인천국제공항', NULL, NULL, '무료','전 연령', NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 952988 , '백제문화제 「제68회 백제문화제」' , 20221001 , 20221010 , '충청남도 부여군 백강로 135', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/00/2817800_image2_1.jpg', 126.9048904989, 36.2871644357, 6, 34, 6, '041-635-6980', 
-'<a href="http://www.baekje.org" target="_blank" title="새창: 백제문화제 홈페이지로 이동">http://www.baekje.org </a>', "<백제의 왕도(王都),충청남도 공주시와 부여군에서 개최되는 역사문화축제><br>68년을 이어온 백제문화제는 고대 동아시아의 문화강국이었던 백제의 전통성에 근거하여 백제의 수도였던 충청남도 공주시와 부여군에서 1955년부터 매년 개최하는 역사재현형 축제이다.<br>또한 2015년7월 백제역사유적지구의 유네스코 세계유산 등재를 계기로 백제의 후예들과 관광객들이 만들어가는 세계적인 역사문화축제로 나아가고 있다. 제68회 백제문화제는 찬란한 문화를 꽃 피워 이웃나라에 전파함으로써 고대 동아시아의 문화발전에 크게 기여했던 '한류원조로서의 백제문화'를 국내외에 확산시키고, 세계적인 축제로 거듭나기 위하여 2022년 10월 1일부터 10월 10일까지 10일간 충청남도 공주시와 부여군 일원에서 <백제의 빛과 향>이라는 주제로 화려하게 펼쳐진다.<br>세계유산인 백제역사유적지구를 배경으로 펼쳐지는 제68회 백제문화제에서 다양한 축제 프로그램과 더불어 백제로의 흥겨운 시간여행에 흠뻑 빠져보시기 바란다.", 
+'<a href="http://www.baekje.org" target="_blank" title="새창: 백제문화제 홈페이지로 이동">http://www.baekje.org </a>', "<백제의 왕도(王都),충청남도 공주시와 부여군에서 개최되는 역사문화축제><br>68년을 이어온 백제문화제는 고대 동아시아의 문화강국이었던 백제의 전통성에 근거하여 백제의 수도였던 충청남도 공주시와 부여군에서 1955년부터 매년 개최하는 역사재현형 축제이다.<br>또한 2015년7월 백제역사유적지구의 유네스코 세계유산 등재를 계기로 백제의 후예들과 관광객들이 만들어가는 세계적인 역사문화축제로 나아가고 있다. 제68회 백제문화제는 찬란한 문화를 꽃 피워 이웃나라에 전파함으로써 고대 동아시아의 문화발전에 크게 기여했던 '한류원조로서의 백제문화'를 국내외에 확산시키고, 세계적인 축제로 거듭나기 위하여 2022년 10월 1일부터 10월 10일까지 10일간 충청남도 공주시와 부여군 일원에서 \"백제의 빛과 향\"이라는 주제로 화려하게 펼쳐진다.<br>세계유산인 백제역사유적지구를 배경으로 펼쳐지는 제68회 백제문화제에서 다양한 축제 프로그램과 더불어 백제로의 흥겨운 시간여행에 흠뻑 빠져보시기 바란다.", 
 '부여군 구드래 일원(충청남도 부여군 부여읍 백강로 135)<br>공주시 금강신관공원 일원(충청남도 공주시 금벽로 368)', NULL, NULL, '무료 (별도의 유료 체험프로그램 및 공연료는 홈페이지 참고)',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
@@ -2332,7 +2456,7 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 '화성행궁 및 행궁광장 등', NULL, NULL, '일부 프로그램 유료',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
-900168 , '2022 보은대추축제' , 20221014 , 20221023 , '충청북도 보은군 보은읍 이평리', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/32/2828432_image2_1.jpg', 127.7234201582, 36.4863477992, 6, 33, 3, '043-540-3393', 
+900168 , '2022 보은대추 온라인축제' , 20221014 , 20221023 , '충청북도 보은군 보은읍 이평리', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/90/2851890_image2_1.jpg', 127.7234201582, 36.4863477992, 6, 33, 3, '043-540-3393', 
 '<a href="http://www.boeunjujube.com/" target="_blank" title="새창:보은 문화관광 홈페이지로 이동">http://www.boeunjujube.com/</a>', "2017년도에 이어 3회연속 충북 농특산물 판매활성화 최우수축제로 선정된 보은대추축제는, 임금님께 진상하였던 명품 보은 대추와 보은의 청정한 자연에서 자란 우수한 품질의 농특산물을 온라인 주문을 통해 쉽게 받아볼 수 있으며,  온라인스튜디오에서 진행되는 인기가수 공연을 온라인(유튜브)으로 송출하여 실시간 관람이 가능하다, 또한 각종 온라인 참여프로그램을 진행하여 누구나 참여 가능하며, 특히 「축제홈페이지 특별이벤트」를 통한 경품 당첨의 행운에 도전할 수 있다. 축제기간중 주요관광지를 방문하면 버스킹공연 등 볼거리가 준비되어있다.", 
 '온라인축제', NULL, NULL, '무료',NULL, NULL);
 
@@ -2379,6 +2503,12 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 [축제TIP] 인류무형문화유산이란?
 문화다양성의 원천인 무형유산의 중요성에 대한 인식을 고취하고, 무형유산 보호를 위한 국가적, 국제적 협력과 지원을 도모하기 위해서 유네스코에서 지정된 유산을 말한다.", 
 '영남루 및 밀양강변 일원, 남천강변로 일원', NULL, NULL, '홈페이지 참고',NULL, NULL);
+
+INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
+706180 , '서울거리예술축제 2022' , 20220930 , 20221002 , '서울특별시 용산구 양녕로 445', '(이촌동)', 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/35/2850635_image2_1.jpg', 126.9580659298, 37.5177234407, 6, 1, 21, '02-3437-0082', 
+'공식 홈페이지-<a href="http://www.ssaf.or.kr/index" target="_blank" title="새창 : 서울거리예술축제">www.ssaf.or.kr</a><br>페이스북-<a href="https://www.facebook.com/%EC%84%9C%EC%9A%B8%EA%B1%B0%EB%A6%AC%EC%98%88%EC%88%A0%EC%B6%95%EC%A0%9C-100255529500711/
+" target="_blank" title="새창 : 서울거리예술축제">www.facebook.com/ssaf.official</a>', "서울거리예술축제는 다양한 장르의 예술작품을 서울광장 그리고 노들섬에서 만나볼 수 있는 서울문화재단의 대표 축제이다.<br>많은 시민들이 관람할 수 있는 대형작품, 대중성 있는 작품들과 거리예술, 서커스, 미디어아트, 사운드 등 경계없이 예술적 상상력으로 결합된 다양한 장르의 예술작품 공연을 선보인다.", 
+'(서울시청)서울 중구 을지로 12<br>(노들섬)서울 용산구 양녕로 445', NULL, NULL, '무료','전 연령', '한시간 이내');
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 704189 , '하회별신굿탈놀이 상설공연' , 20220101 , 20221231 , '경상북도 안동시 풍천면 하회종가길 3-15', NULL, 'A02080100', NULL, 128.5243722237, 36.5409451627, 6, 35, 11, '054-854-3664', 
@@ -2431,6 +2561,11 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 '금마서동공원', NULL, NULL, '무료','전연령 가능함', '기간내 자유');
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
+631257 , '전주비빔밥축제' , 20221006 , 20221010 , '전라북도 전주시 완산구 향교길 139', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/69/2852069_image2_1.jpg', 127.1565360613, 35.8129451491, 6, 37, 12, '063-283-1141', 
+'<a href="https://www.instagram.com/bibimbap_festival/" target="_blank" title="새창 : 전주비빔밥축제">www.instagram.com/</a>', "전주비빔밥축제가 올해는 진정한 맛의 축제로 거듭난다. 전주음식의 다채로움, 맛의 즐거움, 맛의 철학, 맛의 여운을 모두 즐길 수 있는 음식축제다. 맛의 축제에 직접 참여해보자!", 
+'전주한옥마을 향교길 일대', NULL, NULL, '무료(일부 유료)','전연령가능', '기간내자유');
+
+INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 630793 , 'KYMF 대한민국청소년미디어대전' , 20221027 , 20221029 , '서울특별시 용산구 한강대로 255', '(갈월동)', 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/75/2719675_image2_1.png', 126.9726361655, 37.5410515470, 6, 1, 24, '02-795-8000(내선2번)', 
 '<a href="https://kymf.ssro.net" target="_blank" title="새창: 행사 홈페이지로 이동">https://kymf.ssro.net</a>', "대한민국청소년미디어대전(이하 KYMF)은 2001년부터 시작하여 22년 역사를 자랑하는 국내 최대 규모의 청소년 미디어 축제이다. 2022년에는 '미 OR 추'라는 특별주제로 10월 27일~10월 29일 3일 간 온·오프라인으로 진행된다.", 
 '서울시청', NULL, NULL, '무료',NULL, NULL);
@@ -2451,9 +2586,14 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 '서울 강남구 코엑스(COEX)', NULL, NULL, '홈페이지확인',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
-621109 , '제18회 2022 문경오미자축제' , 20220916 , 20220918 , '경상북도 문경시 문경읍 문경대로 2426', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/09/2836109_image2_1.jpg', 128.0826336405, 36.7420889505, 6, 35, 7, '054-571-7677', 
+621109 , '제18회 2022 문경오미자축제' , 20220916 , 20220918 , '경상북도 문경시 문경읍 문경대로 2426', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/32/2852732_image2_1.jpg', 128.0826336405, 36.7420889505, 6, 35, 7, '054-571-7677', 
 '<a href="http://mg5mija.or.kr/" target="_blank" title="새창:문경오미자축제 홈페이지로 이동">http://mg5mija.or.kr</a>', "100세 청춘! 전국 최고 명품 오미자, 문경오미자!<br>문경오미자는 백두대간의 중심이면서 우리나라 최대 오미자 생산지인 황장산과 대미산의 오미자를 옮겨와 해발고 300m~700m의 준고랭지 청정환경에서 친환경농법으로 생산하고 있으며 전국 유일의 [오미자 산업 특구]로 지정되어 연간 1,500톤 생산으로 전국 오미자의 45%를 차지하는 제1주산지로서 세계적인 오미자 산업의 메카로 자리매김하고 있다.", 
 '경상북도 문경시 동로면 금천둔치 일원', NULL, NULL, '무료',NULL, NULL);
+
+INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
+615807 , '안성맞춤 포도축제' , 20220923 , 20220925 , '경기도 안성시 서운면 서운중앙길 23', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/48/1691048_image2_1.jpg', 127.2592519417, 36.9430869936, 6, 31, 16, '031-678-3732', 
+'<a href="https://www.anseong.go.kr/tour/contents.do?mId=0200000000" target="_blank" title="새창: 안성맞춤포도축제 홈페이지로 이동">https://www.anseong.go.kr/tour</a>', "안성맞춤 포도축제가 열리는 포도박물관은 뒤로 서운산이 병풍처럼 서있고 시간과 세월이 산기슭을 타고 바람이 되어 내려와 머무는 곳마다 포도향기가 가득한곳이다. 포도가지마다 탐스럽게 열릴 기억의 선물을 생각하자면 벌써부터 잠을 설칠것이다. 마을 전체가 포도밭이라 해도 과언이 아닌 포도의 고장 서운면, 각종 체험과 공연 등으로 구성 될 이번 축제는 110년 역사가 자랑하듯 명실공히 안성맞춤이 될 것이다.", 
+'서운면사무소', NULL, NULL, NULL,'전연령 가능함', '기간내자유');
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 613316 , '청원생명축제' , 20220930 , 20221010 , '충청북도 청주시 청원구 오창읍 미래지로 99', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/63/2821263_image2_1.jpg', 127.4073833117, 36.7332499090, 6, 33, 10, '043-201-0253', 
@@ -2461,8 +2601,13 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 '미래지농촌테마공원', NULL, NULL, '입장권- 성인 5,000원, 어린이 1,000원<br>(입장권은 축제장 내에서 현금처럼 전액 활용)',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
+607417 , '2022 명량대첩축제' , 20220930 , 20221002 , '전라남도 해남군 문내면 관광레저로 12-36', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/67/2851167_image2_1.jpg', 126.3116750901, 34.5740849043, 6, 38, 23, '061-286-5265', 
+'<a href="http://www.mldc.kr" target="_blank" title="새창:명량대첩축제 홈페이지로 이동">http://www.mldc.kr</a>', "- 주    제 : 2022 울돌목 페스타(부제 : 명량, 빛을 품다)<br>- 기간/장소 : ’22. 9. 30.(금) ~ 10. 2.(일) / 해남․진도군 울돌목 일원<br>- 주요내용 : 야간 개막식, 미디어 해전재현, 주민참여 프로그램 등 <br>(해전재현) 울돌목 현장배경을 담은 대형스크린(20m*6m) 활용 미디어 해전 구현<br>(드론쇼) 밤바다 위에서 불꽃을 장착한 300여대 드론으로 당시 병법 일자진 재현<br>(미디어아트) 밤의 꽃길․이순신동상․판옥선 등 야간 라이팅, 아트놈 작가 작품 설치 등<br>(특별이벤트) 이날치밴드 공연, 영화 “명랑”, “한산”  김한민 감독 토크콘서트 등", 
+'울돌목 일원(진도 녹진관광지, 해남 우수영관광지)', NULL, NULL, '무료',NULL, NULL);
+
+INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 606549 , '동강국제사진제' , 20220722 , 20221009 , '강원도 영월군 영월읍 영월로 1909-10', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/60/2826360_image2_1.jpg', 128.4615147283, 37.1819788343, 6, 32, 8, '033-375-4554', 
-'<a href="http://www.dgphotofestival.com" target="_blank" title="새창:동강국제사진제 홈페이지로 이동">http://www.dgphotofestival.com</a>', '올해로 20회를 맞이하는 동강국제사진제는 국내외 사진작가와 강원도 영월군 지역민, 사진 애호가들이 함께 만들어 가는 대한민국 대표 사진 축제로2022.07.22(금)-2022.10.09(일)까지 개최된다. 특히 <동강사진상 수상자전>에서는 올해의 동강사진상 수상자 김녕만 작가의 작품들, <국제 주제전>에서는 그룹 f.64의 오리지널 프린트 130여점, 74개국이 출품한 <국제공모전>에 선정된 올해의 작가 팀 스미스외 18명의 작품도 만나 볼 수 있다. 이외에도 <강원도사진가전>, <보도사진가전>, <거리설치전>, <영월군민사진전>, <전국 초등학교 사진일기 공모전>, <평생교육원사진전>, <영월스토리텔링전><아카이브 전시> 등 전 세계 사진인들이 기다리는 연례행사인 만큼 다채로운 전시가 아름다운 강원도 영월군 일대에서 진행된다. *자세한 사항과 지난 축제가 궁금하다면 공식 홈페이지(<a href="http://www.dgphotofestival.com" target="_blank" title="새창 : 동강국제사진제">www.dgphotofestival.com</a>)를 방문하길 바란다.', 
+'<a href="http://www.dgphotofestival.com" target="_blank" title="새창:동강국제사진제 홈페이지로 이동">http://www.dgphotofestival.com</a>', "올해로 20회를 맞이하는 동강국제사진제는 국내외 사진작가와 강원도 영월군 지역민, 사진 애호가들이 함께 만들어 가는 대한민국 대표 사진 축제로2022.07.22(금)-2022.10.09(일)까지 개최된다. 특히 <동강사진상 수상자전>에서는 올해의 동강사진상 수상자 김녕만 작가의 작품들, <국제 주제전>에서는 그룹 f.64의 오리지널 프린트 130여점, 74개국이 출품한 <국제공모전>에 선정된 올해의 작가 팀 스미스외 18명의 작품도 만나 볼 수 있다. 이외에도 <강원도사진가전>, <보도사진가전>, <거리설치전>, <영월군민사진전>, <전국 초등학교 사진일기 공모전>, <평생교육원사진전>, <영월스토리텔링전><아카이브 전시> 등 전 세계 사진인들이 기다리는 연례행사인 만큼 다채로운 전시가 아름다운 강원도 영월군 일대에서 진행된다. *자세한 사항과 지난 축제가 궁금하다면 공식 홈페이지(<a href=\"http://www.dgphotofestival.com\" target=\"_blank\" title=\"새창 : 동강국제사진제\">www.dgphotofestival.com</a>)를 방문하길 바란다.", 
 '동강사진박물관, 동강사진박물관 주변 야외 전시장, 영월문화센터, 영월문화예술회관, 영월군청소년수련관, 영월 일원', NULL, NULL, '어른 3,000원, 청소년/군인 1,500원, 어린이 1,000원<br>단체(20인 이상) 어른 2,000원 청소년/군인 1,000원, 어린이 800원<br>* 미취학 아동, 65세 이상은 무료<br>* 영월군민은 50% 할인',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
@@ -2481,14 +2626,9 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 '장호원농산물유통센터 복숭아축제장', NULL, NULL, NULL,'전연령 가능함', '기간내 자유');
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
-589386 , '부천국제만화축제' , 20220930 , 20221003 , '경기도 부천시 길주로 1', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/96/2741596_image2_1.JPG', 126.7422053159, 37.5082512500, 6, 31, 11, '032-310-3073', 
+589386 , '부천국제만화축제' , 20220930 , 20221003 , '경기도 부천시 길주로 1', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/89/2852389_image2_1.jpg', 126.7422053159, 37.5082512500, 6, 31, 11, '032-310-3073', 
 '홈페이지: <a href="https://www.bicof.com/" target="_blank" title="새창 : 부천국제만화축제">https://www.bicof.com</a><br>인스타그램: <a href="https://www.instagram.com/bicof_official" target="_blank" title="새창 : 부천국제만화축제">https://www.instagram.com</a><br>유튜브: <a href="https://www.youtube.com/channel/UCcMqhLUStnwZUab4_e4REbg" target="_blank" title="새창 : 부천국제만화축제">https://www.youtube.com</a>', "아시아 최고의 글로벌 만화축제, 부천국제만화축제(BICOF)! 관람객 12만 명, 만화가 및 관계자 1천여 명, 국내외 코스튬플레이어 5천여 명이 참여한다.<br>대한민국 최고 만화상 '부천만화대상'을 중심으로 한 만화전시를 비롯해 만화콘서트, 국제 코스프레 챔피언십, 만화마켓, 참여이벤트 등 화려한 볼거리, 다채로운 즐길거리를 자랑한다. 가족, 연인, 친구와 함께 남녀노소 즐길 수 있는 이색적인 만화축제.", 
-'한국만화영상진흥원(온라인 동시 진행)', NULL, NULL, '무료(단, 만화박물관 입장료 별도)',NULL, NULL);
-
-INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
-588175 , '포항국제불빛축제' , 20220923 , 20220925 , '경상북도 포항시 남구 해도동', NULL, 'A02070100', 'http://tong.visitkorea.or.kr/cms/resource/36/2827536_image2_1.jpg', 129.3746288695, 36.0178428762, 6, 35, 23, '054-289-7852', 
-'<a href="https://festival.phcf.or.kr/fireWorks/subMain.do" target="_blank" title="새창:포항 국제불빛축제 홈페이지로 이동">https://festival.phcf.or.kr</a>', "2022 포항국제불빛축제는 포스트 코로나  시대에 맞게, 시민들에게 희망의 불빛을 전달하는 축제로 진행된다.<br>포항만의 연오랑 세오녀 스토리를 담은 개막행사를 시작으로, 축제의 하이라이트인 <국제 불꽃쇼>, 해외 TOP DJ가 진행하는 <DJ PARTY>, 피크닉 컨셉의 <퐝퐝 버스킹>, 불빛 테마존과 키네틱 아트 등 특색 있는 프로그램들을 선보인다.", 
-'형산강 체육공원 일원', NULL, NULL, '무료',NULL, NULL);
+'한국만화박물관 일대', NULL, NULL, '유료(5,000원)',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 574969 , '2022 전주세계소리축제' , 20220916 , 20220925 , '전라북도 전주시 덕진구 소리로 31 소리문화전당', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/70/2825770_image2_1.jpg', 127.1390309872, 35.8540707211, 6, 37, 12, '063-232-8394', 
@@ -2553,9 +2693,9 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 '정선공설운동장 일대', NULL, NULL, NULL,NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
-506809 , '제22회 소래포구 축제' , 20221001 , 20221003 , '인천광역시 남동구 장도로 86-17', '(논현동)', 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/05/2822705_image2_1.jpg', 126.7393253184, 37.3979806750, 6, 2, 4, '032-453-2142', 
-'홈페이지 <a href="https://www.namdong.go.kr/soraefestival" target="_blank" title="새창 : 제22회 소래포구축제">https://www.namdong.go.kr</a><br>공식블로그 <a href="http://blog.naver.com/soraefestival" target="_blank" title="새창 : 제22회 소래포구축제">http://blog.naver.com</a>', "수도권 대표의 해양생태축제인 소래포구축제가 10월 1일부터 3일까지 3일간 개최된다. 제22회 소래포구축제는 소래포구 수산물 체험행사 및 다양한 문화공연, 참여이벤트 등 풍부한 볼거리와 먹거리를 관광객에게 선사할 예정이며, 올해 성공적인 개최를 통해 문화관광축제로의 도약을 목표로 하고 있다. 소래포구축제의 대표행사인 꽃게 잡기체험, 수산물을 소재로한 요리체험, 새롭게 조성된 소래포구 관광벨트를 활용한 행사 등 남녀노소 직접 참여할 수 있는 다양한 프로그램이 진행될 예정이다.", 
-'소래포구 해오름광장 및 소래포구전통어시장', NULL, NULL, '무료','전연령', NULL);
+506809 , '제22회 소래포구 축제' , 20221001 , 20221003 , '인천광역시 남동구 장도로 86-17', '(논현동)', 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/56/2852356_image2_1.jpeg', 126.7393253184, 37.3979806750, 6, 2, 4, '032-453-2142', 
+'홈페이지 <a href="https://www.namdong.go.kr/soraefestival" target="_blank" title="새창 : 제22회 소래포구축제">https://www.namdong.go.kr</a><br>공식블로그 <a href="http://blog.naver.com/soraefestival" target="_blank" title="새창 : 제22회 소래포구축제">http://blog.naver.com</a>', "수도권 대표의 해양생태축제인 소래포구축제가 10월 1일부터 3일까지 3일간 개최된다. 제22회 소래포구축제는 소래포구 수산물 체험행사 및 다양한 문화공연, 참여이벤트 등 풍부한 볼거리와 먹거리를 관광객에게 선사할 예정이며, 올해 성공적인 개최를 통해 문화관광축제로의 도약을 목표로 하고 있다. 소래포구축제의 대표행사인 꽃게 잡기체험, 수산물을 소재로한 요리교실, 새롭게 조성된 소래포구 관광벨트를 활용한 행사 등 남녀노소 직접 참여할 수 있는 다양한 프로그램이 진행될 예정이다.", 
+'소래포구 해오름광장 전통어시장 및 소래습지생태공원', NULL, NULL, '무료','전연령', NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 506797 , '이천쌀문화축제' , 20221019 , 20221023 , '경기도 이천시 공원로 48', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/06/2847106_image2_1.jpg', 127.4448702054, 37.1798991253, 6, 31, 26, '031-644-4135~7', 
@@ -2588,7 +2728,7 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 506600 , '산청한방약초축제' , 20220930 , 20221010 , '경상남도 산청군 금서면 매촌리', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/25/2689925_image2_1.png', 127.8293195944, 35.4410407594, 6, 36, 9, '055-970-6601~5', 
-'블로그 <a href="http://scherb.or.kr" target="_blank" title="새창:산청 한방약초축제 홈페이지로 이동">http://scherb.or.kr</a><br>인스타그램 <a href="https://www.instagram.com/scherbfest/" target="_blank" title="새창:산청 한방약초축제 홈페이지로 이동">www.instagram.com</a>', "사계절 달라지는 아름다운 풍경과 맑은 정기를 자랑하는 지리산은 1,000여 종이 넘는 약초가 자생하는 약초의 보물창고이기도 하다. 지리산을 품은 산청은 질 좋은 약초를 구하기 쉬워 동의보감의 저자인 구암 허준 선생을 비롯한 수많은 명의들이 의학공부와 의술을 펼쳤던 곳이다. 동의보감과 약초의 고장 산청에서 매년 9월 산청한방약초축제가 열린다. 한방진료와 한방침 등을 무료로 체험할 수 있는 산청혜민서를 비롯해 보약체험, 약초족욕체험, 웰니스체험 등 다양한 힐링 체험이 가능하다. 조선시대 어의와 의녀 의상 입어보기 체험, 전통다례 체험, 민속놀이 체험 등 재미있는 체험도 할 수 있다.<br><br>[축제TIP]동의보감이란?<br>
+'홈페이지 <a href="http://scherb.or.kr" target="_blank" title="새창:산청 한방약초축제 홈페이지로 이동">http://scherb.or.kr</a><br>인스타그램 <a href="https://www.instagram.com/scherbfest/" target="_blank" title="새창:산청 한방약초축제 홈페이지로 이동">www.instagram.com</a><br>블로그 <a href="https://blog.naver.com/scherbfest" target="_blank" title="새창:산청 한방약초축제 홈페이지로 이동">https://blog.naver.com</a>', "사계절 달라지는 아름다운 풍경과 맑은 정기를 자랑하는 지리산은 1,000여 종이 넘는 약초가 자생하는 약초의 보물창고이기도 하다. 지리산을 품은 산청은 질 좋은 약초를 구하기 쉬워 동의보감의 저자인 구암 허준 선생을 비롯한 수많은 명의들이 의학공부와 의술을 펼쳤던 곳이다. 동의보감과 약초의 고장 산청에서 매년 9월 산청한방약초축제가 열린다. 한방진료와 한방침 등을 무료로 체험할 수 있는 산청혜민서를 비롯해 보약체험, 약초족욕체험, 웰니스체험 등 다양한 힐링 체험이 가능하다. 조선시대 어의와 의녀 의상 입어보기 체험, 전통다례 체험, 민속놀이 체험 등 재미있는 체험도 할 수 있다.<br><br>[축제TIP]동의보감이란?<br>
 조선시대의 명의 구암 허준이 중국과 조선의 의학서적을 집대성하여 1610년에 저술한 의학서이다. 동양 최고의 의학 백과사전 중 하나로 평가받고 있으며, 2009년 유네스코 세계기록문화유산에 등재되었다.", 
 '산청IC축제광장, 동의보감촌', NULL, NULL, '홈페이지 참고',NULL, NULL);
 
@@ -2633,22 +2773,25 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 235076 , '부산불꽃축제' , 20221105 , 20221105 , '부산광역시 수영구 광안해변로 219', '(광안동)', 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/96/2830696_image2_1.jpg', 129.1184922375, 35.1537908369, 6, 6, 12, '051-888-4135', 
-'<a href="http://www.bfo.or.kr" target="_blank" title="새창:부산 세계불꽃축제 홈페이지로 이동">http://www.bfo.or.kr</a>', '매년 광안리해수욕장을 화려하게 수놓는 부산불꽃축제가 어느덧 17회를 맞이하였다. 2005년 APEC정상회의 기념행사 일환으로 시작돼, 해를 거듭할수록 세계적인 관심을 받으며 부산 대표 축제로 자리매김하였다. 부산에서만 볼 수 있는 초대형 불꽃과 광안대교 경관조명을 활용한 미디어파사드 연출, 화려한 불꽃과 조명, 음악이 어우러져 스토리텔링이 가미된 부산멀티불꽃쇼와 해외 초청 불꽃쇼를 만나볼 수 있다. 또한 광안리 해수욕장뿐만 아니라 동백섬, 이기대 앞까지 “3 point" 연출로 다양한 장소에서 불꽃쇼를 관람할 수 있다.<br>가을밤, 불꽃이 내리는 부산! 세계인과 함께하는 부산불꽃축제로 여러분을 초대한다.', 
+'<a href="http://www.bfo.or.kr" target="_blank" title="새창:부산 세계불꽃축제 홈페이지로 이동">http://www.bfo.or.kr</a>', "매년 광안리해수욕장을 화려하게 수놓는 부산불꽃축제가 어느덧 17회를 맞이하였다. 2005년 APEC정상회의 기념행사 일환으로 시작돼, 해를 거듭할수록 세계적인 관심을 받으며 부산 대표 축제로 자리매김하였다. 부산에서만 볼 수 있는 초대형 불꽃과 광안대교 경관조명을 활용한 미디어파사드 연출, 화려한 불꽃과 조명, 음악이 어우러져 스토리텔링이 가미된 부산멀티불꽃쇼와 해외 초청 불꽃쇼를 만나볼 수 있다. 또한 광안리 해수욕장뿐만 아니라 동백섬, 이기대 앞까지 \“3 point\" 연출로 다양한 장소에서 불꽃쇼를 관람할 수 있다.<br>가을밤, 불꽃이 내리는 부산! 세계인과 함께하는 부산불꽃축제로 여러분을 초대한다.", 
 '광안리해수욕장 일원', NULL, NULL, '무료(일부 유료)',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 234232 , '사천에어쇼' , 20221020 , 20221023 , '경상남도 사천시 사천읍 사천대로 1971', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/61/2835661_image2_1.jpg', 128.0851867810, 35.0949648277, 6, 36, 8, '055-831-2061', 
-'홈페이지 <a href="http://airshow.sacheon.go.kr" target="_blank" title="새창:사천에어쇼 홈페이지로 이동">http://airshow.sacheon.go.kr</a><br>인스타그램 <a href="https://www.instagram.com/sacheon_airshow/" target="_blank" title="새창:사천에어쇼 홈페이지로 이동">www.instagram.com/sacheon_airshow</a><br>페이스북 <a href="https://www.facebook.com/4000aerospace" target="_blank" title="새창:사천에어쇼 홈페이지로 이동">www.facebook.com/4000aerospace</a>', "사천은 대한민국 최초의 항공기 부활호를 제작·운용한 발원지이며, 국내에서 유일하게 항공기를 자체 생산, 수출하는 한국항공우주산업㈜과 다수의 항공우주산업체들이 활동하는 항공우주산업의 중심도시이다.<br>무료체험비행, 실제 조종사들이 훈련할 때 사용하는 KT-1 시뮬레이터 탑승, 블랙이글스 에어쇼, 호주 폴베넷 곡예비행 에어쇼, 블랙이글스 전투기 가상현실(VR)체험, 항공기 지상전시 등 다양한 무료체험이 준비되어 있다.<br>특히 2022 사천에어쇼에서는 공동주최기관 한국항공우주산업(주)에서 개발한 한국형 전투기 KF-21 지상전시와 LAH 시범비행도 펼쳐질 예정이다.", 
+'홈페이지 <a href="http://airshow.sacheon.go.kr" target="_blank" title="새창:사천에어쇼 홈페이지로 이동">http://airshow.sacheon.go.kr</a><br>인스타그램 <a href=\"https://www.instagram.com/sacheon_airshow/\" target=\"_blank\" title=\"새창:사천에어쇼 홈페이지로 이동\">www.instagram.com/sacheon_airshow</a><br>페이스북 <a href=\"https://www.facebook.com/4000aerospace\" target=\"_blank\" title=\"새창:사천에어쇼 홈페이지로 이동\">www.facebook.com/4000aerospace</a>', "사천은 대한민국 최초의 항공기 부활호를 제작·운용한 발원지이며, 국내에서 유일하게 항공기를 자체 생산, 수출하는 한국항공우주산업㈜과 다수의 항공우주산업체들이 활동하는 항공우주산업의 중심도시이다.<br>무료체험비행, 실제 조종사들이 훈련할 때 사용하는 KT-1 시뮬레이터 탑승, 블랙이글스 에어쇼, 호주 폴베넷 곡예비행 에어쇼, 블랙이글스 전투기 가상현실(VR)체험, 항공기 지상전시 등 다양한 무료체험이 준비되어 있다.<br>특히 2022 사천에어쇼에서는 공동주최기관 한국항공우주산업(주)에서 개발한 한국형 전투기 KF-21 지상전시와 LAH 시범비행도 펼쳐질 예정이다.", 
 '사천비행장', NULL, NULL, '무료',NULL, NULL);
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 232325 , '횡성한우축제' , 20220930 , 20221004 , '강원도 횡성군 문화체육로 47 종합운동장', NULL, 'A02070100', 'http://tong.visitkorea.or.kr/cms/resource/07/2826707_image2_1.jpg', 127.9877120195, 37.4958559276, 6, 32, 18, '1522-1099', 
-'<a href="http://www.happyhanwoofestival.com" target="_blank" title="새창: 횡성한우축제 홈페이지로 이동">www.happyhanwoofestival.com</a>', "2년만에 다시 돌아온 오프라인 횡성한우축제.<br>화려한 문화예술공연과 다양한 프로그램. <br>대한민국 1등 명품 횡성한우와, 물좋고 공기좋은 횡성에서 나고자란 싱싱한 농특산물을 저렴하게 구매할 수 있는 기회까지!<br>횡성에서 맛보소! 한우축제 즐기소~!", 
+'<a href="http://www.happyhanwoofestival.com" target="_blank" title="새창: 횡성한우축제 홈페이지로 이동">www.happyhanwoofestival.com</a>', "3년만에 오프라인으로 열리는 횡성한우축제.<br>
+화려한 문화예술공연과 다양한 프로그램.<br>
+대한민국 1등 명품 횡성한우와, 물좋고 공기좋은 횡성에서 나고자란 싱싱한 농특산물을 저렴하게 구매할 수 있는 기회까지!<br>
+횡성에서 맛보소! 한우축제 즐기소!<br>", 
 '횡성종합운동장 일원', NULL, NULL, '무료','전연령가능', '기간내자유');
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 229057 , '제18회 서울와우북페스티벌' , 20221001 , 20221009 , '서울특별시 마포구 양화로 72 서교동 효성 해링턴 타워', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/94/2847494_image2_1.jpg', 126.9167298722, 37.5508549625, 6, 1, 13, '02-313-1587', 
-'<a href="http://wowbookfest.com/" target="_blank" title="새창:서울 와우북페스티벌 홈페이지로 이동">http://wowbookfest.com/</a>', "서울와우북페스티벌은 동시대를 살아가는 사람들을 연결하는 공간으로 독자들의 관심사와 시대적 담론을 담은 참여의 장을 만들어 왔다. 2022년 서울와우북페스티벌에서는 “다정함으로 길을 묻다”라는 슬로건 아래 다정한 이들이 모이는 환대의 공간이 되었으면 한다. 자기 분야에서 묵묵히 일하면서 따뜻한 시선으로 세상을 바라보는 사람들과 함께 힘들게 살아가는 사람들에게 위로와 공감이 되 는 이야기를 나눌 수 있는 공간 말이다. ≪이상한 날씨≫에서 올림피아 랭이 “혐오에 대해서는 한 글자도 더 할애하고 싶지 않다. 대신 환대가 이뤄지는 공간에 대해 써보려고 한다.”고 한 것처럼 올해 서울와우북페스티벌은 작가, 예술가, 출판사, 독자 등 모두에게 환대 가 이뤄지는 공간이 되어 사랑과 연대의 힘을 보여주고 싶다.", 
+'<a href="http://wowbookfest.com/" target="_blank" title="새창:서울 와우북페스티벌 홈페이지로 이동">http://wowbookfest.com/</a>', "서울와우북페스티벌은 동시대를 살아가는 사람들을 연결하는 공간으로 독자들의 관심사와 시대적 담론을 담은 참여의 장을 만들어 왔다. 2022년 서울와우북페스티벌에서는 “다정함으로 길을 묻다”라는 슬로건 아래 다정한 이들이 모이는 환대의 공간이 되었으면 한다. 자기 분야에서 묵묵히 일하면서 따뜻한 시선으로 세상을 바라보는 사람들과 함께 힘들게 살아가는 사람들에게 위로와 공감이 되는 이야기를 나눌 수 있는 공간 말이다. ≪이상한 날씨≫에서 올림피아 랭이 “혐오에 대해서는 한 글자도 더 할애하고 싶지 않다. 대신 환대가 이뤄지는 공간에 대해 써보려고 한다.”고 한 것처럼 올해 서울와우북페스티벌은 작가, 예술가, 출판사, 독자 등 모두에게 환대 가 이뤄지는 공간이 되어 사랑과 연대의 힘을 보여주고 싶다.", 
 '서울생활문화센터 서교, 서교예술실험센터', NULL, NULL, '무료','전체관람가능', '프로그램별 상이');
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
@@ -2696,7 +2839,7 @@ INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 141220 , '제8회 대한민국국제포토페스티벌  < 메타 리얼리티 : 현실 그 너머 >' , 20220909 , 20220915 , '서울특별시 서초구 남부순환로 2406', '(서초동)', 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/07/2838807_image2_1.jpg', 127.0107150202, 37.4785261578, 6, 1, 15, '02 313-9539', 
 '<a href="http://www.kipf.kr/" target="_blank" title="새창 : 대한민국국제포토페스티벌">http://www.kipf.kr</a>', "대한민국국제포토페스티벌은 예술의전당에서 해마다 펼쳐지는 사진 및 시각예술축제이다. 2013년 제1회를 시작으로 2022년 올해로 8회를 맞이한다. 올해는 200여명의 작가의 작품 1000여점이 출품된다. 4차 산업혁명으로 대변되는 인공지능의 시대를 맞아 사진의 방향성과 변화상을 조명해본다.", 
-'예술의전당 한가람미술관 제3,4전시실', NULL, NULL, '성인 12000원',NULL, '1-2시간');
+'예술의전당 한가람미술관 제3,4전시실', NULL, NULL, '성인(만19~64세 미만) 12,000원 / 청소년(만13~18세) 10,000원 / 어린이(36개월~12세) 8,000원, 경로(만 65세 이상), 국가유공자, 장애우  10,000원<br><br>단체(20인 이상)<br>성인(만19~64세 미만) 9,000원 / 청소년(만13~18세) 8,000원 / 어린이(36개월~12세) 6,000원, 경로(만 65세 이상), 국가유공자, 장애우  10,000원',NULL, '1-2시간');
 
 INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( 
 141105 , '경남고성공룡세계엑스포' , 20221001 , 20221030 , '경상남도 고성군 당항만로 1116', NULL, 'A02070200', 'http://tong.visitkorea.or.kr/cms/resource/38/2828038_image2_1.jpg', 128.3915388600, 35.0533471834, 6, 36, 3, '055)670-3814', 

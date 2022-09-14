@@ -1,4 +1,5 @@
 import request from 'request';
+import db from "./config/dbConnection.js";
 import fs from 'fs';
 //419개까지 넣음 / 22-09-07 업데이트
 //446개까지 넣음 / 22-09-14 업데이트
@@ -6,8 +7,7 @@ const serviceKey ="QNnTJy6f3sstORUG9MRvZBkU7%2F3vsnIy%2BAgmf%2FKQpuzsI9iC%2FWV7S
 const numOfRows = 1;
 
 
-const pageNo = 1;
-const lastIdx = 446; //지난번 업데이트
+const pageNo = 423;
 
 let basic="INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( "+'\n', qr = "", dqr ="", eqr = "";
 
@@ -15,6 +15,18 @@ global.basic = basic, global.qr = qr, global.dqr = dqr;
 var eventID, eventName, startDate, endDate; // NOT NULL
 
 var addr1,addr2,kind ,pic, mapx, mapy , mlevel , areacode , sigungucode , tel , homepage, overview, eventplace , bookingplace , subevent , price, agelimit, eventtime;  
+
+function getLastAmount(){
+  return new Promise((res, rej) => {
+    db.query("select count(*) as count from eventTBL;", (err, results) => {             
+      if(err) {
+          res("failed");
+      } else {
+          res (results[0].count);
+      }
+  });  
+  });
+}
 
 var getTotal = {
   'method': 'GET',
@@ -217,11 +229,13 @@ function makeDqr(eventID){
 async function getEveryEvent(){
   const totalN = await getTotalNum();
 
+  const lastIdx = await getLastAmount(); //현재 DB의 총 이벤트 수 
+
   const amount = totalN - lastIdx;
 
   var i = pageNo;
 
-  for (; i <= amount; i++){
+  for (; i <= totalN; i++){
     const basic = "INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( ";
 
     const r1 = await makeQr(i);
