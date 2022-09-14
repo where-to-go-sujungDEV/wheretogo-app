@@ -219,6 +219,14 @@ export const loginUserInfo = (data, result) => {
                 msg : '이메일이 올바르지 않거나, 등록되지않은 유저입니다.'
                 });
             } else {
+                if(!data.deviceToken){
+                    result(200,null,{
+                        code : 404,
+                        isSuccess : false,
+                        msg : "디바이스 토큰을 입력해주세요.",
+                    });
+                }
+                else{
               bcrypt.compare(data.password, cnt[0].pw, (bErr, bResult) => {
                 if (bErr) {
                     result(500, {
@@ -236,8 +244,7 @@ export const loginUserInfo = (data, result) => {
                 }
                 else {
                     const token = jwt.sign({id : cnt[0].userID},'the-super-strong-secret',{ expiresIn: '1h' });
-   
-                  db.query(`UPDATE userTBL SET last_login = now() WHERE email = ?`, [cnt[0].email] ,(err, results) => {
+                  db.query(`UPDATE userTBL SET last_login = now(), deviceToken = ? WHERE email = ?`, [data.deviceToken, cnt[0].email] ,(err, results) => {
                         if (err) {
                             result(500, {
                                 code : 500,
@@ -258,7 +265,7 @@ export const loginUserInfo = (data, result) => {
                         }
                       }
                       );}
-            });
+            })};
           }}
           );
 }

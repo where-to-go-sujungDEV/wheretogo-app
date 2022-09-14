@@ -1,11 +1,13 @@
 import request from 'request';
 import fs from 'fs';
 //419개까지 넣음 / 22-09-07 업데이트
+//446개까지 넣음 / 22-09-14 업데이트
 const serviceKey ="QNnTJy6f3sstORUG9MRvZBkU7%2F3vsnIy%2BAgmf%2FKQpuzsI9iC%2FWV7SHiDqrfUrYfDLoJTDX5TAPIQpUD0mGwwFA%3D%3D";
 const numOfRows = 1;
 
 
 const pageNo = 1;
+const lastIdx = 446; //지난번 업데이트
 
 let basic="INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( "+'\n', qr = "", dqr ="", eqr = "";
 
@@ -105,9 +107,21 @@ function makeQr(i){
     qr += startDate;qr += " , ";
     qr += endDate;qr += " , ";
 
+    eventName = eventName.replace(/'/g, '\'');
+    eventName = eventName.replace(/"/g, '\"');
+
+    addr1 = addr1.replace(/'/g, '\'');
+    addr1 = addr1.replace(/"/g, '\"');
+
+    addr2 = addr2.replace(/'/g, '\'');
+    addr2 = addr2.replace(/"/g, '\"');
+
+    tel = tel.replace(/'/g, '\'');
+    tel = tel.replace(/"/g, '\"');
+
     if(addr1.length){ qr += "'"+addr1+"'";} else {qr += "NULL";}qr += ", ";
     if(addr2.length){ qr += "'"+addr2+"'";} else {qr += "NULL";}qr += ", ";
-    if(kind.length){ qr += "'"+kind+"'";} else {qr += "NULL";}qr += ", ";
+    if(kind.length){ qr += "'"+kind+"'";} else {qr += "\'A02081300\'";}qr += ", ";
     if(pic.length){ qr += "'"+pic+"'";} else {qr += "NULL";}qr += ", ";
     if(mapx.length){ qr += mapx;} else {qr += "NULL";}qr += ", ";
     if(mapy.length){ qr += mapy;} else {qr += "NULL";}qr += ", ";
@@ -137,6 +151,11 @@ function makeEqr(eventID){
       homepage = EinfoRes[0]['homepage'];
       overview = EinfoRes[0]['overview'];
 
+    homepage = homepage.replace(/'/g, '\'');
+
+    overview = overview.replace(/'/g, '\'');
+    overview = overview.replace(/"/g, '\"');
+
       if(homepage.length){ eqr += "\'"+homepage+"\'";} else {eqr += "NULL";}eqr += ", ";
       if(overview.length){ eqr += "\""+overview+"\"";} else {eqr += "NULL";}eqr += ", ";
 
@@ -164,7 +183,25 @@ function makeDqr(eventID){
           price = DinfoRes[0]['usetimefestival'];
           agelimit = DinfoRes[0]['agelimit'];
           eventtime = DinfoRes[0]['spendtimefestival'];
-    
+
+          eventplace = eventplace.replace(/'/g, '\'');
+          eventplace = eventplace.replace(/"/g, '\"');
+
+          bookingplace = bookingplace.replace(/'/g, '\'');
+          bookingplace = bookingplace.replace(/"/g, '\"');
+
+          subevent = subevent.replace(/'/g, '\'');
+          subevent = subevent.replace(/"/g, '\"');
+
+          price = price.replace(/'/g, '\'');
+          price = price.replace(/"/g, '\"');
+
+          agelimit = agelimit.replace(/'/g, '\'');
+          agelimit = agelimit.replace(/"/g, '\"');
+
+          eventtime = eventtime.replace(/'/g, '\'');
+          eventtime = eventtime.replace(/"/g, '\"');
+
           if(eventplace.length){ dqr += "'"+eventplace+"'";} else {dqr += "NULL";}dqr += ", ";
           if(bookingplace.length){ dqr += "'"+bookingplace+"'";} else {dqr += "NULL";}dqr += ", ";
           if(subevent.length){ dqr += "'"+subevent+"'";} else {dqr += "NULL";}dqr += ", ";
@@ -180,9 +217,11 @@ function makeDqr(eventID){
 async function getEveryEvent(){
   const totalN = await getTotalNum();
 
-  var i = 1;
+  const amount = totalN - lastIdx;
 
-  for (; i <= totalN; i++){
+  var i = pageNo;
+
+  for (; i <= amount; i++){
     const basic = "INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( ";
 
     const r1 = await makeQr(i);
