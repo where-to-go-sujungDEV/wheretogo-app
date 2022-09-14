@@ -21,7 +21,7 @@ export const updateUserNInfo = (uid, data, result) => {
         else {
             if(!data.nickName){
                 result(200, null, {
-                    msg : "변경할 데이터가 입력되지 않았습니다. 변경사항이 없습니다.",
+                    msg : "변경할 닉네임을 입력해주세요.",
                     code : 204,
                     isSuccess : true
                 });
@@ -69,7 +69,7 @@ export const updateUserPInfo = (uid, data, result) => {
         else {
             if(!data.password){
                 result(200, null, {
-                    msg : "변경할 데이터가 입력되지 않았습니다. 변경사항이 없습니다.",
+                    msg : "변경할 비밀번호를 입력해주세요.",
                     code : 204,
                     isSuccess : true
                 });
