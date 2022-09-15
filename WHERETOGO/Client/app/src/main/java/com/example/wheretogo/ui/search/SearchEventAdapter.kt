@@ -1,7 +1,9 @@
 package com.example.wheretogo.ui.search
 
 
+import android.app.AlertDialog
 import android.content.Context
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -23,6 +25,8 @@ import com.example.wheretogo.data.remote.search.EventResult
 import com.example.wheretogo.data.remote.search.SearchService
 import com.example.wheretogo.databinding.ItemMypageSavedBinding
 import com.example.wheretogo.databinding.ItemRecycleEventBinding
+import com.example.wheretogo.ui.MainActivity
+import com.example.wheretogo.ui.login.LoginActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -132,63 +136,62 @@ class SearchEventAdapter(var events: ArrayList<EventResult>, var con: Context) :
 
 
         holder.visitedBtn.setOnClickListener {
-//            if(userIdx==-1){
-//                //toast. 로그인이 필요한 서비스입니다.
-//                //자동로그인
-//                println("로그인이 필요한 서비스입니다")
-//            }
-//            else{
-            // visited 이벤트가 아닐 경우
-            if (!isVisitedBtnSelected){
-                Toast.makeText(con, "방문한 이벤트에 추가했어요.", Toast.LENGTH_SHORT).show()
-                holder.visitedBtn.setBackgroundResource(R.drawable.btn_check_click)
-                isVisitedBtnSelected=true
+            when (userIdx){
+                -1->showLoginAlert()
+                else->{
+                    // visited 이벤트가 아닐 경우
+                    if (!isVisitedBtnSelected){
+                        Toast.makeText(con, "방문한 이벤트에 추가했어요.", Toast.LENGTH_SHORT).show()
+                        holder.visitedBtn.setBackgroundResource(R.drawable.btn_check_click)
+                        isVisitedBtnSelected=true
 
-                //VisitedTBL에 저장
-                searchService.setVisitedEvent(this, userIdx, event.eventID, "g")
-                //로컬 savedDB에 저장
+                        //VisitedTBL에 저장
+                        searchService.setVisitedEvent(this, userIdx, event.eventID, "g")
+                        //로컬 savedDB에 저장
 
+                    }
+                    // visited 이벤트일 경우
+                    else{
+                        Toast.makeText(con, "방문한 이벤트에서 삭제했어요.", Toast.LENGTH_SHORT).show()
+                        holder.visitedBtn.setBackgroundResource(R.drawable.btn_check_unclick)
+                        isVisitedBtnSelected=false
+                        //VistedTBL에서 삭제
+                        searchService.setDeleteVisitedEvent(this, userIdx, event.eventID)
+                    }
+                }
             }
-            // visited 이벤트일 경우
-           else{
-                Toast.makeText(con, "방문한 이벤트에서 삭제했어요.", Toast.LENGTH_SHORT).show()
-                holder.visitedBtn.setBackgroundResource(R.drawable.btn_check_unclick)
-                isVisitedBtnSelected=false
-                //VistedTBL에서 삭제
-                searchService.setDeleteVisitedEvent(this, userIdx, event.eventID)
-            }
-//            }
+
         }
 
 
         holder.likedBtn.setOnClickListener {
-//            if(userIdx==-1){
-//                //toast. 로그인이 필요한 서비스입니다.
-//                //자동로그인
-//                println("로그인이 필요한 서비스입니다")
-//            }
-//            else {
+
             //isLike 버튼이 비활성화 상태일 경우
-            if (!isSavedBtnSelected) {
-                Toast.makeText(con, "저장한 이벤트에 추가했어요.", Toast.LENGTH_SHORT).show()
-                holder.likedBtn.setBackgroundResource(R.drawable.btn_like_click)
-                isSavedBtnSelected=true
+            when (userIdx){
+                -1->showLoginAlert()
+                else->{
+                    if (!isSavedBtnSelected) {
+                        Toast.makeText(con, "저장한 이벤트에 추가했어요.", Toast.LENGTH_SHORT).show()
+                        holder.likedBtn.setBackgroundResource(R.drawable.btn_like_click)
+                        isSavedBtnSelected=true
 
-                //savedTBL에 저장
-                searchService.setSavedEvent(this, userIdx, event.eventID)
-                //로컬 savedDB에 저장
+                        //savedTBL에 저장
+                        searchService.setSavedEvent(this, userIdx, event.eventID)
+                        //로컬 savedDB에 저장
 
+                    }
+                    //isLike버튼이 활성화 상태일 경우
+                    else {
+                        Toast.makeText(con, "저장한 이벤트에서 삭제했어요.", Toast.LENGTH_SHORT).show()
+                        holder.likedBtn.setBackgroundResource(R.drawable.btn_like_unclick)
+                        isSavedBtnSelected=false
+                        //savedTBL에 삭제
+                        searchService.setDeleteSavedEvent(this, userIdx, event.eventID)
+                    }
+                }
             }
-            //isLike버튼이 활성화 상태일 경우
-            else {
-                Toast.makeText(con, "저장한 이벤트에서 삭제했어요.", Toast.LENGTH_SHORT).show()
-                holder.likedBtn.setBackgroundResource(R.drawable.btn_like_unclick)
-                isSavedBtnSelected=false
-                //savedTBL에 삭제
-                searchService.setDeleteSavedEvent(this, userIdx, event.eventID)
-            }
+
         }
-//        }
     }
 
     private fun getEventStatus(eventId: Int, holder: SearchEventAdapter.ViewHolder){
@@ -240,6 +243,17 @@ class SearchEventAdapter(var events: ArrayList<EventResult>, var con: Context) :
         return result
     }
 
+    private fun showLoginAlert() {
+        AlertDialog.Builder(con)
+            .setMessage("해당 기능을 사용하려면 로그인이 필요합니다.\n로그인 페이지로 이동하시겠습니까?")
+            .setPositiveButton("예") { _, _ ->
+                val intent = Intent(con, LoginActivity::class.java)
+                con.startActivity(intent)
+            }
+            .setNegativeButton("아니오") { _, _ ->
+            }
+            .show()
+    }
 
     //유저 인덱스 가져오는 함수
     private fun getIdx(): Int {
