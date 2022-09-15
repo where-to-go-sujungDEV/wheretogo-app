@@ -92,8 +92,6 @@
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/item_all_recommend.xml" value="0.1" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/item_calendar_popup_dialog.xml" value="0.20989583333333334" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/item_mypage_like.xml" value="0.20989583333333334" />
-        <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/item_mypage_saved.xml" value="0.6" />
-        <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/item_mypage_visited.xml" value="0.1" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/item_mypage_saved.xml" value="0.20989583333333334" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/item_mypage_visited.xml" value="0.20989583333333334" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/item_recycle_event.xml" value="0.20989583333333334" />
@@ -134,11 +132,18 @@
         <entry key="..\:/WTG/WHERETOGO/Client/app/src/main/res/layout/activity_guide.xml" value="0.20677083333333332" />
         <entry key="..\:/WTG/WHERETOGO/Client/app/src/main/res/layout/activity_keyword.xml" value="0.22146739130434784" />
         <entry key="..\:/WTG/WHERETOGO/Client/app/src/main/res/layout/activity_login.xml" value="0.20677083333333332" />
+        <entry key="..\:/WTG/WHERETOGO/Client/app/src/main/res/layout/activity_main.xml" value="0.23125" />
         <entry key="..\:/WTG/WHERETOGO/Client/app/src/main/res/layout/activity_recommend.xml" value="0.20677083333333332" />
         <entry key="..\:/WTG/WHERETOGO/Client/app/src/main/res/layout/activity_setting.xml" value="0.246875" />
+        <entry key="..\:/WTG/WHERETOGO/Client/app/src/main/res/layout/fragment_mypage_banner.xml" value="0.3390625" />
+        <entry key="..\:/WTG/WHERETOGO/Client/app/src/main/res/layout/fragment_search.xml" value="0.18" />
+        <entry key="..\:/WTG/WHERETOGO/Client/app/src/main/res/layout/fragment_search_popular.xml" value="0.33" />
         <entry key="..\:/WTG/WHERETOGO/Client/app/src/main/res/layout/item_calendar_popup_dialog.xml" value="0.21822916666666667" />
+        <entry key="..\:/WTG/WHERETOGO/Client/app/src/main/res/layout/item_recycle_filter.xml" value="0.23125" />
+        <entry key="..\:/WTG/WHERETOGO/Client/app/src/main/res/layout/item_recycle_popular_search.xml" value="0.33" />
         <entry key="..\:/WTG/WHERETOGO/Client/app/src/main/res/layout/item_recycle_popup_dialog.xml" value="0.21822916666666667" />
         <entry key="..\:/WTG/WHERETOGO/Client/app/src/main/res/layout/item_search_filter_dialog.xml" value="0.33" />
+        <entry key="..\:/WTG/WHERETOGO/Client/app/src/main/res/menu/navi_menu.xml" value="0.2046875" />
       </map>
     </option>
   </component>

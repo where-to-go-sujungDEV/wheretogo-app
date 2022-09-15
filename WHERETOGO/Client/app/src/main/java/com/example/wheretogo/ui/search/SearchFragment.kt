@@ -15,9 +15,12 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.example.wheretogo.BaseFragment
 import com.example.wheretogo.R
 import com.example.wheretogo.data.remote.search.*
 import com.example.wheretogo.databinding.FragmentSearchBinding
+import com.example.wheretogo.databinding.FragmentSearchPopularBinding
 import com.example.wheretogo.ui.detail.DetailActivity
 import okhttp3.internal.notify
 import java.io.IOException
@@ -26,10 +29,10 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class SearchFragment : Fragment() {
+class SearchFragment  : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding::inflate) {
     val TAG = "SearchFragment"
 
-    lateinit var binding: FragmentSearchBinding
+//    lateinit var binding: FragmentSearchBinding
     lateinit var dialog :Dialog
 
     private var events = ArrayList<EventResult>()
@@ -89,14 +92,8 @@ class SearchFragment : Fragment() {
     private val eventService = EventService
     private val areaService = AreaService
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
 
-        binding = FragmentSearchBinding.inflate(inflater, container, false)
-
+    override fun initAfterBinding() {
         rv_event = binding.root.findViewById(R.id.rv_event)
 
         search_bar = binding.root.findViewById(R.id.search_bar)
@@ -105,6 +102,7 @@ class SearchFragment : Fragment() {
         filter = binding.root.findViewById(R.id.filter)
 
         eventService.getEvents(this,search,aCode,aDCode,fromD,toD,k1,k2,k3,k4,k5,k6,k7,k8,k9,k10,k11,k12,k13,k14,k15,free,align)
+
 
 
         val sortBy = resources.getStringArray((R.array.sortBy))
@@ -129,17 +127,32 @@ class SearchFragment : Fragment() {
             showDialog()
             setDialogAdapter()
         })
-
-
-        return binding.root
     }
+
+
+//    override fun onCreateView(
+//        inflater: LayoutInflater,
+//        container: ViewGroup?,
+//        savedInstanceState: Bundle?
+//    ): View? {
+//
+////        binding = FragmentSearchBinding.inflate(inflater, container, false)
+//
+//        return binding.root
+//    }
 
     //SearchView 텍스트 입력시 이벤트
     var searchViewTextListener: SearchView.OnQueryTextListener =
         object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(s: String): Boolean {
-                search = s
-                eventService.getEvents(this@SearchFragment,search,aCode,aDCode,fromD,toD,k1,k2,k3,k4,k5,k6,k7,k8,k9,k10,k11,k12,k13,k14,k15,free,align)
+                if(s.equals("")) {
+                    setFilterReset()
+                    eventService.getEvents(this@SearchFragment,search,aCode,aDCode,fromD,toD,k1,k2,k3,k4,k5,k6,k7,k8,k9,k10,k11,k12,k13,k14,k15,free,align)
+                }
+                else {
+                    search = s
+                    eventService.getEvents(this@SearchFragment,search,aCode,aDCode,fromD,toD,k1,k2,k3,k4,k5,k6,k7,k8,k9,k10,k11,k12,k13,k14,k15,free,align)
+                }
 
                 return false
             }
@@ -358,6 +371,7 @@ class SearchFragment : Fragment() {
 
 
     fun getAreaList(result:List<AreaResult>) {
+        areaNameArr.clear()
         areaNameArr.add("선택안함")
         result.forEach{area->
             areaArr.add(area)
@@ -381,6 +395,7 @@ class SearchFragment : Fragment() {
     }
 
     fun setFilterReset() {
+        search = ""
         k1= 0
         k2= 0
         k3= 0
@@ -405,14 +420,12 @@ class SearchFragment : Fragment() {
     }
 
     fun noEventMsg() {
-        Toast.makeText(context, "이벤트가 없습니다.", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "해당하는 이벤트가 없습니다.", Toast.LENGTH_SHORT).show()
     }
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
     }
-
-
-
 
 
 

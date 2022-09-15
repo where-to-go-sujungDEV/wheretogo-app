@@ -5,6 +5,7 @@ import android.util.Log
 import com.example.wheretogo.data.remote.auth.getRetrofit
 import com.example.wheretogo.ui.search.SearchEventAdapter
 import com.example.wheretogo.ui.search.SearchFragment
+import com.example.wheretogo.ui.search.SearchPopularFragment
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -146,45 +147,6 @@ object SearchService{
     }
 
 
-//    fun getAreaCode(fragment: SearchFragment, areacode:String){
-//        searchService.getAreaCode(areacode).enqueue(object: Callback<AreaCodeResponse> {
-//            override fun onResponse(call: Call<AreaCodeResponse>, response: Response<AreaCodeResponse>) {
-//                val resp = response.body()!!
-//                when(val code = resp.code){
-//                    200-> {
-//                        fragment.isSavedBtnSelected = resp.results
-//                    }
-//                    else ->{
-//
-//                    }
-//                }
-//            }
-//
-//            override fun onFailure(call: Call<AreaCodeResponse>, t: Throwable) {
-//                Log.d("getIsSavedEvent/FAILURE", t.message.toString())
-//            }
-//        })
-//    }
-//
-//    fun getSigunguCode(fragment: SearchFragment, bigarea:String, smallarea:String){
-//        searchService.getSigunguCode(bigarea,smallarea).enqueue(object: Callback<SigunguCodeResponse> {
-//            override fun onResponse(call: Call<SigunguCodeResponse>, response: Response<SigunguCodeResponse>) {
-//                val resp = response.body()!!
-//                when(val code = resp.code){
-//                    200-> {
-//                        fragment.isSavedBtnSelected = resp.results
-//                    }
-//                    else ->{
-//
-//                    }
-//                }
-//            }
-//
-//            override fun onFailure(call: Call<SigunguCodeResponse>, t: Throwable) {
-//                Log.d("getIsSavedEvent/FAILURE", t.message.toString())
-//            }
-//        })
-//    }
 
 
 }
