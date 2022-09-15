@@ -68,9 +68,15 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
         fun bind(savedEvent: SavedEventResult,holder: UserSavedEventRVAdapter.ViewHolder){
             var savedNum=0
             var visitedNum=0
-            Glide.with(context).load(savedEvent.pic)
-                .transform(CenterCrop(), RoundedCorners(40))
-                .into(binding.mypageLikeEventIv)
+            if (savedEvent.pic!=null){
+                Glide.with(context).load(savedEvent.pic)
+                    .transform(CenterCrop(), RoundedCorners(40))
+                    .into(binding.mypageLikeEventIv)
+            }
+            else{binding.mypageLikeEventIv.setImageResource(R.drawable.default_event_img)
+                binding.mypageLikeEventIv.clipToOutline = true
+            }
+
             binding.itemMypageLikeTitleTv.text = savedEvent.eventName
             binding.itemMypageLikeTagTv.text = savedEvent.kind
             binding.itemMypageLikeStartDateTv.text = String.format("%s~",savedEvent.startDate.slice(IntRange(0,9)))

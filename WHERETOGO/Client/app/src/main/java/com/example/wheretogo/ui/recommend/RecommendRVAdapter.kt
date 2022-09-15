@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.example.wheretogo.R
 import com.example.wheretogo.data.remote.auth.getRetrofit
 import com.example.wheretogo.data.remote.home.AllRecommendEventResult
 import com.example.wheretogo.data.remote.mypage.EventStatusResponse
@@ -56,9 +57,15 @@ class RecommendRVAdapter(private val recommendList: ArrayList<AllRecommendEventR
     inner class ViewHolder(val binding: ItemAllRecommendBinding): RecyclerView.ViewHolder(binding.root){
 
         fun bind(allRecommendEvent: AllRecommendEventResult){
-            Glide.with(context).load(allRecommendEvent.pic)
-                .transform(CenterCrop(), RoundedCorners(40))
-                .into(binding.itemRecommendEventIv)
+
+            if (allRecommendEvent.pic!=null){
+                Glide.with(context).load(allRecommendEvent.pic)
+                    .transform(CenterCrop(), RoundedCorners(40))
+                    .into(binding.itemRecommendEventIv)
+            }
+            else{binding.itemRecommendEventIv.setImageResource(R.drawable.default_event_img)
+                binding.itemRecommendEventIv.clipToOutline = true
+            }
             binding.itemRecommendTitleTv.text = allRecommendEvent.eventName
             binding.itemRecommendDateTv.text = String.format("%s ~ %s",allRecommendEvent.startDate.slice(
                 IntRange(0,9)),allRecommendEvent.endDate.slice(IntRange(0,9)))
