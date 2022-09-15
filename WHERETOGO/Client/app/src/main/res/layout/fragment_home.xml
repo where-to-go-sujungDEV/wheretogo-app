@@ -39,6 +39,7 @@
             android:textColor="@color/purple"
             android:layout_marginTop="68dp"
             android:textSize="18sp"
+            android:fontFamily="@font/pd_medium"
             app:layout_constraintTop_toBottomOf="@id/home_banner_vp"
             app:layout_constraintStart_toStartOf="parent"/>
         <androidx.viewpager2.widget.ViewPager2
@@ -59,6 +60,7 @@
             android:text=" 행사에요"
             android:layout_marginTop="68dp"
             android:textSize="18sp"
+            android:fontFamily="@font/pd_medium"
             app:layout_constraintTop_toBottomOf="@id/home_banner_vp"
             app:layout_constraintStart_toEndOf="@id/home_tag_title1_tv"/>
         <TextView
@@ -70,6 +72,7 @@
             android:textColor="@color/purple"
             android:layout_marginTop="199dp"
             android:textSize="18sp"
+            android:fontFamily="@font/pd_medium"
             app:layout_constraintTop_toBottomOf="@id/home_tag_title1_tv"
             app:layout_constraintStart_toStartOf="parent"/>
         <TextView
@@ -79,6 +82,7 @@
             android:text="님을 위한 추천"
             android:layout_marginTop="199dp"
             android:textSize="18sp"
+            android:fontFamily="@font/pd_medium"
             app:layout_constraintTop_toBottomOf="@id/home_tag_title1_tv"
             app:layout_constraintStart_toEndOf="@id/home_user_name_tv"/>
         <TextView
@@ -88,7 +92,7 @@
             android:layout_marginStart="5dp"
             android:layout_marginTop="2dp"
             android:textSize="15sp"
-            android:textStyle="bold"
+            android:fontFamily="@font/pd_semibold"
             app:layout_constraintTop_toBottomOf="@id/home_user_name_tv"
             app:layout_constraintStart_toStartOf="@id/home_user_name_tv"/>
         <TextView

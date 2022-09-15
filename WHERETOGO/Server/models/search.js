@@ -1,7 +1,7 @@
 import db from "../config/dbConnection.js";
 
 export const getSearchResults = (data, result) => {
-    var qr = 'select eventID, eventName, kind, startDate, endDate, pic, (select count(*) from UserSavedTBL where UserSavedTBL.eventID = EventTBL.eventID) as savedNum, (select count(*) from UserVisitedTBL where UserVisitedTBL.eventID = EventTBL.eventID)as visitedNum from eventTBL ';
+    var qr = 'select eventID, eventName, (select cName from CategoryTBL where cCode = EventTBL.kind) as kind, startDate, endDate, pic, (select count(*) from UserSavedTBL where UserSavedTBL.eventID = EventTBL.eventID) as savedNum, (select count(*) from UserVisitedTBL where UserVisitedTBL.eventID = EventTBL.eventID)as visitedNum from eventTBL ';
     qr += ' where ';
     var kind = '';           
                 

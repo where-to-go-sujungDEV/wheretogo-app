@@ -19,14 +19,21 @@ import retrofit2.Response
 class MypageVisitedFragment() : BaseFragment<FragmentMypageBannerBinding>(FragmentMypageBannerBinding::inflate){
     private val mypageService = MypageService
     private val detailBooleanService = getRetrofit().create(DetailRetrofitInterface::class.java)
+    private var userId =0
     override fun initAfterBinding() {
         //방문여부 표시
-        mypageService.getVisitedEvent(this,getIdx())
+        userId=getIdx()
+        mypageService.getVisitedEvent(this,userId)
     }
 
     override fun onStart() {
         super.onStart()
-        mypageService.getVisitedEvent(this,getIdx())
+        mypageService.getVisitedEvent(this,userId)
+    }
+
+    override fun onResume(){
+        super.onResume()
+        mypageService.getVisitedEvent(this,userId)
     }
 
     fun setVisitedEvent(visitedEventList: ArrayList<VisitedEventResult>){
@@ -62,9 +69,5 @@ class MypageVisitedFragment() : BaseFragment<FragmentMypageBannerBinding>(Fragme
         val spf = activity?.getSharedPreferences("userInfo", AppCompatActivity.MODE_PRIVATE)
         return spf!!.getInt("userIdx",-1)
     }
-
-
-
-
 
 }

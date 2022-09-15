@@ -1,15 +1,7 @@
 package com.example.wheretogo.data.remote.detail
 
-import com.example.wheretogo.data.remote.mypage.VisitedEventResponse
-import com.example.wheretogo.data.remote.search.DeleteSavedResponse
-import com.example.wheretogo.data.remote.search.IsSavedResponse
-import com.example.wheretogo.data.remote.search.IsVisitedResponse
-import com.example.wheretogo.data.remote.search.SetSavedEventResponse
 import retrofit2.Call
-import retrofit2.http.DELETE
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
+import retrofit2.http.*
 
 interface DetailRetrofitInterface {
     @GET("event/{userIdx}")
@@ -40,4 +32,7 @@ interface DetailRetrofitInterface {
                          @Path("eventID") eventID: Int): Call<DetailDeleteVisitedResponse>
 
 
+    @GET("/v1/search/blog")
+    fun getSearchBlog(@Header("X-Naver-Client-Id") clientId:String,@Header("X-Naver-Client-Secret") clientSecret:String,
+                      @Query("query") query:String?): Call<SearchBlogResponse>
 }

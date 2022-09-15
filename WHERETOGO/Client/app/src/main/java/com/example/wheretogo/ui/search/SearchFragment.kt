@@ -15,12 +15,9 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.example.wheretogo.BaseFragment
 import com.example.wheretogo.R
 import com.example.wheretogo.data.remote.search.*
 import com.example.wheretogo.databinding.FragmentSearchBinding
-import com.example.wheretogo.databinding.FragmentSearchPopularBinding
 import com.example.wheretogo.ui.detail.DetailActivity
 import okhttp3.internal.notify
 import java.io.IOException
@@ -29,10 +26,10 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class SearchFragment  : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding::inflate) {
+class SearchFragment : Fragment() {
     val TAG = "SearchFragment"
 
-//    lateinit var binding: FragmentSearchBinding
+    lateinit var binding: FragmentSearchBinding
     lateinit var dialog :Dialog
 
     private var events = ArrayList<EventResult>()
@@ -92,8 +89,14 @@ class SearchFragment  : BaseFragment<FragmentSearchBinding>(FragmentSearchBindin
     private val eventService = EventService
     private val areaService = AreaService
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
 
-    override fun initAfterBinding() {
+        binding = FragmentSearchBinding.inflate(inflater, container, false)
+
         rv_event = binding.root.findViewById(R.id.rv_event)
 
         search_bar = binding.root.findViewById(R.id.search_bar)
@@ -102,8 +105,6 @@ class SearchFragment  : BaseFragment<FragmentSearchBinding>(FragmentSearchBindin
         filter = binding.root.findViewById(R.id.filter)
 
         eventService.getEvents(this,search,aCode,aDCode,fromD,toD,k1,k2,k3,k4,k5,k6,k7,k8,k9,k10,k11,k12,k13,k14,k15,free,align)
-
-
 
         val sortBy = resources.getStringArray((R.array.sortBy))
         val sortAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item,sortBy)
@@ -127,19 +128,19 @@ class SearchFragment  : BaseFragment<FragmentSearchBinding>(FragmentSearchBindin
             showDialog()
             setDialogAdapter()
         })
+
+        return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        setAdapter()
+    }
 
-//    override fun onCreateView(
-//        inflater: LayoutInflater,
-//        container: ViewGroup?,
-//        savedInstanceState: Bundle?
-//    ): View? {
-//
-////        binding = FragmentSearchBinding.inflate(inflater, container, false)
-//
-//        return binding.root
-//    }
+    override fun onStart() {
+        super.onStart()
+        setAdapter()
+    }
 
     //SearchView 텍스트 입력시 이벤트
     var searchViewTextListener: SearchView.OnQueryTextListener =
@@ -360,6 +361,7 @@ class SearchFragment  : BaseFragment<FragmentSearchBinding>(FragmentSearchBindin
                 startActivity(intent)
             }
         })
+        searchEventAdapter.notifyDataSetChanged()
     }
 
 
@@ -426,7 +428,5 @@ class SearchFragment  : BaseFragment<FragmentSearchBinding>(FragmentSearchBindin
     override fun onAttach(context: Context) {
         super.onAttach(context)
     }
-
-
 
 }

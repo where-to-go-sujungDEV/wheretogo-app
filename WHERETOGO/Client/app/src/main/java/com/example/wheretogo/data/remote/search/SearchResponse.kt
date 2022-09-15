@@ -2,22 +2,6 @@ package com.example.wheretogo.data.remote.search
 
 import com.google.gson.annotations.SerializedName
 
-
-// saved 여부 판단
-data class IsSavedResponse(
-    @SerializedName("isSaved") val isSaved : Boolean,
-    @SerializedName("code") val code : Int,
-    @SerializedName("isSuccess") val isSuccess : Boolean,
-)
-
-// visited 여부 판단
-data class IsVisitedResponse(
-    @SerializedName("isSaved") val isSaved : Boolean,
-    @SerializedName("code") val code : Int,
-    @SerializedName("isSuccess") val isSuccess : Boolean,
-)
-
-
 //svaedTBL에 저장
 data class SetSavedEventResponse(
     @SerializedName("msg") var msg : String,
