@@ -127,5 +127,4 @@
         app:layout_constraintTop_toBottomOf="@id/item_mypage_visited_title_tv"/>
 
 
-
 </androidx.constraintlayout.widget.ConstraintLayout>
