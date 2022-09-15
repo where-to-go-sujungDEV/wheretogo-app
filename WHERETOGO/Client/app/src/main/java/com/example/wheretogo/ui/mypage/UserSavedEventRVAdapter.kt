@@ -31,7 +31,6 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
     private val setStatusService = getRetrofit().create(SearchRetrofitInterface::class.java)
     private var isEventVisited=false
     private var isEventSaved=false
-    private var pos=0
     interface OnItemClickListener {
         fun onItemClick(savedEventData: SavedEventResult)
     }
@@ -66,8 +65,6 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
     inner class ViewHolder(val binding: ItemMypageSavedBinding): RecyclerView.ViewHolder(binding.root){
 
         fun bind(savedEvent: SavedEventResult,holder: UserSavedEventRVAdapter.ViewHolder){
-            var savedNum=0
-            var visitedNum=0
             if (savedEvent.pic!=null){
                 Glide.with(context).load(savedEvent.pic)
                     .transform(CenterCrop(), RoundedCorners(40))
@@ -177,7 +174,7 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
         })
     }
     //save이벤트에서 삭제
-   private fun setDeleteSavedEvent(userID: Int, eventID: Int){
+    private fun setDeleteSavedEvent(userID: Int, eventID: Int){
         setStatusService.setDeleteSavedResponse(userID,eventID).enqueue(object: Callback<DeleteSavedResponse> {
             override fun onResponse(call: Call<DeleteSavedResponse>, response: Response<DeleteSavedResponse>) {
                 val resp = response.body()!!
@@ -252,7 +249,5 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
         val spf = context.getSharedPreferences("userInfo", AppCompatActivity.MODE_PRIVATE)
         return spf!!.getInt("userIdx",-1)
     }
-
-
 
 }

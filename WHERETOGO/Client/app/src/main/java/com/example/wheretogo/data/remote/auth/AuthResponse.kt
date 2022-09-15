@@ -38,7 +38,8 @@ data class UserResult (
 //로그인 시 유저가 입력하는 정보
 data class LoginInfo(
     @SerializedName(value = "email")val email: String,
-    @SerializedName(value = "password")val password: String
+    @SerializedName(value = "password")val password: String,
+    @SerializedName(value = "deviceToken")val deviceToken: String
 )
 
 //회원탈퇴

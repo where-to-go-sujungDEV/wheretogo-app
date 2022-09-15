@@ -75,23 +75,7 @@ class RecommendRVAdapter(private val recommendList: ArrayList<AllRecommendEventR
             getEventStatus(allRecommendEvent.eventID, binding)
 
 
-//            if (resp.isVisited){
-//                binding.itemRecommendVisitedBtn.visibility = View.VISIBLE
-//                binding.itemRecommendUnvisitedBtn.visibility = View.INVISIBLE
-//            }
-//            else {
-//                binding.itemRecommendVisitedBtn.visibility = View.INVISIBLE
-//                binding.itemRecommendUnvisitedBtn.visibility = View.VISIBLE
-//            }
-//
-//            if (resp.isSaved){
-//                binding.itemRecommendLikeBtn.visibility = View.VISIBLE
-//                binding.itemRecommendUnlikeBtn.visibility = View.INVISIBLE
-//            }
-//            else{
-//                binding.itemRecommendLikeBtn.visibility = View.INVISIBLE
-//                binding.itemRecommendUnlikeBtn.visibility = View.VISIBLE
-//            }
+
         }
 }
 
