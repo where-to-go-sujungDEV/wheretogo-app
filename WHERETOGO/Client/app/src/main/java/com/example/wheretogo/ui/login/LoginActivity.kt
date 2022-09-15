@@ -58,9 +58,10 @@ class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::in
     private fun getLoginInfo(): LoginInfo {
         val email: String = binding.loginIdEt.text.toString()
         val pwd: String = binding.loginPwdEt.text.toString()
+        val deviceToken= getFcmToken()
         saveEmail(email)
 
-        return LoginInfo(email,pwd)
+        return LoginInfo(email,pwd,deviceToken)
     }
 
     private fun login(){
