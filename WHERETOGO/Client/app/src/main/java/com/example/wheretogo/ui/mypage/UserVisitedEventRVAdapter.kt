@@ -64,9 +64,17 @@ class UserVisitedEventRVAdapter (private val visitedEventList: ArrayList<Visited
             getEventStatus(visitedEvent.eventID,binding)
             binding.itemMypageVisitedCountTv.text = String.format("방문한 수: %d건",visitedEvent.visitedNum)
             binding.itemMypageVisitedTitleTv.text = visitedEvent.eventName
-            Glide.with(context).load(visitedEvent.pic)
-                .transform(CenterCrop(), RoundedCorners(40))
-                .into(binding.mypageVisitedEventIv)
+
+
+            if (visitedEvent.pic!=null){
+                Glide.with(context).load(visitedEvent.pic)
+                    .transform(CenterCrop(), RoundedCorners(40))
+                    .into(binding.mypageVisitedEventIv)
+            }
+            else{binding.mypageVisitedEventIv.setImageResource(R.drawable.default_event_img)
+                binding.mypageVisitedEventIv.clipToOutline = true
+            }
+
             binding.itemMypageVisitedTagTv.text = visitedEvent.kind
             binding.itemMypageVisitedStartDate.text = String.format("%s~",visitedEvent.startDate.slice(IntRange(0,9)))
             if (visitedEvent.endDate!=null)

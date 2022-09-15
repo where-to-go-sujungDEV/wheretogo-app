@@ -111,9 +111,13 @@ class SearchEventAdapter(var events: ArrayList<EventResult>, var con: Context) :
         holder.date.text =String.format("%s ~ %s",event.startDate.slice(IntRange(0,9)), event.endDate.slice(IntRange(0,9)))
         holder.kind.text = event.kind
 
-        Glide.with(con).load(event.pic)
-            .transform(CenterCrop(), RoundedCorners(40))
-            .into(holder.eventImage)
+        if (event.pic!=null){
+            Glide.with(con).load(event.pic)
+                .transform(CenterCrop(), RoundedCorners(40))
+                .into(holder.eventImage)
+        }
+        else{holder.eventImage.setImageResource(R.drawable.default_event_img)
+            holder.eventImage.clipToOutline = true}
 
         getEventStatus(event.eventID,holder)
 

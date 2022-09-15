@@ -6,6 +6,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.example.wheretogo.BaseFragment
+import com.example.wheretogo.R
 import com.example.wheretogo.data.remote.home.PopularEventResult
 import com.example.wheretogo.databinding.FragmentPopularBannerBinding
 import com.example.wheretogo.ui.detail.DetailActivity
@@ -22,10 +23,14 @@ class BannerPopularFragment(private val item: PopularEventResult) : BaseFragment
         binding.homePopularStartDateTv.text = String.format("%s~",item.startDate.slice(IntRange(0,9)))
         if (item.endDate!=null)
             binding.homePopularEndDateTv.text = item.endDate.slice(IntRange(0,9))
-        Glide.with(this).load(item.pic)
-            .transform(CenterCrop(), RoundedCorners(40))
-            .into(binding.homePopularIv)
-
+        if (item.pic!=null){
+            Glide.with(this).load(item.pic)
+                .transform(CenterCrop(), RoundedCorners(40))
+                .into(binding.homePopularIv)
+        }
+        else{binding.homePopularIv.setImageResource(R.drawable.default_event_img)
+            binding.homePopularIv.clipToOutline = true
+        }
 
         binding.homePopularIv.setOnClickListener {
             val intent = Intent(context, DetailActivity::class.java)

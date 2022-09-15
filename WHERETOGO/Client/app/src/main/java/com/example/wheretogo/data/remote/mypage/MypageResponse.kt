@@ -16,7 +16,7 @@ data class SavedEventResult(
     @SerializedName(value = "kind") val kind: String,
     @SerializedName(value = "startDate") val startDate: String,
     @SerializedName(value = "endDate") val endDate: String?,
-    @SerializedName(value = "pic") val pic: String,
+    @SerializedName(value = "pic") val pic: String?,
     @SerializedName(value = "savedNum") val savedNum: Int
     )
 
@@ -36,7 +36,7 @@ data class VisitedEventResult(
     @SerializedName(value = "kind") val kind: String,
     @SerializedName(value = "startDate") val startDate: String,
     @SerializedName(value = "endDate") val endDate: String?,
-    @SerializedName(value = "pic") val pic: String,
+    @SerializedName(value = "pic") val pic: String?,
     @SerializedName(value = "visitedNum") val visitedNum: Int
 )
 
