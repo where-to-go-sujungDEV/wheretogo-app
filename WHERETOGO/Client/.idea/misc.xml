@@ -55,7 +55,6 @@
         <entry key="..\:/Users/Gahyun/AndroidStudioProjects/WHERETOGO/app/src/main/res/layout/fragment_search.xml" value="0.20625" />
         <entry key="..\:/Users/Gahyun/AndroidStudioProjects/WHERETOGO/app/src/main/res/menu/navi_menu.xml" value="0.20989583333333334" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/drawable/alert_panel_border.xml" value="0.23020833333333332" />
-        <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/drawable/banner_cover.xml" value="0.1" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/drawable/bottom_banner_border.xml" value="0.23020833333333332" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/drawable/bottom_banner_tip.xml" value="0.23020833333333332" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/drawable/btn_check_click.xml" value="0.113" />
@@ -70,18 +69,13 @@
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/drawable/ic_favorite.xml" value="0.113" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/drawable/ic_profile.xml" value="0.113" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/drawable/mypage_like_border.xml" value="0.23020833333333332" />
-        <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/font-v26/custom_font_family.xml" value="0.24479166666666666" />
-        <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/font/custom_font_family.xml" value="0.2484375" />
-        <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/font/font_res.xml" value="0.1" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/activity_alert.xml" value="0.20989583333333334" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/activity_change_info.xml" value="0.1" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/activity_change_pwd.xml" value="0.2" />
-        <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/activity_detail.xml" value="0.20212765957446807" />
+        <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/activity_detail.xml" value="0.20989583333333334" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/activity_guide.xml" value="0.20989583333333334" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/activity_login.xml" value="0.20989583333333334" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/activity_main.xml" value="0.20989583333333334" />
-        <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/activity_map.xml" value="0.20989583333333334" />
-        <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/activity_recommend.xml" value="0.19322916666666667" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/activity_setting.xml" value="0.20989583333333334" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/activity_signup.xml" value="0.20989583333333334" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/f_mypage_save_banner.xml" value="0.1" />
@@ -99,11 +93,16 @@
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/item_all_recommend.xml" value="0.1" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/item_calendar_popup_dialog.xml" value="0.20989583333333334" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/item_mypage_like.xml" value="0.20989583333333334" />
+
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/item_mypage_saved.xml" value="0.3346303501945525" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/item_mypage_visited.xml" value="0.1" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/item_recycle_event.xml" value="0.264" />
+
+        <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/item_mypage_saved.xml" value="0.20989583333333334" />
+        <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/item_mypage_visited.xml" value="0.20989583333333334" />
+        <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/item_recycle_event.xml" value="0.20989583333333334" />
+
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/item_recycle_event_like.xml" value="0.20989583333333334" />
-        <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/item_search_blog.xml" value="0.20989583333333334" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/layout/mypage_like_banner.xml" value="0.20989583333333334" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/Client/app/src/main/res/menu/navi_menu.xml" value="0.20989583333333334" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/app/src/main/res/drawable/btn_login_login.xml" value="0.14539473684210527" />
@@ -135,9 +134,24 @@
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/app/src/main/res/layout/item_mypage_like.xml" value="0.1" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/app/src/main/res/menu/navi_menu.xml" value="0.1" />
         <entry key="..\:/Users/Gahyun/wheretogo/WHERETOGO/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.11458333333333333" />
+        <entry key="..\:/WTG/WHERETOGO/Client/app/src/main/res/layout/activity_change_info.xml" value="0.18177083333333333" />
+        <entry key="..\:/WTG/WHERETOGO/Client/app/src/main/res/layout/activity_change_pwd.xml" value="0.20677083333333332" />
+        <entry key="..\:/WTG/WHERETOGO/Client/app/src/main/res/layout/activity_guide.xml" value="0.20677083333333332" />
+        <entry key="..\:/WTG/WHERETOGO/Client/app/src/main/res/layout/activity_keyword.xml" value="0.22146739130434784" />
+        <entry key="..\:/WTG/WHERETOGO/Client/app/src/main/res/layout/activity_login.xml" value="0.20677083333333332" />
+        <entry key="..\:/WTG/WHERETOGO/Client/app/src/main/res/layout/activity_main.xml" value="0.23125" />
+        <entry key="..\:/WTG/WHERETOGO/Client/app/src/main/res/layout/activity_recommend.xml" value="0.20677083333333332" />
+        <entry key="..\:/WTG/WHERETOGO/Client/app/src/main/res/layout/activity_setting.xml" value="0.246875" />
+        <entry key="..\:/WTG/WHERETOGO/Client/app/src/main/res/layout/fragment_mypage_banner.xml" value="0.3390625" />
+        <entry key="..\:/WTG/WHERETOGO/Client/app/src/main/res/layout/fragment_search.xml" value="0.33" />
+        <entry key="..\:/WTG/WHERETOGO/Client/app/src/main/res/layout/fragment_search_popular.xml" value="0.33" />
         <entry key="..\:/WTG/WHERETOGO/Client/app/src/main/res/layout/item_calendar_popup_dialog.xml" value="0.21822916666666667" />
+        <entry key="..\:/WTG/WHERETOGO/Client/app/src/main/res/layout/item_recycle_event.xml" value="0.21422101449275363" />
+        <entry key="..\:/WTG/WHERETOGO/Client/app/src/main/res/layout/item_recycle_filter.xml" value="0.23125" />
+        <entry key="..\:/WTG/WHERETOGO/Client/app/src/main/res/layout/item_recycle_popular_search.xml" value="0.33" />
         <entry key="..\:/WTG/WHERETOGO/Client/app/src/main/res/layout/item_recycle_popup_dialog.xml" value="0.21822916666666667" />
         <entry key="..\:/WTG/WHERETOGO/Client/app/src/main/res/layout/item_search_filter_dialog.xml" value="0.33" />
+        <entry key="..\:/WTG/WHERETOGO/Client/app/src/main/res/menu/navi_menu.xml" value="0.2046875" />
       </map>
     </option>
   </component>

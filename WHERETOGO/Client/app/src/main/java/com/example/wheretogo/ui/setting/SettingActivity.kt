@@ -49,7 +49,6 @@ class SettingActivity: BaseActivity<ActivitySettingBinding>(ActivitySettingBindi
         }
 
         binding.uploadKeyword.setOnClickListener{
-            println("실행됨 이마ㅓㄴ이ㅏㄹ멍니럼ㄴ")
             startNextActivity(KeywordActivity::class.java)
         }
     }

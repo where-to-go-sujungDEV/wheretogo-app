@@ -38,4 +38,5 @@ interface SearchRetrofitInterface {
     fun getSigunguCode(@Path("bigarea") bigarea:String, @Path("smallarea") smallarea:String): Call<SigunguCodeResponse>
 
 
+
 }

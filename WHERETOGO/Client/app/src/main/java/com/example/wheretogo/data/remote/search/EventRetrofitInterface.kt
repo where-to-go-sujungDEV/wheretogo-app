@@ -31,4 +31,9 @@ interface EventRetrofitInterface {
        @Query("free") free: Int?,
        @Query("align") align: String?
     ): Call<EventResponse>
+
+   @GET("/search/hot")
+   fun getSearchHot(): Call<SearchHotResponse>
+
+
 }

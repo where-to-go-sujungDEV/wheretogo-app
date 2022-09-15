@@ -18,6 +18,7 @@ class EventDayDecorator (context: Activity, events: ArrayList<CalendarResult>): 
     override fun shouldDecorate(day: CalendarDay?): Boolean {
         var result : Boolean = false
         dates.forEach{e->
+//            if (e.startDate==)
             var formatter = SimpleDateFormat("yyyy-MM-dd")
             var date_s = formatter.parse(e.startDate)
             var cal_s  = Calendar.getInstance()

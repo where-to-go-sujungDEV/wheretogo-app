@@ -146,8 +146,14 @@ class SearchFragment : Fragment() {
     var searchViewTextListener: SearchView.OnQueryTextListener =
         object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(s: String): Boolean {
-                search = s
-                eventService.getEvents(this@SearchFragment,search,aCode,aDCode,fromD,toD,k1,k2,k3,k4,k5,k6,k7,k8,k9,k10,k11,k12,k13,k14,k15,free,align)
+                if(s.equals("")) {
+                    setFilterReset()
+                    eventService.getEvents(this@SearchFragment,search,aCode,aDCode,fromD,toD,k1,k2,k3,k4,k5,k6,k7,k8,k9,k10,k11,k12,k13,k14,k15,free,align)
+                }
+                else {
+                    search = s
+                    eventService.getEvents(this@SearchFragment,search,aCode,aDCode,fromD,toD,k1,k2,k3,k4,k5,k6,k7,k8,k9,k10,k11,k12,k13,k14,k15,free,align)
+                }
 
                 return false
             }
@@ -367,6 +373,7 @@ class SearchFragment : Fragment() {
 
 
     fun getAreaList(result:List<AreaResult>) {
+        areaNameArr.clear()
         areaNameArr.add("선택안함")
         result.forEach{area->
             areaArr.add(area)
@@ -390,6 +397,7 @@ class SearchFragment : Fragment() {
     }
 
     fun setFilterReset() {
+        search = ""
         k1= 0
         k2= 0
         k3= 0
@@ -414,8 +422,9 @@ class SearchFragment : Fragment() {
     }
 
     fun noEventMsg() {
-        Toast.makeText(context, "이벤트가 없습니다.", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "해당하는 이벤트가 없습니다.", Toast.LENGTH_SHORT).show()
     }
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
     }

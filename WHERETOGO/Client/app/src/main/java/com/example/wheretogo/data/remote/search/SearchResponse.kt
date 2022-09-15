@@ -60,3 +60,4 @@ data class SigunguCodeResult(
     @SerializedName("aDName") var aDName : String,
 
 )
+
