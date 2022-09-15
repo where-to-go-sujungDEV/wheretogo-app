@@ -99,11 +99,14 @@
             android:id="@+id/rv_event"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
 
+            android:paddingLeft="13dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
+
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_recycle_event" />
+
     </LinearLayout>
 
 </LinearLayout>
