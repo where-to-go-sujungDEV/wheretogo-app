@@ -63,26 +63,4 @@ object EventService {
         })
     }
 
-
-    fun getSearchHot(fragment: SearchPopularFragment){
-        eventService.getSearchHot().enqueue(object: Callback<SearchHotResponse> {
-            override fun onResponse(
-                call: Call<SearchHotResponse>,
-                response: Response<SearchHotResponse>
-            ) {
-                val resp = response.body()!!
-                when(val code = resp.code){
-                    200->{
-                        fragment.getSearchHot(resp.results)
-                    }
-
-                }
-            }
-
-            override fun onFailure(call: Call<SearchHotResponse>, t: Throwable) {
-                Log.d("getSearchHot/FAILURE", t.message.toString())
-            }
-        })
-    }
-
 }

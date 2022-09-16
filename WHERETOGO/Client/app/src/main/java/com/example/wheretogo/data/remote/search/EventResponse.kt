@@ -21,14 +21,3 @@ data class EventResult (
         @SerializedName("savedNum") var savedNum : Int,
         @SerializedName("visitedNum") var visitedNum : Int,
 )
-
-data class SearchHotResponse(
-        @SerializedName("code") var code : Int,
-        @SerializedName("isSuccess") var isSuccess : Boolean,
-        @SerializedName("results") var results : ArrayList<SearchHotResult>,
-)
-
-data class SearchHotResult(
-        @SerializedName("word") var word : String,
-        @SerializedName("count") var count : Int,
-)
