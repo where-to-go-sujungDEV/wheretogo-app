@@ -1,19 +1,32 @@
 package com.example.wheretogo.ui.calendar
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.wheretogo.R
 import com.example.wheretogo.data.remote.calendar.CalendarResult
+import com.example.wheretogo.data.remote.mypage.SavedEventResult
+import com.example.wheretogo.ui.detail.DetailActivity
 
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import java.util.*
 import kotlin.collections.ArrayList
 
-class DialogRvAdapter (var eventList: ArrayList<CalendarResult>, var con: Context) : RecyclerView.Adapter<DialogRvAdapter.ViewHolder>()  {
+class DialogRvAdapter (var eventList: ArrayList<CalendarResult>, var con: Context?) : RecyclerView.Adapter<DialogRvAdapter.ViewHolder>()  {
+
+    interface OnItemClickListener {
+        fun onItemClick(thisDayEvent: CalendarResult)
+    }
+    private lateinit var mItemClickListener: OnItemClickListener
+
+    fun setMyItemClickListener(itemClickListener: OnItemClickListener) {
+        mItemClickListener = itemClickListener
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DialogRvAdapter.ViewHolder {
         val con = parent.context
@@ -26,6 +39,12 @@ class DialogRvAdapter (var eventList: ArrayList<CalendarResult>, var con: Contex
     override fun onBindViewHolder(holder: DialogRvAdapter.ViewHolder, position: Int) {
         val event : CalendarResult = (eventList[position])
         holder.eventName.text = event.eventName
+
+        holder.eventName.setOnClickListener {
+            val intent = Intent(con, DetailActivity::class.java)
+            intent.putExtra("eventIdx", event.eventID)
+            con?.startActivity(intent)
+        }
 
     }
 

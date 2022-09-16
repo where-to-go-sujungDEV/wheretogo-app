@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
+    android:id="@+id/search_fragment"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -25,6 +26,8 @@
             android:layout_width="350dp"
             android:layout_height="40dp"
 
+            android:queryBackground="@null"
+            android:iconifiedByDefault="false"
             android:background="@drawable/search_bar"
             />
 
@@ -96,9 +99,11 @@
             android:id="@+id/rv_event"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
 
+            android:paddingLeft="13dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
+
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_recycle_event" />
 

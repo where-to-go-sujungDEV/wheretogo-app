@@ -3,6 +3,7 @@ package com.example.wheretogo.ui.calendar
 import android.app.Activity
 import android.app.Dialog
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -16,10 +17,12 @@ import com.example.wheretogo.R
 import com.example.wheretogo.data.remote.calendar.CalendarResult
 import com.example.wheretogo.data.remote.calendar.CalendarService
 import com.example.wheretogo.databinding.FragmentCalendarBinding
+import com.example.wheretogo.ui.detail.DetailActivity
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import com.prolificinteractive.materialcalendarview.CalendarMode
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView
 import com.prolificinteractive.materialcalendarview.OnMonthChangedListener
+import com.prolificinteractive.materialcalendarview.format.MonthArrayTitleFormatter
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -40,6 +43,12 @@ class CalendarFragment : Fragment() {
     val currentMonth = startTimeCalendar.get(Calendar.MONTH)
     val currentDate = startTimeCalendar.get(Calendar.DATE)
 
+
+
+    lateinit var rv_dialog_eventList : RecyclerView
+    lateinit var tv_thisDate : TextView
+
+    var thisDayEvent : ArrayList<CalendarResult> = ArrayList()
 
     private val calendarService = CalendarService
 
@@ -72,12 +81,10 @@ class CalendarFragment : Fragment() {
             .setCalendarDisplayMode(CalendarMode.MONTHS)
             .commit()
 
-        materialCalendar.setOnMonthChangedListener(OnMonthChangedListener { widget, date ->
-            materialCalendar.setTitleFormatter {
-                val titleFormat = SimpleDateFormat("MM월")
-                titleFormat.format(date.date)
-            }
-        })
+
+        materialCalendar.setTitleFormatter (
+            MonthArrayTitleFormatter(resources.getTextArray(R.array.custom_months))
+        )
         materialCalendar.addDecorator(TodayDecorator(requireContext() as Activity))
         materialCalendar.addDecorator(WeekendDecorator())
         materialCalendar.addDecorator(BoldDecorator(materialCalendar.minimumDate, materialCalendar.maximumDate))
@@ -88,7 +95,10 @@ class CalendarFragment : Fragment() {
         materialCalendar.setWeekDayTextAppearance(R.style.CalendarWidgetWeekday)
 
 
-        materialCalendar.setOnDateChangedListener { widget, date, selected -> showDialog(date) }
+        materialCalendar.setOnDateChangedListener { widget, date, selected ->
+            showDialog(date)
+            setDialogAdapter(thisDayEvent)
+        }
 
 
         return binding.root
@@ -96,11 +106,7 @@ class CalendarFragment : Fragment() {
 
     private fun showDialog(thisday:CalendarDay) {
         var dialog= Dialog(requireContext(), R.style.CustomFullDialog)
-
-        var rv_dialog_eventList : RecyclerView
-        var tv_thisDate : TextView
-
-        var thisDayEvent : ArrayList<CalendarResult> = ArrayList()
+        thisDayEvent.clear()
 
         dialog.window?.setLayout(
             ViewGroup.LayoutParams.MATCH_PARENT,
@@ -128,7 +134,7 @@ class CalendarFragment : Fragment() {
         var date_today =thisday.month.plus(1).toString() + "/"+ thisday.day.toString()
         tv_thisDate.text=date_today
 
-        savedEventList.forEach{e->
+        savedEventList.forEach{ e->
             var formatter = SimpleDateFormat("yyyy-MM-dd")
             var date_s = formatter.parse(e.startDate)
             var cal_s  = Calendar.getInstance()
@@ -141,12 +147,25 @@ class CalendarFragment : Fragment() {
             if((thisday.calendar >= cal_s) && (thisday.calendar <= cal_e)){
                 thisDayEvent.add(e)
             }
-
-            popUpDialogAdapter = DialogRvAdapter(thisDayEvent, this.requireContext())
-            rv_dialog_eventList.adapter = popUpDialogAdapter
-            rv_dialog_eventList.layoutManager=LinearLayoutManager(requireContext())
         }
+
         dialog.show()
+    }
+
+    fun setDialogAdapter(thisDayEvent: ArrayList<CalendarResult>) {
+        popUpDialogAdapter = DialogRvAdapter(thisDayEvent, context)
+//        popUpDialogAdapter = DialogRvAdapter(thisDayEvent, this.requireContext())
+        rv_dialog_eventList.adapter = popUpDialogAdapter
+        rv_dialog_eventList.layoutManager=LinearLayoutManager(requireContext())
+
+        popUpDialogAdapter.setMyItemClickListener(object : DialogRvAdapter.OnItemClickListener {
+            override fun onItemClick(thisDayEvent: CalendarResult) {
+                val intent = Intent(context, DetailActivity::class.java)
+                intent.putExtra("eventIdx", thisDayEvent.eventID)
+                startActivity(intent)
+            }
+        })
+        popUpDialogAdapter.notifyDataSetChanged()
     }
 
 
