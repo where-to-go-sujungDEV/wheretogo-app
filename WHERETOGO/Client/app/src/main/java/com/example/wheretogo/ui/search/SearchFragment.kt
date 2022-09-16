@@ -18,6 +18,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.wheretogo.R
 import com.example.wheretogo.data.remote.search.*
 import com.example.wheretogo.databinding.FragmentSearchBinding
+import com.example.wheretogo.databinding.ItemMypageSavedBinding
+import com.example.wheretogo.databinding.ItemSearchBlogBinding
 import com.example.wheretogo.ui.detail.DetailActivity
 import okhttp3.internal.notify
 import java.io.IOException

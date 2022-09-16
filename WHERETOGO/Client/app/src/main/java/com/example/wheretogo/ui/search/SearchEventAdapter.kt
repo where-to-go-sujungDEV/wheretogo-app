@@ -25,6 +25,7 @@ import com.example.wheretogo.data.remote.search.EventResult
 import com.example.wheretogo.data.remote.search.SearchService
 import com.example.wheretogo.databinding.ItemMypageSavedBinding
 import com.example.wheretogo.databinding.ItemRecycleEventBinding
+import com.example.wheretogo.databinding.ItemSearchBlogBinding
 import com.example.wheretogo.ui.MainActivity
 import com.example.wheretogo.ui.login.LoginActivity
 import retrofit2.Call
@@ -35,29 +36,32 @@ import java.util.*
 
 class SearchEventAdapter(var events: ArrayList<EventResult>, var con: Context) :
     RecyclerView.Adapter<SearchEventAdapter.ViewHolder>() {
-    interface OnItemClickListener{
-        fun onItemClick(events : EventResult)
+    interface OnItemClickListener {
+        fun onItemClick(events: EventResult)
     }
 
     var TAG = "SearchEventListner"
-    lateinit var listener :OnItemClickListener
+    lateinit var listener: OnItemClickListener
 
     private val searchService = SearchService
     private val eventStatusService = getRetrofit().create(MypageRetrofitInterface::class.java)
 
+    private var status = "b"
+    private var eventId=0
     var filteredEvents = ArrayList<EventResult>()
-    var isSavedBtnSelected :Boolean = false
-    var isVisitedBtnSelected :Boolean = false
+    var isSavedBtnSelected: Boolean = false
+    var isVisitedBtnSelected: Boolean = false
     val userIdx = getIdx()
 
 
-    fun setOnItemClickListener(itemClickListener : OnItemClickListener){
-        listener=itemClickListener
+    fun setOnItemClickListener(itemClickListener: OnItemClickListener) {
+        listener = itemClickListener
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val con = parent.context
-        val binding : ItemRecycleEventBinding = ItemRecycleEventBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding: ItemRecycleEventBinding =
+            ItemRecycleEventBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         val inflater = con.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val view = inflater.inflate(R.layout.item_recycle_event, parent, false)
 
@@ -65,17 +69,25 @@ class SearchEventAdapter(var events: ArrayList<EventResult>, var con: Context) :
     }
 
 
+    inner class ViewHolder(itemView: View) :
+        RecyclerView.ViewHolder(itemView) {
+        var eventName: TextView
+        var date: TextView
+        var kind: TextView
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        var eventName : TextView
-        var date : TextView
-        var kind:TextView
+        var visitedBtn: ImageButton
+        var likedBtn: ImageButton
 
-        var visitedBtn : ImageButton
-        var likedBtn : ImageButton
-
-        var background : View
+        var background: View
         var eventImage: ImageView
+
+        var star1: ImageView
+        var star2: ImageView
+        var star3: ImageView
+        var starPanel:View
+
+        var visitConfirmTv:TextView
+        var visitCancelTv:TextView
 
         init {
             eventName = itemView.findViewById(R.id.item_search_title_tv)
@@ -87,6 +99,15 @@ class SearchEventAdapter(var events: ArrayList<EventResult>, var con: Context) :
             visitedBtn = itemView.findViewById(R.id.item_search_visited_btn)
             likedBtn = itemView.findViewById(R.id.item_search_like_btn)
 
+            star1 = itemView.findViewById(R.id.item_search_edit_star1)
+            star2 = itemView.findViewById(R.id.item_search_edit_star2)
+            star3 = itemView.findViewById(R.id.item_search_edit_star3)
+
+            visitConfirmTv = itemView.findViewById(R.id.item_search_adapt_tv)
+            visitCancelTv = itemView.findViewById(R.id.item_search_cancel_tv)
+
+            starPanel = itemView.findViewById(R.id.item_search_star_panel)
+
 /*
             itemView.setOnClickListener {
               //val intent = Intent(con, DetailActivity::class.java)
@@ -97,35 +118,43 @@ class SearchEventAdapter(var events: ArrayList<EventResult>, var con: Context) :
 
 
     }
+
     init {
         filteredEvents.addAll(events)
     }
 
 
-    override fun onBindViewHolder(holder: SearchEventAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(
+        holder: SearchEventAdapter.ViewHolder,
+        position: Int
+    ) {
         val event: EventResult = filteredEvents[position]
 
-        holder.background.setOnClickListener{
+        holder.background.setOnClickListener {
             listener.onItemClick(events[position])
         }
 
-
-
+        eventId = event.eventID
         holder.eventName.text = event.eventName
-        holder.date.text =String.format("%s ~ %s",event.startDate.slice(IntRange(0,9)), event.endDate.slice(IntRange(0,9)))
+        holder.date.text = String.format(
+            "%s ~ %s",
+            event.startDate.slice(IntRange(0, 9)),
+            event.endDate.slice(IntRange(0, 9))
+        )
         holder.kind.text = event.kind
 
-        if (event.pic!=null){
+        if (event.pic != null) {
             Glide.with(con).load(event.pic)
                 .transform(CenterCrop(), RoundedCorners(40))
                 .into(holder.eventImage)
+        } else {
+            holder.eventImage.setImageResource(R.drawable.default_event_img)
+            holder.eventImage.clipToOutline = true
         }
-        else{holder.eventImage.setImageResource(R.drawable.default_event_img)
-            holder.eventImage.clipToOutline = true}
 
-        getEventStatus(event.eventID,holder)
+        getEventStatus(event.eventID, holder)
 
-        if(isSavedBtnSelected)
+        if (isSavedBtnSelected)
             holder.likedBtn.setBackgroundResource(R.drawable.btn_like_click)
         else
             holder.likedBtn.setBackgroundResource(R.drawable.btn_like_unclick)
@@ -136,29 +165,30 @@ class SearchEventAdapter(var events: ArrayList<EventResult>, var con: Context) :
 
 
         holder.visitedBtn.setOnClickListener {
-            when (userIdx){
-                -1->showLoginAlert()
-                else->{
+            when (userIdx) {
+                -1 -> showLoginAlert()
+                else -> {
                     // visited 이벤트가 아닐 경우
-                    if (!isVisitedBtnSelected){
-                        Toast.makeText(con, "방문한 이벤트에 추가했어요.", Toast.LENGTH_SHORT).show()
-                        holder.visitedBtn.setBackgroundResource(R.drawable.btn_check_click)
-                        isVisitedBtnSelected=true
-
-                        //VisitedTBL에 저장
-                        searchService.setVisitedEvent(this, userIdx, event.eventID, "g")
-                        //로컬 savedDB에 저장
-
+                    if (!isVisitedBtnSelected) {
+                        holder.starPanel.visibility = View.VISIBLE
                     }
                     // visited 이벤트일 경우
-                    else{
-                        Toast.makeText(con, "방문한 이벤트에서 삭제했어요.", Toast.LENGTH_SHORT).show()
+                    else {
+                        Toast.makeText(con, R.string.visited_off, Toast.LENGTH_SHORT).show()
                         holder.visitedBtn.setBackgroundResource(R.drawable.btn_check_unclick)
-                        isVisitedBtnSelected=false
+                        isVisitedBtnSelected = false
                         //VistedTBL에서 삭제
                         searchService.setDeleteVisitedEvent(this, userIdx, event.eventID)
                     }
                 }
+            }
+            holder.visitConfirmTv.setOnClickListener {
+                visitEvent(holder)
+                holder.starPanel.visibility = View.INVISIBLE
+            }
+
+            holder.visitCancelTv.setOnClickListener {
+                holder.starPanel.visibility = View.INVISIBLE
             }
 
         }
@@ -167,13 +197,13 @@ class SearchEventAdapter(var events: ArrayList<EventResult>, var con: Context) :
         holder.likedBtn.setOnClickListener {
 
             //isLike 버튼이 비활성화 상태일 경우
-            when (userIdx){
-                -1->showLoginAlert()
-                else->{
+            when (userIdx) {
+                -1 -> showLoginAlert()
+                else -> {
                     if (!isSavedBtnSelected) {
-                        Toast.makeText(con, "저장한 이벤트에 추가했어요.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(con, R.string.like_on, Toast.LENGTH_SHORT).show()
                         holder.likedBtn.setBackgroundResource(R.drawable.btn_like_click)
-                        isSavedBtnSelected=true
+                        isSavedBtnSelected = true
 
                         //savedTBL에 저장
                         searchService.setSavedEvent(this, userIdx, event.eventID)
@@ -182,9 +212,9 @@ class SearchEventAdapter(var events: ArrayList<EventResult>, var con: Context) :
                     }
                     //isLike버튼이 활성화 상태일 경우
                     else {
-                        Toast.makeText(con, "저장한 이벤트에서 삭제했어요.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(con, R.string.like_off, Toast.LENGTH_SHORT).show()
                         holder.likedBtn.setBackgroundResource(R.drawable.btn_like_unclick)
-                        isSavedBtnSelected=false
+                        isSavedBtnSelected = false
                         //savedTBL에 삭제
                         searchService.setDeleteSavedEvent(this, userIdx, event.eventID)
                     }
@@ -192,39 +222,53 @@ class SearchEventAdapter(var events: ArrayList<EventResult>, var con: Context) :
             }
 
         }
+        initStar(holder)
     }
 
-    private fun getEventStatus(eventId: Int, holder: SearchEventAdapter.ViewHolder){
+    private fun visitEvent(holder: ViewHolder){
+        Toast.makeText(con,
+            R.string.visited_on, Toast.LENGTH_SHORT).show()
+        holder.visitedBtn.setBackgroundResource(R.drawable.btn_check_click)
+        isVisitedBtnSelected = true
+
+        //VisitedTBL에 저장
+        searchService.setVisitedEvent(this, userIdx, eventId, "g")
+        //로컬 savedDB에 저장
+    }
+
+    private fun getEventStatus(eventId: Int, holder: SearchEventAdapter.ViewHolder) {
         val userId = getIdx()
-        eventStatusService.getEventStatus(userId,eventId).enqueue(object:
+        eventStatusService.getEventStatus(userId, eventId).enqueue(object :
             Callback<EventStatusResponse> {
-            override fun onResponse(call: Call<EventStatusResponse>, response: Response<EventStatusResponse>) {
+            override fun onResponse(
+                call: Call<EventStatusResponse>,
+                response: Response<EventStatusResponse>
+            ) {
                 val resp = response.body()!!
-                when(resp.code){
-                    200->{
-                        if (resp.isVisited){
+                when (resp.code) {
+                    200 -> {
+                        if (resp.isVisited) {
                             holder.visitedBtn.setBackgroundResource(R.drawable.btn_check_click)
-                            isVisitedBtnSelected=true
-                        }
-                        else {
+                            isVisitedBtnSelected = true
+                        } else {
                             holder.visitedBtn.setBackgroundResource(R.drawable.btn_check_unclick)
-                            isVisitedBtnSelected=false
+                            isVisitedBtnSelected = false
                         }
 
-                        if (resp.isSaved){
+                        if (resp.isSaved) {
                             holder.likedBtn.setBackgroundResource(R.drawable.btn_like_click)
-                            isSavedBtnSelected=true
-                        }
-                        else{
+                            isSavedBtnSelected = true
+                        } else {
                             holder.likedBtn.setBackgroundResource(R.drawable.btn_like_unclick)
-                            isSavedBtnSelected=false
+                            isSavedBtnSelected = false
                         }
                     }
-                    else ->{
+                    else -> {
 
                     }
                 }
             }
+
             override fun onFailure(call: Call<EventStatusResponse>, t: Throwable) {
             }
         })
@@ -239,7 +283,7 @@ class SearchEventAdapter(var events: ArrayList<EventResult>, var con: Context) :
     }
 
 
-    fun setMyEvent(result: Boolean) : Boolean{
+    fun setMyEvent(result: Boolean): Boolean {
         return result
     }
 
@@ -258,7 +302,27 @@ class SearchEventAdapter(var events: ArrayList<EventResult>, var con: Context) :
     //유저 인덱스 가져오는 함수
     private fun getIdx(): Int {
         val spf = con.getSharedPreferences("userInfo", AppCompatActivity.MODE_PRIVATE)
-        return spf!!.getInt("userIdx",-1)
+        return spf!!.getInt("userIdx", -1)
     }
 
+    //별점 상태 조절
+    private fun initStar(holder: SearchEventAdapter.ViewHolder) {
+        holder.star1.setOnClickListener {
+            holder.star2.setImageResource(R.drawable.mypage_star_off)
+            holder.star3.setImageResource(R.drawable.mypage_star_off)
+            status = "b"
+        }
+        holder.star2.setOnClickListener {
+            holder.star2.setImageResource(R.drawable.mypage_star_on)
+            holder.star3.setImageResource(R.drawable.mypage_star_off)
+            status = "s"
+        }
+        holder.star3.setOnClickListener {
+            holder.star2.setImageResource(R.drawable.mypage_star_on)
+            holder.star3.setImageResource(R.drawable.mypage_star_on)
+            status = "g"
+        }
+
+
+    }
 }
