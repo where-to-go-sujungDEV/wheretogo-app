@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.Log
 import com.example.wheretogo.data.remote.auth.getRetrofit
 import com.example.wheretogo.ui.search.SearchFragment
-import com.example.wheretogo.ui.search.SearchPopularFragment
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
