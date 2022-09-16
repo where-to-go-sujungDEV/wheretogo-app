@@ -27,11 +27,11 @@ class GuideActivity : AppCompatActivity() {
             pageN++
             if (pageN==2){
                 binding.guideBackBtn.visibility = View.VISIBLE
-                binding.guideBackground.setImageResource(R.drawable.img_detail_banner)
+                binding.guideBackground.setImageResource(R.drawable.guide_banner_filter)
                 setIndicator(2)
             }
             else {
-                binding.guideBackground.setImageResource(R.drawable.img_guid_page1)
+                binding.guideBackground.setImageResource(R.drawable.guide_banner_push)
                 binding.guideFinishTv.visibility = View.VISIBLE
                 binding.guideNextBtn.visibility = View.GONE
                 setIndicator(3)
