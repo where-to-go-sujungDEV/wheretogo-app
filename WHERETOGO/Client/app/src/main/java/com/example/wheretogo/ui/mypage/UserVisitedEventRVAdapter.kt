@@ -114,7 +114,7 @@ class UserVisitedEventRVAdapter (private val visitedEventList: ArrayList<Visited
             if (isEventVisited){
                 setDeleteVisitedEvent()
                 binding.itemMypageVisitVisitedBtn.setBackgroundResource(R.drawable.btn_check_unclick)
-                Toast.makeText(context, "방문한 이벤트에서 삭제했어요.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, R.string.visited_off, Toast.LENGTH_SHORT).show()
                 isEventVisited=false
                 visitedEventList.removeAt(holder.adapterPosition)
                 notifyItemRemoved(holder.adapterPosition)
@@ -123,7 +123,7 @@ class UserVisitedEventRVAdapter (private val visitedEventList: ArrayList<Visited
             else {
                 setVisitedEvent(status)
                 binding.itemMypageVisitVisitedBtn.setBackgroundResource(R.drawable.btn_check_click)
-                Toast.makeText(context, "방문한 이벤트에 추가했어요.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, R.string.visited_on, Toast.LENGTH_SHORT).show()
                 isEventVisited=true
             }
         }
@@ -131,13 +131,13 @@ class UserVisitedEventRVAdapter (private val visitedEventList: ArrayList<Visited
             if (isEventSaved){
                 setDeleteSavedEvent()
                 isEventSaved=false
-                Toast.makeText(context, "저장한 이벤트에서 삭제했어요.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, R.string.like_off, Toast.LENGTH_SHORT).show()
                 binding.itemMypageVisitLikedBtn.setBackgroundResource(R.drawable.btn_like_unclick)
             }
             else {
                 setSavedEvent()
                 isEventSaved=true
-                Toast.makeText(context, "저장한 이벤트에 추가했어요.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, R.string.like_on, Toast.LENGTH_SHORT).show()
                 binding.itemMypageVisitLikedBtn.setBackgroundResource(R.drawable.btn_like_click)
             }
         }
