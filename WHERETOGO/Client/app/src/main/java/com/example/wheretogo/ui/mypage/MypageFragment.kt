@@ -1,6 +1,7 @@
 package com.example.wheretogo.ui.mypage
 
 import android.content.Intent
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
@@ -29,6 +30,7 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding
         getEmail()
         initClickListener()
     }
+
 
    private fun initLayout(){
         val bannerAdapter = HomeBannerVPAdapter(this)

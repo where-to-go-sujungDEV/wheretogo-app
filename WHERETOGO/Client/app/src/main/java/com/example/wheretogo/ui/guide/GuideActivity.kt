@@ -32,8 +32,8 @@ class GuideActivity : AppCompatActivity() {
                 setIndicator(2)
             }
             else {
-                binding.guideBackground.setImageResource(R.drawable.guide_banner_push)
-                binding.guideExplainTv.text = "키워드 등록하고 푸시 알림 받기"
+                binding.guideBackground.setImageResource(R.drawable.guide_banner_mypage)
+                binding.guideExplainTv.text = "마이페이지에서 내 이벤트 확인하기"
                 binding.guideFinishTv.visibility = View.VISIBLE
                 binding.guideNextBtn.visibility = View.GONE
                 setIndicator(3)

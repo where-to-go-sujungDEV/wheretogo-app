@@ -8,9 +8,11 @@ import android.text.Html
 import android.text.method.LinkMovementMethod
 import android.util.Log
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.wheretogo.R
+import com.example.wheretogo.data.remote.auth.GetNameResponse
 import com.example.wheretogo.data.remote.auth.getNaverRetrofit
 import com.example.wheretogo.data.remote.auth.getRetrofit
 import com.example.wheretogo.data.remote.detail.*
@@ -69,6 +71,8 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
     override fun onRestart() {
         super.onRestart()
         userId = getUserIdx()
+        getSavedInfo()
+        getVisitedInfo()
     }
 
     private fun initClickListener(){
@@ -341,11 +345,16 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
                 when(resp.code){
                     200->{
                         setVisitedButton(true)
+                        Log.d("detail/visit","방문함")
                         binding.detailEventVisitedCount.text=String.format("방문 유저 수: %s명",++visitedNum)
                         showToast("my> 방문한 이벤트에 담았어요!")
                     }
                     500 ->{
                         showToast(resp.msg)
+                    }
+                    else ->{
+                        Log.d("detail/visit",resp.msg)
+                        Log.d("detail/visit",userId.toString())
                     }
                 }
             }
