@@ -28,10 +28,12 @@ class GuideActivity : AppCompatActivity() {
             if (pageN==2){
                 binding.guideBackBtn.visibility = View.VISIBLE
                 binding.guideBackground.setImageResource(R.drawable.guide_banner_filter)
+                binding.guideExplainTv.text = "필터링으로 원하는 이벤트 빠르게 검색"
                 setIndicator(2)
             }
             else {
                 binding.guideBackground.setImageResource(R.drawable.guide_banner_push)
+                binding.guideExplainTv.text = "키워드 등록하고 푸시 알림 받기"
                 binding.guideFinishTv.visibility = View.VISIBLE
                 binding.guideNextBtn.visibility = View.GONE
                 setIndicator(3)
@@ -42,13 +44,15 @@ class GuideActivity : AppCompatActivity() {
             pageN--
             if (pageN==2){
                 binding.guideNextBtn.visibility = View.VISIBLE
-                binding.guideFinishTv.visibility = View.GONE
-                binding.guideBackground.setImageResource(R.drawable.img_detail_banner)
+                binding.guideFinishTv.visibility = View.INVISIBLE
+                binding.guideExplainTv.text = "필터링으로 원하는 이벤트 빠르게 검색"
+                binding.guideBackground.setImageResource(R.drawable.guide_banner_filter)
                 setIndicator(2)
             }
             else { //2->1
-                binding.guideBackground.setImageResource(R.drawable.img_guid_page1)
-                binding.guideBackBtn.visibility = View.GONE
+                binding.guideBackground.setImageResource(R.drawable.guide_banner_push)
+                binding.guideBackBtn.visibility = View.INVISIBLE
+                binding.guideExplainTv.text = "캘린더로 내 이벤트 일정 확인"
                 setIndicator(1)
             }
 

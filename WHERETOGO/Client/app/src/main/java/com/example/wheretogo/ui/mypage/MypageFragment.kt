@@ -124,6 +124,7 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding
         val spf = activity?.getSharedPreferences("userInfo",AppCompatActivity.MODE_PRIVATE)
         val editor = spf!!.edit()
         editor.remove("userIdx") //키값에 저장된값 삭제-> idx=-1
+        editor.remove("nickname")
         editor.apply()
         binding.mypageLoginTv.text = "로그인"
     }
