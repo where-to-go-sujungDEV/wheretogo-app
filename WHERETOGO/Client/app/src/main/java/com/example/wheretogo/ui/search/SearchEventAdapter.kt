@@ -23,10 +23,7 @@ import com.example.wheretogo.data.remote.mypage.EventStatusResponse
 import com.example.wheretogo.data.remote.mypage.MypageRetrofitInterface
 import com.example.wheretogo.data.remote.search.EventResult
 import com.example.wheretogo.data.remote.search.SearchService
-import com.example.wheretogo.databinding.ItemMypageSavedBinding
 import com.example.wheretogo.databinding.ItemRecycleEventBinding
-import com.example.wheretogo.databinding.ItemSearchBlogBinding
-import com.example.wheretogo.ui.MainActivity
 import com.example.wheretogo.ui.login.LoginActivity
 import retrofit2.Call
 import retrofit2.Callback
@@ -47,7 +44,6 @@ class SearchEventAdapter(var events: ArrayList<EventResult>, var con: Context) :
     private val eventStatusService = getRetrofit().create(MypageRetrofitInterface::class.java)
 
     private var status = "b"
-    private var eventId=0
     var filteredEvents = ArrayList<EventResult>()
     var isSavedBtnSelected: Boolean = false
     var isVisitedBtnSelected: Boolean = false
@@ -134,7 +130,7 @@ class SearchEventAdapter(var events: ArrayList<EventResult>, var con: Context) :
             listener.onItemClick(events[position])
         }
 
-        eventId = event.eventID
+        var eventId = event.eventID
         holder.eventName.text = event.eventName
         holder.date.text = String.format(
             "%s ~ %s",
@@ -183,7 +179,7 @@ class SearchEventAdapter(var events: ArrayList<EventResult>, var con: Context) :
                 }
             }
             holder.visitConfirmTv.setOnClickListener {
-                visitEvent(holder)
+                visitEvent(holder, eventId, status)
                 holder.starPanel.visibility = View.INVISIBLE
             }
 
@@ -225,15 +221,14 @@ class SearchEventAdapter(var events: ArrayList<EventResult>, var con: Context) :
         initStar(holder)
     }
 
-    private fun visitEvent(holder: ViewHolder){
+    private fun visitEvent(holder: ViewHolder, eventId: Int, assess: String){
         Toast.makeText(con,
             R.string.visited_on, Toast.LENGTH_SHORT).show()
         holder.visitedBtn.setBackgroundResource(R.drawable.btn_check_click)
         isVisitedBtnSelected = true
 
         //VisitedTBL에 저장
-        searchService.setVisitedEvent(this, userIdx, eventId, "g")
-        //로컬 savedDB에 저장
+        searchService.setVisitedEvent(this, userIdx, eventId, assess)
     }
 
     private fun getEventStatus(eventId: Int, holder: SearchEventAdapter.ViewHolder) {

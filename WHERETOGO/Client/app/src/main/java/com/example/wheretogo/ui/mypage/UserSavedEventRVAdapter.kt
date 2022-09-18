@@ -32,7 +32,6 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
     private val setStatusService = getRetrofit().create(SearchRetrofitInterface::class.java)
     private var isEventVisited=false
     private var isEventSaved=false
-    private var eventId=0
     private var userId=0
     interface OnItemClickListener {
         fun onItemClick(savedEventData: SavedEventResult)
@@ -68,7 +67,7 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
     inner class ViewHolder(val binding: ItemMypageSavedBinding): RecyclerView.ViewHolder(binding.root){
 
         fun bind(savedEvent: SavedEventResult,holder: UserSavedEventRVAdapter.ViewHolder){
-            eventId=savedEvent.eventID
+            var eventId=savedEvent.eventID
             userId=getIdx()
 
             if (savedEvent.pic!=null){
@@ -87,7 +86,7 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
                 binding.itemMypageLikeEndDateTv.text = savedEvent.endDate.slice(IntRange(0,9))
             binding.itemMypageLikeCountTv.text = String.format("담은 수: %d건",savedEvent.savedNum)
 
-            getEventStatus(binding)
+            getEventStatus(binding,eventId)
             initStar(binding)
             initClickListener(binding,savedEvent.eventID,holder)
 
@@ -98,7 +97,7 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
     private fun initClickListener(binding: ItemMypageSavedBinding, eventId:Int, holder: ViewHolder){
         binding.itemMypageVisitedBtn.setOnClickListener {
             if (isEventVisited){
-                setDeleteVisitedEvent()
+                setDeleteVisitedEvent(eventId)
                 binding.itemMypageVisitedBtn.setBackgroundResource(R.drawable.btn_check_unclick)
                 Toast.makeText(context, "방문한 이벤트에서 삭제했어요.", Toast.LENGTH_SHORT).show()
                 isEventVisited=false
@@ -109,7 +108,7 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
         }
         binding.itemMypageLikeBtn.setOnClickListener {
             if (isEventSaved){
-                setDeleteSavedEvent()
+                setDeleteSavedEvent(eventId)
                 isEventSaved=false
                 Toast.makeText(context, R.string.like_off, Toast.LENGTH_SHORT).show()
                 binding.itemMypageLikeBtn.setBackgroundResource(R.drawable.btn_like_unclick)
@@ -126,7 +125,7 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
         }
 
         binding.itemSavedAdaptTv.setOnClickListener {
-            visitEvent(binding)
+            visitEvent(binding,eventId)
             binding.itemSavedStarPanel.visibility = View.INVISIBLE
         }
 
@@ -135,14 +134,14 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
         }
     }
 
-    private fun visitEvent(binding: ItemMypageSavedBinding){
-        setVisitedEvent(status)
+    private fun visitEvent(binding: ItemMypageSavedBinding,eventId:Int){
+        setVisitedEvent(eventId,status)
         binding.itemMypageVisitedBtn.setBackgroundResource(R.drawable.btn_check_click)
         Toast.makeText(context, R.string.visited_on, Toast.LENGTH_SHORT).show()
         isEventVisited=true
     }
 
-    private fun getEventStatus(binding: ItemMypageSavedBinding){
+    private fun getEventStatus(binding: ItemMypageSavedBinding,eventId:Int){
         eventStatusService.getEventStatus(userId,eventId).enqueue(object:
             Callback<EventStatusResponse> {
             override fun onResponse(call: Call<EventStatusResponse>, response: Response<EventStatusResponse>) {
@@ -197,7 +196,7 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
         })
     }
     //save이벤트에서 삭제
-    private fun setDeleteSavedEvent(){
+    private fun setDeleteSavedEvent(eventId:Int){
         setStatusService.setDeleteSavedResponse(userId,eventId).enqueue(object: Callback<DeleteSavedResponse> {
             override fun onResponse(call: Call<DeleteSavedResponse>, response: Response<DeleteSavedResponse>) {
                 val resp = response.body()!!
@@ -222,14 +221,16 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
 
 
     //visitedTBL에 저장
-    fun setVisitedEvent(assess :String){
+    private fun setVisitedEvent(eventId:Int,assess :String){
         setStatusService.setVisitedEvent(userId,eventId,assess).enqueue(object: Callback<SetVisitedEventResponse>{
             override fun onResponse(call: Call<SetVisitedEventResponse>, responseSet: Response<SetVisitedEventResponse>) {
                 val resp = responseSet.body()!!
                 when(resp.code){
                     200-> {
+                        Log.d("setVisitedEvent/Success", userId.toString())
                     }
                     204 ->{
+                        Log.d("setVisitedEvent/fail", userId.toString())
                         Log.d("setVisitedEvent/fail", resp.msg)
                     }
                     else->{
@@ -243,7 +244,7 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
             }
         })
     }
-    private fun setDeleteVisitedEvent(){
+    private fun setDeleteVisitedEvent(eventId:Int){
         setStatusService.setDeleteVisitedResponse(userId,eventId).enqueue(object: Callback<DeleteVisitedResponse> {
             override fun onResponse(call: Call<DeleteVisitedResponse>, response: Response<DeleteVisitedResponse>) {
                 val resp = response.body()!!

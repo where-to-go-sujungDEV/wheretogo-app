@@ -31,7 +31,6 @@ class UserVisitedEventRVAdapter (private val visitedEventList: ArrayList<Visited
     private val setStatusService = getRetrofit().create(SearchRetrofitInterface::class.java)
     private var isEventVisited=false
     private var isEventSaved=false
-    private var eventId=0
     private var userId=0
 
     interface OnItemClickListener {
@@ -66,9 +65,9 @@ class UserVisitedEventRVAdapter (private val visitedEventList: ArrayList<Visited
     inner class ViewHolder(val binding: ItemMypageVisitedBinding): RecyclerView.ViewHolder(binding.root){
 
         fun bind(visitedEvent: VisitedEventResult, holder: UserVisitedEventRVAdapter.ViewHolder){
-            eventId=visitedEvent.eventID
+            var eventId=visitedEvent.eventID
             userId=getIdx()
-            getEventStatus(binding)
+            getEventStatus(binding,eventId)
             binding.itemMypageVisitedCountTv.text = String.format("방문한 수: %d건",visitedEvent.visitedNum)
             binding.itemMypageVisitedTitleTv.text = visitedEvent.eventName
 
@@ -105,14 +104,14 @@ class UserVisitedEventRVAdapter (private val visitedEventList: ArrayList<Visited
                 }
             }
 
-            initClickListener(binding,holder)
+            initClickListener(binding,holder,eventId)
         }
     }
 
-    private fun initClickListener(binding: ItemMypageVisitedBinding, holder: ViewHolder){
+    private fun initClickListener(binding: ItemMypageVisitedBinding, holder: ViewHolder,eventId:Int){
         binding.itemMypageVisitVisitedBtn.setOnClickListener {
             if (isEventVisited){
-                setDeleteVisitedEvent()
+                setDeleteVisitedEvent(eventId)
                 binding.itemMypageVisitVisitedBtn.setBackgroundResource(R.drawable.btn_check_unclick)
                 Toast.makeText(context, R.string.visited_off, Toast.LENGTH_SHORT).show()
                 isEventVisited=false
@@ -121,7 +120,7 @@ class UserVisitedEventRVAdapter (private val visitedEventList: ArrayList<Visited
                 notifyItemChanged(holder.adapterPosition)
             }
             else {
-                setVisitedEvent(status)
+                setVisitedEvent(eventId,status)
                 binding.itemMypageVisitVisitedBtn.setBackgroundResource(R.drawable.btn_check_click)
                 Toast.makeText(context, R.string.visited_on, Toast.LENGTH_SHORT).show()
                 isEventVisited=true
@@ -129,13 +128,13 @@ class UserVisitedEventRVAdapter (private val visitedEventList: ArrayList<Visited
         }
         binding.itemMypageVisitLikedBtn.setOnClickListener {
             if (isEventSaved){
-                setDeleteSavedEvent()
+                setDeleteSavedEvent(eventId)
                 isEventSaved=false
                 Toast.makeText(context, R.string.like_off, Toast.LENGTH_SHORT).show()
                 binding.itemMypageVisitLikedBtn.setBackgroundResource(R.drawable.btn_like_unclick)
             }
             else {
-                setSavedEvent()
+                setSavedEvent(eventId)
                 isEventSaved=true
                 Toast.makeText(context, R.string.like_on, Toast.LENGTH_SHORT).show()
                 binding.itemMypageVisitLikedBtn.setBackgroundResource(R.drawable.btn_like_click)
@@ -143,7 +142,7 @@ class UserVisitedEventRVAdapter (private val visitedEventList: ArrayList<Visited
         }
     }
 
-    private fun getEventStatus(binding: ItemMypageVisitedBinding){
+    private fun getEventStatus(binding: ItemMypageVisitedBinding, eventId:Int){
         val userId = getIdx()
         eventStatusService.getEventStatus(userId,eventId).enqueue(object:
             Callback<EventStatusResponse> {
@@ -179,7 +178,7 @@ class UserVisitedEventRVAdapter (private val visitedEventList: ArrayList<Visited
     }
 
     //save이벤트에 추가
-    private fun setSavedEvent(){
+    private fun setSavedEvent(eventId:Int){
         setStatusService.setSavedEvent(userId, eventId).enqueue(object: Callback<SetSavedEventResponse>{
             override fun onResponse(call: Call<SetSavedEventResponse>, responseSet: Response<SetSavedEventResponse>) {
                 val resp = responseSet.body()!!
@@ -195,7 +194,7 @@ class UserVisitedEventRVAdapter (private val visitedEventList: ArrayList<Visited
         })
     }
     //save이벤트에서 삭제
-    private fun setDeleteSavedEvent(){
+    private fun setDeleteSavedEvent(eventId:Int){
         setStatusService.setDeleteSavedResponse(userId,eventId).enqueue(object: Callback<DeleteSavedResponse> {
             override fun onResponse(call: Call<DeleteSavedResponse>, response: Response<DeleteSavedResponse>) {
                 val resp = response.body()!!
@@ -214,7 +213,7 @@ class UserVisitedEventRVAdapter (private val visitedEventList: ArrayList<Visited
 
 
     //visitedTBL에 저장
-    fun setVisitedEvent(assess :String){
+    private fun setVisitedEvent(eventId:Int, assess :String){
         setStatusService.setVisitedEvent(userId, eventId,assess).enqueue(object: Callback<SetVisitedEventResponse>{
             override fun onResponse(call: Call<SetVisitedEventResponse>, responseSet: Response<SetVisitedEventResponse>) {
                 val resp = responseSet.body()!!
@@ -229,7 +228,7 @@ class UserVisitedEventRVAdapter (private val visitedEventList: ArrayList<Visited
             }
         })
     }
-    fun setDeleteVisitedEvent(){
+    private fun setDeleteVisitedEvent(eventId:Int){
         setStatusService.setDeleteVisitedResponse(userId,eventId).enqueue(object: Callback<DeleteVisitedResponse> {
             override fun onResponse(call: Call<DeleteVisitedResponse>, response: Response<DeleteVisitedResponse>) {
                 val resp = response.body()!!
