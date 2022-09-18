@@ -51,6 +51,9 @@ class SettingActivity: BaseActivity<ActivitySettingBinding>(ActivitySettingBindi
         binding.uploadKeyword.setOnClickListener{
             startNextActivity(KeywordActivity::class.java)
         }
+        binding.settingAskTv.setOnClickListener { 
+            showAskDialog()
+        }
     }
     //회원탈퇴 클릭
     private fun leavePanelClickListener() {
@@ -114,6 +117,14 @@ class SettingActivity: BaseActivity<ActivitySettingBinding>(ActivitySettingBindi
             override fun onFailure(call: Call<GetNameResponse>, t: Throwable) {
             }
         })
+    }
+
+    private fun showAskDialog() {
+        AlertDialog.Builder(this)
+            .setMessage("where.2.go.team@gmail.com")
+            .setPositiveButton("확인") { _, _ ->
+            }
+            .show()
     }
 
     //유저 인덱스 가져옴
