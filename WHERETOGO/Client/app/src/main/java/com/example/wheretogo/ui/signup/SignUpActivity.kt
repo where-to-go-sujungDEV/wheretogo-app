@@ -1,6 +1,7 @@
 package com.example.wheretogo.ui.signup
 
 
+import android.app.AlertDialog
 import android.graphics.Color
 import android.util.Log
 import android.view.View
@@ -83,40 +84,40 @@ class SignUpActivity: BaseActivity<ActivitySignupBinding>(ActivitySignupBinding:
 
 
     private fun signUp(){
-
         if (binding.signUpNicknameEt.text.toString().isEmpty()) {
-            Toast.makeText(this, "이름 형식이 잘못되었습니다.", Toast.LENGTH_SHORT).show()
+            showSignupResult("닉네임 형식이 잘못 되었습니다.")
             return
         }
 
         if (binding.signUpEmailEt.text.toString().isEmpty()) {
-            Toast.makeText(this, "이메일 형식이 잘못되었습니다.", Toast.LENGTH_SHORT).show()
+            showSignupResult("이메일 형식이 잘못 되었습니다.")
             return
         }
 
         if (binding.signUpPwdEt.text.toString() != binding.signUpPwdCheckEt.text.toString()) {
-            Toast.makeText(this, "비밀번호가 일치하지 않습니다.", Toast.LENGTH_SHORT).show()
+            showSignupResult("비밀번호가 일치하지 않습니다.")
             return
         }
-
-
         val authService = AuthService()
         authService.setSignUpView(this)
 
         authService.signUp(getSignUpInfo()) //api호출
-        Log.d("SIGNUP/",getSignUpInfo().toString())
     }
 
     override fun onSignUpSuccess(msg: String) {
-        showToast(msg)
-        startNextActivity(MainActivity::class.java)
+        finish()
     }
 
     override fun onSignUpFailure(msg: String) {
-        binding.signUpErrorTv.visibility = View.VISIBLE
-        binding.signUpErrorTv.text = msg
+        showSignupResult(msg)
     }
 
-
+    private fun showSignupResult(msg: String){
+        AlertDialog.Builder(this)
+            .setMessage(msg)
+            .setPositiveButton("확인") { _, _ ->
+            }
+            .show()
+    }
 
 }
