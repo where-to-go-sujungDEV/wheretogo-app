@@ -20,6 +20,7 @@ import retrofit2.Response
 
 
 class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::inflate), LoginView {
+    private val service = getRetrofit().create(AuthRetrofitInterface::class.java)
     override fun initAfterBinding() {
         initClickListener()
         Log.d("fcmToken",getFcmToken())
@@ -82,11 +83,30 @@ class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::in
 
     override fun onLoginSuccess(result: UserResult) {
         saveIdx(result.userID)
+        saveName(result.userID)
         finish()
     }
 
     override fun onLoginFailure(message: String) {
         binding.loginErrorTv.text = message
         binding.loginErrorTv.visibility = View.VISIBLE
+    }
+
+    private fun saveName(userIdx: Int){
+        service.getName(userIdx).enqueue(object: Callback<GetNameResponse> {
+            override fun onResponse(call: Call<GetNameResponse>, response: Response<GetNameResponse>) {
+                val resp = response.body()!!
+                when(resp.code){
+                    200->{
+                        val spf =getSharedPreferences("userInfo", MODE_PRIVATE)
+                        val editor = spf.edit()
+                        editor.putString("nickname", resp.results!!.nickName)
+                        editor.apply()
+                    }
+                }
+            }
+            override fun onFailure(call: Call<GetNameResponse>, t: Throwable) {
+            }
+        })
     }
 }
