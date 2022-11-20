@@ -55,23 +55,4 @@ object HomeService{
         })
     }
 
-    fun getRecommendEvent(fragment: HomeFragment){
-
-        service.getRecommendEvent(id).enqueue(object: Callback<RecommendEventResponse> {
-            override fun onResponse(call: Call<RecommendEventResponse>, response: Response<RecommendEventResponse>) {
-                val resp = response.body()!!
-                when(resp.code){
-                    200->{
-                        fragment.setRecommendEvent(resp.results!!, resp.userInfo!!)
-                    }
-                    else ->{
-                        //fragment.setRecommendEventNone(resp.msg)
-                    }
-                }
-            }
-            override fun onFailure(call: Call<RecommendEventResponse>, t: Throwable) {
-                Log.d("Recommend/FAILURE", t.message.toString())
-            }
-        })
-    }
 }

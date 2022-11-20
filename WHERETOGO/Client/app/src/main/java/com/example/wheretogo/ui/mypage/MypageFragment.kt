@@ -29,6 +29,7 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding
         setIndicator()
         getEmail()
         initClickListener()
+        Log.d("userIdx",getIdx().toString());
     }
 
 
@@ -130,5 +131,6 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding
         editor.apply()
         binding.mypageLoginTv.text = "로그인"
     }
+
 
 }

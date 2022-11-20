@@ -33,6 +33,5 @@ class MainActivity: BaseActivity<ActivityMainBinding>(ActivityMainBinding::infla
             binding.mainBottomNavigation.visibility = View.VISIBLE
         }
     }
-
 }
 

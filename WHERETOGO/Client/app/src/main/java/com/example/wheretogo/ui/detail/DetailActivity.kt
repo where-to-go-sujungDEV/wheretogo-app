@@ -227,7 +227,6 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
             long = result.mapx.toDouble()
             lat = result.mapy!!.toDouble()
             level = result.mlevel!!
-            showToast(lat.toString())
         }
         else {
             binding.detailMapArea.visibility = View.GONE

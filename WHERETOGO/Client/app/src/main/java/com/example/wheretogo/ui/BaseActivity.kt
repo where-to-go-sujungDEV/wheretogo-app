@@ -1,6 +1,7 @@
 package com.example.wheretogo.ui
 
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -18,6 +19,7 @@ abstract class BaseActivity<T: ViewBinding>(private val inflate: (LayoutInflater
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         binding = inflate(layoutInflater)
         setContentView(binding.root)
 

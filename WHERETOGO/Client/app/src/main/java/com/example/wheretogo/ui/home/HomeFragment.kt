@@ -15,22 +15,26 @@ import com.example.wheretogo.databinding.FragmentHomeBinding
 import com.example.wheretogo.ui.recommend.RecommendActivity
 
 import com.google.android.material.tabs.TabLayoutMediator
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
 
     private val homeService = HomeService
-    private val eventStatusService = getRetrofit().create(MypageRetrofitInterface::class.java)
+    private val homeRecService = getRetrofit().create(HomeRetrofitInterface::class.java)
     private var isSaved=false
     private var isVisited=false
     override fun initAfterBinding() {
+        val userIdx: Int = getIdx()
         binding.homeUserNameTv.text = getName()
         binding.homeRecommendMoreTv.setOnClickListener {
             startActivity(Intent(context, RecommendActivity::class.java))
         }
 
-        homeService.getMainEvent(this)
+        getRecommendEvent(userIdx)
         homeService.getPopularEvent(this)
-        homeService.getRecommendEvent(this)
+        homeService.getMainEvent(this)
     }
 
     private fun setIndicator(){
@@ -73,7 +77,28 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         binding.homeEvent1Vp.orientation = ViewPager2.ORIENTATION_HORIZONTAL
     }
 
-    fun setRecommendEvent(recommendList: ArrayList<RecommendEventResult>, userInfo: ArrayList<UserInfo>){
+    private fun getRecommendEvent(userIdx:Int){
+
+        homeRecService.getRecommendEvent(userIdx).enqueue(object:
+            Callback<RecommendEventResponse> {
+            override fun onResponse(call: Call<RecommendEventResponse>, response: Response<RecommendEventResponse>) {
+                val resp = response.body()!!
+                when(resp.code){
+                    200->{
+                        setRecommendEvent(resp.results!!, resp.userInfo!!)
+                    }
+                    else ->{
+                        //setRecommendEventNone(resp.msg)
+                    }
+                }
+            }
+            override fun onFailure(call: Call<RecommendEventResponse>, t: Throwable) {
+                Log.d("Recommend/FAILURE", t.message.toString())
+            }
+        })
+    }
+
+    private fun setRecommendEvent(recommendList: ArrayList<RecommendEventResult>, userInfo: ArrayList<UserInfo>){
         val event2Adapter = HomeBannerVPAdapter(this)
 
         for (item in userInfo){
@@ -105,5 +130,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         editor?.putBoolean("isVisited", isVisited)
         editor?.putBoolean("isSaved", isSaved)
         editor?.apply()
+    }
+
+    //유저 인덱스 가져옴
+    private fun getIdx(): Int {
+        val spf = activity?.getSharedPreferences("userInfo", AppCompatActivity.MODE_PRIVATE)
+        return spf!!.getInt("userIdx",-1)
     }
 }

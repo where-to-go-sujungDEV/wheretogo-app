@@ -62,7 +62,7 @@ dependencies {
     //viewpager2
     implementation "androidx.viewpager2:viewpager2:1.0.0"
 
-
+    kapt "org.xerial:sqlite-jdbc:3.34.0"
     //  RoomDB
     implementation "androidx.room:room-runtime:$roomdb_version"
     kapt "androidx.room:room-compiler:$roomdb_version"
