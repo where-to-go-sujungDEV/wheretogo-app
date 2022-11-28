@@ -5,9 +5,10 @@ import fs from 'fs';
 //446개까지 넣음 / 22-09-14 업데이트
 const serviceKey ="QNnTJy6f3sstORUG9MRvZBkU7%2F3vsnIy%2BAgmf%2FKQpuzsI9iC%2FWV7SHiDqrfUrYfDLoJTDX5TAPIQpUD0mGwwFA%3D%3D";
 const numOfRows = 1;
+const eventStartDate = "20221024";
 
 
-const pageNo = 423;
+const pageNo = 1;
 
 let basic="INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( "+'\n', qr = "", dqr ="", eqr = "";
 
@@ -31,7 +32,7 @@ function getLastAmount(){
 var getTotal = {
   'method': 'GET',
   "rejectUnauthorized": false, 
-  'url': 'https://apis.data.go.kr/B551011/KorService/searchFestival?serviceKey=' + serviceKey +'&numOfRows=1&pageNo=1&MobileOS=AND&MobileApp=wheretogo&_type=json&eventStartDate=20220817&arrange=D',
+  'url': 'https://apis.data.go.kr/B551011/KorService/searchFestival?serviceKey=' + serviceKey +'&numOfRows=1&pageNo=1&MobileOS=AND&MobileApp=wheretogo&_type=json&eventStartDate='+eventStartDate+'&arrange=D',
   'headers': {
   },
   form: {
@@ -42,7 +43,7 @@ var getTotal = {
 var getInfo = {
   'method': 'GET',
   "rejectUnauthorized": false, 
-  'url': 'https://apis.data.go.kr/B551011/KorService/searchFestival?serviceKey=' + serviceKey +'&numOfRows=1&MobileOS=AND&MobileApp=wheretogo&_type=json&eventStartDate=20220817&arrange=D&pageNo=',
+  'url': 'https://apis.data.go.kr/B551011/KorService/searchFestival?serviceKey=' + serviceKey +'&numOfRows=1&MobileOS=AND&MobileApp=wheretogo&_type=json&eventStartDate='+eventStartDate+'&arrange=D&pageNo=',
   'headers': {
   },
   form: {
@@ -99,12 +100,12 @@ function makeQr(i){
     qr = "";
 
     eventID = infoRes[0]['contentid'];
-    eventName = infoRes[0]['title'];
+    eventName = infoRes[0]['title'].replaceAll( '"', '\\"');
     startDate = infoRes[0]['eventstartdate'];
     endDate = infoRes[0]['eventenddate'];
 
-    addr1 = infoRes[0]['addr1'];
-    addr2 = infoRes[0]['addr2'];
+    addr1 = infoRes[0]['addr1'].replaceAll( '"', '\\"');
+    addr2 = infoRes[0]['addr2'].replaceAll( '"', '\\"');
     kind = infoRes[0]['cat3'];
     pic = infoRes[0]['firstimage'];
     mapx = infoRes[0]['mapx'];
@@ -112,24 +113,17 @@ function makeQr(i){
     mlevel = infoRes[0]['mlevel'];
     areacode = infoRes[0]['areacode'];
     sigungucode = infoRes[0]['sigungucode'];
-    tel = infoRes[0]['tel'];
+    tel = infoRes[0]['tel'].replaceAll( '"', '\\"');
+
+    eventName = eventName.replaceAll("'", "\\'");
+    addr1 = addr1.replaceAll("'", "\\'");
+    addr2 = addr2.replaceAll("'", "\\'");
+    tel = tel.replaceAll("'", "\\'");
 
     qr += eventID; qr += " , '";
     qr += eventName;qr += "' , ";
     qr += startDate;qr += " , ";
     qr += endDate;qr += " , ";
-
-    eventName = eventName.replace(/'/g, '\'');
-    eventName = eventName.replace(/"/g, '\"');
-
-    addr1 = addr1.replace(/'/g, '\'');
-    addr1 = addr1.replace(/"/g, '\"');
-
-    addr2 = addr2.replace(/'/g, '\'');
-    addr2 = addr2.replace(/"/g, '\"');
-
-    tel = tel.replace(/'/g, '\'');
-    tel = tel.replace(/"/g, '\"');
 
     if(addr1.length){ qr += "'"+addr1+"'";} else {qr += "NULL";}qr += ", ";
     if(addr2.length){ qr += "'"+addr2+"'";} else {qr += "NULL";}qr += ", ";
@@ -160,13 +154,12 @@ function makeEqr(eventID){
 
       let EinfoRes = Einfo['response']['body']['items']['item'];
 
-      homepage = EinfoRes[0]['homepage'];
-      overview = EinfoRes[0]['overview'];
+      homepage = EinfoRes[0]['homepage'].replaceAll( '"', '\\"');
+      homepage = homepage.replaceAll("'", "\\'");
 
-    homepage = homepage.replace(/'/g, '\'');
+      overview = EinfoRes[0]['overview'].replaceAll( '"', '\\"');
+      overview = overview.replaceAll("'", "\\'");
 
-    overview = overview.replace(/'/g, '\'');
-    overview = overview.replace(/"/g, '\"');
 
       if(homepage.length){ eqr += "\'"+homepage+"\'";} else {eqr += "NULL";}eqr += ", ";
       if(overview.length){ eqr += "\""+overview+"\"";} else {eqr += "NULL";}eqr += ", ";
@@ -189,30 +182,19 @@ function makeDqr(eventID){
     
           let DinfoRes = Dinfo['response']['body']['items']['item'];
     
-          eventplace = DinfoRes[0]['eventplace'];
-          bookingplace = DinfoRes[0]['bookingplace'];
-          subevent = DinfoRes[0]['subevent'];
-          price = DinfoRes[0]['usetimefestival'];
-          agelimit = DinfoRes[0]['agelimit'];
-          eventtime = DinfoRes[0]['spendtimefestival'];
+          eventplace = DinfoRes[0]['eventplace'].replaceAll( '"', '\\"');
+          bookingplace = DinfoRes[0]['bookingplace'].replaceAll( '"', '\\"');
+          subevent = DinfoRes[0]['subevent'].replaceAll( '"', '\\"');
+          price = DinfoRes[0]['usetimefestival'].replaceAll( '"', '\\"');
+          agelimit = DinfoRes[0]['agelimit'].replaceAll( '"', '\\"');
+          eventtime = DinfoRes[0]['spendtimefestival'].replaceAll( '"', '\\"');
 
-          eventplace = eventplace.replace(/'/g, '\'');
-          eventplace = eventplace.replace(/"/g, '\"');
-
-          bookingplace = bookingplace.replace(/'/g, '\'');
-          bookingplace = bookingplace.replace(/"/g, '\"');
-
-          subevent = subevent.replace(/'/g, '\'');
-          subevent = subevent.replace(/"/g, '\"');
-
-          price = price.replace(/'/g, '\'');
-          price = price.replace(/"/g, '\"');
-
-          agelimit = agelimit.replace(/'/g, '\'');
-          agelimit = agelimit.replace(/"/g, '\"');
-
-          eventtime = eventtime.replace(/'/g, '\'');
-          eventtime = eventtime.replace(/"/g, '\"');
+          eventplace = eventplace.replaceAll("'", "\\'");
+          bookingplace = bookingplace.replaceAll("'", "\\'");
+          subevent = subevent.replaceAll("'", "\\'");
+          price = price.replaceAll("'", "\\'");
+          agelimit = agelimit.replaceAll("'", "\\'");
+          eventtime = eventtime.replaceAll("'", "\\'");
 
           if(eventplace.length){ dqr += "'"+eventplace+"'";} else {dqr += "NULL";}dqr += ", ";
           if(bookingplace.length){ dqr += "'"+bookingplace+"'";} else {dqr += "NULL";}dqr += ", ";
@@ -251,6 +233,8 @@ async function getEveryEvent(){
       if (err) throw err;
       console.log('The '+ (i - 1)  +'th'+ ' was appended to file!');
     });
+
+    return ;
   }
 
 }
