@@ -1,6 +1,6 @@
 import db from "../config/dbConnection.js";
 
-export const getCalendarEvents = ([uid], result) => {
+export const getCalendarEvents = (uid, result) => {
     db.query("Select eventID, eventName, startDate, endDate from eventTBL where eventID in (SELECT eventID from userSavedTBL where userID = ?);",[uid], (err, results) => {             
         if(err) {
             console.log(err);
@@ -14,6 +14,7 @@ export const getCalendarEvents = ([uid], result) => {
             result(200, null, {
                 msg : "저장한 이벤트가 없습니다.",
                 code : 204,
+                userID: uid,
                 isSuccess : true
             })
         }
