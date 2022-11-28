@@ -166,14 +166,14 @@ export const registerUserInfo = (data, result) => {
                 msg : '이미 등록된 유저입니다'
                 });
             } 
-            else if (!data.sex) {
+            else if ((data.sex != 'w')&&(data.sex != 'm')) {
                 result(200, null, {
                   code : 4090,
                   isSuccess : false,
                   msg : '성별을 입력해주세요'
                   });
               }
-              else if (!data.age) {
+              else if ((data.age != 1)&&(data.age != 2)&&(data.age != 3)&&(data.age != 4)&&(data.age != 6)) {
                 result(200, null, {
                   code : 4090,
                   isSuccess : false,
