@@ -1,7 +1,6 @@
 import db from "../config/dbConnection.js";
 
 export const getSavedEvent = (uid, result) => {
-    console.log(uid);
     db.query("Select eventID, eventName, (select cName from CategoryTBL where CategoryTBL.cCode = EventTBL.kind) as kind, startDate, endDate,  pic, ( select count(*) from userSavedTBL where UserSavedTBL.eventID = EventTBL.eventID) as savedNum,(select count(*) from UserVisitedTBL where UserVisitedTBL.eventID = EventTBL.eventID)as visitedNum from eventTBL where eventID in (SELECT eventID from userSavedTBL where userID = ?);",[uid], (err, results) => {             
         if(err) {
             result(500, {
