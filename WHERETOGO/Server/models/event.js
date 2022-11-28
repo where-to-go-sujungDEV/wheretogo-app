@@ -91,6 +91,13 @@ export const getUserTopContents = (uid, result) => {
                 else if (userInfo[0].age == 6)qr += ' and age = "6"';
                 qr += ' ) ';
             }
+            else {
+                if(userInfo[0].age == 1)qr += ' and UserSavedTBL.userID in (select userID from userTBL where age = "1" )';
+                else if (userInfo[0].age == 2)qr += ' and UserSavedTBL.userID in (select userID from userTBL where age = "2" )';
+                else if (userInfo[0].age == 3)qr += ' and UserSavedTBL.userID in (select userID from userTBL where age = "3" )';
+                else if (userInfo[0].age == 4)qr += ' and UserSavedTBL.userID in (select userID from userTBL where age = "4" )';
+                else if (userInfo[0].age == 6)qr += ' and UserSavedTBL.userID in (select userID from userTBL where age = "6" )';
+            }
 
             qr += ' ) as userTopNum from eventTBL ORDER BY userTopNum DESC LIMIT 5;' 
 
