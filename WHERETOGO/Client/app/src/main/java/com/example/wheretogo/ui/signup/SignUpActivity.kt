@@ -4,24 +4,24 @@ package com.example.wheretogo.ui.signup
 import android.app.AlertDialog
 import android.graphics.Color
 import android.util.Log
+import android.util.Patterns
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
-import android.widget.Toast
-import com.example.wheretogo.R
-import com.example.wheretogo.databinding.ActivitySignupBinding
-import com.example.wheretogo.ui.BaseActivity
 import android.widget.TextView
+import com.example.wheretogo.R
 import com.example.wheretogo.data.remote.auth.AuthService
 import com.example.wheretogo.data.remote.auth.SignUpInfo
 import com.example.wheretogo.data.remote.auth.SignUpView
-import com.example.wheretogo.ui.MainActivity
+import com.example.wheretogo.databinding.ActivitySignupBinding
+import com.example.wheretogo.ui.BaseActivity
+import java.util.regex.Pattern
 
 
 class SignUpActivity: BaseActivity<ActivitySignupBinding>(ActivitySignupBinding::inflate),
     SignUpView {
-    private val gender = arrayOf("여성","남성","선택 안함")
+    private val gender = arrayOf("여성","남성")
     private val age = arrayOf("10대","20대","30대","40대","50대","60대 이상")
 
     override fun initAfterBinding() {
@@ -73,38 +73,57 @@ class SignUpActivity: BaseActivity<ActivitySignupBinding>(ActivitySignupBinding:
         val email: String =  binding.signUpEmailEt.text.toString()
         val pwd: String = binding.signUpPwdEt.text.toString()
         val nickname: String = binding.signUpNicknameEt.text.toString()
-        if (binding.signUpGenderSpinner.selectedItem.toString()=="여성")
-            sex = "w"
-        else
+        if (binding.signUpGenderSpinner.selectedItem.toString()=="남성")
             sex = "m"
+        else
+            sex = "w"
         val age: Int = binding.signUpAgeSpinner.selectedItemPosition+1
-
+        Log.d("SignupInfo",SignUpInfo(email, pwd,nickname,sex,age).toString())
         return SignUpInfo(email, pwd,nickname,sex,age)
     }
 
 
     private fun signUp(){
+        val pattern: Pattern = Patterns.EMAIL_ADDRESS
+        var error=""
         if (binding.signUpNicknameEt.text.toString().isEmpty()) {
-            showSignupResult("닉네임 형식이 잘못 되었습니다.")
-            return
+            error="닉네임을 입력해주세요"
+        }
+        else if (!pattern.matcher(binding.signUpEmailEt.text.toString()).matches()){
+            error="이메일 형식을 정확하게 입력해주세요"
         }
 
-        if (binding.signUpEmailEt.text.toString().isEmpty()) {
-            showSignupResult("이메일 형식이 잘못 되었습니다.")
-            return
+        else if (binding.signUpEmailEt.text.toString().isEmpty()) {
+            error="이메일을 입력해주세요"
+        }
+        else if(binding.signUpPwdEt.text.toString().isEmpty()) {
+            error="비밀번호를 입력해주세요"
+
+        }
+        else if(binding.signUpPwdCheckEt.text.toString().isEmpty()) {
+            error="비밀번호 확인을 입력해주세요"
+
         }
 
-        if (binding.signUpPwdEt.text.toString() != binding.signUpPwdCheckEt.text.toString()) {
-            showSignupResult("비밀번호가 일치하지 않습니다.")
-            return
-        }
-        val authService = AuthService()
-        authService.setSignUpView(this)
+        else if (binding.signUpPwdEt.text.toString() != binding.signUpPwdCheckEt.text.toString()) {
+            error="비밀번호가 일치하지 않습니다."
 
-        authService.signUp(getSignUpInfo()) //api호출
+        }
+        else {
+            val authService = AuthService()
+            authService.setSignUpView(this)
+
+            authService.signUp(getSignUpInfo()) //api호출
+        }
+
+        if (error!=""){
+            showSignupResult(error)
+        }
+
     }
 
     override fun onSignUpSuccess(msg: String) {
+        showToast("회원가입 성공")
         finish()
     }
 

@@ -60,6 +60,7 @@ class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::in
         val email: String = binding.loginIdEt.text.toString()
         val pwd: String = binding.loginPwdEt.text.toString()
         val deviceToken= getFcmToken()
+        Log.d("singup",getFcmToken())
         saveEmail(email)
 
         return LoginInfo(email,pwd,deviceToken)
@@ -84,6 +85,7 @@ class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::in
     override fun onLoginSuccess(result: UserResult) {
         saveIdx(result.userID)
         saveName(result.userID)
+        showToast("로그인 성공")
         finish()
     }
 

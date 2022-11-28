@@ -19,6 +19,7 @@ class MypageSavedFragment() : BaseFragment<FragmentMypageBannerBinding>(Fragment
     private var userId = 0
     override fun initAfterBinding() {
         userId = getIdx()
+        Log.d("mypage",getIdx().toString())
         mypageService.getSavedEvent(this,userId)
     }
 

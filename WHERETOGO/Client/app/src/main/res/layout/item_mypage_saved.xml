@@ -103,14 +103,14 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/item_saved_star_panel"
         android:layout_width="match_parent"
-        android:layout_height="170dp"
+        android:layout_height="165dp"
         android:layout_marginEnd="30dp"
         android:layout_marginStart="30dp"
         android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:background="@color/gray">
+        android:background="@drawable/star_panel_border">
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

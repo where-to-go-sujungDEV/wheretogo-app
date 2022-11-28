@@ -30,8 +30,8 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
     private var status = "b"
     private val eventStatusService = getRetrofit().create(MypageRetrofitInterface::class.java)
     private val setStatusService = getRetrofit().create(SearchRetrofitInterface::class.java)
-    private var isEventVisited=false
-    private var isEventSaved=false
+    private var isEventVisited=true
+    private var isEventSaved=true
     private var userId=0
     interface OnItemClickListener {
         fun onItemClick(savedEventData: SavedEventResult)
@@ -69,6 +69,7 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
         fun bind(savedEvent: SavedEventResult,holder: UserSavedEventRVAdapter.ViewHolder){
             var eventId=savedEvent.eventID
             userId=getIdx()
+            getEventStatus(binding,eventId)
 
             if (savedEvent.pic!=null){
                 Glide.with(context).load(savedEvent.pic)
@@ -79,6 +80,8 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
                 binding.mypageLikeEventIv.clipToOutline = true
             }
 
+
+
             binding.itemMypageLikeTitleTv.text = savedEvent.eventName
             binding.itemMypageLikeTagTv.text = savedEvent.kind
             binding.itemMypageLikeStartDateTv.text = String.format("%s~",savedEvent.startDate.slice(IntRange(0,9)))
@@ -86,7 +89,7 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
                 binding.itemMypageLikeEndDateTv.text = savedEvent.endDate.slice(IntRange(0,9))
             binding.itemMypageLikeCountTv.text = String.format("담은 수: %d건",savedEvent.savedNum)
 
-            getEventStatus(binding,eventId)
+
             initStar(binding)
             initClickListener(binding,savedEvent.eventID,holder)
 
@@ -96,13 +99,15 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
 
     private fun initClickListener(binding: ItemMypageSavedBinding, eventId:Int, holder: ViewHolder){
         binding.itemMypageVisitedBtn.setOnClickListener {
+            Log.d("eventd",isEventVisited.toString())
+
             if (isEventVisited){
                 setDeleteVisitedEvent(eventId)
-                binding.itemMypageVisitedBtn.setBackgroundResource(R.drawable.btn_check_unclick)
-                Toast.makeText(context, "방문한 이벤트에서 삭제했어요.", Toast.LENGTH_SHORT).show()
                 isEventVisited=false
+                binding.itemMypageVisitedBtn.setBackgroundResource(R.drawable.btn_check_unclick)
+                Toast.makeText(context, R.string.visited_off, Toast.LENGTH_SHORT).show()
             }
-            else {
+            else{
                 binding.itemSavedStarPanel.visibility = View.VISIBLE
             }
         }
