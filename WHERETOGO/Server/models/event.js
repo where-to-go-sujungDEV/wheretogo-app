@@ -72,7 +72,7 @@ export const getUserTopContents = (uid, result) => {
             result(500, err, null);
         } else { 
             var qr = 'select eventID, eventName, startDate, endDate, (select count(*) from UserVisitedTBL where UserVisitedTBL.eventID = EventTBL.eventID)as visitedNum, (select count(*) from userSavedTBL where UserSavedTBL.eventID = EventTBL.eventID) as savedNum, (select cName from CategoryTBL where CategoryTBL.cCode = EventTBL.kind) as kind, pic, (select count(*) from userSavedTBL where UserSavedTBL.eventID = EventTBL.eventID ';  
-          
+            
             if(userInfo[0].sex == 'w'){
                 qr += ' and UserSavedTBL.userID in (select userID from userTBL where sex = "w" ';
                 if(userInfo[0].age == 1)qr += ' and age = "1" ';
@@ -91,13 +91,7 @@ export const getUserTopContents = (uid, result) => {
                 else if (userInfo[0].age == 6)qr += ' and age = "6"';
                 qr += ' ) ';
             }
-            else {
-                if(userInfo[0].age == 1)qr += ' and UserSavedTBL.userID in (select userID from userTBL where age = "1" )';
-                else if (userInfo[0].age == 2)qr += ' and UserSavedTBL.userID in (select userID from userTBL where age = "2" )';
-                else if (userInfo[0].age == 3)qr += ' and UserSavedTBL.userID in (select userID from userTBL where age = "3" )';
-                else if (userInfo[0].age == 4)qr += ' and UserSavedTBL.userID in (select userID from userTBL where age = "4" )';
-                else if (userInfo[0].age == 6)qr += ' and UserSavedTBL.userID in (select userID from userTBL where age = "6" )';
-            }
+            
 
             qr += ' ) as userTopNum from eventTBL ORDER BY userTopNum DESC LIMIT 5;' 
 

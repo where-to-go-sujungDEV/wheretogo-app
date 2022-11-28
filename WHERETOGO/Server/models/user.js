@@ -165,7 +165,21 @@ export const registerUserInfo = (data, result) => {
                 isSuccess : false,
                 msg : '이미 등록된 유저입니다'
                 });
-            } else {
+            } 
+            else if (!data.sex) {
+                result(200, null, {
+                  code : 4090,
+                  isSuccess : false,
+                  msg : '성별을 입력해주세요'
+                  });
+              }
+              else if (!data.age) {
+                result(200, null, {
+                  code : 4090,
+                  isSuccess : false,
+                  msg : '나이를 입력해주세요'
+                  });
+              }else {
               bcrypt.hash(data.password, 10, (err, hash) => {
                 if (err) {
                     result(500, {
@@ -218,15 +232,8 @@ export const loginUserInfo = (data, result) => {
                 isSuccess : false,
                 msg : '이메일이 올바르지 않거나, 등록되지않은 유저입니다.'
                 });
-            } else {
-                if(!data.deviceToken){
-                    result(200,null,{
-                        code : 404,
-                        isSuccess : false,
-                        msg : "디바이스 토큰을 입력해주세요.",
-                    });
-                }
-                else{
+            } 
+            else {
               bcrypt.compare(data.password, cnt[0].pw, (bErr, bResult) => {
                 if (bErr) {
                     result(500, {
@@ -265,7 +272,7 @@ export const loginUserInfo = (data, result) => {
                         }
                       }
                       );}
-            })};
+            });
           }}
           );
 }
