@@ -1,7 +1,7 @@
 import db from "../config/dbConnection.js";
 
 export const getKindContent = (kind, result) => { 
-    db.query("select cName from categoryTBL where cCode = ?;", [kind], (err, results) => {             
+    db.query("select cName from CategoryTBL where cCode = ?;", [kind], (err, results) => {             
         if(err) {
             result(500, err, null);
         } else {

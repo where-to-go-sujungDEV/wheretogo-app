@@ -1,7 +1,7 @@
 import db from "../config/dbConnection.js";
 
 export const getSearchResults = (data, result) => {
-    var qr = 'select eventID, eventName, (select cName from CategoryTBL where cCode = EventTBL.kind) as kind, startDate, endDate, pic, (select count(*) from UserSavedTBL where UserSavedTBL.eventID = EventTBL.eventID) as savedNum, (select count(*) from UserVisitedTBL where UserVisitedTBL.eventID = EventTBL.eventID)as visitedNum from eventTBL ';
+    var qr = 'select eventID, eventName, (select cName from CategoryTBL where cCode = EventTBL.kind) as kind, startDate, endDate, pic, (select count(*) from UserSavedTBL where UserSavedTBL.eventID = EventTBL.eventID) as savedNum, (select count(*) from UserVisitedTBL where UserVisitedTBL.eventID = EventTBL.eventID)as visitedNum from EventTBL ';
     qr += ' where ';
     var kind = '';           
                 
@@ -181,7 +181,7 @@ export const getSearchResults = (data, result) => {
 
 
 export const getHotSearchResults = (result) => {
-    db.query("Select word, count(word) as count from searchTBL Group By word ORDER BY count(*) DESC LIMIT 10;", (err, results) => {             
+    db.query("Select word, count(word) as count from SearchTBL Group By word ORDER BY count(*) DESC LIMIT 10;", (err, results) => {             
         if(err) {
             result(500, {
                 code : 500,
@@ -206,7 +206,7 @@ export const updateSearchCount = (data, result) => {
         });
     }
     else{           
-            db.query("insert into searchTBL (word) values (?);", [data.search],(err,results) => {
+            db.query("insert into SearchTBL (word) values (?);", [data.search],(err,results) => {
                 if(err) {
                     result(500, {
                         code : 500,

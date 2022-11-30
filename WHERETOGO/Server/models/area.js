@@ -1,7 +1,7 @@
 import db from "../config/dbConnection.js";
 
 export const getBigContent = (areacode, result) => { 
-    db.query("select aName from areaCodeTBL where aCode = ?;", [areacode], (err, results) => {             
+    db.query("select aName from AreaCodeTBL where aCode = ?;", [areacode], (err, results) => {             
         if(err) {
             result(500, err, null);
         } else {
@@ -14,7 +14,7 @@ export const getBigContent = (areacode, result) => {
 }
 
 export const getSmallContent = (bigarea, smallarea, result) => { 
-    db.query("select aDName from areaCodeDetailTBL where aCode = ? and aDCode = ?;", [bigarea, smallarea], (err, results) => {             
+    db.query("select aDName from AreaCodeDetailTBL where aCode = ? and aDCode = ?;", [bigarea, smallarea], (err, results) => {             
         if(err) {
             result(500, err, null);
         } else {
@@ -27,7 +27,7 @@ export const getSmallContent = (bigarea, smallarea, result) => {
 }
 
 export const getListContent = (areacode, result) => { 
-    db.query("select aDCode, aDName from areaCodeDetailTBL where aCode = ?;", [areacode], (err, results) => {             
+    db.query("select aDCode, aDName from AreaCodeDetailTBL where aCode = ?;", [areacode], (err, results) => {             
         if(err) {
             result(500, err, null);
         } else {
@@ -40,7 +40,7 @@ export const getListContent = (areacode, result) => {
 }
 
 export const getBigListContent = (result) => { 
-    db.query("select aCode, aName from areaCodeTBL;", (err, results) => {             
+    db.query("select aCode, aName from AreaCodeTBL;", (err, results) => {             
         if(err) {
             result(500, err, null);
         } else {

@@ -10,7 +10,7 @@ const eventStartDate = "20221024";
 
 const pageNo = 1;
 
-let basic="INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( "+'\n', qr = "", dqr ="", eqr = "";
+let basic="INSERT INTO EventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( "+'\n', qr = "", dqr ="", eqr = "";
 
 global.basic = basic, global.qr = qr, global.dqr = dqr;
 var eventID, eventName, startDate, endDate; // NOT NULL
@@ -19,7 +19,7 @@ var addr1,addr2,kind ,pic, mapx, mapy , mlevel , areacode , sigungucode , tel , 
 
 function getLastAmount(){
   return new Promise((res, rej) => {
-    db.query("select count(*) as count from eventTBL;", (err, results) => {             
+    db.query("select count(*) as count from EventTBL;", (err, results) => {             
       if(err) {
           res("failed");
       } else {
@@ -218,7 +218,7 @@ async function getEveryEvent(){
   var i = pageNo;
 
   for (; i <= totalN; i++){
-    const basic = "INSERT INTO eventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( ";
+    const basic = "INSERT INTO EventTBL (eventID, eventName, startDate, endDate, addr1, addr2, kind, pic, mapx, mapy, mlevel, areacode, sigungucode, tel, homepage, overview, eventplace,bookingplace, subevent, price, agelimit, eventtime) VALUES ( ";
 
     const r1 = await makeQr(i);
 

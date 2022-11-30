@@ -1,7 +1,7 @@
 import db from "../config/dbConnection.js";
 
 export const getCalendarEvents = (uid, result) => {
-    db.query("Select eventID, eventName, startDate, endDate from eventTBL where eventID in (SELECT eventID from userSavedTBL where userID = ?);",[uid], (err, results) => {             
+    db.query("Select eventID, eventName, startDate, endDate from EventTBL where eventID in (SELECT eventID from UserSavedTBL where userID = ?);",[uid], (err, results) => {             
         if(err) {
             console.log(err);
             result(500, {

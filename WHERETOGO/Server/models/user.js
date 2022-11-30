@@ -3,7 +3,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken'; 
 
 export const updateUserNInfo = (uid, data, result) => {
-    db.query("select * from userTBL where userID = ?;", uid, (err, count) => {             
+    db.query("select * from UserTBL where userID = ?;", uid, (err, count) => {             
         if (err) {
             result(500, {
                 msg : "회원정보 갱신을 실패하였습니다.", 
@@ -27,7 +27,7 @@ export const updateUserNInfo = (uid, data, result) => {
                 });
             }
             else {
-                db.query("update userTBL set nickName = ? where userID = ?;",[data.nickName, uid], (err, results) => {             
+                db.query("update UserTBL set nickName = ? where userID = ?;",[data.nickName, uid], (err, results) => {             
                     if(err) {
                         result(500, {
                             msg : "오류가 발생하였습니다.",
@@ -51,7 +51,7 @@ export const updateUserNInfo = (uid, data, result) => {
 
 
 export const updateUserPInfo = (uid, data, result) => {
-    db.query("select * from userTBL where userID = ?;", uid, (err, count) => {             
+    db.query("select * from UserTBL where userID = ?;", uid, (err, count) => {             
         if (err) {
             result(500, {
                 msg : "회원정보 갱신을 실패하였습니다.", 
@@ -86,7 +86,7 @@ export const updateUserPInfo = (uid, data, result) => {
                         }, null);
                     }
                     else {
-                            db.query(`update userTBL set pw = ${db.escape(hash)} where userID = ?;`,[uid], (err, results) => {             
+                            db.query(`update UserTBL set pw = ${db.escape(hash)} where userID = ?;`,[uid], (err, results) => {             
                                 if(err) {
                                     result(500, {
                                         msg : "오류가 발생하였습니다.",
@@ -113,7 +113,7 @@ export const updateUserPInfo = (uid, data, result) => {
 
 
 export const deleteUserInfo = (uid, result) => {
-    db.query("select * from userTBL where userID = ?;", uid, (err, count) => {             
+    db.query("select * from UserTBL where userID = ?;", uid, (err, count) => {             
         if (err) {
             console.log(err);
             result(500, {
@@ -130,7 +130,7 @@ export const deleteUserInfo = (uid, result) => {
             });
         } 
         else {
-            db.query("delete from userTBL where userID = ?;", uid, (err, results) => {             
+            db.query("delete from UserTBL where userID = ?;", uid, (err, results) => {             
                 if(err) {
                     console.log(err);
                     result(500, {
@@ -151,7 +151,7 @@ export const deleteUserInfo = (uid, result) => {
 }
 
 export const registerUserInfo = (data, result) => {
-    db.query("SELECT * FROM userTBL WHERE LOWER(email) = LOWER(?);", data.email ,(err, cnt) => {
+    db.query("SELECT * FROM UserTBL WHERE LOWER(email) = LOWER(?);", data.email ,(err, cnt) => {
             if(err){
                 result(500, {
                     code : 5000,
@@ -190,7 +190,7 @@ export const registerUserInfo = (data, result) => {
                     );
                 } else {
                   // has hashed pw => add to database
-                  db.query(`INSERT INTO userTBL (email, pw, nickName, sex, age) VALUES (?, ${db.escape(hash)},?, ?, ?);`, [data.email, data.nickName, data.sex, data.age] ,
+                  db.query(`INSERT INTO UserTBL (email, pw, nickName, sex, age) VALUES (?, ${db.escape(hash)},?, ?, ?);`, [data.email, data.nickName, data.sex, data.age] ,
                       (err, results) => {
                         if (err) {
     
@@ -218,7 +218,7 @@ export const registerUserInfo = (data, result) => {
 
 
 export const loginUserInfo = (data, result) => {
-    db.query(`SELECT * FROM userTBL WHERE email = ?;`,[data.email],(err, cnt) => {
+    db.query(`SELECT * FROM UserTBL WHERE email = ?;`,[data.email],(err, cnt) => {
             if(err){
                 result(500, {
                     code : 500,
@@ -251,7 +251,7 @@ export const loginUserInfo = (data, result) => {
                 }
                 else {
                     const token = jwt.sign({id : cnt[0].userID},'the-super-strong-secret',{ expiresIn: '1h' });
-                  db.query(`UPDATE userTBL SET last_login = now(), deviceToken = ? WHERE email = ?`, [data.deviceToken, cnt[0].email] ,(err, results) => {
+                  db.query(`UPDATE UserTBL SET last_login = now(), deviceToken = ? WHERE email = ?`, [data.deviceToken, cnt[0].email] ,(err, results) => {
                         if (err) {
                             result(500, {
                                 code : 500,
@@ -291,7 +291,7 @@ export const doAutoLogin = (head, result) => {
         const decoded = jwt.verify(theToken, 'the-super-strong-secret');
 
         db.query(
-            `SELECT * FROM userTBL where userID='${decoded.id}'`, (error, results) => {
+            `SELECT * FROM UserTBL where userID='${decoded.id}'`, (error, results) => {
           if (error){
             result(500, {
                 code : 500,
@@ -324,7 +324,7 @@ export const doAutoLogin = (head, result) => {
 }
 
 export const getUserPassword = (uid,data, result) => {
-    db.query("select pw from userTBL where userID = ?;", uid, (err, results) => {             
+    db.query("select pw from UserTBL where userID = ?;", uid, (err, results) => {             
         if (err) {
             result(500, {
                 msg : "서버 에러 발생.", 
@@ -368,7 +368,7 @@ export const getUserPassword = (uid,data, result) => {
 
 
 export const getUserNickName = (uid, result) => {
-    db.query("select nickName from userTBL where userID = ?;", uid, (err, results) => {             
+    db.query("select nickName from UserTBL where userID = ?;", uid, (err, results) => {             
         if (err) {
             result(500, {
                 msg : "서버 에러 발생.", 

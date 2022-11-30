@@ -1,7 +1,7 @@
 import db from "../config/dbConnection.js";
 
 export const getSavedEvent = (uid, result) => {
-    db.query("Select eventID, eventName, (select cName from CategoryTBL where CategoryTBL.cCode = EventTBL.kind) as kind, startDate, endDate,  pic, ( select count(*) from userSavedTBL where UserSavedTBL.eventID = EventTBL.eventID) as savedNum,(select count(*) from UserVisitedTBL where UserVisitedTBL.eventID = EventTBL.eventID)as visitedNum from eventTBL where eventID in (SELECT eventID from userSavedTBL where userID = ?);",[uid], (err, results) => {             
+    db.query("Select eventID, eventName, (select cName from CategoryTBL where CategoryTBL.cCode = EventTBL.kind) as kind, startDate, endDate,  pic, ( select count(*) from UserSavedTBL where UserSavedTBL.eventID = EventTBL.eventID) as savedNum,(select count(*) from UserVisitedTBL where UserVisitedTBL.eventID = EventTBL.eventID)as visitedNum from EventTBL where eventID in (SELECT eventID from UserSavedTBL where userID = ?);",[uid], (err, results) => {             
         if(err) {
             result(500, {
                 msg : "오류가 발생하였습니다.",
@@ -30,7 +30,7 @@ export const getSavedEvent = (uid, result) => {
 }
 
 export const addSavedEvent = (uid, eid, result) => {
-    db.query("select * from userSavedTBL where userID = ? and eventID = ?;", [uid, eid], (err, count) => {             
+    db.query("select * from UserSavedTBL where userID = ? and eventID = ?;", [uid, eid], (err, count) => {             
         if (err) {
             result(500, {
                 msg : "오류가 발생하였습니다", 
@@ -46,7 +46,7 @@ export const addSavedEvent = (uid, eid, result) => {
             });
         } 
         else {
-            db.query("insert into userSavedTBL (userID, eventID) VALUES (?,?);",[uid, eid], (err, results) => {             
+            db.query("insert into UserSavedTBL (userID, eventID) VALUES (?,?);",[uid, eid], (err, results) => {             
                 if(err) {
                     result(500, {
                         code : 500,
@@ -67,7 +67,7 @@ export const addSavedEvent = (uid, eid, result) => {
   
 
 export const deleteSavedEvent = (uid, eid, result) => {
-    db.query("select * from userSavedTBL where userID = ? and eventID = ?;", [uid, eid], (err, count) => {             
+    db.query("select * from UserSavedTBL where userID = ? and eventID = ?;", [uid, eid], (err, count) => {             
         if (err) {
             result(500, {
                 msg : "오류가 발생하였습니다", 
@@ -83,7 +83,7 @@ export const deleteSavedEvent = (uid, eid, result) => {
             });
         } 
         else {
-            db.query("delete from userSavedTBL where userID = ? and eventID = ?;",[uid, eid], (err, results) => {             
+            db.query("delete from UserSavedTBL where userID = ? and eventID = ?;",[uid, eid], (err, results) => {             
                 if(err) {
                     result(500, {
                         code : 500,
@@ -103,7 +103,7 @@ export const deleteSavedEvent = (uid, eid, result) => {
 }
 
 export const getIfSaved = (uid, eid, result) => {
-    db.query("select * from userSavedTBL where userID = ? and eventID = ?;", [uid, eid],(err, count) => {             
+    db.query("select * from UserSavedTBL where userID = ? and eventID = ?;", [uid, eid],(err, count) => {             
         if(err) {
             result(500,{
                 isSuccess : false,

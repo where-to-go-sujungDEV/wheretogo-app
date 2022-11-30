@@ -1,0 +1,8 @@
+---
+applications:
+        - name: wheretogoNodeJS
+          command: node index.js
+          buildpacks: https://github.com/cloudfoundry/nodejs-buildpack
+          memory: 1024M
+          host: wheretogoNodeJS
+          path: ./
