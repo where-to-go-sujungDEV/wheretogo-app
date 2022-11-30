@@ -81,6 +81,12 @@ export const getUserTopContents = (uid, result) => {
                             result(200, null, {
                                 code : 200,
                                 isSuccess : true,
+                                userInfo: [
+                                    {
+                                        sex: "n",
+                                        age: 0
+                                    }
+                                ],
                                 results}
                                 );
                             }
