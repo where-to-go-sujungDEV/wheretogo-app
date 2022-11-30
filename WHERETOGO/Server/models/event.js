@@ -72,7 +72,7 @@ export const getUserTopContents = (uid, result) => {
             result(500, err, null);
         } else { 
             var qr = 'select eventID, eventName, startDate, endDate, (select count(*) from UserVisitedTBL where UserVisitedTBL.eventID = EventTBL.eventID)as visitedNum, (select count(*) from userSavedTBL where UserSavedTBL.eventID = EventTBL.eventID) as savedNum, (select cName from CategoryTBL where CategoryTBL.cCode = EventTBL.kind) as kind, pic, (select count(*) from userSavedTBL where UserSavedTBL.eventID = EventTBL.eventID ';  
-            
+            console.log(userInfo[0]);
             if(userInfo[0].sex == 'w'){
                 qr += ' and UserSavedTBL.userID in (select userID from userTBL where sex = "w" ';
                 if(userInfo[0].age == 1)qr += ' and age = "1" ';
