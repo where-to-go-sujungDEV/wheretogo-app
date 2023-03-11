@@ -29,7 +29,7 @@ data class PopularEventResult(
     @SerializedName(value = "startDate")val startDate:String,
     @SerializedName(value = "totalSavedNum")val savedNum:Int,
     @SerializedName(value = "visitedNum")val visitedNum:Int,
-    @SerializedName(value = "endDate")val endDate:String?,
+    @SerializedName(value = "endDate")val endDate:String,
     @SerializedName(value = "kind")val kind:String,
     @SerializedName(value = "pic")val pic:String?
 

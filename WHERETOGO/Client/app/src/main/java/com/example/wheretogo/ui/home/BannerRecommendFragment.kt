@@ -14,22 +14,26 @@ class BannerRecommendFragment (private val item: RecommendEventResult)
     :BaseFragment<FragmentRecommendBannerBinding>(FragmentRecommendBannerBinding::inflate) {
 
     override fun initAfterBinding() {
-        binding.homeRecommendTitleTv.text = item.eventName
-        binding.homeRecommendSavedCountTv.text = String.format("담은 수: %d건", item.savedNum)
-        binding.homeRecommendVisitedCountTv.text = String.format("방문한 수: %d건", item.visitedNum)
-        binding.homeRecommendTagTv.text=item.kind
 
-        binding.homeRecommendStartDateTv.text =
-            String.format("%s~", item.startDate.slice(IntRange(0, 9)))
-        if (item.endDate != null)
-            binding.homeRecommendEndDateTv.text = item.endDate.slice(IntRange(0, 9))
+        binding.apply{
+
+            homeRecommendTitleTv.text = item.eventName
+            homeRecommendSavedCountTv.text = String.format("담은 수: %d건", item.savedNum)
+            homeRecommendVisitedCountTv.text = String.format("방문한 수: %d건", item.visitedNum)
+            homeRecommendTagTv.text = item.kind
+
+            homeRecommendStartDateTv.text =
+                String.format("%s~", item.startDate.slice(IntRange(0, 9)))
+            homeRecommendEndDateTv.text = item.endDate.slice(IntRange(0, 9))
+        }
+
 
         if (item.pic!=null){
             Glide.with(this).load(item.pic)
                 .transform(CenterCrop(), RoundedCorners(40))
                 .into(binding.homeRecommendIv)
-        }
-        else{binding.homeRecommendIv.setImageResource(R.drawable.default_event_img)
+        } else {
+            binding.homeRecommendIv.setImageResource(R.drawable.default_event_img)
             binding.homeRecommendIv.clipToOutline = true
         }
 

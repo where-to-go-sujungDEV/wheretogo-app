@@ -21,6 +21,7 @@ class BannerMainFragment(private val item: MainEventResult) : BaseFragment<Fragm
                 .into(binding.bannerImageIv)
             binding.bannerExplainTv.text = item.ment
         }
+
         binding.bannerImageIv.setOnClickListener{
             if (item.mainEventID==1){
                 val intent = Intent(context, GuideActivity::class.java)
@@ -31,8 +32,6 @@ class BannerMainFragment(private val item: MainEventResult) : BaseFragment<Fragm
                 intent.putExtra("eventIdx", item.eventID)
                 startActivity(intent)
             }
-
-
         }
     }
 
