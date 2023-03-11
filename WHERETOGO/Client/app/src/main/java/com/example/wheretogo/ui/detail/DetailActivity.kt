@@ -37,7 +37,7 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
 
     private var eventIdx=0
     private var userId=0
-    private var status = "b"
+    private var status = "g"
     private var visitedNum=0
     private var savedNum=0
     private val detailService = getRetrofit().create(DetailRetrofitInterface::class.java)
@@ -422,20 +422,8 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
 
     //별점 상태 조절
     private fun initStar(){
-       binding.detailEditStar1.setOnClickListener {
-           binding.detailEditStar2.setImageResource(R.drawable.mypage_star_off)
-           binding.detailEditStar3.setImageResource(R.drawable.mypage_star_off)
-           status="b"
-       }
-        binding.detailEditStar2.setOnClickListener {
-            binding.detailEditStar2.setImageResource(R.drawable.mypage_star_on)
-            binding.detailEditStar3.setImageResource(R.drawable.mypage_star_off)
-            status="s"
-        }
-        binding.detailEditStar3.setOnClickListener {
-            binding.detailEditStar2.setImageResource(R.drawable.mypage_star_on)
-            binding.detailEditStar3.setImageResource(R.drawable.mypage_star_on)
-            status="g"
+        binding.detailRatingbar.setOnRatingChangeListener { ratingBar, rating, fromUser ->
+            binding.detailRatingbar.rating = rating
         }
 
     }
