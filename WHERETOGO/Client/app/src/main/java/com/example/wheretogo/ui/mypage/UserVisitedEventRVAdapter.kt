@@ -86,23 +86,30 @@ class UserVisitedEventRVAdapter (private val visitedEventList: ArrayList<Visited
             if (visitedEvent.endDate!=null)
                 binding.itemMypageVisitedEndDate.text = visitedEvent.endDate.slice(IntRange(0,9))
 
-            when (visitedEvent.assessment){
-                "g"-> {
-                    binding.itemVisitedStar1.setImageResource(R.drawable.mypage_star_on)
-                    binding.itemVisitedStar2.setImageResource(R.drawable.mypage_star_on)
-                    binding.itemVisitedStar3.setImageResource(R.drawable.mypage_star_on)
-                }
-                "s"->{
-                    binding.itemVisitedStar1.setImageResource(R.drawable.mypage_star_on)
-                    binding.itemVisitedStar2.setImageResource(R.drawable.mypage_star_on)
-                    binding.itemVisitedStar3.setImageResource(R.drawable.mypage_star_off)
-                }
-                "b"->{
-                    binding.itemVisitedStar1.setImageResource(R.drawable.mypage_star_on)
-                    binding.itemVisitedStar2.setImageResource(R.drawable.mypage_star_off)
-                    binding.itemVisitedStar3.setImageResource(R.drawable.mypage_star_off)
-                }
+//            when (visitedEvent.assessment){
+//                "g"-> {
+//                    binding.itemVisitedStar1.setImageResource(R.drawable.mypage_star_on)
+//                    binding.itemVisitedStar2.setImageResource(R.drawable.mypage_star_on)
+//                    binding.itemVisitedStar3.setImageResource(R.drawable.mypage_star_on)
+//                }
+//                "s"->{
+//                    binding.itemVisitedStar1.setImageResource(R.drawable.mypage_star_on)
+//                    binding.itemVisitedStar2.setImageResource(R.drawable.mypage_star_on)
+//                    binding.itemVisitedStar3.setImageResource(R.drawable.mypage_star_off)
+//                }
+//                "b"->{
+//                    binding.itemVisitedStar1.setImageResource(R.drawable.mypage_star_on)
+//                    binding.itemVisitedStar2.setImageResource(R.drawable.mypage_star_off)
+//                    binding.itemVisitedStar3.setImageResource(R.drawable.mypage_star_off)
+//                }
+//            }
+
+            when (visitedEvent.assessment) {
+                "g"->binding.myVisitedRatingbar.rating = 3.0f;
+                "s"->binding.myVisitedRatingbar.rating = 2.0f;
+                "b"->binding.myVisitedRatingbar.rating = 1.0f;
             }
+
 
             initClickListener(binding,holder,eventId)
         }

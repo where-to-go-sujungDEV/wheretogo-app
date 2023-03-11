@@ -13,14 +13,11 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.wheretogo.R
 import com.example.wheretogo.data.remote.auth.getRetrofit
-import com.example.wheretogo.data.remote.detail.DetailIsSavedResponse
 import com.example.wheretogo.data.remote.mypage.EventStatusResponse
 import com.example.wheretogo.data.remote.mypage.MypageRetrofitInterface
 import com.example.wheretogo.data.remote.mypage.SavedEventResult
 import com.example.wheretogo.data.remote.search.*
 import com.example.wheretogo.databinding.ItemMypageSavedBinding
-import com.example.wheretogo.databinding.ItemMypageVisitedBinding
-import com.example.wheretogo.ui.search.SearchEventAdapter
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -67,7 +64,7 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
     inner class ViewHolder(val binding: ItemMypageSavedBinding): RecyclerView.ViewHolder(binding.root){
 
         fun bind(savedEvent: SavedEventResult,holder: UserSavedEventRVAdapter.ViewHolder){
-            var eventId=savedEvent.eventID
+            val eventId=savedEvent.eventID
             userId=getIdx()
             getEventStatus(binding,eventId)
 
@@ -108,7 +105,7 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
                 Toast.makeText(context, R.string.visited_off, Toast.LENGTH_SHORT).show()
             }
             else{
-                binding.itemSavedStarPanel.visibility = View.VISIBLE
+                binding.mySavedStarPanel.visibility = View.VISIBLE
             }
         }
         binding.itemMypageLikeBtn.setOnClickListener {
@@ -129,13 +126,13 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
             }
         }
 
-        binding.itemSavedAdaptTv.setOnClickListener {
+        binding.mySavedAdaptTv.setOnClickListener {
             visitEvent(binding,eventId)
-            binding.itemSavedStarPanel.visibility = View.INVISIBLE
+            binding.mySavedStarPanel.visibility = View.INVISIBLE
         }
 
-        binding.itemSavedCancelTv.setOnClickListener {
-            binding.itemSavedStarPanel.visibility = View.INVISIBLE
+        binding.mySavedCancelTv.setOnClickListener {
+            binding.mySavedStarPanel.visibility = View.INVISIBLE
         }
     }
 
@@ -272,24 +269,15 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
         })
     }
 
-    //별점 상태 조절
+    //별점
     private fun initStar(binding: ItemMypageSavedBinding){
-        binding.itemSavedEditStar1.setOnClickListener {
-            binding.itemSavedEditStar2.setImageResource(R.drawable.mypage_star_off)
-            binding.itemSavedEditStar3.setImageResource(R.drawable.mypage_star_off)
-            status="b"
+        binding.mySavedRatingbar.setOnRatingChangeListener { _, rating, _ ->
+            when (rating) {
+                1.0f -> status = "b"
+                2.0f -> status = "s"
+                3.0f -> status = "g"
+            }
         }
-        binding.itemSavedEditStar2.setOnClickListener {
-            binding.itemSavedEditStar2.setImageResource(R.drawable.mypage_star_on)
-            binding.itemSavedEditStar3.setImageResource(R.drawable.mypage_star_off)
-            status="s"
-        }
-        binding.itemSavedEditStar3.setOnClickListener {
-            binding.itemSavedEditStar2.setImageResource(R.drawable.mypage_star_on)
-            binding.itemSavedEditStar3.setImageResource(R.drawable.mypage_star_on)
-            status="g"
-        }
-
     }
 
 

@@ -37,7 +37,7 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
 
     private var eventIdx=0
     private var userId=0
-    private var status = "g"
+    private var status = "b"
     private var visitedNum=0
     private var savedNum=0
     private val detailService = getRetrofit().create(DetailRetrofitInterface::class.java)
@@ -422,10 +422,13 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
 
     //별점 상태 조절
     private fun initStar(){
-        binding.detailRatingbar.setOnRatingChangeListener { ratingBar, rating, fromUser ->
-            binding.detailRatingbar.rating = rating
+        binding.detailRatingbar.setOnRatingChangeListener { _, rating, _ ->
+            when (rating) {
+                1.0f -> status = "b"
+                2.0f -> status = "s"
+                3.0f -> status = "g"
+            }
         }
-
     }
 
     private fun showLoginAlert() {

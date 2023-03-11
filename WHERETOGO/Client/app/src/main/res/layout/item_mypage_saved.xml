@@ -101,55 +101,50 @@
         app:layout_constraintTop_toBottomOf="@id/item_mypage_like_title_tv"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/item_saved_star_panel"
-        android:layout_width="match_parent"
-        android:layout_height="165dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginStart="30dp"
+        android:id="@+id/my_saved_star_panel"
+        android:layout_width="260dp"
+        android:layout_height="140dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
+        android:elevation="10dp"
         android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:background="@drawable/star_panel_border">
-        <LinearLayout
-            android:layout_width="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@color/gray">
+
+        <com.willy.ratingbar.BaseRatingBar
+            android:id="@+id/my_saved_ratingbar"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="50dp"
-            >
-            <ImageView
-                android:id="@+id/item_saved_edit_star1"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@drawable/mypage_star_on" />
-            <ImageView
-                android:id="@+id/item_saved_edit_star2"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginStart="10dp"
-                android:src="@drawable/mypage_star_off" />
-            <ImageView
-                android:id="@+id/item_saved_edit_star3"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginStart="10dp"
-                android:src="@drawable/mypage_star_off"
-                />
-        </LinearLayout>
+            app:layout_constraintStart_toStartOf="parent"
+            app:srb_drawableEmpty="@drawable/mypage_star_off"
+            app:srb_drawableFilled="@drawable/mypage_star_on"
+            app:srb_isIndicator="false"
+            app:srb_minimumStars="1"
+            app:srb_numStars="3"
+            app:srb_rating="1"
+            app:srb_scrollable="true"
+            app:srb_starHeight="45dp"
+            app:srb_starWidth="45dp"
+            app:srb_stepSize="1" />
+
         <TextView
-            android:id="@+id/item_saved_adapt_tv"
+            android:id="@+id/my_saved_adapt_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="17sp"
-            app:layout_constraintEnd_toStartOf="@id/item_saved_cancel_tv"
+            app:layout_constraintEnd_toStartOf="@id/my_saved_cancel_tv"
             android:layout_marginEnd="20dp"
             android:layout_marginBottom="18dp"
             app:layout_constraintBottom_toBottomOf="parent"
             android:text="확인"/>
         <TextView
-            android:id="@+id/item_saved_cancel_tv"
+            android:id="@+id/my_saved_cancel_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="17sp"
@@ -160,4 +155,63 @@
             app:layout_constraintBottom_toBottomOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--        android:id="@+id/item_saved_star_panel"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="165dp"-->
+<!--        android:layout_marginEnd="30dp"-->
+<!--        android:layout_marginStart="30dp"-->
+<!--        android:visibility="invisible"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        android:background="@drawable/star_panel_border">-->
+<!--        <LinearLayout-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            android:layout_marginTop="50dp"-->
+<!--            >-->
+<!--            <ImageView-->
+<!--                android:id="@+id/item_saved_edit_star1"-->
+<!--                android:layout_width="50dp"-->
+<!--                android:layout_height="50dp"-->
+<!--                android:src="@drawable/mypage_star_on" />-->
+<!--            <ImageView-->
+<!--                android:id="@+id/item_saved_edit_star2"-->
+<!--                android:layout_width="50dp"-->
+<!--                android:layout_height="50dp"-->
+<!--                android:layout_marginStart="10dp"-->
+<!--                android:src="@drawable/mypage_star_off" />-->
+<!--            <ImageView-->
+<!--                android:id="@+id/item_saved_edit_star3"-->
+<!--                android:layout_width="50dp"-->
+<!--                android:layout_height="50dp"-->
+<!--                android:layout_marginStart="10dp"-->
+<!--                android:src="@drawable/mypage_star_off"-->
+<!--                />-->
+<!--        </LinearLayout>-->
+<!--        <TextView-->
+<!--            android:id="@+id/item_saved_adapt_tv"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:textSize="17sp"-->
+<!--            app:layout_constraintEnd_toStartOf="@id/item_saved_cancel_tv"-->
+<!--            android:layout_marginEnd="20dp"-->
+<!--            android:layout_marginBottom="18dp"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            android:text="확인"/>-->
+<!--        <TextView-->
+<!--            android:id="@+id/item_saved_cancel_tv"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:textSize="17sp"-->
+<!--            android:text="취소"-->
+<!--            android:layout_marginEnd="25dp"-->
+<!--            android:layout_marginBottom="18dp"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"/>-->
+
 </androidx.constraintlayout.widget.ConstraintLayout>

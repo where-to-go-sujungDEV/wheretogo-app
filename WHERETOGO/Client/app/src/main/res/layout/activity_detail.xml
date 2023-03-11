@@ -420,21 +420,6 @@
                 app:srb_starWidth="40dp"
                 app:srb_stepSize="1" />
 
-
-            <!--            <RatingBar-->
-<!--                android:id="@+id/detail_ratingbar"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="10dp"-->
-<!--                android:layout_marginEnd="10dp"-->
-<!--                android:layout_marginTop="15dp"-->
-<!--                android:rating="3"-->
-<!--                android:stepSize="1"-->
-<!--                android:numStars="3"-->
-<!--                app:layout_constraintTop_toTopOf="parent"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                style="@style/Widget.AppCompat.RatingBar"/>-->
             <TextView
                 android:id="@+id/detail_adapt_tv"
                 android:layout_width="wrap_content"
