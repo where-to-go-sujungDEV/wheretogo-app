@@ -198,7 +198,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="50dp"
         android:layout_marginEnd="20dp"
-        android:background="@drawable/btn_login_login"
+        android:background="@drawable/btn_purple_border"
         android:text="가입하기"
         android:textColor="@color/white"
         android:textSize="16sp"

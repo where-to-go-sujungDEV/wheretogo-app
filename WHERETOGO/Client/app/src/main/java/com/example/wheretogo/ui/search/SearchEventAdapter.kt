@@ -321,3 +321,4 @@ class SearchEventAdapter(var events: ArrayList<EventResult>, var con: Context) :
 
     }
 }
+

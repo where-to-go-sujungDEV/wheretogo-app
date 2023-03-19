@@ -51,6 +51,9 @@
             android:name=".ui.setting.SettingActivity"
             android:exported="true" />
         <activity
+            android:name=".ui.setting.InquiryActivity"
+            android:exported="true" />
+        <activity
             android:name=".ui.keyword.KeywordActivity"
             android:exported="true" />
         <service android:name=".MyFirebaseMessagingService"

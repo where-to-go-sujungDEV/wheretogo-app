@@ -16,6 +16,7 @@
 
     <!-- 공통 -->
     <color name="pink">#FF1748</color>
+    <color name="white_gray">#F2F5F7</color>
     <color name="light_gray">#CBC9D0</color>
     <color name="gray">#BCB8C1</color>
     <color name="form_error">#F44336</color>

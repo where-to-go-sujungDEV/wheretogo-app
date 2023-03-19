@@ -182,7 +182,7 @@
             android:id="@+id/setting_ask_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="1:1문의"
+            android:text="문의하기"
             android:layout_marginTop="15dp"
             android:textSize="16sp" />
     </LinearLayout>
@@ -222,7 +222,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:elevation="15dp"
         android:visibility="invisible"
-        android:background="@drawable/alert_panel_border">
+        android:background="@drawable/content_border">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
