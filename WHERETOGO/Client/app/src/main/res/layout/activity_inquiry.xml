@@ -31,12 +31,12 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="33dp"
         android:layout_marginTop="45dp"
-        android:text="이메일"
+        android:text="제목"
         android:textSize="19sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/inquiry_back_iv"/>
     <FrameLayout
-        android:id="@+id/inquiry_email_border"
+        android:id="@+id/inquiry_title_border"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginTop="15dp"
@@ -46,10 +46,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:background="@drawable/content_border">
         <EditText
+            android:id="@+id/inquiry_title_et"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textSize="14sp"
             android:background="@null"
+            android:hint="어디가 문의사항"
             android:maxLength="30"
             android:layout_marginHorizontal="20dp"/>
     </FrameLayout>
@@ -64,7 +66,7 @@
         android:text="문의 내용"
         android:textSize="19sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inquiry_email_border"/>
+        app:layout_constraintTop_toBottomOf="@+id/inquiry_title_border"/>
 
     <FrameLayout
         android:id="@+id/inquiry_content_border"
@@ -77,6 +79,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:background="@drawable/content_border">
         <EditText
+            android:id="@+id/inquiry_content_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
@@ -86,7 +89,7 @@
     </FrameLayout>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/inquiry_btn"
+        android:id="@+id/send_inquiry_btn"
         android:layout_width="130dp"
         android:layout_height="40dp"
         android:layout_marginHorizontal="20dp"
