@@ -57,6 +57,9 @@
             android:name=".ui.keyword.KeywordActivity"
             android:exported="true" />
         <activity
+            android:name=".ui.detail.BlogDetailActivity"
+            android:exported="true" />
+        <activity
             android:name=".ui.review.ReviewActivity"
             android:exported="true" />
         <service android:name=".MyFirebaseMessagingService"

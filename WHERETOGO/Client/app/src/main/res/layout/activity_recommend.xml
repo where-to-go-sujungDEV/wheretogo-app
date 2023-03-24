@@ -26,6 +26,7 @@
             android:layout_marginTop="19dp"
             android:text="그룹별 인기 이벤트"
             android:textSize="19sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@id/recommend_back_iv"
             app:layout_constraintTop_toTopOf="parent"/>
         <View

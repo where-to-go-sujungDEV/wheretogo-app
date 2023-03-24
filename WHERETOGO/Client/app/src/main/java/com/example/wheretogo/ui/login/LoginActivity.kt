@@ -33,6 +33,9 @@ class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::in
         binding.loginSignInBtn.setOnClickListener {
             startNextActivity(SignUpActivity::class.java)
         }
+        binding.loginBackIv.setOnClickListener {
+            finish()
+        }
     }
 
     private fun getFcmToken(): String {

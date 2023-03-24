@@ -3,26 +3,20 @@ package com.example.wheretogo.ui.detail
 import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.text.Html
 import android.text.method.LinkMovementMethod
 import android.util.Log
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.wheretogo.BuildConfig
-import com.example.wheretogo.R
-import com.example.wheretogo.data.remote.auth.GetNameResponse
 import com.example.wheretogo.data.remote.auth.getNaverRetrofit
 import com.example.wheretogo.data.remote.auth.getRetrofit
 import com.example.wheretogo.data.remote.detail.*
-import com.example.wheretogo.data.remote.mypage.SavedEventResult
 import com.example.wheretogo.databinding.ActivityDetailBinding
 import com.example.wheretogo.ui.BaseActivity
 import com.example.wheretogo.ui.login.LoginActivity
-import com.example.wheretogo.ui.mypage.UserSavedEventRVAdapter
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraPosition
 import com.naver.maps.map.MapView
@@ -243,6 +237,12 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
 
         getSearchBlog(result.eventName)
 
+        binding.detailMoreBlogTv.setOnClickListener {
+            val blogIntent = Intent(this, BlogDetailActivity::class.java)
+            blogIntent.putExtra("query",result.eventName)
+            startActivity(blogIntent)
+        }
+
     }
 
 
@@ -396,7 +396,7 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
         val clientId= BuildConfig.BLOG_CLIENT_ID
         val clientSecret = BuildConfig.BLOG_CLIENT_SECRET
 
-        naverService.getSearchBlog(clientId,clientSecret,text).enqueue(object: Callback<SearchBlogResponse>{
+        naverService.getSearchBlog(clientId,clientSecret,text,3).enqueue(object: Callback<SearchBlogResponse>{
             override fun onResponse(call: Call<SearchBlogResponse>, response: Response<SearchBlogResponse>){
                 val resp = response.body()!!
                 setSearchBlog(resp.items)
@@ -407,7 +407,7 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
         })
     }
 
-    fun setSearchBlog(searchBlogList: ArrayList<SearchBlogResult>){
+    private fun setSearchBlog(searchBlogList: ArrayList<SearchBlogResult>){
         val adapter = SearchBlogRVAdapter(searchBlogList)
         //리사이클러뷰에 어댑터 연결
         binding.detailBlogRv.visibility = View.VISIBLE

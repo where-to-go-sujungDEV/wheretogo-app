@@ -20,7 +20,17 @@
             android:src="@drawable/img_guide_back"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
-
+        <TextView
+            android:id="@+id/recommend_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="15dp"
+            android:text="상세정보"
+            android:textSize="19sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/detail_back_btn"
+            app:layout_constraintTop_toTopOf="parent"/>
         <View
             android:id="@+id/detail_line"
             android:layout_width="wrap_content"
@@ -384,7 +394,15 @@
             app:layout_constraintTop_toBottomOf="@id/detail_linear_layout"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
-
+        <TextView
+            android:id="@+id/detail_more_blog_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="블로그 후기 더보기"
+            android:layout_marginTop="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/detail_blog_rv"/>
 
 
 

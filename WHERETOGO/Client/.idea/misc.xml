@@ -160,6 +160,7 @@
         <entry key="app/src/main/res/drawable/review_introduce_border.xml" value="0.1775" />
         <entry key="app/src/main/res/drawable/search_blog_border.xml" value="0.144" />
         <entry key="app/src/main/res/drawable/star_panel_border.xml" value="0.1775" />
+        <entry key="app/src/main/res/layout/activity_blog_detail.xml" value="0.31666666666666665" />
         <entry key="app/src/main/res/layout/activity_detail.xml" value="0.17447916666666666" />
         <entry key="app/src/main/res/layout/activity_inquiry.xml" value="0.23072916666666668" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.31666666666666665" />
@@ -168,6 +169,7 @@
         <entry key="app/src/main/res/layout/activity_setting.xml" value="0.2953125" />
         <entry key="app/src/main/res/layout/activity_setting_email.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_signup.xml" value="0.2609375" />
+        <entry key="app/src/main/res/layout/activity_visited_review.xml" value="0.31666666666666665" />
         <entry key="app/src/main/res/layout/custom_rating_dialog.xml" value="0.17447916666666666" />
         <entry key="app/src/main/res/layout/fragment_calendar.xml" value="0.17447916666666666" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.3151041666666667" />

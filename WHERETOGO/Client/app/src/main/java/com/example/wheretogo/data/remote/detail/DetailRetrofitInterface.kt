@@ -34,5 +34,5 @@ interface DetailRetrofitInterface {
 
     @GET("/v1/search/blog")
     fun getSearchBlog(@Header("X-Naver-Client-Id") clientId:String,@Header("X-Naver-Client-Secret") clientSecret:String,
-                      @Query("query") query:String?): Call<SearchBlogResponse>
+                      @Query("query") query:String?, @Query("display") display: Int): Call<SearchBlogResponse>
 }
