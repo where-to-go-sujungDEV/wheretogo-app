@@ -3,6 +3,7 @@ package com.example.wheretogo.ui.detail
 import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.text.Html
 import android.text.method.LinkMovementMethod
@@ -11,6 +12,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.example.wheretogo.BuildConfig
 import com.example.wheretogo.R
 import com.example.wheretogo.data.remote.auth.GetNameResponse
 import com.example.wheretogo.data.remote.auth.getNaverRetrofit
@@ -391,8 +393,9 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
     }
 
     private fun getSearchBlog(text: String){
-        val clientId= "79KmpK0f0ggmI6iuiro_"
-        val clientSecret ="GUHPua5cWl"
+        val clientId= BuildConfig.BLOG_CLIENT_ID
+        val clientSecret = BuildConfig.BLOG_CLIENT_SECRET
+
         naverService.getSearchBlog(clientId,clientSecret,text).enqueue(object: Callback<SearchBlogResponse>{
             override fun onResponse(call: Call<SearchBlogResponse>, response: Response<SearchBlogResponse>){
                 val resp = response.body()!!

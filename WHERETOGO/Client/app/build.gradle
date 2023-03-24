@@ -19,6 +19,9 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField "String", "BLOG_CLIENT_ID", properties['blog_client_id']
+        buildConfigField "String", "BLOG_CLIENT_SECRET", properties['blog_client_secret']
     }
 
     buildTypes {
