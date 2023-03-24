@@ -201,6 +201,24 @@
             app:layout_constraintTop_toBottomOf="@id/review_event_user_iv"
             android:layout_marginTop="30dp"
             android:layout_marginStart="20dp"/>
+        <RadioGroup
+            android:id="@+id/review_radio_group"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/review_frame_lv"
+            app:layout_constraintEnd_toEndOf="@id/review_frame_lv">
+            <RadioButton
+                android:id="@+id/review_public_rb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="공개"/>
+            <RadioButton
+                android:id="@+id/review_private_rb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="비공개"/>
+        </RadioGroup>
         <FrameLayout
             android:id="@+id/review_frame_lv"
             android:layout_width="match_parent"
@@ -232,7 +250,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/review_frame_lv" />
+            app:layout_constraintTop_toBottomOf="@+id/review_radio_group" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
