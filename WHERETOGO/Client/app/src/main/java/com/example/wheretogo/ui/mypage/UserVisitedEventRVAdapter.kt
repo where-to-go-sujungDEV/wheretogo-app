@@ -1,6 +1,7 @@
 package com.example.wheretogo.ui.mypage
 
 import android.content.Context
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -19,6 +20,7 @@ import com.example.wheretogo.data.remote.mypage.VisitedEventResult
 import com.example.wheretogo.data.remote.search.*
 import com.example.wheretogo.databinding.ItemMypageSavedBinding
 import com.example.wheretogo.databinding.ItemMypageVisitedBinding
+import com.example.wheretogo.ui.review.ReviewActivity
 import com.example.wheretogo.ui.search.SearchEventAdapter
 import retrofit2.Call
 import retrofit2.Callback
@@ -128,6 +130,11 @@ class UserVisitedEventRVAdapter (private val visitedEventList: ArrayList<Visited
                 Toast.makeText(context, R.string.like_on, Toast.LENGTH_SHORT).show()
                 binding.itemMypageVisitLikedBtn.setBackgroundResource(R.drawable.btn_like_click)
             }
+        }
+
+        binding.itemMypageVisitedReviewTv.setOnClickListener{ //평가하기 이동
+            val intent = Intent(context, ReviewActivity::class.java)
+            context.startActivity(intent)
         }
     }
 

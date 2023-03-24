@@ -1,6 +1,7 @@
 package com.example.wheretogo.ui.mypage
 
 import android.content.Context
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -18,6 +19,7 @@ import com.example.wheretogo.data.remote.mypage.MypageRetrofitInterface
 import com.example.wheretogo.data.remote.mypage.SavedEventResult
 import com.example.wheretogo.data.remote.search.*
 import com.example.wheretogo.databinding.ItemMypageSavedBinding
+import com.example.wheretogo.ui.review.ReviewActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -133,6 +135,11 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
 
         binding.mySavedCancelTv.setOnClickListener {
             binding.mySavedStarPanel.visibility = View.INVISIBLE
+        }
+
+        binding.itemMypageLikedReviewTv.setOnClickListener{ //평가하기 이동
+            val intent = Intent(context, ReviewActivity::class.java)
+            context.startActivity(intent)
         }
     }
 
