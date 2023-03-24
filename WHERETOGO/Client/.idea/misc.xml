@@ -148,17 +148,23 @@
         <entry key="..\:/WTG/WHERETOGO/Client/app/src/main/res/menu/navi_menu.xml" value="0.2046875" />
         <entry key="app/src/main/res/drawable/alert_panel_border.xml" value="0.144" />
         <entry key="app/src/main/res/drawable/bottom_banner_border.xml" value="0.144" />
+        <entry key="app/src/main/res/drawable/btn_filter.xml" value="0.2675" />
         <entry key="app/src/main/res/drawable/btn_login_login.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/btn_sign_in_login.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/calendar_event_day_background.xml" value="0.1775" />
+        <entry key="app/src/main/res/drawable/calendar_popup_corner.xml" value="0.1775" />
         <entry key="app/src/main/res/drawable/content_border.xml" value="0.155" />
+        <entry key="app/src/main/res/drawable/detail_tag_border.xml" value="0.1775" />
+        <entry key="app/src/main/res/drawable/event_banner_border.xml" value="0.1775" />
         <entry key="app/src/main/res/drawable/event_banner_cover.xml" value="0.144" />
+        <entry key="app/src/main/res/drawable/review_introduce_border.xml" value="0.1775" />
         <entry key="app/src/main/res/drawable/search_blog_border.xml" value="0.144" />
         <entry key="app/src/main/res/drawable/star_panel_border.xml" value="0.1775" />
         <entry key="app/src/main/res/layout/activity_detail.xml" value="0.17447916666666666" />
         <entry key="app/src/main/res/layout/activity_inquiry.xml" value="0.23072916666666668" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.31666666666666665" />
         <entry key="app/src/main/res/layout/activity_recommend.xml" value="0.2609375" />
-        <entry key="app/src/main/res/layout/activity_review.xml" value="0.31666666666666665" />
+        <entry key="app/src/main/res/layout/activity_review.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_setting.xml" value="0.2953125" />
         <entry key="app/src/main/res/layout/activity_setting_email.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_signup.xml" value="0.2609375" />
