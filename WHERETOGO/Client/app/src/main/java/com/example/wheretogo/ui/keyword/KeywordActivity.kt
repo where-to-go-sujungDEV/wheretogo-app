@@ -7,16 +7,13 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.wheretogo.R
-import com.example.wheretogo.data.remote.auth.getRetrofit
+import com.example.wheretogo.data.remote.getRetrofit
 import com.example.wheretogo.data.remote.keyword.*
 import com.example.wheretogo.databinding.ActivityKeywordBinding
 import com.example.wheretogo.ui.BaseActivity
 import com.google.android.flexbox.FlexDirection
-import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import retrofit2.Call

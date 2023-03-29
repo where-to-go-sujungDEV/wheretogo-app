@@ -5,7 +5,7 @@ import android.net.Uri
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.wheretogo.BuildConfig
-import com.example.wheretogo.data.remote.auth.getNaverRetrofit
+import com.example.wheretogo.data.remote.getNaverRetrofit
 import com.example.wheretogo.data.remote.detail.DetailRetrofitInterface
 import com.example.wheretogo.data.remote.detail.SearchBlogResponse
 import com.example.wheretogo.data.remote.detail.SearchBlogResult
@@ -19,6 +19,10 @@ class BlogDetailActivity : BaseActivity<ActivityBlogDetailBinding>(ActivityBlogD
     private val naverService = getNaverRetrofit().create(DetailRetrofitInterface::class.java)
 
     override fun initAfterBinding() {
+
+        binding.blogBackBtn.setOnClickListener {
+            finish();
+        }
         val query = intent.getStringExtra("query");
         query?.let { getSearchBlog(it) }
     }

@@ -1,7 +1,6 @@
 package com.example.wheretogo.ui.recommend
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 
@@ -12,12 +11,11 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.wheretogo.R
-import com.example.wheretogo.data.remote.auth.getRetrofit
+import com.example.wheretogo.data.remote.getRetrofit
 import com.example.wheretogo.data.remote.home.AllRecommendEventResult
 import com.example.wheretogo.data.remote.mypage.EventStatusResponse
 import com.example.wheretogo.data.remote.mypage.MypageRetrofitInterface
 import com.example.wheretogo.databinding.ItemAllRecommendBinding
-import com.example.wheretogo.databinding.ItemMypageSavedBinding
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

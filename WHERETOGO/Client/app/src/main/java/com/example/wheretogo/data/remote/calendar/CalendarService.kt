@@ -1,11 +1,8 @@
 package com.example.wheretogo.data.remote.calendar
 
 import android.util.Log
-import com.example.wheretogo.data.remote.auth.getRetrofit
-import com.example.wheretogo.data.remote.mypage.MypageRetrofitInterface
-import com.example.wheretogo.data.remote.search.SearchService
+import com.example.wheretogo.data.remote.getRetrofit
 import com.example.wheretogo.ui.calendar.CalendarFragment
-import com.example.wheretogo.ui.search.SearchEventAdapter
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

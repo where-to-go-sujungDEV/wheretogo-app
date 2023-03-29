@@ -1,7 +1,7 @@
 package com.example.wheretogo.data.remote.search
 
 import android.util.Log
-import com.example.wheretogo.data.remote.auth.getRetrofit
+import com.example.wheretogo.data.remote.getRetrofit
 import com.example.wheretogo.ui.search.SearchFragment
 import retrofit2.Call
 import retrofit2.Callback

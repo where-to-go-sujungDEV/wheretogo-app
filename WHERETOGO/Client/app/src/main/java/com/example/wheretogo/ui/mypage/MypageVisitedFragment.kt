@@ -5,16 +5,12 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.wheretogo.BaseFragment
-import com.example.wheretogo.R
-import com.example.wheretogo.data.remote.auth.getRetrofit
+import com.example.wheretogo.data.remote.getRetrofit
 import com.example.wheretogo.data.remote.detail.DetailRetrofitInterface
 import com.example.wheretogo.data.remote.mypage.MypageService
 import com.example.wheretogo.data.remote.mypage.VisitedEventResult
 import com.example.wheretogo.databinding.FragmentMypageBannerBinding
 import com.example.wheretogo.ui.detail.DetailActivity
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class MypageVisitedFragment() : BaseFragment<FragmentMypageBannerBinding>(FragmentMypageBannerBinding::inflate){
     private val mypageService = MypageService

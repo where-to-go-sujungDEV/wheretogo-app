@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -13,15 +12,13 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.wheretogo.R
-import com.example.wheretogo.data.remote.auth.getRetrofit
+import com.example.wheretogo.data.remote.getRetrofit
 import com.example.wheretogo.data.remote.mypage.EventStatusResponse
 import com.example.wheretogo.data.remote.mypage.MypageRetrofitInterface
 import com.example.wheretogo.data.remote.mypage.VisitedEventResult
 import com.example.wheretogo.data.remote.search.*
-import com.example.wheretogo.databinding.ItemMypageSavedBinding
 import com.example.wheretogo.databinding.ItemMypageVisitedBinding
 import com.example.wheretogo.ui.review.ReviewActivity
-import com.example.wheretogo.ui.search.SearchEventAdapter
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

@@ -13,7 +13,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.wheretogo.R
-import com.example.wheretogo.data.remote.auth.getRetrofit
+import com.example.wheretogo.data.remote.getRetrofit
 import com.example.wheretogo.data.remote.mypage.EventStatusResponse
 import com.example.wheretogo.data.remote.mypage.MypageRetrofitInterface
 import com.example.wheretogo.data.remote.mypage.SavedEventResult

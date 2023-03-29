@@ -1,23 +1,14 @@
 package com.example.wheretogo.ui.setting
 
 import android.app.AlertDialog
-import android.content.Intent
-import android.net.Uri
 import android.util.Log
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
-import com.example.wheretogo.R
-import com.example.wheretogo.data.local.AppDatabase
-import com.example.wheretogo.data.remote.auth.DeleteUserResponse
-import com.example.wheretogo.data.remote.auth.getRetrofit
-import com.example.wheretogo.data.remote.detail.DetailRetrofitInterface
+import com.example.wheretogo.data.remote.getRetrofit
 import com.example.wheretogo.data.remote.setting.ChangeNameResponse
 import com.example.wheretogo.data.remote.setting.NameInfo
 import com.example.wheretogo.data.remote.setting.SettingInterface
 import com.example.wheretogo.databinding.ActivityChangeInfoBinding
 import com.example.wheretogo.ui.BaseActivity
-import com.example.wheretogo.ui.mypage.MypageFragment
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

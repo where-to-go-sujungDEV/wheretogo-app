@@ -4,12 +4,8 @@ import android.content.Context
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import com.example.wheretogo.data.entities.User
-import com.example.wheretogo.data.local.AppDatabase
 import com.example.wheretogo.data.remote.auth.*
-import com.example.wheretogo.data.remote.detail.DetailIsVisitedResponse
-import com.example.wheretogo.data.remote.detail.DetailRetrofitInterface
+import com.example.wheretogo.data.remote.getRetrofit
 import com.example.wheretogo.databinding.ActivityLoginBinding
 
 import com.example.wheretogo.ui.BaseActivity

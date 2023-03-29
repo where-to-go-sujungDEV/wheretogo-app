@@ -1,9 +1,8 @@
 package com.example.wheretogo.data.remote.keyword
 
 import android.util.Log
-import com.example.wheretogo.data.remote.auth.getRetrofit
+import com.example.wheretogo.data.remote.getRetrofit
 import com.example.wheretogo.ui.keyword.KeywordActivity
-import com.example.wheretogo.ui.keyword.KeywordRVAdapter
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

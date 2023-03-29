@@ -1,8 +1,7 @@
 package com.example.wheretogo.data.remote.mypage
 
 import android.util.Log
-import android.view.View
-import com.example.wheretogo.data.remote.auth.getRetrofit
+import com.example.wheretogo.data.remote.getRetrofit
 import com.example.wheretogo.ui.mypage.MypageSavedFragment
 import com.example.wheretogo.ui.mypage.MypageVisitedFragment
 import retrofit2.Call

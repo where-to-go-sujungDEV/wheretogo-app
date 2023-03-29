@@ -1,20 +1,14 @@
 package com.example.wheretogo.ui.setting
 
 import android.app.AlertDialog
-import android.content.Intent
 import android.util.Log
-import android.view.View
-import androidx.appcompat.app.AppCompatActivity
-import com.example.wheretogo.ApplicationClass
 import com.example.wheretogo.data.remote.auth.AuthRetrofitInterface
 import com.example.wheretogo.data.remote.auth.DeleteUserResponse
 import com.example.wheretogo.data.remote.auth.GetNameResponse
-import com.example.wheretogo.data.remote.auth.getRetrofit
+import com.example.wheretogo.data.remote.getRetrofit
 import com.example.wheretogo.databinding.ActivitySettingBinding
 import com.example.wheretogo.ui.BaseActivity
-import com.example.wheretogo.ui.MainActivity
 import com.example.wheretogo.ui.keyword.KeywordActivity
-import com.example.wheretogo.ui.splash.SplashActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

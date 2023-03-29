@@ -1,11 +1,8 @@
 package com.example.wheretogo.data.remote.home
 
 import android.util.Log
-import com.example.wheretogo.data.remote.auth.getRetrofit
-import com.example.wheretogo.data.remote.mypage.MypageService
-import com.example.wheretogo.data.remote.mypage.VisitedEventResponse
+import com.example.wheretogo.data.remote.getRetrofit
 import com.example.wheretogo.ui.home.HomeFragment
-import com.example.wheretogo.ui.mypage.MypageVisitedFragment
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

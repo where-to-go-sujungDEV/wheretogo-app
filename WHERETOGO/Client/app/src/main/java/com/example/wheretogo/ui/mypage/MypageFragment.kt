@@ -8,7 +8,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.wheretogo.BaseFragment
 import com.example.wheretogo.data.remote.auth.AuthRetrofitInterface
 import com.example.wheretogo.data.remote.auth.GetNameResponse
-import com.example.wheretogo.data.remote.auth.getRetrofit
+import com.example.wheretogo.data.remote.getRetrofit
 import com.example.wheretogo.databinding.FragmentMypageBinding
 import com.example.wheretogo.ui.MainActivity
 import com.example.wheretogo.ui.home.HomeBannerVPAdapter

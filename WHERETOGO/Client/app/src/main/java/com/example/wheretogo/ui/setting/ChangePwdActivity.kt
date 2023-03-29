@@ -2,6 +2,7 @@ package com.example.wheretogo.ui.setting
 
 import android.util.Log
 import com.example.wheretogo.data.remote.auth.*
+import com.example.wheretogo.data.remote.getRetrofit
 import com.example.wheretogo.data.remote.setting.*
 import com.example.wheretogo.databinding.ActivityChangePwdBinding
 import com.example.wheretogo.ui.BaseActivity

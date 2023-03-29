@@ -6,9 +6,6 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.wheretogo.BaseFragment
-import com.example.wheretogo.data.remote.auth.getRetrofit
-import com.example.wheretogo.data.remote.detail.DetailRetrofitInterface
-import com.example.wheretogo.data.remote.mypage.MypageRetrofitInterface
 import com.example.wheretogo.data.remote.mypage.MypageService
 import com.example.wheretogo.data.remote.mypage.SavedEventResult
 import com.example.wheretogo.databinding.FragmentMypageBannerBinding

@@ -11,8 +11,8 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.wheretogo.BuildConfig
-import com.example.wheretogo.data.remote.auth.getNaverRetrofit
-import com.example.wheretogo.data.remote.auth.getRetrofit
+import com.example.wheretogo.data.remote.getNaverRetrofit
+import com.example.wheretogo.data.remote.getRetrofit
 import com.example.wheretogo.data.remote.detail.*
 import com.example.wheretogo.databinding.ActivityDetailBinding
 import com.example.wheretogo.ui.BaseActivity
