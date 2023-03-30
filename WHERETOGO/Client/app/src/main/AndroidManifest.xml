@@ -62,6 +62,9 @@
         <activity
             android:name=".ui.review.ReviewActivity"
             android:exported="true" />
+        <activity
+            android:name=".ui.popular.GroupPopularActivity"
+            android:exported="true" />
         <service android:name=".MyFirebaseMessagingService"
             android:enabled="true"
             android:exported="true">
