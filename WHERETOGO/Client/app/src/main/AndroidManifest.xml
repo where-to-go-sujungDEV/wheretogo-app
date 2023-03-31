@@ -63,7 +63,7 @@
             android:name=".ui.review.ReviewActivity"
             android:exported="true" />
         <activity
-            android:name=".ui.popular.GroupPopularActivity"
+            android:name=".ui.company.CompanyPopularActivity"
             android:exported="true" />
         <service android:name=".MyFirebaseMessagingService"
             android:enabled="true"
