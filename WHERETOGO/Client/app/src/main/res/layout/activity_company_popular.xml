@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <ImageView
-            android:id="@+id/recommend_back_iv"
+            android:id="@+id/company_back_iv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="22dp"
@@ -27,10 +27,10 @@
             android:text="가족과 동행하기 좋은 이벤트"
             android:textSize="19sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@id/recommend_back_iv"
+            app:layout_constraintStart_toEndOf="@id/company_back_iv"
             app:layout_constraintTop_toTopOf="parent"/>
         <View
-            android:id="@+id/recommend_line1"
+            android:id="@+id/company_line1"
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:background="@color/light_gray"
@@ -40,52 +40,29 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/recommend_title"/>
-        <TextView
-            android:id="@+id/recommend_explain_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginStart="30dp"
-            android:textSize="15sp"
-            app:layout_constraintTop_toBottomOf="@id/recommend_line1"
-            app:layout_constraintStart_toStartOf="parent"/>
-        <Spinner
-            android:id="@+id/recommend_gender_spinner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="13dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/recommend_explain_tv"/>
 
-        <Spinner
-            android:id="@+id/recommend_age_spinner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="100dp"
-            android:layout_marginTop="13dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/recommend_explain_tv" />
         <TextView
-            android:id="@+id/recommend_show_btn"
+            android:id="@+id/company_filter_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="28dp"
-            android:text="조회"
-            app:layout_constraintTop_toBottomOf="@id/recommend_explain_tv"
-            app:layout_constraintStart_toEndOf="@+id/recommend_age_spinner"/>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/all_recommend_event_rv"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            tools:listitem="@layout/item_all_recommend"
+            app:layout_constraintTop_toBottomOf="@id/company_line1"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="필터"
+            android:layout_marginEnd="40dp"
             android:layout_marginTop="20dp"
-            android:paddingBottom="120dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/recommend_show_btn"
-            app:layout_constraintEnd_toEndOf="parent"/>
+
+            android:textSize="15sp"/>
+
+<!--        <androidx.recyclerview.widget.RecyclerView-->
+<!--            android:id="@+id/company_event_rv"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="0dp"-->
+<!--            tools:listitem="@layout/item_all_recommend"-->
+<!--            android:layout_marginTop="10dp"-->
+<!--            android:paddingBottom="120dp"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/company_filter_tv"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"/>-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

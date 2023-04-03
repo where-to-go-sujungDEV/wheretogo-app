@@ -28,6 +28,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         homeService.getMainEvent(this)
         homeService.getPopularEvent(this)
         homeService.getRecommendEvent(this, userIdx)
+        setCompanyEvent()
     }
 
     private fun setIndicator(){
@@ -79,7 +80,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 "w"->sex = "여성"
                 "m"->sex = "남성"
             }
-            binding.homeRecommendExplain1Tv.text = String.format("%d대 %s",item.age*10,sex)
+            binding.homeExplain1Tv.text = String.format("%d대 %s",item.age*10,sex)
         }
         for (item in recommendList){
             event2Adapter.addFragment(BannerRecommendFragment(item))
@@ -87,6 +88,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
         binding.homeEvent2Vp.adapter = event2Adapter
         binding.homeEvent2Vp.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+    }
+
+    private fun setCompanyEvent(){
+        val event3Adapter = HomeBannerVPAdapter(this)
+        for (i:Int in 0..4)
+            event3Adapter.addFragment(BannerCompanyFragment(i))
+
+        binding.homeEvent3Vp.adapter = event3Adapter
+        binding.homeEvent3Vp.orientation = ViewPager2.ORIENTATION_HORIZONTAL
     }
 
     //유저 닉네임 가져옴
