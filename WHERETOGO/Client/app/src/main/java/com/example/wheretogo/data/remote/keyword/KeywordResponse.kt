@@ -10,8 +10,7 @@ data class KeywordResponse(
 
 data class KeywordResult(
     @SerializedName(value = "content")val content:String
-
-)
+):java.io.Serializable
 
 data class DeleteKeywordResponse(
     @SerializedName(value = "code")val code:Int,

@@ -1,8 +1,12 @@
 package com.example.wheretogo.data.remote.keyword
 
+
 import android.util.Log
+import android.widget.Toast
 import com.example.wheretogo.data.remote.getRetrofit
 import com.example.wheretogo.ui.keyword.KeywordActivity
+import com.example.wheretogo.ui.keyword.KeywordAddActivity
+import com.example.wheretogo.ui.keyword.KeywordRemoveActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -21,7 +25,6 @@ object KeywordService {
                 println("키워드 가져오기 성공여부 ${resp.code}")
                 when(val code = resp.code){
                     200->{
-                        println("등록된 키워드는 ${resp.results}")
                         activity.getKeywordList(resp.results)
                     }
                     else ->{}
@@ -36,19 +39,24 @@ object KeywordService {
         })
     }
 
-    fun setKeyword(userID:Int, keyword:String) {
+    fun setKeyword(activity: KeywordAddActivity, userID:Int, keyword:String) {
         service.setKeyword(userID, keyword).enqueue(object : Callback<SetKeywordResponse> {
             override fun onResponse(call: Call<SetKeywordResponse>, response: Response<SetKeywordResponse>) {
                 val resp = response.body()!!
                 when(val code = resp.code){
-                    200->{
+                    201->{
                         Log.d("setKeyword/SUCCESS", resp.msg)
+                        activity.setKeywordList(keyword)
+
                     }
                     202->{
-                        Log.d("setKeyword/ERROR", resp.msg)
+                        Log.d("setKeyword/Duplicate", resp.msg)
+                        Toast.makeText(activity,resp.msg, Toast.LENGTH_SHORT).show()
+
                     }
                     500-> {
                         Log.d("setKeyword/ERROR", resp.msg)
+                        Toast.makeText(activity,"서버 오류가 발생했습니다.\n다시 시도해주세요.", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
@@ -60,7 +68,7 @@ object KeywordService {
     }
 
 
-    fun deleteKeyword(userID:Int, keyword:String){
+    fun deleteKeyword(activity:KeywordRemoveActivity, userID:Int, keyword:String, position:Int){
         service.deleteKeyword(userID,keyword).enqueue(object : Callback<DeleteKeywordResponse> {
             override fun onResponse(
                 call: Call<DeleteKeywordResponse>,
@@ -68,14 +76,15 @@ object KeywordService {
             ) {
                 val resp = response.body()!!
                 when(val code = resp.code){
-                    200->{
+                    201->{
                         Log.d("deleteKeyword/SUCCESS", resp.msg)
+                        activity.deleteKeyword(keyword, position)
                     }
                     202->{
                         Log.d("deleteKeyword/ERROR", resp.msg)
                     }
                     500-> {
-                        Log.d("deleteKeyword/ERROR", resp.msg)
+
                     }
                 }
             }

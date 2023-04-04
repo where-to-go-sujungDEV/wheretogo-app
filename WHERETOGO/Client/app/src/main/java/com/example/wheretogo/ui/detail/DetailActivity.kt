@@ -18,10 +18,7 @@ import com.example.wheretogo.databinding.ActivityDetailBinding
 import com.example.wheretogo.ui.BaseActivity
 import com.example.wheretogo.ui.login.LoginActivity
 import com.naver.maps.geometry.LatLng
-import com.naver.maps.map.CameraPosition
-import com.naver.maps.map.MapView
-import com.naver.maps.map.NaverMap
-import com.naver.maps.map.OnMapReadyCallback
+import com.naver.maps.map.*
 import com.naver.maps.map.overlay.Marker
 import retrofit2.Call
 import retrofit2.Callback

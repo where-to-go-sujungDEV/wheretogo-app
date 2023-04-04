@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.DialogInterface
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -23,7 +24,15 @@ import retrofit2.Response
 public class KeywordRVAdapter (var keywordList : ArrayList<KeywordResult>, var con: Context, var isDeleteMode : Boolean) :
     RecyclerView.Adapter<KeywordRVAdapter.ViewHolder>(){
 
-    val service = getRetrofit().create(KeywordRetrofitInterface::class.java)
+    lateinit var mListener: OnItemClickListener
+
+    fun interface OnItemClickListener{
+        fun removeKeyword(keyword:KeywordResult, position: Int)
+    }
+
+    fun setOnItemClickListener(listener : OnItemClickListener) {
+        this.mListener = listener
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val con = parent.context
@@ -37,45 +46,25 @@ public class KeywordRVAdapter (var keywordList : ArrayList<KeywordResult>, var c
     override fun onBindViewHolder(holder: KeywordRVAdapter.ViewHolder, position: Int) {
         var keyword = keywordList[position]
         holder.bind(keyword)
-        holder.binding.keywordDeleteMarkTv.setOnClickListener{
-            if(isDeleteMode){
-                showDialog(keyword, position)
-            }
-        }
     }
 
-    inner class ViewHolder(val binding: ItemKeywordBinding) : RecyclerView.ViewHolder(binding.root) {
-            fun bind(keywordList:KeywordResult){
-                binding.keywordNameTv.text = keywordList.content
+    inner class ViewHolder(val binding: ItemKeywordBinding): RecyclerView.ViewHolder(binding.root) {
+        fun bind(keyword:KeywordResult){
+            binding.keywordNameTv.text = keyword.content
 
-                if(isDeleteMode) binding.keywordDeleteMarkTv.text ="x"
-                else binding.keywordDeleteMarkTv.text = ""
-
+            binding.keywordNameTv.setOnClickListener(View.OnClickListener {
+                if(isDeleteMode) {
+                    val position  = adapterPosition
+                    if(position != RecyclerView.NO_POSITION){
+                        if(mListener != null){
+                            mListener.removeKeyword(keyword, position)
+                            }
+                        }
+                    }
+                })
             }
         }
 
-        fun showDialog(keyword: KeywordResult, position: Int) {
-            var userIdx = getIdx()
-            var msgBuilder : AlertDialog.Builder = AlertDialog.Builder(con)
-                .setTitle("키워드 삭제")
-                .setMessage("선택한 키워드를 삭제하시겠습니까?")
-                .setPositiveButton("예", object: DialogInterface.OnClickListener {
-                    override fun onClick(p0: DialogInterface?, p1: Int) {
-                        deleteKeyword(userIdx, keyword.content)
-                        keywordList.removeAt(position)
-
-                        Toast.makeText(con, "키워드가 삭제되었습니다.", Toast.LENGTH_SHORT).show()
-                        notifyItemRemoved(position)
-                    }
-                })
-                .setNegativeButton("아니오", object:DialogInterface.OnClickListener {
-                    override fun onClick(p0: DialogInterface?, p1: Int) {
-                    }
-                })
-
-            var msgDlg : AlertDialog = msgBuilder.create()
-            msgDlg.show()
-        }
 
         override fun getItemCount(): Int {
             return keywordList.size
@@ -90,32 +79,7 @@ public class KeywordRVAdapter (var keywordList : ArrayList<KeywordResult>, var c
             return spf!!.getInt("userIdx",-1)
         }
 
-    fun deleteKeyword(userID:Int, keyword:String){
-        KeywordService.service.deleteKeyword(userID,keyword).enqueue(object :
-            Callback<DeleteKeywordResponse> {
-            override fun onResponse(
-                call: Call<DeleteKeywordResponse>,
-                response: Response<DeleteKeywordResponse>
-            ) {
-                val resp = response.body()!!
-                when(val code = resp.code){
-                    200->{
-                        Log.d("deleteKeyword/SUCCESS", resp.msg)
-                    }
-                    202->{
-                        Log.d("deleteKeyword/ERROR", resp.msg)
-                    }
-                    500-> {
-                        Log.d("deleteKeyword/ERROR", resp.msg)
-                    }
-                }
-            }
 
-            override fun onFailure(call: Call<DeleteKeywordResponse>, t: Throwable) {
-                Log.d("getKeyword/FAILURE", t.message.toString())
-            }
-        })
-    }
     }
 
 
