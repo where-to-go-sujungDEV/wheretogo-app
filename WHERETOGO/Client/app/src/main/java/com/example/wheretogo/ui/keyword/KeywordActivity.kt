@@ -1,110 +1,70 @@
 package com.example.wheretogo.ui.keyword
 
-import android.util.Log
-import android.view.KeyEvent
-import android.view.View
+import android.content.Intent
 import android.widget.EditText
 import android.widget.TextView
-import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.wheretogo.R
-import com.example.wheretogo.data.remote.getRetrofit
 import com.example.wheretogo.data.remote.keyword.*
 import com.example.wheretogo.databinding.ActivityKeywordBinding
 import com.example.wheretogo.ui.BaseActivity
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class KeywordActivity : BaseActivity<ActivityKeywordBinding>(ActivityKeywordBinding::inflate) {
     private var  userId = 0
     lateinit var nickname : TextView
-    lateinit var tagList : RecyclerView
-    lateinit var tagListRVAdapter: KeywordRVAdapter
+    lateinit var keywordListRv : RecyclerView
+    lateinit var keywordListRVAdapter: KeywordRVAdapter
     var keywordList : ArrayList<KeywordResult> = ArrayList()
+    private val keywordService = KeywordService
 
     lateinit var addBtn : TextView
     lateinit var deleteBtn : TextView
     lateinit var addInput : EditText
 
-    var isDeleteMode = false
-    var isAddMode = false
+    lateinit var activityResultLauncher: ActivityResultLauncher<Intent>
 
-
-    private val keywordService = getRetrofit().create(KeywordRetrofitInterface::class.java)
+    val isDeleteMode = false
 
     override fun initAfterBinding() {
         nickname = binding.root.findViewById(R.id.keyword_nickname_tv)
         addBtn = binding.root.findViewById(R.id.keyword_add_btn_tv)
         deleteBtn = binding.root.findViewById(R.id.keyword_delete_btn_tv)
-        tagList = binding.root.findViewById(R.id.keyword_rv)
+        keywordListRv = binding.root.findViewById(R.id.keyword_rv)
         addInput = binding.root.findViewById(R.id.keyword_input)
 
         nickname.text = getName()
 
         initClickListener()
-        getKeyword(getIdx())
+        keywordService.getKeyword(this, getIdx())
+
+        activityResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == RESULT_OK) { keywordService.getKeyword(this, getIdx()) }
+        }
+
     }
 
 
     private fun initClickListener(){
-        binding.keywordDeleteBtnTv.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(p0: View?) {
-                if(!isDeleteMode) {
-                    isDeleteMode = true
+//        삭제하기 버튼을 눌렀을 때.
+        binding.keywordDeleteBtnTv.setOnClickListener {
+            val removeIntent = Intent(this, KeywordRemoveActivity::class.java)
+            removeIntent.putExtra("keywordList", keywordList)
+            activityResultLauncher.launch(removeIntent)
+        }
 
-                    deleteBtn.text = "종료하기"
-                    addBtn.isEnabled=false
+//        추가하기 버튼을 눌렀을 때.
+        binding.keywordAddBtnTv.setOnClickListener {
+            val addIntent = Intent(this, KeywordAddActivity::class.java)
+            addIntent.putExtra("keywordList", keywordList)
+            activityResultLauncher.launch(addIntent)
+        }
 
-                    setAdapter()
-                } else{
-                    isDeleteMode=false
-                    deleteBtn.text = "삭제하기"
-
-                    addBtn.isEnabled=true
-
-                    setAdapter()
-                }
-            }
-        })
-
-        binding.keywordAddBtnTv.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(p0: View?) {
-                if(!isAddMode){
-                    addInput.isEnabled = true
-                    addInput.visibility = View.VISIBLE
-
-                    addBtn.text = "종료하기"
-                    deleteBtn.isEnabled = false
-                    isAddMode = true
-
-                    binding.keywordInput.hint= "등록할 키워드를 입력해주세요."
-                }
-                else{
-                    addInput.isEnabled = false
-                    addInput.visibility = View.INVISIBLE
-
-                    addBtn.text = "추가하기"
-                    deleteBtn.isEnabled = true
-                    isAddMode = false
-                }
-            }
-        })
-
-        binding.keywordInput.setOnKeyListener(object : View.OnKeyListener {
-            override fun onKey(v: View, keyCode: Int, event: KeyEvent): Boolean {
-                if ((event.action == KeyEvent.ACTION_DOWN)&&(keyCode==KeyEvent.KEYCODE_ENTER)) {
-                    var newKeyword: KeywordResult = KeywordResult(addInput.text.toString())
-                    setKeyword(getIdx(), newKeyword.content)
-                    return true
-                }
-                return false
-            }
-        })
 
     }
 
@@ -118,13 +78,28 @@ class KeywordActivity : BaseActivity<ActivityKeywordBinding>(ActivityKeywordBind
         flexboxLayoutManager.setJustifyContent(JustifyContent.CENTER)
 
 
-        tagListRVAdapter = KeywordRVAdapter(keywordList, this, isDeleteMode)
-        tagList.adapter = tagListRVAdapter
+        keywordListRVAdapter = KeywordRVAdapter(keywordList, this, isDeleteMode)
+        keywordListRv.adapter = keywordListRVAdapter
 //        tagList.layoutManager = gridLayoutManager
-        tagList.layoutManager = flexboxLayoutManager
+        keywordListRv.layoutManager = flexboxLayoutManager
 
-        tagListRVAdapter.notifyDataSetChanged()
+
+        keywordListRVAdapter.notifyDataSetChanged()
     }
+
+
+    fun setKeywordList(keyword:String) {
+        keywordList.add(KeywordResult(keyword.toString()))
+        keywordListRVAdapter.notifyDataSetChanged()
+    }
+
+    fun getKeywordList(results: ArrayList<KeywordResult>){
+        keywordList.clear()
+        keywordList.addAll(results)
+
+        setAdapter()
+    }
+
 
     private fun getIdx(): Int {
         val spf = this.getSharedPreferences("userInfo", MODE_PRIVATE)
@@ -137,14 +112,10 @@ class KeywordActivity : BaseActivity<ActivityKeywordBinding>(ActivityKeywordBind
     }
 
 
-    fun getKeywordList(results: ArrayList<KeywordResult>){
-        keywordList.clear()
-        keywordList.addAll(results)
-
-        setAdapter()
-    }
 
 
+
+    /*
     fun getKeyword(userID: Int){
         keywordService.getKeyword(userID).enqueue(object: Callback<KeywordResponse> {
             override fun onResponse(
@@ -168,6 +139,9 @@ class KeywordActivity : BaseActivity<ActivityKeywordBinding>(ActivityKeywordBind
         })
     }
 
+     */
+
+    /*
     fun setKeyword(userID:Int, keyword:String) {
         keywordService.setKeyword(userID, keyword).enqueue(object : Callback<SetKeywordResponse> {
             override fun onResponse(call: Call<SetKeywordResponse>, response: Response<SetKeywordResponse>) {
@@ -197,9 +171,10 @@ class KeywordActivity : BaseActivity<ActivityKeywordBinding>(ActivityKeywordBind
                 Log.d("setKeyword/FAILURE", t.message.toString())
             }
         })
+
+     */
     }
 
 
 
 
-}
