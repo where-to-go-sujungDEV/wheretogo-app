@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.visited.VisitedActivity">
+    tools:context=".ui.MyReview.MyReviewActivity">
 
     <LinearLayout
         android:id=""
@@ -50,7 +50,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:listitem="@layout/item_visited_events"
+            tools:listitem="@layout/item_myreview"
             android:paddingBottom="15dp"
             android:clipToPadding="false"
             android:scrollbars="none"
