@@ -75,7 +75,7 @@
             android:name=".ui.detail.BlogDetailActivity"
             android:exported="true" />
         <activity
-            android:name=".ui.review.ReviewActivity"
+            android:name=".ui.review.WriteReviewActivity"
             android:exported="true" />
         <activity
             android:name=".ui.company.CompanyPopularActivity"
