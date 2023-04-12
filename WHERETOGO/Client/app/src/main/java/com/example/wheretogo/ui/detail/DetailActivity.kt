@@ -228,7 +228,7 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
 
         }
         else {
-            binding.detailMapArea.visibility = View.GONE
+//            binding.detailMapArea.visibility = View.GONE
             binding.mapView.visibility = View.GONE
         }
 
@@ -422,7 +422,7 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
 
     //별점 상태 조절
     private fun initStar(){
-        binding.detailRatingbar.setOnRatingChangeListener { _, rating, _ ->
+        binding.detailVisitedRatingbar.setOnRatingChangeListener { _, rating, _ ->
             when (rating) {
                 1.0f -> status = "b"
                 2.0f -> status = "s"
