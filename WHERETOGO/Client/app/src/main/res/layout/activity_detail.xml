@@ -348,50 +348,135 @@
                 android:id="@+id/detail_map_title_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:layout_marginTop="15dp">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/pd_semibold"
                     android:text="지도  "/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/detail_map_area"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="vertical">
                 <com.naver.maps.map.MapView
                     android:id="@+id/map_view"
+                    android:layout_marginTop="20dp"
                     android:layout_width="400dp"
                     android:layout_height="300dp" />
-
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/detail_blog_title_area"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="15dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/pd_semibold"
-                    android:text="블로그 후기"/>
             </LinearLayout>
         </LinearLayout>
+
+
+
+    <TextView
+        android:id="@+id/detail_review_title_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/pd_semibold"
+        app:layout_constraintTop_toBottomOf="@id/detail_linear_layout"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="15dp"
+        android:text="후기"/>
+
+        <TextView
+            android:id="@+id/detail_review_rating_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="평점"
+            app:layout_constraintTop_toBottomOf="@+id/detail_review_title_tv"
+            app:layout_constraintStart_toStartOf="@+id/detail_review_title_tv"/>
+        <com.willy.ratingbar.BaseRatingBar
+            android:id="@+id/detail_review_average_rb"
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:clickable="false"
+            app:layout_constraintTop_toBottomOf="@id/detail_review_rating_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:srb_drawableEmpty="@drawable/mypage_star_off"
+            app:srb_drawableFilled="@drawable/mypage_star_on"
+            app:srb_isIndicator="false"
+            app:srb_minimumStars="1"
+            app:srb_numStars="5"
+            app:srb_rating="1"
+            app:srb_scrollable="false"
+            app:srb_starHeight="35dp"
+            app:srb_starWidth="35dp"
+            app:srb_stepSize="0.1" />
+        <TextView
+            android:id="@+id/detail_review_score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/detail_review_average_rb"
+            app:layout_constraintBottom_toBottomOf="@id/detail_review_average_rb"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="25dp"
+            android:textSize="16sp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="이 행사를"
+            android:layout_marginTop="20dp"
+            app:layout_constraintTop_toBottomOf="@id/detail_review_score"
+            app:layout_constraintStart_toStartOf="@id/detail_review_title_tv"/>
+        <TextView
+            android:id="@+id/detail_review_company_unfold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintTop_toBottomOf="@id/detail_review_score"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="펼처보기"/>
+        <TextView
+            android:id="@+id/detail_review_subtitle_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="리뷰"
+            app:layout_constraintTop_toBottomOf="@id/detail_review_company_unfold"
+            app:layout_constraintStart_toStartOf="@id/detail_review_title_tv"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/detail_review_rv"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            tools:listitem="@layout/item_show_review"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="25dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/detail_review_subtitle_tv"
+            app:layout_constraintEnd_toEndOf="parent"/>
+        <TextView
+            android:id="@+id/detail_review_more_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="리뷰 더보기"
+            app:layout_constraintTop_toBottomOf="@id/detail_review_rv"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+
+
+        <TextView
+            android:id="@+id/detail_blog_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pd_semibold"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/detail_review_more_btn"
+            android:text="블로그 후기"/>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/detail_blog_rv"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:layout_marginStart="25dp"
             android:layout_marginEnd="25dp"
             android:nestedScrollingEnabled="false"
             tools:listitem="@layout/item_search_blog"
-            app:layout_constraintTop_toBottomOf="@id/detail_linear_layout"
+            app:layout_constraintTop_toBottomOf="@id/detail_blog_title"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
         <TextView
@@ -403,7 +488,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/detail_blog_rv"/>
-
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -420,7 +504,7 @@
             android:background="@color/gray">
 
             <com.willy.ratingbar.BaseRatingBar
-                android:id="@+id/detail_ratingbar"
+                android:id="@+id/detail_visited_ratingbar"
                 android:layout_width="160dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"

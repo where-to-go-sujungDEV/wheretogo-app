@@ -78,6 +78,9 @@
             android:name=".ui.review.WriteReviewActivity"
             android:exported="true" />
         <activity
+            android:name=".ui.review.ShowReviewActivity"
+            android:exported="true" />
+        <activity
             android:name=".ui.company.CompanyPopularActivity"
             android:exported="true" />
 
