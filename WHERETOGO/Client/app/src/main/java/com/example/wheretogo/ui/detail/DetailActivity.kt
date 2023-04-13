@@ -17,6 +17,7 @@ import com.example.wheretogo.data.remote.detail.*
 import com.example.wheretogo.databinding.ActivityDetailBinding
 import com.example.wheretogo.ui.BaseActivity
 import com.example.wheretogo.ui.login.LoginActivity
+import com.example.wheretogo.ui.review.ShowReviewActivity
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.*
 import com.naver.maps.map.overlay.Marker
@@ -113,6 +114,10 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
 
         binding.detailBackBtn.setOnClickListener {
             finish()
+        }
+
+        binding.detailReviewMoreBtn.setOnClickListener {
+            startNextActivity(ShowReviewActivity::class.java)
         }
 
         initStar()
@@ -228,7 +233,6 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
 
         }
         else {
-//            binding.detailMapArea.visibility = View.GONE
             binding.mapView.visibility = View.GONE
         }
 
@@ -446,6 +450,10 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
         val spf = getSharedPreferences("userInfo", MODE_PRIVATE)
         return spf!!.getInt("userIdx",-1)
     }
+
+
+
+
 
     override fun onMapReady(naverMap: NaverMap) {
         DetailActivity.naverMap = naverMap
