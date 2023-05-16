@@ -1,6 +1,9 @@
 package com.sjdev.wheretogo.ui
 
 
+import android.content.pm.PackageManager
+import android.util.Base64
+import android.util.Log
 import android.view.View
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -9,6 +12,7 @@ import androidx.navigation.ui.setupWithNavController
 
 import com.sjdev.wheretogo.R
 import com.sjdev.wheretogo.databinding.ActivityMainBinding
+import java.security.MessageDigest
 
 class MainActivity: BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
     private lateinit var navHostFragment: NavHostFragment
@@ -22,6 +26,8 @@ class MainActivity: BaseActivity<ActivityMainBinding>(ActivityMainBinding::infla
         binding.mainBottomNavigation.setupWithNavController(navController)
 
         setTheme(R.style.Theme_WHERETOGO)
+
+        getHashKey()
     }
 
     fun controlBottomNavVisibility(){
@@ -30,6 +36,23 @@ class MainActivity: BaseActivity<ActivityMainBinding>(ActivityMainBinding::infla
         }
         else {
             binding.mainBottomNavigation.visibility = View.VISIBLE
+        }
+    }
+
+    private fun getHashKey() {
+        try {
+            val info =
+                packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNATURES)
+            for (signature in info.signatures) {
+                var md: MessageDigest
+                md = MessageDigest.getInstance("SHA")
+                md.update(signature.toByteArray())
+                val something = String(Base64.encode(md.digest(), 0))
+                Log.e("Hash key", something)
+            }
+        } catch (e: Exception) {
+
+            Log.e("name not found", e.toString())
         }
     }
 }
