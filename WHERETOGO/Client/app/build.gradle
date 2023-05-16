@@ -12,7 +12,7 @@ android {
     compileSdk 32
 
     defaultConfig {
-        applicationId "com.example.wheretogo"
+        applicationId "com.sjdev.wheretogo"
         minSdk 23
         targetSdk 32
         versionCode 1
