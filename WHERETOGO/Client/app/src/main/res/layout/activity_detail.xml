@@ -355,26 +355,25 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/pd_semibold"
                     android:text="지도  "/>
-                <com.naver.maps.map.MapView
-                    android:id="@+id/map_view"
-                    android:layout_marginTop="20dp"
-                    android:layout_width="400dp"
-                    android:layout_height="300dp" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/detail_map_view"
+                    android:layout_width="300dp"
+                    android:layout_height="300dp"/>
             </LinearLayout>
         </LinearLayout>
 
 
 
-    <TextView
-        android:id="@+id/detail_review_title_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/pd_semibold"
-        app:layout_constraintTop_toBottomOf="@id/detail_linear_layout"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="15dp"
-        android:text="후기"/>
+        <TextView
+            android:id="@+id/detail_review_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pd_semibold"
+            app:layout_constraintTop_toBottomOf="@id/detail_linear_layout"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="15dp"
+            android:text="후기"/>
 
         <TextView
             android:id="@+id/detail_review_rating_title"
