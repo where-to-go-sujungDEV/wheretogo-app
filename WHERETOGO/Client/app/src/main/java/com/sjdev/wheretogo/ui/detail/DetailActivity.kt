@@ -3,7 +3,6 @@ package com.sjdev.wheretogo.ui.detail
 import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
-import android.os.Bundle
 import android.text.Html
 import android.text.method.LinkMovementMethod
 import android.util.Log
@@ -43,9 +42,8 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
 
 
     override fun initAfterBinding() {
-
-        Log.d("appkey", BuildConfig.KAKAO_NATIVE_KEY)
         eventIdx = intent.getIntExtra("eventIdx", -1)
+        Log.d("eventId", eventIdx.toString())
         userId=getUserIdx()
         showToast(eventIdx.toString())
         initClickListener()

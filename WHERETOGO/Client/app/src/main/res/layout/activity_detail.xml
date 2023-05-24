@@ -426,6 +426,65 @@
             app:layout_constraintTop_toBottomOf="@id/detail_review_score"
             app:layout_constraintEnd_toEndOf="parent"
             android:text="펼처보기"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintTop_toBottomOf="@id/detail_review_company_unfold">
+
+            <com.github.mikephil.charting.charts.HorizontalBarChart
+                android:id="@+id/chart1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/white"
+                android:layout_above="@+id/seekBar1" />
+
+            <SeekBar
+                android:id="@+id/seekBar2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true"
+                android:layout_margin="8dp"
+                android:layout_toStartOf="@+id/tvYMax"
+                android:layout_marginEnd="5dp"
+                android:max="200"
+                android:paddingBottom="12dp" />
+
+            <SeekBar
+                android:id="@+id/seekBar1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/seekBar2"
+                android:layout_margin="8dp"
+                android:layout_marginBottom="35dp"
+                android:layout_toStartOf="@+id/tvXMax"
+                android:layout_marginEnd="5dp"
+                android:max="500"
+                android:paddingBottom="12dp" />
+
+            <TextView
+                android:id="@+id/tvXMax"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/seekBar1"
+                android:layout_alignParentEnd="true"
+                android:layout_marginBottom="15dp"
+                android:layout_marginEnd="10dp"
+                android:gravity="right"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <TextView
+                android:id="@+id/tvYMax"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/seekBar2"
+                android:layout_alignParentEnd="true"
+                android:layout_marginBottom="15dp"
+                android:layout_marginEnd="10dp"
+                android:gravity="right"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        </RelativeLayout>
         <TextView
             android:id="@+id/detail_review_subtitle_tv"
             android:layout_width="wrap_content"

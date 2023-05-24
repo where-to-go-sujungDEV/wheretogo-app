@@ -77,6 +77,9 @@
             android:name="com.sjdev.wheretogo.ui.detail.BlogDetailActivity"
             android:exported="true" />
         <activity
+            android:name="com.sjdev.wheretogo.ui.detail.PracticeActivity"
+            android:exported="true" />
+        <activity
             android:name="com.sjdev.wheretogo.ui.review.WriteReviewActivity"
             android:exported="true" />
         <activity
