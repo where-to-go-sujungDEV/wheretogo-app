@@ -3,13 +3,13 @@ package com.sjdev.wheretogo.ui.detail
 import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
-import android.os.Bundle
 import android.text.Html
 import android.text.method.LinkMovementMethod
 import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.naver.maps.map.overlay.Marker
 import com.sjdev.wheretogo.BuildConfig
 import com.sjdev.wheretogo.data.remote.getNaverRetrofit
 import com.sjdev.wheretogo.data.remote.getRetrofit
@@ -18,16 +18,16 @@ import com.sjdev.wheretogo.databinding.ActivityDetailBinding
 import com.sjdev.wheretogo.ui.BaseActivity
 import com.sjdev.wheretogo.ui.login.LoginActivity
 import com.sjdev.wheretogo.ui.review.ShowReviewActivity
-import com.naver.maps.geometry.LatLng
-import com.naver.maps.map.*
-import com.naver.maps.map.overlay.Marker
+import net.daum.mf.map.api.MapPOIItem
+import net.daum.mf.map.api.MapPoint
+import net.daum.mf.map.api.MapView
+
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 
-class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding::inflate),
-    OnMapReadyCallback {
+class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding::inflate){
 
     private var eventIdx=0
     private var userId=0
@@ -36,20 +36,14 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
     private var savedNum=0
     private val detailService = getRetrofit().create(DetailRetrofitInterface::class.java)
     private val naverService = getNaverRetrofit().create(DetailRetrofitInterface::class.java)
-    private lateinit var mapView: MapView
     private var lat=0.0
     private var long=0.0
     private var level=0
-    private val marker = Marker()
 
-
-
-    companion object{
-        lateinit var naverMap: NaverMap
-    }
 
     override fun initAfterBinding() {
         eventIdx = intent.getIntExtra("eventIdx", -1)
+        Log.d("eventId", eventIdx.toString())
         userId=getUserIdx()
         showToast(eventIdx.toString())
         initClickListener()
@@ -58,8 +52,7 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
         getVisitedInfo()
         getSavedInfo()
 
-        mapView = binding.mapView
-        mapView.getMapAsync(this)
+        //showMap()
     }
 
     override fun onRestart() {
@@ -87,14 +80,14 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
         }
 
         //방문 uncheck상태에서 체크를 누르면 버튼이 활성화되기전 별점 패널이 뜸
-       binding.detailEventCheckBtn.setOnClickListener{
-           when (userId){
-               -1->showLoginAlert()
-               else->{
-                   setVisitedButton(false)
-                   deleteVisitedEvent()}
-               }
-           }
+        binding.detailEventCheckBtn.setOnClickListener{
+            when (userId){
+                -1->showLoginAlert()
+                else->{
+                    setVisitedButton(false)
+                    deleteVisitedEvent()}
+            }
+        }
 
         binding.detailEventDislikeBtn.setOnClickListener {
             when (userId) {
@@ -233,7 +226,7 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
 
         }
         else {
-            binding.mapView.visibility = View.GONE
+            binding.detailMapView.visibility = View.GONE
         }
 
         getSearchBlog(result.eventName)
@@ -451,60 +444,26 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
         return spf!!.getInt("userIdx",-1)
     }
 
+    private fun showMap() {
+        val mapView = MapView(this)
+        binding.detailMapView.addView(mapView)
 
+        val mapPoint = MapPoint.mapPointWithGeoCoord(long,lat)
+        mapView.setMapCenterPoint(mapPoint, true)
+        mapView.setZoomLevel(1,true)
 
-
-
-    override fun onMapReady(naverMap: NaverMap) {
-        DetailActivity.naverMap = naverMap
-
-        val camPos = CameraPosition(
-            LatLng(lat,long),
-            12.toDouble()
-        )
-        DetailActivity.naverMap.cameraPosition = camPos
-
-        //마커 찍기
-        marker.position = LatLng(lat, long)
-        marker.map = naverMap
-    }
-
-    override fun onStart() {
-        super.onStart()
-        mapView.onStart()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        mapView.onResume()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        mapView.onPause()
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        mapView.onSaveInstanceState(outState)
-    }
-
-    override fun onStop() {
-        super.onStop()
-        mapView.onStop()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        mapView.onDestroy()
-    }
-
-    override fun onLowMemory() {
-        super.onLowMemory()
-        mapView.onLowMemory()
+        val marker = MapPOIItem()
+        marker.mapPoint = mapPoint
+        mapView.addPOIItem(marker)
     }
 
 }
+
+
+
+
+
+
 
 
 

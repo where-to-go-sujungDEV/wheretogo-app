@@ -5,6 +5,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -75,6 +77,9 @@
             android:name="com.sjdev.wheretogo.ui.detail.BlogDetailActivity"
             android:exported="true" />
         <activity
+            android:name="com.sjdev.wheretogo.ui.detail.PracticeActivity"
+            android:exported="true" />
+        <activity
             android:name="com.sjdev.wheretogo.ui.review.WriteReviewActivity"
             android:exported="true" />
         <activity
@@ -96,6 +101,7 @@
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
             android:value="sjghwbhs3t" />
+        <meta-data android:name="com.kakao.sdk.AppKey" android:value="${KAKAO_NATIVE_KEY}"/>
     </application>
 
 </manifest>
