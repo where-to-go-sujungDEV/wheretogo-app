@@ -5,7 +5,7 @@
     <com.github.mikephil.charting.charts.HorizontalBarChart
         android:id="@+id/barChart"
         android:layout_width="match_parent"
-        android:layout_height="300dp"/>
+        android:layout_height="350dp"/>
 
 
 </LinearLayout>
