@@ -26,11 +26,11 @@ class PracticeActivity : BaseActivity<ActivityPracticeBinding>(ActivityPracticeB
 
         type.add("친구와")
         type.add("연인과")
-        type.add("동생")
-        type.add("친구와")
-        type.add("동생")
-        type.add("동생")
-        type.add("친친구와")
+        type.add("동생과")
+        type.add("가족과")
+        type.add("반려동물과")
+        type.add("아이와")
+        type.add("혼자")
 
         percent.add(100f)
         percent.add(40f)
@@ -53,19 +53,19 @@ class PracticeActivity : BaseActivity<ActivityPracticeBinding>(ActivityPracticeB
                 valueTextColor = Color.BLACK
                 valueTextSize = 10f
             }
-        val barChart: BarChart = binding.barChart // 차트 선언
+
         barData = BarData(set)
             .apply {
                 barWidth = 0.6f // 막대 너비
                 setValueFormatter(PercentFormatter()) // '%' 붙이기
             }
 
+        val barChart: BarChart = binding.barChart // 차트 선언
         barChart.data = barData
 
         barChart.run {
             setTouchEnabled(false) // 터치 금지
             setDrawBarShadow(true) // 그래프 그림자
-//            setVisibleXRange(1f,14f) // x좌표 기준 보여줄 그래프 개수 조정
 
             description.isEnabled = false // description label 비활성화
             legend.isEnabled = false // 범례 비활성화
