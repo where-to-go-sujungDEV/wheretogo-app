@@ -545,19 +545,4 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
 
         }
     }
-
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
