@@ -28,7 +28,7 @@
         android:layout_weight="1">
 
         <TextView
-            android:id="@+id/eventName"
+            android:id="@+id/item_myreview_eventname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
@@ -43,12 +43,12 @@
             android:layout_height="0dp"
             android:layout_weight="1"/>
 
-        <ImageButton
-            android:id="@+id/imageButton2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/transparent"
-            android:src="@drawable/ic_threedots" />
+        <Spinner
+        android:id="@+id/item_myreview_settings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_threedots"
+        android:popupBackground="@drawable/ic_threedots" />
 
     </LinearLayout>
 
@@ -65,12 +65,21 @@
         android:layout_weight="12"
         android:background="#BCB8C1">
 
+
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/item_myreview_iv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scaleType="fitCenter"
-            tools:srcCompat="@tools:sample/backgrounds/scenic[4]" />
+            tools:srcCompat="@tools:sample/backgrounds/scenic[4]"/>
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/item_myreview_slider"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+
+
 
         <View
             android:id="@+id/view3"
@@ -89,7 +98,7 @@
         android:layout_weight="0.7">
 
         <com.google.android.material.tabs.TabLayout
-            android:id="@+id/home_tab_layout"
+            android:id="@+id/item_myreview_tab_layout"
             android:layout_width="100dp"
             android:layout_height="10dp"
             android:layout_marginTop="9dp"
@@ -120,6 +129,7 @@
         android:layout_weight="0.5">
 
         <TextView
+            android:id="@+id/item_myreview_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
@@ -138,11 +148,13 @@
             />
 
         <RatingBar
-            android:id="@+id/ratingBar"
+            android:id="@+id/item_myreview_ratingbar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:layout_marginRight="15dp"
+            android:isIndicator="true"
+            android:rating="0"
             style="?android:attr/ratingBarStyleSmall"/>
 
     </LinearLayout>
@@ -165,7 +177,7 @@
         >
 
         <TextView
-            android:id="@+id/reviewContent"
+            android:id="@+id/item_myreview_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
