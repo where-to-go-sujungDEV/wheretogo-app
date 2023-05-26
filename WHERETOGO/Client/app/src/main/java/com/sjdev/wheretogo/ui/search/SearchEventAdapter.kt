@@ -173,7 +173,7 @@ class SearchEventAdapter(var events: ArrayList<EventResult>, var con: Context) :
                         holder.visitedBtn.setBackgroundResource(R.drawable.btn_check_unclick)
                         isVisitedBtnSelected = false
                         //VistedTBL에서 삭제
-                        searchService.setDeleteVisitedEvent(this, userIdx, event.eventID)
+                        searchService.setDeleteVisitedEvent(userIdx, event.eventID)
                     }
                 }
             }
@@ -211,7 +211,7 @@ class SearchEventAdapter(var events: ArrayList<EventResult>, var con: Context) :
                         holder.likedBtn.setBackgroundResource(R.drawable.btn_like_unclick)
                         isSavedBtnSelected = false
                         //savedTBL에 삭제
-                        searchService.setDeleteSavedEvent(this, userIdx, event.eventID)
+                        searchService.setDeleteSavedEvent(userIdx, event.eventID)
                     }
                 }
             }

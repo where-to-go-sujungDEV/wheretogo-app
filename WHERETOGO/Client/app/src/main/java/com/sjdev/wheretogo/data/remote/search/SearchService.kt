@@ -37,7 +37,7 @@ object SearchService{
         })
     }
 
-    fun setDeleteSavedEvent(fragment: SearchEventAdapter, userID: Int, eventID: Int){
+    fun setDeleteSavedEvent(userID: Int, eventID: Int){
         searchService.setDeleteSavedResponse(userID,eventID).enqueue(object: Callback<DeleteSavedResponse> {
             override fun onResponse(call: Call<DeleteSavedResponse>, response: Response<DeleteSavedResponse>) {
                val resp = response.body()!!
@@ -86,7 +86,7 @@ object SearchService{
             }
         })
     }
-    fun setDeleteVisitedEvent(fragment: SearchEventAdapter, userID: Int, eventID: Int){
+    fun setDeleteVisitedEvent(userID: Int, eventID: Int){
         searchService.setDeleteVisitedResponse(userID,eventID).enqueue(object: Callback<DeleteVisitedResponse> {
             override fun onResponse(call: Call<DeleteVisitedResponse>, response: Response<DeleteVisitedResponse>) {
                 val resp = response.body()!!
