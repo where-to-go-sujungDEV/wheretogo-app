@@ -151,6 +151,7 @@
         <entry key="app/src/main/res/drawable/bottom_banner_border.xml" value="0.144" />
         <entry key="app/src/main/res/drawable/bottom_banner_tip.xml" value="0.1205" />
         <entry key="app/src/main/res/drawable/btn_filter.xml" value="0.2675" />
+        <entry key="app/src/main/res/drawable/btn_filter2.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/btn_login_login.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/btn_purple_border.xml" value="0.1205" />
         <entry key="app/src/main/res/drawable/btn_sign_in_login.xml" value="0.1" />
@@ -170,6 +171,8 @@
         <entry key="app/src/main/res/drawable/review_introduce_border.xml" value="0.1775" />
         <entry key="app/src/main/res/drawable/search_blog_border.xml" value="0.144" />
         <entry key="app/src/main/res/drawable/search_filter_btn_text.xml" value="0.1135" />
+        <entry key="app/src/main/res/drawable/search_tag_selected.xml" value="0.122" />
+        <entry key="app/src/main/res/drawable/search_tag_unselected.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/selector_navi_search.xml" value="0.1205" />
         <entry key="app/src/main/res/drawable/star_panel_border.xml" value="0.1775" />
         <entry key="app/src/main/res/layout/activity_blog_detail.xml" value="0.31666666666666665" />

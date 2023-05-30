@@ -76,7 +76,7 @@
             android:layout_marginTop="40dp"/>
         <com.willy.ratingbar.BaseRatingBar
             android:id="@+id/review_ratingbar"
-            android:layout_width="165dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
             app:layout_constraintTop_toBottomOf="@id/w_review_rate_title_tv"
@@ -89,8 +89,8 @@
             app:srb_numStars="5"
             app:srb_rating="1"
             app:srb_scrollable="true"
-            app:srb_starHeight="22dp"
-            app:srb_starWidth="22dp"
+            app:srb_starHeight="35dp"
+            app:srb_starWidth="35dp"
             app:srb_stepSize="1" />
         <TextView
             android:id="@+id/review_tag_title_tv"
@@ -171,8 +171,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:textSize="14sp"
-                android:background="@null"/>
+                android:textSize="17sp"/>
         </FrameLayout>
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/w_send_review_btn"

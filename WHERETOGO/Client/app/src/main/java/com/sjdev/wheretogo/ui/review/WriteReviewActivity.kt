@@ -1,16 +1,15 @@
 package com.sjdev.wheretogo.ui.review
 
 import android.content.Intent
+import android.graphics.Rect
 import android.net.Uri
-import android.widget.ArrayAdapter
-import android.widget.Button
+import android.view.MotionEvent
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.github.mikephil.charting.data.BarEntry
-import com.sjdev.wheretogo.data.remote.detail.SearchBlogResult
 import com.sjdev.wheretogo.databinding.ActivityWriteReviewBinding
 import com.sjdev.wheretogo.ui.BaseActivity
-import com.sjdev.wheretogo.ui.detail.SearchBlogRVAdapter
+
 
 class WriteReviewActivity: BaseActivity<ActivityWriteReviewBinding>(ActivityWriteReviewBinding::inflate) {
     lateinit var imgUri: Uri
@@ -52,5 +51,24 @@ class WriteReviewActivity: BaseActivity<ActivityWriteReviewBinding>(ActivityWrit
 
             imgUri.let { contentResolver.takePersistableUriPermission(it, takeFlags)
             }
-        }}
+        }
+    }
+
+    // 다른 곳 클릭 시 키보드 없애기
+    override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
+        val focusView: View? = currentFocus
+        if (focusView != null) {
+            val rect = Rect()
+            focusView.getGlobalVisibleRect(rect)
+            val x = ev.x.toInt()
+            val y = ev.y.toInt()
+            if (!rect.contains(x, y)) {
+                val imm: InputMethodManager =
+                    getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(focusView.getWindowToken(), 0)
+                focusView.clearFocus()
+            }
+        }
+        return super.dispatchTouchEvent(ev)
+    }
 }
