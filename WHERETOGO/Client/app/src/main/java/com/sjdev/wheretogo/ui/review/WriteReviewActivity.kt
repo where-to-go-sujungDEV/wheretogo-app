@@ -2,8 +2,15 @@ package com.sjdev.wheretogo.ui.review
 
 import android.content.Intent
 import android.net.Uri
+import android.widget.ArrayAdapter
+import android.widget.Button
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.github.mikephil.charting.data.BarEntry
+import com.sjdev.wheretogo.data.remote.detail.SearchBlogResult
 import com.sjdev.wheretogo.databinding.ActivityWriteReviewBinding
 import com.sjdev.wheretogo.ui.BaseActivity
+import com.sjdev.wheretogo.ui.detail.SearchBlogRVAdapter
 
 class WriteReviewActivity: BaseActivity<ActivityWriteReviewBinding>(ActivityWriteReviewBinding::inflate) {
     lateinit var imgUri: Uri
@@ -16,6 +23,15 @@ class WriteReviewActivity: BaseActivity<ActivityWriteReviewBinding>(ActivityWrit
             finish()
         }
         binding.wReviewEventUserIv.setOnClickListener { pickImageGallery() }
+        setAdapter()
+    }
+
+    private fun setAdapter(){
+        var companyList : ArrayList<String> = arrayListOf("#가족","#연인","#친구","#혼자","#반려동물")
+        var companyCheckList : ArrayList<Int> = arrayListOf(0,0,0,0,0)
+        val adapter = CompanyBtnRVAdapter(companyList, companyCheckList)
+        binding.companyBtnRv.adapter = adapter
+        binding.companyBtnRv.layoutManager = GridLayoutManager(this, 3)
     }
 
     private fun pickImageGallery() {
@@ -38,5 +54,3 @@ class WriteReviewActivity: BaseActivity<ActivityWriteReviewBinding>(ActivityWrit
             }
         }}
 }
-
-
