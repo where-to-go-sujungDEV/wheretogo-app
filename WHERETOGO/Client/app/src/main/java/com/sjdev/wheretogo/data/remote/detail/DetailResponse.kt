@@ -87,14 +87,14 @@ data class DetailDeleteVisitedResponse(
 )
 
 data class SearchBlogResponse(
-    @SerializedName(value = "items")val items: ArrayList<SearchBlogResult>
+    @SerializedName(value = "documents")val documents: ArrayList<SearchBlogResult>
 )
 
 data class SearchBlogResult(
     @SerializedName("title") var title : String,
-    @SerializedName("link") var link : String,
-    @SerializedName("postdate") var postdate : String,
-    @SerializedName("description") var description : String
+    @SerializedName("url") var url : String,
+    @SerializedName("datetime") var datetime : String,
+    @SerializedName("contents") var contents : String
 )
 
 

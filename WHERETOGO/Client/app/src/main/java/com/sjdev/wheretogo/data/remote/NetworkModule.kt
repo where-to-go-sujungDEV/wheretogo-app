@@ -6,7 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 //const val BASE_URL = "http://52.79.207.140:3000"
 const val BASE_URL = "http://10.0.2.2:3000"
-const val NAVER_URL = "https://openapi.naver.com"
+const val KAKAO_WEB_URL = "https://dapi.kakao.com"
 fun getRetrofit(): Retrofit {
     val retrofit = Retrofit.Builder().baseUrl(BASE_URL)
         .addConverterFactory(GsonConverterFactory.create()).build()
@@ -14,10 +14,10 @@ fun getRetrofit(): Retrofit {
     return retrofit
 }
 
-fun getNaverRetrofit(): Retrofit {
-    val naverRetrofit = Retrofit.Builder().baseUrl(NAVER_URL)
+fun getKakaoRetrofit(): Retrofit {
+    val kakaoRetrofit = Retrofit.Builder().baseUrl(KAKAO_WEB_URL)
         .addConverterFactory(GsonConverterFactory.create()).build()
 
-    return naverRetrofit
+    return kakaoRetrofit
 }
 
