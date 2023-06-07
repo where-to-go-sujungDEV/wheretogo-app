@@ -32,7 +32,7 @@ interface DetailRetrofitInterface {
                          @Path("eventID") eventID: Int): Call<DetailDeleteVisitedResponse>
 
 
-    @GET("/v1/search/blog")
-    fun getSearchBlog(@Header("X-Naver-Client-Id") clientId:String,@Header("X-Naver-Client-Secret") clientSecret:String,
-                      @Query("query") query:String?, @Query("display") display: Int): Call<SearchBlogResponse>
+    @GET("/v2/search/blog")
+    fun getSearchBlog(@Header("Authorization") Authorization:String,
+                      @Query("query") query:String, @Query("size") size: Int): Call<SearchBlogResponse>
 }
