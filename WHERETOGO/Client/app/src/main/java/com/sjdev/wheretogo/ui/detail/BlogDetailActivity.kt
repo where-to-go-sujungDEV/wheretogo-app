@@ -5,10 +5,10 @@ import android.net.Uri
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sjdev.wheretogo.BuildConfig
-import com.sjdev.wheretogo.data.remote.getNaverRetrofit
 import com.sjdev.wheretogo.data.remote.detail.DetailRetrofitInterface
 import com.sjdev.wheretogo.data.remote.detail.SearchBlogResponse
 import com.sjdev.wheretogo.data.remote.detail.SearchBlogResult
+import com.sjdev.wheretogo.data.remote.getKakaoRetrofit
 import com.sjdev.wheretogo.databinding.ActivityBlogDetailBinding
 import com.sjdev.wheretogo.ui.BaseActivity
 import retrofit2.Call
@@ -16,7 +16,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class BlogDetailActivity : BaseActivity<ActivityBlogDetailBinding>(ActivityBlogDetailBinding::inflate) {
-    private val naverService = getNaverRetrofit().create(DetailRetrofitInterface::class.java)
+    private val kakaoWebService = getKakaoRetrofit().create(DetailRetrofitInterface::class.java)
 
     override fun initAfterBinding() {
 
@@ -29,14 +29,13 @@ class BlogDetailActivity : BaseActivity<ActivityBlogDetailBinding>(ActivityBlogD
 
 
     private fun getSearchBlog(text: String){
-        val clientId= BuildConfig.BLOG_CLIENT_ID
-        val clientSecret = BuildConfig.BLOG_CLIENT_SECRET
+        val restAPI = BuildConfig.KAKAO_REST_API
 
-        naverService.getSearchBlog(clientId,clientSecret,text,10).enqueue(object:
+        kakaoWebService.getSearchBlog(restAPI,text,10).enqueue(object:
             Callback<SearchBlogResponse> {
             override fun onResponse(call: Call<SearchBlogResponse>, response: Response<SearchBlogResponse>){
                 val resp = response.body()!!
-                setSearchBlog(resp.items)
+                setSearchBlog(resp.documents)
             }
 
             override fun onFailure(call: Call<SearchBlogResponse>, t: Throwable){
@@ -46,7 +45,8 @@ class BlogDetailActivity : BaseActivity<ActivityBlogDetailBinding>(ActivityBlogD
 
     private fun setSearchBlog(searchBlogList: ArrayList<SearchBlogResult>){
         val adapter = SearchBlogRVAdapter(searchBlogList)
-        //리사이클러뷰에 어댑터 연결
+
+//        리사이클러뷰에 어댑터 연결
         binding.detailBlogRv.visibility = View.VISIBLE
         binding.detailBlogRv.adapter = adapter
         binding.detailBlogRv.layoutManager = LinearLayoutManager(applicationContext,
@@ -54,7 +54,7 @@ class BlogDetailActivity : BaseActivity<ActivityBlogDetailBinding>(ActivityBlogD
 
         adapter.setMyItemClickListener(object : SearchBlogRVAdapter.OnItemClickListener {
             override fun onItemClick(searchBlogData: SearchBlogResult) {
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(searchBlogData.link))
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(searchBlogData.url))
                 startActivity(intent)
             }
         })
