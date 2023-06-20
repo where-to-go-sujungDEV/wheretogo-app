@@ -17,11 +17,10 @@ import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.formatter.PercentFormatter
-import com.naver.maps.map.overlay.Marker
 import com.sjdev.wheretogo.BuildConfig
-import com.sjdev.wheretogo.data.remote.getNaverRetrofit
 import com.sjdev.wheretogo.data.remote.getRetrofit
 import com.sjdev.wheretogo.data.remote.detail.*
+import com.sjdev.wheretogo.data.remote.getKakaoRetrofit
 import com.sjdev.wheretogo.databinding.ActivityDetailBinding
 import com.sjdev.wheretogo.ui.BaseActivity
 import com.sjdev.wheretogo.ui.login.LoginActivity
@@ -43,7 +42,7 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
     private var visitedNum=0
     private var savedNum=0
     private val detailService = getRetrofit().create(DetailRetrofitInterface::class.java)
-    private val naverService = getNaverRetrofit().create(DetailRetrofitInterface::class.java)
+    private val kakaoWebService = getKakaoRetrofit().create(DetailRetrofitInterface::class.java)
     private var lat=0.0
     private var long=0.0
     private var level=0
@@ -397,13 +396,13 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
     }
 
     private fun getSearchBlog(text: String){
-        val clientId= BuildConfig.BLOG_CLIENT_ID
-        val clientSecret = BuildConfig.BLOG_CLIENT_SECRET
+        val restAPI = BuildConfig.KAKAO_REST_API
 
-        naverService.getSearchBlog(clientId,clientSecret,text,3).enqueue(object: Callback<SearchBlogResponse>{
+        kakaoWebService.getSearchBlog(restAPI,text,3).enqueue(object: Callback<SearchBlogResponse>{
             override fun onResponse(call: Call<SearchBlogResponse>, response: Response<SearchBlogResponse>){
                 val resp = response.body()!!
-                setSearchBlog(resp.items)
+                Log.d("blog",resp.toString())
+                setSearchBlog(resp.documents)
             }
 
             override fun onFailure(call: Call<SearchBlogResponse>, t: Throwable){
@@ -421,7 +420,7 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
 
         adapter.setMyItemClickListener(object : SearchBlogRVAdapter.OnItemClickListener {
             override fun onItemClick(searchBlogData: SearchBlogResult) {
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(searchBlogData.link))
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(searchBlogData.url))
                 startActivity(intent)
             }
         })
@@ -545,19 +544,4 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
 
         }
     }
-
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

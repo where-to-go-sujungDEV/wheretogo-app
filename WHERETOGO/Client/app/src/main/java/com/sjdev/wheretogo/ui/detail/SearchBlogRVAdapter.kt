@@ -43,8 +43,9 @@ class SearchBlogRVAdapter(private val searchBlogList: ArrayList<SearchBlogResult
 
         fun bind(searchBlogData: SearchBlogResult){
             binding.itemBlogTitle.text = Html.fromHtml(searchBlogData.title)
-            binding.itemBlogDescription.text = Html.fromHtml(searchBlogData.description)
-            binding.itemBlogDate.text = Html.fromHtml(searchBlogData.postdate)
+            binding.itemBlogDescription.text = Html.fromHtml(searchBlogData.contents)
+            val date = searchBlogData.datetime.substring(0 until 10)
+            binding.itemBlogDate.text = Html.fromHtml(date)
         }
 
     }

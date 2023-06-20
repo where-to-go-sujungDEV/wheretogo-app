@@ -23,6 +23,7 @@ android {
         buildConfigField "String", "BLOG_CLIENT_ID", properties['blog_client_id']
         buildConfigField "String", "BLOG_CLIENT_SECRET", properties['blog_client_secret']
         buildConfigField "String", "KAKAO_NATIVE_KEY", properties['kakao_native_key']
+        buildConfigField "String", "KAKAO_REST_API", properties['kakao_rest_api']
 
         manifestPlaceholders = [KAKAO_NATIVE_KEY:'kakao_native_key']
     }
