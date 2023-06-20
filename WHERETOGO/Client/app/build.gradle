@@ -109,6 +109,9 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation files('libs/libDaumMapAndroid.jar')
 
+    // 메시지(카카오톡 공유)
+    implementation 'com.kakao.sdk:v2-share:2.13.0'
+
     // chart
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 }

@@ -89,6 +89,10 @@
             android:name="com.sjdev.wheretogo.ui.company.CompanyPopularActivity"
             android:exported="true" />
 
+        <activity
+            android:name="com.sjdev.wheretogo.ui.myReview.MyReviewActivity"
+            android:exported="true" />
+
         <service
             android:name="com.sjdev.wheretogo.MyFirebaseMessagingService"
             android:enabled="true"

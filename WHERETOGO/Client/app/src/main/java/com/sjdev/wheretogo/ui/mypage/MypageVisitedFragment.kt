@@ -11,6 +11,7 @@ import com.sjdev.wheretogo.data.remote.mypage.MypageService
 import com.sjdev.wheretogo.data.remote.mypage.VisitedEventResult
 import com.sjdev.wheretogo.databinding.FragmentMypageBannerBinding
 import com.sjdev.wheretogo.ui.detail.DetailActivity
+import com.sjdev.wheretogo.ui.myReview.MyReviewActivity
 
 class MypageVisitedFragment() : BaseFragment<FragmentMypageBannerBinding>(FragmentMypageBannerBinding::inflate){
     private val mypageService = MypageService
@@ -45,7 +46,8 @@ class MypageVisitedFragment() : BaseFragment<FragmentMypageBannerBinding>(Fragme
 
         adapter.setMyItemClickListener(object : UserVisitedEventRVAdapter.OnItemClickListener {
             override fun onItemClick(visitedEventData: VisitedEventResult) {
-                val intent = Intent(context, DetailActivity::class.java)
+//                val intent = Intent(context, DetailActivity::class.java)
+                val intent = Intent(context, MyReviewActivity::class.java)
                 intent.putExtra("eventIdx", visitedEventData.eventID)
                 startActivity(intent)
             }
