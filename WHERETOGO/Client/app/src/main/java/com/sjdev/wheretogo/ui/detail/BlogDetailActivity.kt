@@ -47,10 +47,11 @@ class BlogDetailActivity : BaseActivity<ActivityBlogDetailBinding>(ActivityBlogD
         val adapter = SearchBlogRVAdapter(searchBlogList)
 
 //        리사이클러뷰에 어댑터 연결
-        binding.detailBlogRv.visibility = View.VISIBLE
-        binding.detailBlogRv.adapter = adapter
-        binding.detailBlogRv.layoutManager = LinearLayoutManager(applicationContext,
-            LinearLayoutManager.VERTICAL,false)
+        binding.apply {
+            detailBlogRv.visibility = View.VISIBLE
+            detailBlogRv.adapter = adapter
+            LinearLayoutManager(applicationContext, LinearLayoutManager.VERTICAL,false)
+        }
 
         adapter.setMyItemClickListener(object : SearchBlogRVAdapter.OnItemClickListener {
             override fun onItemClick(searchBlogData: SearchBlogResult) {
