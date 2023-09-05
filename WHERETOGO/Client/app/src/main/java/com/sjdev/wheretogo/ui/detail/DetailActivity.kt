@@ -157,11 +157,13 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
         savedNum=result.savedNum!!
         visitedNum=result.visitedNum!!
 
-        binding.detailKindTv.text=result.kind
-        binding.detailEventTitle.text = result.eventName
-        binding.detailEventVisitedCount.text = String.format("방문 유저 수: %s명",visitedNum)
-        binding.detailEventSavedCount.text = String.format("찜한 유저 수: %s명",savedNum)
-        binding.detailDateDataTv.text = String.format("%s ~ %s",result.startDate.slice(IntRange(0,9)),result.endDate.slice(IntRange(0,9)))
+        binding.apply{
+            detailKindTv.text=result.kind
+            detailEventTitle.text = result.eventName
+            detailEventVisitedCount.text = String.format("방문 유저 수: %s명",visitedNum)
+            detailEventSavedCount.text = String.format("찜한 유저 수: %s명",savedNum)
+            detailDateDataTv.text = String.format("%s ~ %s",result.startDate.slice(IntRange(0,9)),result.endDate.slice(IntRange(0,9)))
+        }
 
         if (time!=null){
             binding.detailTimeDataTv.text =time
@@ -413,10 +415,12 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
     private fun setSearchBlog(searchBlogList: ArrayList<SearchBlogResult>){
         val adapter = SearchBlogRVAdapter(searchBlogList)
         //리사이클러뷰에 어댑터 연결
-        binding.detailBlogRv.visibility = View.VISIBLE
-        binding.detailBlogRv.adapter = adapter
-        binding.detailBlogRv.layoutManager = LinearLayoutManager(applicationContext,
-            LinearLayoutManager.VERTICAL,false)
+        binding.apply {
+            detailBlogRv.visibility = View.VISIBLE
+            detailBlogRv.adapter = adapter
+            detailBlogRv.layoutManager = LinearLayoutManager(applicationContext,
+                LinearLayoutManager.VERTICAL,false)
+        }
 
         adapter.setMyItemClickListener(object : SearchBlogRVAdapter.OnItemClickListener {
             override fun onItemClick(searchBlogData: SearchBlogResult) {
