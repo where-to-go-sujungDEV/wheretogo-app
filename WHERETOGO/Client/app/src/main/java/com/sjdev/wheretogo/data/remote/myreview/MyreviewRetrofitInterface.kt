@@ -9,5 +9,4 @@ interface MyreviewRetrofitInterface {
     @GET("/visited/review/{reviewID}")
     fun getMyReview(@Path("reviewID") reviewID: Int): Call<MyreviewResponse>
 
-
 }

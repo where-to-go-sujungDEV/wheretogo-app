@@ -29,6 +29,4 @@ data class MyReviewResult(
     @SerializedName(value = "pic9") val pic9: String,
     @SerializedName(value = "pic10") val pic10: String,
     @SerializedName(value = "review") val review: String,
-
-
 )

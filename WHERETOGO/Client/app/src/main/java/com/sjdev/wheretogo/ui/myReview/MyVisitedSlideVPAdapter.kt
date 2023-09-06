@@ -1,4 +1,4 @@
-package com.sjdev.wheretogo.ui.myReview//package com.sjdev.wheretogo.ui.myReview
+package com.sjdev.wheretogo.ui.myReview
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -9,14 +9,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.sjdev.wheretogo.R
 
-class MyReviewVPAdapter (private val context:Context, private val imageList: ArrayList<String>) : RecyclerView.Adapter<MyReviewVPAdapter.PagerViewHolder>(){
+class MyVisitedSlideVPAdapter (private val context:Context, private val imageList: ArrayList<String>) : RecyclerView.Adapter<MyVisitedSlideVPAdapter.PagerViewHolder>(){
     inner class PagerViewHolder(itemView:View):RecyclerView.ViewHolder(itemView){
-        val item : ImageView = itemView.findViewById(R.id.item_myreview_iv)
+        val item : ImageView = itemView.findViewById(R.id.item_slide_iv)
     }
+
+    //리뷰의 첫 번째 이미지를 slide로 이용한다.
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PagerViewHolder {
         val view = LayoutInflater.from(context).inflate(
-            R.layout.item_myreview_iv,
+            R.layout.item_visited_slide_iv,
             parent,
             false
         )
@@ -30,7 +32,8 @@ class MyReviewVPAdapter (private val context:Context, private val imageList: Arr
             .into(holder.item)
     }
 
+
     override fun getItemCount(): Int {
-        TODO()
+        return 0
     }
 }
