@@ -53,7 +53,6 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
         eventIdx = intent.getIntExtra("eventIdx", -1)
         Log.d("eventId", eventIdx.toString())
         userId=getUserIdx()
-        showToast(eventIdx.toString())
         initClickListener()
 
         getDetailInfo()

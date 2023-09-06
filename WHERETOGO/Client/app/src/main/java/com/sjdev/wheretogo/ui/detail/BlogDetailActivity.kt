@@ -3,6 +3,7 @@ package com.sjdev.wheretogo.ui.detail
 import android.content.Intent
 import android.net.Uri
 import android.view.View
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sjdev.wheretogo.BuildConfig
 import com.sjdev.wheretogo.data.remote.detail.DetailRetrofitInterface
@@ -35,6 +36,7 @@ class BlogDetailActivity : BaseActivity<ActivityBlogDetailBinding>(ActivityBlogD
             Callback<SearchBlogResponse> {
             override fun onResponse(call: Call<SearchBlogResponse>, response: Response<SearchBlogResponse>){
                 val resp = response.body()!!
+                showToast(resp.documents.toString())
                 setSearchBlog(resp.documents)
             }
 
@@ -48,9 +50,10 @@ class BlogDetailActivity : BaseActivity<ActivityBlogDetailBinding>(ActivityBlogD
 
 //        리사이클러뷰에 어댑터 연결
         binding.apply {
-            detailBlogRv.visibility = View.VISIBLE
-            detailBlogRv.adapter = adapter
-            LinearLayoutManager(applicationContext, LinearLayoutManager.VERTICAL,false)
+            allBlogRv.visibility = View.VISIBLE
+            allBlogRv.adapter = adapter
+            allBlogRv.layoutManager = LinearLayoutManager(applicationContext,
+                LinearLayoutManager.VERTICAL,false)
         }
 
         adapter.setMyItemClickListener(object : SearchBlogRVAdapter.OnItemClickListener {
