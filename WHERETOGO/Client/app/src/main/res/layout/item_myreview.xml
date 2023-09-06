@@ -66,15 +66,10 @@
         android:background="#BCB8C1">
 
 
-        <ImageView
-            android:id="@+id/item_myreview_iv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scaleType="fitCenter"
-            tools:srcCompat="@tools:sample/backgrounds/scenic[4]"/>
+
 
         <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/item_myreview_slider"
+            android:id="@+id/item_myreview_vp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 

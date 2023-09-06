@@ -7,7 +7,7 @@ data class MyreviewResponse(
     @SerializedName(value = "msg")val msg:String,
     @SerializedName(value = "code")val code:Int,
     @SerializedName(value = "isSuccess")val isSuccess : Boolean,
-    @SerializedName(value = "results")val result: ArrayList<MyReviewResult>
+    @SerializedName(value = "results")val results: ArrayList<MyReviewResult>
 )
 
 data class MyReviewResult(
