@@ -4,13 +4,13 @@ import retrofit2.Call
 import retrofit2.http.*
 
 interface DetailRetrofitInterface {
-    @GET("event/{userIdx}")
+    @GET("/event/{userIdx}")
     fun getUserStat(@Path("userIdx") userIdx: Int): Call<DetailInfoResponse>
 
-    @GET("visited/check/{userIdx}/{eventIdx}")
+    @GET("/visited/check/{userIdx}/{eventIdx}")
     fun getVisitedInfo(@Path("userIdx")userIdx: Int, @Path("eventIdx")eventIdx:Int) : Call<DetailIsVisitedResponse>
 
-    @GET("saved/check/{userIdx}/{eventIdx}")
+    @GET("/saved/check/{userIdx}/{eventIdx}")
     fun getSavedInfo(@Path("userIdx")userIdx: Int, @Path("eventIdx")eventIdx:Int) : Call<DetailIsSavedResponse>
 
     //savedTBL에 저장
