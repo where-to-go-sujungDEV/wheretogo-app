@@ -16,8 +16,8 @@ class ApplicationClass : Application() {
         const val TAG: String = "TEMPLATE-APP"                      // Log, SharedPreference
         const val APP_DATABASE = "$TAG-DB"
 
-        const val DEV_URL: String = "http://192.168.0.21:3000";       // 테스트 서버 주소
-        const val BASE_URL: String = DEV_URL
+        const val LOCAL_URL: String = "http://192.168.0.21:3000"     // 테스트 서버 주소
+        const val BASE_URL: String = "http://4.246.197.20:3000"
 
         lateinit var mSharedPreferences: SharedPreferences
         lateinit var retrofit: Retrofit
