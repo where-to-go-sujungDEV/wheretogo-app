@@ -17,17 +17,17 @@ class MypageSavedFragment() : BaseFragment<FragmentMypageBannerBinding>(Fragment
     override fun initAfterBinding() {
         userId = getIdx()
         Log.d("mypage",getIdx().toString())
-        mypageService.getSavedEvent(this,userId)
+        mypageService.getSavedEvent(this)
     }
 
     override fun onStart() {
         super.onStart()
-        mypageService.getSavedEvent(this,userId)
+        mypageService.getSavedEvent(this)
     }
 
     override fun onResume(){
         super.onResume()
-        mypageService.getSavedEvent(this,userId)
+        mypageService.getSavedEvent(this)
     }
 
     fun setSavedEvent(savedEventList: ArrayList<SavedEventResult>){

@@ -20,17 +20,17 @@ class MypageVisitedFragment() : BaseFragment<FragmentMypageBannerBinding>(Fragme
     override fun initAfterBinding() {
         //방문여부 표시
         userId=getIdx()
-        mypageService.getVisitedEvent(this,userId)
+        mypageService.getVisitedEvent(this)
     }
 
     override fun onStart() {
         super.onStart()
-        mypageService.getVisitedEvent(this,userId)
+        mypageService.getVisitedEvent(this)
     }
 
     override fun onResume(){
         super.onResume()
-        mypageService.getVisitedEvent(this,userId)
+        mypageService.getVisitedEvent(this)
     }
 
     fun setVisitedEvent(visitedEventList: ArrayList<VisitedEventResult>){

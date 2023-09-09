@@ -76,8 +76,8 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding
         return spf!!.getInt("userIdx",-1)
     }
 
-    private fun saveName(userIdx: Int){
-        service.getName(userIdx).enqueue(object: Callback<GetNameResponse> {
+    private fun saveName(){
+        service.getName().enqueue(object: Callback<GetNameResponse> {
             override fun onResponse(call: Call<GetNameResponse>, response: Response<GetNameResponse>) {
                 val resp = response.body()!!
                 when(resp.code){
@@ -109,7 +109,7 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding
 
     private fun initView(){
         val userIdx: Int = getIdx()
-        saveName(userIdx)
+        saveName()
         if (userIdx==-1){
             binding.mypageLoginTv.text ="로그인"
             binding.mypageNicknameTv.text = "로그인하세요"

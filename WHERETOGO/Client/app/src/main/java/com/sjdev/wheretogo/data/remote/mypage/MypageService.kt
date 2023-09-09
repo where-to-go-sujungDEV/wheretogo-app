@@ -11,18 +11,18 @@ import retrofit2.Response
 
 object MypageService {
     private val service = retrofit.create(MypageRetrofitInterface::class.java)
-    fun getSavedEvent(fragment: MypageSavedFragment,id:Int){
+    fun getSavedEvent(fragment: MypageSavedFragment){
 
-        service.getSavedEvent(id).enqueue(object: Callback<SavedEventResponse> {
+        service.getSavedEvent().enqueue(object: Callback<SavedEventResponse> {
             override fun onResponse(call: Call<SavedEventResponse>, response: Response<SavedEventResponse>) {
                 val resp = response.body()!!
                 Log.d("getSaved/SUCCESS",resp.code.toString())
                 when(resp.code){
-                    200->{
+                    1000->{
                         fragment.setSavedEvent(resp.result!!)
                     }
-                    204 ->{
-                        fragment.setSavedEventNone(resp.msg)
+                    else ->{
+                        fragment.setSavedEventNone(resp.message)
                     }
                 }
             }
@@ -32,18 +32,18 @@ object MypageService {
         })
     }
 
-    fun getVisitedEvent(fragment: MypageVisitedFragment,id:Int){
+    fun getVisitedEvent(fragment: MypageVisitedFragment){
 
-        service.getVisitedEvent(id).enqueue(object: Callback<VisitedEventResponse> {
+        service.getVisitedEvent().enqueue(object: Callback<VisitedEventResponse> {
             override fun onResponse(call: Call<VisitedEventResponse>, response: Response<VisitedEventResponse>) {
                 val resp = response.body()!!
                 Log.d("RecentRead/SUCCESS",resp.code.toString())
                 when(resp.code){
-                    200->{
+                    1000->{
                         fragment.setVisitedEvent(resp.result!!)
                     }
-                    204 ->{
-                        fragment.setVisitedEventNone(resp.msg)
+                    else ->{
+                        fragment.setVisitedEventNone(resp.message)
                     }
                 }
             }
