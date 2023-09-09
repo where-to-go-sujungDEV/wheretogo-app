@@ -1,6 +1,7 @@
 package com.sjdev.wheretogo.ui.recommend
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,18 +11,18 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.sjdev.wheretogo.R
+import com.sjdev.wheretogo.data.remote.home.AllRecommendEvent
 import com.sjdev.wheretogo.data.remote.home.AllRecommendEventResult
 import com.sjdev.wheretogo.data.remote.mypage.EventStatusResponse
 import com.sjdev.wheretogo.data.remote.mypage.MypageRetrofitInterface
 import com.sjdev.wheretogo.databinding.ItemAllRecommendBinding
-import com.sjdev.wheretogo.util.ApplicationClass
 import com.sjdev.wheretogo.util.ApplicationClass.Companion.retrofit
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 
-class RecommendRVAdapter(private val recommendList: ArrayList<AllRecommendEventResult>): RecyclerView.Adapter<RecommendRVAdapter.ViewHolder>() {
+class RecommendRVAdapter(private val recommendList: ArrayList<AllRecommendEvent>?): RecyclerView.Adapter<RecommendRVAdapter.ViewHolder>() {
     private lateinit var context: Context
     private var isEventVisited=false
     private var isEventSaved=false
@@ -29,7 +30,7 @@ class RecommendRVAdapter(private val recommendList: ArrayList<AllRecommendEventR
     private lateinit var mItemClickListener: RecommendRVAdapter.OnItemClickListener
 
     interface OnItemClickListener {
-        fun onItemClick(allRecommendData: AllRecommendEventResult)
+        fun onItemClick(allRecommendData: AllRecommendEvent)
     }
 
     fun setMyItemClickListener(itemClickListener: OnItemClickListener) {
@@ -45,16 +46,16 @@ class RecommendRVAdapter(private val recommendList: ArrayList<AllRecommendEventR
     }
 
     override fun onBindViewHolder(holder: RecommendRVAdapter.ViewHolder, position: Int) {
-        holder.bind(recommendList.get(position)) //position=indexid 받아온 뷰홀더에 바인딩을 해주기 위해 해당 포지션의 데이터를 던져줌
+        recommendList?.let { holder.bind(it.get(position)) } //position=indexid 받아온 뷰홀더에 바인딩을 해주기 위해 해당 포지션의 데이터를 던져줌
         holder.binding.itemRecommendLikeFrame.setOnClickListener {
-            mItemClickListener.onItemClick(recommendList[position])
+            recommendList?.let { it1 -> mItemClickListener.onItemClick(it1.get(position)) }
         }
     }
 
 
     inner class ViewHolder(val binding: ItemAllRecommendBinding): RecyclerView.ViewHolder(binding.root){
 
-        fun bind(allRecommendEvent: AllRecommendEventResult){
+        fun bind(allRecommendEvent: AllRecommendEvent){
 
             if (allRecommendEvent.pic!=null){
                 Glide.with(context).load(allRecommendEvent.pic)
@@ -78,7 +79,7 @@ class RecommendRVAdapter(private val recommendList: ArrayList<AllRecommendEventR
 }
 
     override fun getItemCount(): Int {
-        return recommendList.size
+        return recommendList!!.size
     }
 
     private fun getEventStatus(eventId: Int, binding: ItemAllRecommendBinding){
@@ -88,7 +89,7 @@ class RecommendRVAdapter(private val recommendList: ArrayList<AllRecommendEventR
             override fun onResponse(call: Call<EventStatusResponse>, response: Response<EventStatusResponse>) {
                 val resp = response.body()!!
                 when(resp.code){
-                    200->{
+                    1000->{
                         if (resp.isVisited){
                             binding.itemRecommendVisitedBtn.visibility = View.VISIBLE
                             binding.itemRecommendUnvisitedBtn.visibility = View.INVISIBLE

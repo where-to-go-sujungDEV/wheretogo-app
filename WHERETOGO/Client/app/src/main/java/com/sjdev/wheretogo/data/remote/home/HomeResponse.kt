@@ -71,12 +71,17 @@ data class RecommendEvents(
  * 성별, 나이대에 따른 인기 이벤트 상세조회
  */
 data class AllRecommendEventResponse(
-    @SerializedName(value = "code")val code:Int,
     @SerializedName(value = "isSuccess")val isSuccess:Boolean,
-    @SerializedName(value = "results")val results:ArrayList<AllRecommendEventResult>?
+    @SerializedName(value = "code")val code:Int,
+    @SerializedName(value = "message") val message: String,
+    @SerializedName(value = "result")val result: AllRecommendEventResult?
 )
 
-data class AllRecommendEventResult(
+data class AllRecommendEventResult (
+    @SerializedName(value = "getRecommendEventResults") val allRecommendResult : ArrayList<AllRecommendEvent>
+)
+
+data class AllRecommendEvent(
     @SerializedName(value = "eventID")val eventID:Int,
     @SerializedName(value = "eventName")val eventName:String,
     @SerializedName(value = "startDate")val startDate:String,

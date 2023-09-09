@@ -12,12 +12,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sjdev.wheretogo.R
 import com.sjdev.wheretogo.data.remote.home.AllRecommendEventResponse
-import com.sjdev.wheretogo.data.remote.home.AllRecommendEventResult
+import com.sjdev.wheretogo.data.remote.home.AllRecommendEvent
 import com.sjdev.wheretogo.data.remote.home.HomeRetrofitInterface
 import com.sjdev.wheretogo.databinding.ActivityRecommendBinding
 import com.sjdev.wheretogo.ui.BaseActivity
 import com.sjdev.wheretogo.ui.detail.DetailActivity
-import com.sjdev.wheretogo.util.ApplicationClass
 import com.sjdev.wheretogo.util.ApplicationClass.Companion.retrofit
 import retrofit2.Call
 import retrofit2.Callback
@@ -86,6 +85,7 @@ class RecommendActivity: BaseActivity<ActivityRecommendBinding>(ActivityRecommen
             else-> "0"
         }
         ageValue = binding.recommendAgeSpinner.selectedItemPosition
+        Log.d("recommend",ageValue.toString())
         getAllRecommendEvent(sexValue,ageValue)
     }
 
@@ -94,10 +94,14 @@ class RecommendActivity: BaseActivity<ActivityRecommendBinding>(ActivityRecommen
         service.getAllRecommendEvent(sexValue, ageValue).enqueue(object: Callback<AllRecommendEventResponse> {
             override fun onResponse(call: Call<AllRecommendEventResponse>, response: Response<AllRecommendEventResponse>) {
                 val resp = response.body()!!
-                Log.d("getAllRecommend/SUCCESS",resp.code.toString())
+                resp.result?.toString()?.let { Log.d("recommend", it) }
                 when(resp.code){
                     1000->{
-                        setAllRecommendEvent(resp.results!!)
+
+                        setAllRecommendEvent(resp.result?.allRecommendResult!!)
+                    }
+                    else -> {
+                        Log.d("getAllRecommend/FAILURE", resp.message)
                     }
                 }
             }
@@ -107,7 +111,7 @@ class RecommendActivity: BaseActivity<ActivityRecommendBinding>(ActivityRecommen
         })
     }
 
-    fun setAllRecommendEvent(allRecommendList: ArrayList<AllRecommendEventResult>){
+    fun setAllRecommendEvent(allRecommendList: ArrayList<AllRecommendEvent>?){
         val adapter = RecommendRVAdapter(allRecommendList)
         //리사이클러뷰에 어댑터 연결
         binding.allRecommendEventRv.adapter = adapter
@@ -115,7 +119,8 @@ class RecommendActivity: BaseActivity<ActivityRecommendBinding>(ActivityRecommen
             LinearLayoutManager.VERTICAL,false)
 
         adapter.setMyItemClickListener(object : RecommendRVAdapter.OnItemClickListener {
-            override fun onItemClick(allRecommendData: AllRecommendEventResult) {
+
+            override fun onItemClick(allRecommendData: AllRecommendEvent) {
                 val intent = Intent(applicationContext,DetailActivity::class.java)
                 intent.putExtra("eventIdx", allRecommendData.eventID)
                 startActivity(intent)

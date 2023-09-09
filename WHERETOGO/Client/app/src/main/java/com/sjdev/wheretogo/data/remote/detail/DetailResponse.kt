@@ -44,16 +44,24 @@ data class DetailInfoResult(
 
 //VisitedTBL 저장 여부 조회
 data class DetailIsVisitedResponse(
-    @SerializedName(value = "isVisited")val isVisited:Boolean,
+    @SerializedName(value = "isSuccess")val isSuccess:Boolean,
     @SerializedName(value = "code")val code:Int,
-    @SerializedName(value = "isSuccess")val isSuccess:Boolean
+    @SerializedName(value = "result")val result:IsVisitedResult
+)
+
+data class IsVisitedResult (
+    @SerializedName(value = "isVisited") val isVisited: Boolean
 )
 
 //SavedTBL 저장 여부 조회
 data class DetailIsSavedResponse(
-    @SerializedName(value = "isSaved")val isSaved:Boolean,
+    @SerializedName(value = "isSuccess")val isSuccess:Boolean,
     @SerializedName(value = "code")val code:Int,
-    @SerializedName(value = "isSuccess")val isSuccess:Boolean
+    @SerializedName(value = "result")val result:IsSavedResult
+)
+
+data class IsSavedResult(
+    @SerializedName(value = "isSaved") val isSaved: Boolean
 )
 
 
