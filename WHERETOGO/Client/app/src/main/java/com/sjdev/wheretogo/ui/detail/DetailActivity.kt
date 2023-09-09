@@ -23,7 +23,6 @@ import com.sjdev.wheretogo.databinding.ActivityDetailBinding
 import com.sjdev.wheretogo.ui.BaseActivity
 import com.sjdev.wheretogo.ui.login.LoginActivity
 import com.sjdev.wheretogo.ui.review.ShowReviewActivity
-import com.sjdev.wheretogo.util.ApplicationClass
 import com.sjdev.wheretogo.util.ApplicationClass.Companion.kakaoRetrofit
 import com.sjdev.wheretogo.util.ApplicationClass.Companion.retrofit
 import net.daum.mf.map.api.MapPOIItem
@@ -131,8 +130,8 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
                 val resp = response.body()!!
                 Log.d("detail/SUCCESS",resp.code.toString())
                 when(resp.code){
-                    200->{
-                        setDetailInfo(resp.results)
+                    1000->{
+                        setDetailInfo(resp.result)
                     }
                     else ->{
 
@@ -145,7 +144,8 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
         })
     }
 
-    fun setDetailInfo(result: DetailInfoResult){
+    fun setDetailInfo(lst: List<DetailInfoResult>){
+        val result:DetailInfoResult = lst.get(0)
         val time= result.eventtime?.replace("<br>".toRegex(), "\n")
         val age= result.agelimit?.replace("<br>".toRegex(), "\n")
         val price= result.price?.replace("<br>".toRegex(), "\n")
@@ -210,8 +210,7 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
 
         if (result.tel!=null){
             binding.detailTelDataTv.text = tel
-            if (result.telname!=null)
-                binding.detailTelDataTv.text = String.format("%s  %s", result.telname,tel)
+
         }
         else binding.detailTelArea.visibility = View.GONE
 

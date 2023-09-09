@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 data class DetailInfoResponse(
     @SerializedName(value = "code")val code:Int,
     @SerializedName(value = "isSuccess")val isSuccess:Boolean,
-    @SerializedName(value = "results")val results:DetailInfoResult
+    @SerializedName(value = "result")val result: ArrayList<DetailInfoResult>
 )
 
 data class DetailInfoResult(
@@ -28,7 +28,6 @@ data class DetailInfoResult(
     @SerializedName(value = "mlevel")val mlevel: Int?,
 
     @SerializedName(value = "tel")val tel: String?,
-    @SerializedName(value = "telname")val telname: String?,
 
     @SerializedName(value = "agelimit")val agelimit: String?,
     @SerializedName(value = "eventtime")val eventtime: String?,
