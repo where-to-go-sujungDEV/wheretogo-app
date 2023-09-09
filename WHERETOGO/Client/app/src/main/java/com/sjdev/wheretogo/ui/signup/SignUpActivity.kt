@@ -11,10 +11,13 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.TextView
 import com.sjdev.wheretogo.R
-import com.sjdev.wheretogo.data.remote.auth.*
-import com.sjdev.wheretogo.data.remote.getRetrofit
+import com.sjdev.wheretogo.data.remote.auth.AuthRetrofitInterface
+import com.sjdev.wheretogo.data.remote.auth.SignUpInfo
+import com.sjdev.wheretogo.data.remote.auth.SignUpResponse
 import com.sjdev.wheretogo.databinding.ActivitySignupBinding
 import com.sjdev.wheretogo.ui.BaseActivity
+import com.sjdev.wheretogo.util.ApplicationClass
+import com.sjdev.wheretogo.util.ApplicationClass.Companion.retrofit
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -22,7 +25,7 @@ import java.util.regex.Pattern
 
 
 class SignUpActivity: BaseActivity<ActivitySignupBinding>(ActivitySignupBinding::inflate) {
-    private val service = getRetrofit().create(AuthRetrofitInterface::class.java)
+    private val service = retrofit.create(AuthRetrofitInterface::class.java)
     private val gender = arrayOf("여성","남성")
     private val age = arrayOf("10대","20대","30대","40대","50대","60대 이상")
 

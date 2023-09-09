@@ -1,15 +1,16 @@
 package com.sjdev.wheretogo.data.remote.mypage
 
 import android.util.Log
-import com.sjdev.wheretogo.data.remote.getRetrofit
 import com.sjdev.wheretogo.ui.mypage.MypageSavedFragment
 import com.sjdev.wheretogo.ui.mypage.MypageVisitedFragment
+import com.sjdev.wheretogo.util.ApplicationClass
+import com.sjdev.wheretogo.util.ApplicationClass.Companion.retrofit
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 object MypageService {
-    private val service = getRetrofit().create(MypageRetrofitInterface::class.java)
+    private val service = retrofit.create(MypageRetrofitInterface::class.java)
     fun getSavedEvent(fragment: MypageSavedFragment,id:Int){
 
         service.getSavedEvent(id).enqueue(object: Callback<SavedEventResponse> {

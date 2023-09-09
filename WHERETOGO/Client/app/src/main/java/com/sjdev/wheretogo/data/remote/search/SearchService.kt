@@ -1,15 +1,15 @@
 package com.sjdev.wheretogo.data.remote.search
 
 import android.util.Log
-
-import com.sjdev.wheretogo.data.remote.getRetrofit
 import com.sjdev.wheretogo.ui.search.SearchEventAdapter
+import com.sjdev.wheretogo.util.ApplicationClass
+import com.sjdev.wheretogo.util.ApplicationClass.Companion.retrofit
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 object SearchService{
-    val searchService = getRetrofit().create(SearchRetrofitInterface::class.java)
+    val searchService = retrofit.create(SearchRetrofitInterface::class.java)
 
 
 

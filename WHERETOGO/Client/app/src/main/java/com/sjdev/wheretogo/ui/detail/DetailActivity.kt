@@ -18,17 +18,17 @@ import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.formatter.PercentFormatter
 import com.sjdev.wheretogo.BuildConfig
-import com.sjdev.wheretogo.data.remote.getRetrofit
 import com.sjdev.wheretogo.data.remote.detail.*
-import com.sjdev.wheretogo.data.remote.getKakaoRetrofit
 import com.sjdev.wheretogo.databinding.ActivityDetailBinding
 import com.sjdev.wheretogo.ui.BaseActivity
 import com.sjdev.wheretogo.ui.login.LoginActivity
 import com.sjdev.wheretogo.ui.review.ShowReviewActivity
+import com.sjdev.wheretogo.util.ApplicationClass
+import com.sjdev.wheretogo.util.ApplicationClass.Companion.kakaoRetrofit
+import com.sjdev.wheretogo.util.ApplicationClass.Companion.retrofit
 import net.daum.mf.map.api.MapPOIItem
 import net.daum.mf.map.api.MapPoint
 import net.daum.mf.map.api.MapView
-
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -41,8 +41,8 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
     private var status = "b"
     private var visitedNum=0
     private var savedNum=0
-    private val detailService = getRetrofit().create(DetailRetrofitInterface::class.java)
-    private val kakaoWebService = getKakaoRetrofit().create(DetailRetrofitInterface::class.java)
+    private val detailService = retrofit.create(DetailRetrofitInterface::class.java)
+    private val kakaoWebService = kakaoRetrofit.create(DetailRetrofitInterface::class.java)
     private var lat=0.0
     private var long=0.0
     private var level=0

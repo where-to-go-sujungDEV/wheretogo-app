@@ -3,17 +3,18 @@ package com.sjdev.wheretogo.data.remote.keyword
 
 import android.util.Log
 import android.widget.Toast
-import com.sjdev.wheretogo.data.remote.getRetrofit
 import com.sjdev.wheretogo.ui.keyword.KeywordActivity
 import com.sjdev.wheretogo.ui.keyword.KeywordAddActivity
 import com.sjdev.wheretogo.ui.keyword.KeywordRemoveActivity
+import com.sjdev.wheretogo.util.ApplicationClass
+import com.sjdev.wheretogo.util.ApplicationClass.Companion.retrofit
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 
 object KeywordService {
-    val service = getRetrofit().create(KeywordRetrofitInterface::class.java)
+    val service = retrofit.create(KeywordRetrofitInterface::class.java)
 
     fun getKeyword(activity: KeywordActivity, userID: Int){
         service.getKeyword(userID).enqueue(object: Callback<KeywordResponse> {

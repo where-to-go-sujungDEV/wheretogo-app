@@ -1,15 +1,16 @@
 package com.sjdev.wheretogo.data.remote.home
 
 import android.util.Log
-import com.sjdev.wheretogo.data.remote.getRetrofit
 import com.sjdev.wheretogo.ui.home.HomeFragment
+import com.sjdev.wheretogo.util.ApplicationClass
+import com.sjdev.wheretogo.util.ApplicationClass.Companion.retrofit
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 
 object HomeService{
-    private val service = getRetrofit().create(HomeRetrofitInterface::class.java)
+    private val service = retrofit.create(HomeRetrofitInterface::class.java)
     private const val id = 1
 
     fun getMainEvent(fragment: HomeFragment){

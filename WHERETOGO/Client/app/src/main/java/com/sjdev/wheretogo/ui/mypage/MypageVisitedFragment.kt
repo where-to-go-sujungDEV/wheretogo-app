@@ -5,16 +5,17 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sjdev.wheretogo.BaseFragment
-import com.sjdev.wheretogo.data.remote.getRetrofit
 import com.sjdev.wheretogo.data.remote.detail.DetailRetrofitInterface
 import com.sjdev.wheretogo.data.remote.mypage.MypageService
 import com.sjdev.wheretogo.data.remote.mypage.VisitedEventResult
 import com.sjdev.wheretogo.databinding.FragmentMypageBannerBinding
 import com.sjdev.wheretogo.ui.detail.DetailActivity
+import com.sjdev.wheretogo.util.ApplicationClass
+import com.sjdev.wheretogo.util.ApplicationClass.Companion.retrofit
 
 class MypageVisitedFragment() : BaseFragment<FragmentMypageBannerBinding>(FragmentMypageBannerBinding::inflate){
     private val mypageService = MypageService
-    private val detailBooleanService = getRetrofit().create(DetailRetrofitInterface::class.java)
+    private val detailBooleanService = retrofit.create(DetailRetrofitInterface::class.java)
     private var userId =0
     override fun initAfterBinding() {
         //방문여부 표시

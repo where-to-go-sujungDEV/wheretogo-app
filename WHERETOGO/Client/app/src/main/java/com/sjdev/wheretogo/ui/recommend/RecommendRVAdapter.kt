@@ -3,7 +3,6 @@ package com.sjdev.wheretogo.ui.recommend
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
-
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
@@ -11,11 +10,12 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.sjdev.wheretogo.R
-import com.sjdev.wheretogo.data.remote.getRetrofit
 import com.sjdev.wheretogo.data.remote.home.AllRecommendEventResult
 import com.sjdev.wheretogo.data.remote.mypage.EventStatusResponse
 import com.sjdev.wheretogo.data.remote.mypage.MypageRetrofitInterface
 import com.sjdev.wheretogo.databinding.ItemAllRecommendBinding
+import com.sjdev.wheretogo.util.ApplicationClass
+import com.sjdev.wheretogo.util.ApplicationClass.Companion.retrofit
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -25,7 +25,7 @@ class RecommendRVAdapter(private val recommendList: ArrayList<AllRecommendEventR
     private lateinit var context: Context
     private var isEventVisited=false
     private var isEventSaved=false
-    private val service = getRetrofit().create(MypageRetrofitInterface::class.java)
+    private val service = retrofit.create(MypageRetrofitInterface::class.java)
     private lateinit var mItemClickListener: RecommendRVAdapter.OnItemClickListener
 
     interface OnItemClickListener {

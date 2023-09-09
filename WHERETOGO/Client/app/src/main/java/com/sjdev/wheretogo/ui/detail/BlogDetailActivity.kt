@@ -3,21 +3,21 @@ package com.sjdev.wheretogo.ui.detail
 import android.content.Intent
 import android.net.Uri
 import android.view.View
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sjdev.wheretogo.BuildConfig
 import com.sjdev.wheretogo.data.remote.detail.DetailRetrofitInterface
 import com.sjdev.wheretogo.data.remote.detail.SearchBlogResponse
 import com.sjdev.wheretogo.data.remote.detail.SearchBlogResult
-import com.sjdev.wheretogo.data.remote.getKakaoRetrofit
 import com.sjdev.wheretogo.databinding.ActivityBlogDetailBinding
 import com.sjdev.wheretogo.ui.BaseActivity
+import com.sjdev.wheretogo.util.ApplicationClass
+import com.sjdev.wheretogo.util.ApplicationClass.Companion.kakaoRetrofit
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class BlogDetailActivity : BaseActivity<ActivityBlogDetailBinding>(ActivityBlogDetailBinding::inflate) {
-    private val kakaoWebService = getKakaoRetrofit().create(DetailRetrofitInterface::class.java)
+    private val kakaoWebService = kakaoRetrofit.create(DetailRetrofitInterface::class.java)
 
     override fun initAfterBinding() {
 

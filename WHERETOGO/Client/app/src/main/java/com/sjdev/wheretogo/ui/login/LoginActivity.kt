@@ -6,9 +6,10 @@ import android.view.View
 import com.sjdev.wheretogo.data.remote.auth.AuthRetrofitInterface
 import com.sjdev.wheretogo.data.remote.auth.LoginInfo
 import com.sjdev.wheretogo.data.remote.auth.LoginResponse
-import com.sjdev.wheretogo.data.remote.getRetrofit
 import com.sjdev.wheretogo.databinding.ActivityLoginBinding
 import com.sjdev.wheretogo.ui.BaseActivity
+import com.sjdev.wheretogo.util.ApplicationClass
+import com.sjdev.wheretogo.util.ApplicationClass.Companion.retrofit
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -16,7 +17,7 @@ import java.util.regex.Pattern
 
 
 class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::inflate) {
-    private val service = getRetrofit().create(AuthRetrofitInterface::class.java)
+    private val service = retrofit.create(AuthRetrofitInterface::class.java)
     override fun initAfterBinding() {
         initClickListener()
     }

@@ -5,16 +5,17 @@ import android.util.Log
 import com.sjdev.wheretogo.data.remote.auth.AuthRetrofitInterface
 import com.sjdev.wheretogo.data.remote.auth.DeleteUserResponse
 import com.sjdev.wheretogo.data.remote.auth.GetNameResponse
-import com.sjdev.wheretogo.data.remote.getRetrofit
 import com.sjdev.wheretogo.databinding.ActivitySettingBinding
 import com.sjdev.wheretogo.ui.BaseActivity
 import com.sjdev.wheretogo.ui.keyword.KeywordActivity
+import com.sjdev.wheretogo.util.ApplicationClass
+import com.sjdev.wheretogo.util.ApplicationClass.Companion.retrofit
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class SettingActivity: BaseActivity<ActivitySettingBinding>(ActivitySettingBinding::inflate) {
-    private val service = getRetrofit().create(AuthRetrofitInterface::class.java)
+    private val service = retrofit.create(AuthRetrofitInterface::class.java)
 
     override fun initAfterBinding() {
         saveName(getIdx())

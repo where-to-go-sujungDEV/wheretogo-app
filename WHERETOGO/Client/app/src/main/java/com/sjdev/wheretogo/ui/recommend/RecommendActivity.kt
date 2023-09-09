@@ -11,16 +11,20 @@ import android.widget.Spinner
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sjdev.wheretogo.R
-import com.sjdev.wheretogo.data.remote.getRetrofit
-import com.sjdev.wheretogo.data.remote.home.*
+import com.sjdev.wheretogo.data.remote.home.AllRecommendEventResponse
+import com.sjdev.wheretogo.data.remote.home.AllRecommendEventResult
+import com.sjdev.wheretogo.data.remote.home.HomeRetrofitInterface
 import com.sjdev.wheretogo.databinding.ActivityRecommendBinding
 import com.sjdev.wheretogo.ui.BaseActivity
 import com.sjdev.wheretogo.ui.detail.DetailActivity
+import com.sjdev.wheretogo.util.ApplicationClass
+import com.sjdev.wheretogo.util.ApplicationClass.Companion.retrofit
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+
 class RecommendActivity: BaseActivity<ActivityRecommendBinding>(ActivityRecommendBinding::inflate){
-    private val service = getRetrofit().create(HomeRetrofitInterface::class.java)
+    private val service = retrofit.create(HomeRetrofitInterface::class.java)
     private var sexValue="0"
     private var ageValue=0
     private val gender = arrayOf("전체","여성","남성")
