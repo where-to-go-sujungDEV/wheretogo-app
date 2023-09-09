@@ -92,7 +92,7 @@ class RecommendActivity: BaseActivity<ActivityRecommendBinding>(ActivityRecommen
                 val resp = response.body()!!
                 Log.d("getAllRecommend/SUCCESS",resp.code.toString())
                 when(resp.code){
-                    200->{
+                    1000->{
                         setAllRecommendEvent(resp.results!!)
                     }
                 }

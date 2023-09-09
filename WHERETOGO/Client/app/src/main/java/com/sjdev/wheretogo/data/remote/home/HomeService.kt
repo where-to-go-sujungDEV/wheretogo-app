@@ -18,8 +18,9 @@ object HomeService{
                 val resp = response.body()!!
                 Log.d("HomeNotice/SUCCESS",resp.code.toString())
                 when(resp.code){
-                    200->{
-                        fragment.setMainEvent(resp.results)
+                    1000->{
+                        fragment.setMainEvent(resp.result)
+                        Log.d("HomeNotice/SUCCESS",resp.result.toString())
                     }
                     else ->{
 
@@ -36,10 +37,9 @@ object HomeService{
         service.getPopularEvent().enqueue(object: Callback<PopularEventResponse> {
             override fun onResponse(call: Call<PopularEventResponse>, response: Response<PopularEventResponse>) {
                 val resp = response.body()!!
-                Log.d("HomeNotice/SUCCESS",resp.code.toString())
                 when(resp.code){
-                    200->{
-                        fragment.setPopularEvent(resp.results)
+                    1000->{
+                        fragment.setPopularEvent(resp.result)
                     }
                     else ->{
 
@@ -52,15 +52,16 @@ object HomeService{
         })
     }
 
-    fun getRecommendEvent(fragment: HomeFragment, userIdx:Int){
+    fun getRecommendEvent(fragment: HomeFragment){
 
-        service.getRecommendEvent(userIdx).enqueue(object:
+        service.getRecommendEvent().enqueue(object:
             Callback<RecommendEventResponse> {
             override fun onResponse(call: Call<RecommendEventResponse>, response: Response<RecommendEventResponse>) {
                 val resp = response.body()!!
+
                 when(resp.code){
-                    200->{
-                        fragment.setRecommendEvent(resp.results!!, resp.userInfo!!)
+                    1000->{
+                        fragment.setRecommendEvent(resp.result!!)
                     }
                     else ->{
                         //setRecommendEventNone(resp.msg)

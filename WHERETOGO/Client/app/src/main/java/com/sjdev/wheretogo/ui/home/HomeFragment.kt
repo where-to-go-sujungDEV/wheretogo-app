@@ -27,7 +27,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
         homeService.getMainEvent(this)
         homeService.getPopularEvent(this)
-        homeService.getRecommendEvent(this, userIdx)
+        homeService.getRecommendEvent(this)
         setCompanyEvent()
     }
 
@@ -71,18 +71,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     }
 
 
-    fun setRecommendEvent(recommendList: ArrayList<RecommendEventResult>, userInfo: ArrayList<UserInfo>){
+    fun setRecommendEvent(result: RecommendEventResult){
         val event2Adapter = HomeBannerVPAdapter(this)
+        var sex = ""
 
-        for (item in userInfo){
-            var sex = item.sex
-            when (sex){
-                "w"->sex = "여성"
-                "m"->sex = "남성"
-            }
-            binding.homeExplain1Tv.text = String.format("%d대 %s",item.age*10,sex)
+        when (result.sex){
+            "w"->sex = "여성"
+            "m"->sex = "남성"
         }
-        for (item in recommendList){
+        binding.homeExplain1Tv.text = String.format("%d대 %s",result.age*10,sex)
+
+        for (item in result.recommendEvents!!){
             event2Adapter.addFragment(BannerRecommendFragment(item))
         }
 
