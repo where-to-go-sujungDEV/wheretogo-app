@@ -1,7 +1,8 @@
-package com.sjdev.wheretogo
+package com.sjdev.wheretogo.util
 
-import com.sjdev.wheretogo.ApplicationClass.Companion.X_ACCESS_TOKEN
-import com.sjdev.wheretogo.ApplicationClass.Companion.mSharedPreferences
+import com.sjdev.wheretogo.util.ApplicationClass.Companion.X_ACCESS_TOKEN
+import com.sjdev.wheretogo.util.ApplicationClass.Companion.mSharedPreferences
+
 
 fun saveJwt(jwtToken: String) {
     val editor = mSharedPreferences.edit()

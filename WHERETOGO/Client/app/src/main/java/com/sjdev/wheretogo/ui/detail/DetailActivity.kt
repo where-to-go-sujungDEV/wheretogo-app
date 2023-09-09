@@ -18,17 +18,16 @@ import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.formatter.PercentFormatter
 import com.sjdev.wheretogo.BuildConfig
-import com.sjdev.wheretogo.data.remote.getRetrofit
 import com.sjdev.wheretogo.data.remote.detail.*
-import com.sjdev.wheretogo.data.remote.getKakaoRetrofit
 import com.sjdev.wheretogo.databinding.ActivityDetailBinding
 import com.sjdev.wheretogo.ui.BaseActivity
 import com.sjdev.wheretogo.ui.login.LoginActivity
 import com.sjdev.wheretogo.ui.review.ShowReviewActivity
+import com.sjdev.wheretogo.util.ApplicationClass.Companion.kakaoRetrofit
+import com.sjdev.wheretogo.util.ApplicationClass.Companion.retrofit
 import net.daum.mf.map.api.MapPOIItem
 import net.daum.mf.map.api.MapPoint
 import net.daum.mf.map.api.MapView
-
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -41,8 +40,8 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
     private var status = "b"
     private var visitedNum=0
     private var savedNum=0
-    private val detailService = getRetrofit().create(DetailRetrofitInterface::class.java)
-    private val kakaoWebService = getKakaoRetrofit().create(DetailRetrofitInterface::class.java)
+    private val detailService = retrofit.create(DetailRetrofitInterface::class.java)
+    private val kakaoWebService = kakaoRetrofit.create(DetailRetrofitInterface::class.java)
     private var lat=0.0
     private var long=0.0
     private var level=0
@@ -131,8 +130,8 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
                 val resp = response.body()!!
                 Log.d("detail/SUCCESS",resp.code.toString())
                 when(resp.code){
-                    200->{
-                        setDetailInfo(resp.results)
+                    1000->{
+                        setDetailInfo(resp.result)
                     }
                     else ->{
 
@@ -145,7 +144,8 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
         })
     }
 
-    fun setDetailInfo(result: DetailInfoResult){
+    fun setDetailInfo(lst: List<DetailInfoResult>){
+        val result:DetailInfoResult = lst.get(0)
         val time= result.eventtime?.replace("<br>".toRegex(), "\n")
         val age= result.agelimit?.replace("<br>".toRegex(), "\n")
         val price= result.price?.replace("<br>".toRegex(), "\n")
@@ -210,8 +210,7 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
 
         if (result.tel!=null){
             binding.detailTelDataTv.text = tel
-            if (result.telname!=null)
-                binding.detailTelDataTv.text = String.format("%s  %s", result.telname,tel)
+
         }
         else binding.detailTelArea.visibility = View.GONE
 
@@ -251,13 +250,12 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
 
 
     private fun getVisitedInfo(){
-        detailService.getVisitedInfo(userId,eventIdx).enqueue(object: Callback<DetailIsVisitedResponse> {
+        detailService.getVisitedInfo(eventIdx).enqueue(object: Callback<DetailIsVisitedResponse> {
             override fun onResponse(call: Call<DetailIsVisitedResponse>, response: Response<DetailIsVisitedResponse>) {
                 val resp = response.body()!!
                 when(resp.code){
-                    200->{
-                        setVisitedButton(resp.isVisited)
-                        Log.d("isVisited",resp.isVisited.toString())
+                    1000->{
+                        setVisitedButton(resp.result.isVisited)
                     }
                     else ->{
 
@@ -270,13 +268,12 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
     }
 
     private fun getSavedInfo(){
-        detailService.getSavedInfo(userId,eventIdx).enqueue(object: Callback<DetailIsSavedResponse> {
+        detailService.getSavedInfo(eventIdx).enqueue(object: Callback<DetailIsSavedResponse> {
             override fun onResponse(call: Call<DetailIsSavedResponse>, response: Response<DetailIsSavedResponse>) {
                 val resp = response.body()!!
                 when(resp.code){
-                    200->{
-                        setSavedButton(resp.isSaved)
-                        Log.d("isSaved",resp.isSaved.toString())
+                    1000->{
+                        setSavedButton(resp.result.isSaved)
                     }
                     else ->{
 
@@ -313,7 +310,7 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
 
     //이벤트 저장(서버에 반영)
     private fun saveEvent(){
-        detailService.saveEvent(userId,eventIdx).enqueue(object: Callback<DetailSaveEventResponse> {
+        detailService.saveEvent(eventIdx).enqueue(object: Callback<DetailSaveEventResponse> {
             override fun onResponse(call: Call<DetailSaveEventResponse>, response: Response<DetailSaveEventResponse>) {
                 val resp = response.body()!!
                 Log.d("isSaved",resp.toString())
@@ -333,7 +330,7 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
 
     //저장한 이벤트 삭제
     private fun deleteSavedEvent(){
-        detailService.deleteSavedEvent(userId,eventIdx).enqueue(object: Callback<DetailDeleteSavedResponse> {
+        detailService.deleteSavedEvent(eventIdx).enqueue(object: Callback<DetailDeleteSavedResponse> {
             override fun onResponse(call: Call<DetailDeleteSavedResponse>, response: Response<DetailDeleteSavedResponse>) {
                 val resp = response.body()!!
                 Log.d("isSaved/delete",resp.toString())
@@ -350,7 +347,7 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
     }
 
     private fun visitEvent(assess:String){
-        detailService.visitEvent(userId,eventIdx,assess).enqueue(object: Callback<DetailVisitEventResponse> {
+        detailService.visitEvent(eventIdx,assess).enqueue(object: Callback<DetailVisitEventResponse> {
             override fun onResponse(call: Call<DetailVisitEventResponse>, response: Response<DetailVisitEventResponse>) {
                 val resp = response.body()!!
                 when(resp.code){
@@ -377,7 +374,7 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
     //저장한 이벤트 삭제
     private fun deleteVisitedEvent(){
 
-        detailService.deleteVisitedEvent(userId,eventIdx).enqueue(object: Callback<DetailDeleteVisitedResponse> {
+        detailService.deleteVisitedEvent(eventIdx).enqueue(object: Callback<DetailDeleteVisitedResponse> {
             override fun onResponse(call: Call<DetailDeleteVisitedResponse>, response: Response<DetailDeleteVisitedResponse>) {
                 val resp = response.body()!!
                 Log.d("isVisited/delete",resp.toString())

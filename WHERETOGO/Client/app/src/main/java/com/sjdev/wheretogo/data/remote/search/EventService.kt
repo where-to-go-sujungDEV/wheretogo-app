@@ -1,8 +1,9 @@
 package com.sjdev.wheretogo.data.remote.search
 
 import android.util.Log
-import com.sjdev.wheretogo.data.remote.getRetrofit
 import com.sjdev.wheretogo.ui.search.SearchFragment
+import com.sjdev.wheretogo.util.ApplicationClass
+import com.sjdev.wheretogo.util.ApplicationClass.Companion.retrofit
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -10,7 +11,7 @@ import retrofit2.Response
 object EventService {
     val TAG ="Retrofit"
 
-    val eventService = getRetrofit().create(EventRetrofitInterface::class.java)
+    val eventService = retrofit.create(EventRetrofitInterface::class.java)
 
     fun getEvents(fragment:SearchFragment,
                   search:String?,

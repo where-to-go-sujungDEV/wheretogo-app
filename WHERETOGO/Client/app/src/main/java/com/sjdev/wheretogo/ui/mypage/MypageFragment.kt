@@ -5,23 +5,24 @@ import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.tabs.TabLayoutMediator
 import com.sjdev.wheretogo.BaseFragment
 import com.sjdev.wheretogo.data.remote.auth.AuthRetrofitInterface
 import com.sjdev.wheretogo.data.remote.auth.GetNameResponse
-import com.sjdev.wheretogo.data.remote.getRetrofit
 import com.sjdev.wheretogo.databinding.FragmentMypageBinding
 import com.sjdev.wheretogo.ui.MainActivity
 import com.sjdev.wheretogo.ui.home.HomeBannerVPAdapter
 import com.sjdev.wheretogo.ui.login.LoginActivity
 import com.sjdev.wheretogo.ui.setting.SettingActivity
-import com.google.android.material.tabs.TabLayoutMediator
+import com.sjdev.wheretogo.util.ApplicationClass
+import com.sjdev.wheretogo.util.ApplicationClass.Companion.retrofit
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding::inflate) {
 
-    private val service = getRetrofit().create(AuthRetrofitInterface::class.java)
+    private val service = retrofit.create(AuthRetrofitInterface::class.java)
 
     override fun initAfterBinding() {
         initLayout()
@@ -75,8 +76,8 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding
         return spf!!.getInt("userIdx",-1)
     }
 
-    private fun saveName(userIdx: Int){
-        service.getName(userIdx).enqueue(object: Callback<GetNameResponse> {
+    private fun saveName(){
+        service.getName().enqueue(object: Callback<GetNameResponse> {
             override fun onResponse(call: Call<GetNameResponse>, response: Response<GetNameResponse>) {
                 val resp = response.body()!!
                 when(resp.code){
@@ -108,7 +109,7 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding
 
     private fun initView(){
         val userIdx: Int = getIdx()
-        saveName(userIdx)
+        saveName()
         if (userIdx==-1){
             binding.mypageLoginTv.text ="로그인"
             binding.mypageNicknameTv.text = "로그인하세요"

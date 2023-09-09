@@ -5,19 +5,20 @@ import android.util.Log
 import com.sjdev.wheretogo.data.remote.auth.AuthRetrofitInterface
 import com.sjdev.wheretogo.data.remote.auth.DeleteUserResponse
 import com.sjdev.wheretogo.data.remote.auth.GetNameResponse
-import com.sjdev.wheretogo.data.remote.getRetrofit
 import com.sjdev.wheretogo.databinding.ActivitySettingBinding
 import com.sjdev.wheretogo.ui.BaseActivity
 import com.sjdev.wheretogo.ui.keyword.KeywordActivity
+import com.sjdev.wheretogo.util.ApplicationClass
+import com.sjdev.wheretogo.util.ApplicationClass.Companion.retrofit
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class SettingActivity: BaseActivity<ActivitySettingBinding>(ActivitySettingBinding::inflate) {
-    private val service = getRetrofit().create(AuthRetrofitInterface::class.java)
+    private val service = retrofit.create(AuthRetrofitInterface::class.java)
 
     override fun initAfterBinding() {
-        saveName(getIdx())
+        saveName()
         binding.settingChangeNickname.setOnClickListener {
             startNextActivity(ChangeInfoActivity::class.java)
         }
@@ -79,7 +80,7 @@ class SettingActivity: BaseActivity<ActivitySettingBinding>(ActivitySettingBindi
                 val resp = response.body()!!
                 Log.d("deleteUser",resp.code.toString())
                 when (resp.code){
-                    200->{
+                    1000->{
                         showDeleteResult(resp.msg)
                         val spf = getSharedPreferences("userInfo",MODE_PRIVATE)
                         val editor = spf!!.edit()
@@ -94,12 +95,12 @@ class SettingActivity: BaseActivity<ActivitySettingBinding>(ActivitySettingBindi
         })
     }
 
-    private fun saveName(userIdx: Int){
-        service.getName(userIdx).enqueue(object: Callback<GetNameResponse> {
+    private fun saveName(){
+        service.getName().enqueue(object: Callback<GetNameResponse> {
             override fun onResponse(call: Call<GetNameResponse>, response: Response<GetNameResponse>) {
                 val resp = response.body()!!
                 when(resp.code){
-                    200->{
+                    1000->{
                         val spf = getSharedPreferences("userInfo", MODE_PRIVATE)
                         val editor = spf.edit()
                         editor.putString("nickname", resp.results!!.nickName)

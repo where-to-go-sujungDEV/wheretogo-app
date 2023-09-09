@@ -1,18 +1,23 @@
 package com.sjdev.wheretogo.ui.setting
 
 import android.util.Log
-import com.sjdev.wheretogo.data.remote.auth.*
-import com.sjdev.wheretogo.data.remote.getRetrofit
-import com.sjdev.wheretogo.data.remote.setting.*
+import com.sjdev.wheretogo.data.remote.auth.AuthRetrofitInterface
+import com.sjdev.wheretogo.data.remote.auth.CheckPwdResponse
+import com.sjdev.wheretogo.data.remote.auth.OriginPwdInfo
+import com.sjdev.wheretogo.data.remote.setting.ChangePwdResponse
+import com.sjdev.wheretogo.data.remote.setting.NewPwdInfo
+import com.sjdev.wheretogo.data.remote.setting.SettingInterface
 import com.sjdev.wheretogo.databinding.ActivityChangePwdBinding
 import com.sjdev.wheretogo.ui.BaseActivity
+import com.sjdev.wheretogo.util.ApplicationClass
+import com.sjdev.wheretogo.util.ApplicationClass.Companion.retrofit
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class ChangePwdActivity: BaseActivity<ActivityChangePwdBinding>(ActivityChangePwdBinding::inflate) {
-    private val service = getRetrofit().create(SettingInterface::class.java)
-    private val authService = getRetrofit().create(AuthRetrofitInterface::class.java)
+    private val service = retrofit.create(SettingInterface::class.java)
+    private val authService = retrofit.create(AuthRetrofitInterface::class.java)
     override fun initAfterBinding() {
         binding.changePwdBackIv.setOnClickListener {
             finish()

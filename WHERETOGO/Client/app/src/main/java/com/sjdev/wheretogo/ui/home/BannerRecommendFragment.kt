@@ -7,10 +7,11 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.sjdev.wheretogo.BaseFragment
 import com.sjdev.wheretogo.R
 import com.sjdev.wheretogo.data.remote.home.RecommendEventResult
+import com.sjdev.wheretogo.data.remote.home.RecommendEvents
 import com.sjdev.wheretogo.databinding.FragmentRecommendBannerBinding
 import com.sjdev.wheretogo.ui.detail.DetailActivity
 
-class BannerRecommendFragment (private val item: RecommendEventResult)
+class BannerRecommendFragment(private val item: RecommendEvents)
     :BaseFragment<FragmentRecommendBannerBinding>(FragmentRecommendBannerBinding::inflate) {
 
     override fun initAfterBinding() {

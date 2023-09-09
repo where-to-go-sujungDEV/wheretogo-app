@@ -1,10 +1,9 @@
-package com.sjdev.wheretogo.config
-
-import com.sjdev.wheretogo.ApplicationClass.Companion.X_ACCESS_TOKEN
-import com.sjdev.wheretogo.getJwt
+package com.sjdev.wheretogo.util
+import com.sjdev.wheretogo.util.ApplicationClass.Companion.X_ACCESS_TOKEN
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
+
 
 class XAccessTokenInterceptor: Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {

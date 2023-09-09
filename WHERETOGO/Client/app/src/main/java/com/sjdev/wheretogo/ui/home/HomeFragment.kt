@@ -27,8 +27,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
         homeService.getMainEvent(this)
         homeService.getPopularEvent(this)
-        homeService.getRecommendEvent(this, userIdx)
-        setCompanyEvent()
+        homeService.getRecommendEvent(this)
+//        setCompanyEvent()
     }
 
     private fun setIndicator(){
@@ -71,18 +71,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     }
 
 
-    fun setRecommendEvent(recommendList: ArrayList<RecommendEventResult>, userInfo: ArrayList<UserInfo>){
+    fun setRecommendEvent(result: RecommendEventResult){
         val event2Adapter = HomeBannerVPAdapter(this)
+        var sex = ""
 
-        for (item in userInfo){
-            var sex = item.sex
-            when (sex){
-                "w"->sex = "여성"
-                "m"->sex = "남성"
-            }
-            binding.homeExplain1Tv.text = String.format("%d대 %s",item.age*10,sex)
+        when (result.sex){
+            "w"->sex = "여성"
+            "m"->sex = "남성"
         }
-        for (item in recommendList){
+        binding.homeExplain1Tv.text = String.format("%d대 %s",result.age*10,sex)
+
+        for (item in result.recommendEvents!!){
             event2Adapter.addFragment(BannerRecommendFragment(item))
         }
 
@@ -90,14 +89,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         binding.homeEvent2Vp.orientation = ViewPager2.ORIENTATION_HORIZONTAL
     }
 
-    private fun setCompanyEvent(){
-        val event3Adapter = HomeBannerVPAdapter(this)
-        for (i:Int in 0..4)
-            event3Adapter.addFragment(BannerCompanyFragment(i))
-
-        binding.homeEvent3Vp.adapter = event3Adapter
-        binding.homeEvent3Vp.orientation = ViewPager2.ORIENTATION_HORIZONTAL
-    }
+//    private fun setCompanyEvent(){
+//        val event3Adapter = HomeBannerVPAdapter(this)
+//        for (i:Int in 0..4)
+//            event3Adapter.addFragment(BannerCompanyFragment(i))
+//
+//        binding.homeEvent3Vp.adapter = event3Adapter
+//        binding.homeEvent3Vp.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+//    }
 
     //유저 닉네임 가져옴
     private fun getName(): String {

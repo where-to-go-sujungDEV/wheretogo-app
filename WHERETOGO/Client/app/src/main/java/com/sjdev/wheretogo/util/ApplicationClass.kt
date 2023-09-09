@@ -1,10 +1,9 @@
-package com.sjdev.wheretogo
+package com.sjdev.wheretogo.util
 
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
-import com.sjdev.wheretogo.config.XAccessTokenInterceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -12,15 +11,16 @@ import java.util.concurrent.TimeUnit
 
 class ApplicationClass : Application() {
     companion object{
-        const val X_ACCESS_TOKEN: String = "X-ACCESS-TOKEN"         // JWT Token Key
+        const val X_ACCESS_TOKEN: String = "x-access-token"         // JWT Token Key
         const val TAG: String = "TEMPLATE-APP"                      // Log, SharedPreference
-        const val APP_DATABASE = "$TAG-DB"
 
-        const val LOCAL_URL: String = "http://192.168.0.21:3000"     // 테스트 서버 주소
-        const val BASE_URL: String = "http://4.246.197.20:3000"
+        const val BASE_URL = "http://4.246.197.20:3000"
+        const val KAKAO_WEB_URL = "https://dapi.kakao.com"
+        const val LOCAL_URL: String = "http://10.0.2.2:3000"
 
         lateinit var mSharedPreferences: SharedPreferences
         lateinit var retrofit: Retrofit
+        lateinit var kakaoRetrofit: Retrofit
     }
 
     override fun onCreate() {
@@ -35,6 +35,11 @@ class ApplicationClass : Application() {
         retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(client)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        kakaoRetrofit = Retrofit.Builder()
+            .baseUrl(KAKAO_WEB_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 

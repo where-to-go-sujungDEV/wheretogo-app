@@ -13,13 +13,14 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.sjdev.wheretogo.R
-import com.sjdev.wheretogo.data.remote.getRetrofit
 import com.sjdev.wheretogo.data.remote.mypage.EventStatusResponse
 import com.sjdev.wheretogo.data.remote.mypage.MypageRetrofitInterface
 import com.sjdev.wheretogo.data.remote.mypage.SavedEventResult
 import com.sjdev.wheretogo.data.remote.search.*
 import com.sjdev.wheretogo.databinding.ItemMypageSavedBinding
 import com.sjdev.wheretogo.ui.review.WriteReviewActivity
+import com.sjdev.wheretogo.util.ApplicationClass
+import com.sjdev.wheretogo.util.ApplicationClass.Companion.retrofit
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -27,8 +28,8 @@ import retrofit2.Response
 class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventResult>) : RecyclerView.Adapter<UserSavedEventRVAdapter.ViewHolder>() {
     private lateinit var context: Context
     private var status = "b"
-    private val eventStatusService = getRetrofit().create(MypageRetrofitInterface::class.java)
-    private val setStatusService = getRetrofit().create(SearchRetrofitInterface::class.java)
+    private val eventStatusService = retrofit.create(MypageRetrofitInterface::class.java)
+    private val setStatusService = retrofit.create(SearchRetrofitInterface::class.java)
     private var isEventVisited=true
     private var isEventSaved=true
     private var userId=0
