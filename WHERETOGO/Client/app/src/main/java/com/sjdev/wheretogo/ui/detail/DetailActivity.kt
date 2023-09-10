@@ -25,6 +25,7 @@ import com.sjdev.wheretogo.ui.login.LoginActivity
 import com.sjdev.wheretogo.ui.review.ShowReviewActivity
 import com.sjdev.wheretogo.util.ApplicationClass.Companion.kakaoRetrofit
 import com.sjdev.wheretogo.util.ApplicationClass.Companion.retrofit
+import com.sjdev.wheretogo.util.getJwt
 import net.daum.mf.map.api.MapPOIItem
 import net.daum.mf.map.api.MapPoint
 import net.daum.mf.map.api.MapView
@@ -36,7 +37,6 @@ import retrofit2.Response
 class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding::inflate){
 
     private var eventIdx=0
-    private var userId=0
     private var status = "b"
     private var visitedNum=0
     private var savedNum=0
@@ -51,12 +51,10 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
     override fun initAfterBinding() {
         eventIdx = intent.getIntExtra("eventIdx", -1)
         Log.d("eventId", eventIdx.toString())
-        userId=getUserIdx()
         initClickListener()
 
         getDetailInfo()
-        getVisitedInfo()
-        getSavedInfo()
+        getBtnStatus()
 
         //showMap()
         showBarChart()
@@ -64,17 +62,16 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
 
     override fun onRestart() {
         super.onRestart()
-        userId = getUserIdx()
-        getSavedInfo()
-        getVisitedInfo()
+
+        getBtnStatus()
     }
 
     private fun initClickListener(){
         binding.detailEventUncheckBtn.setOnClickListener{
-            when (userId){
-                -1->showLoginAlert()
-                else->binding.detailStarPanel.visibility = View.VISIBLE //체크버튼-> 별점 패널 띄우기
-            }
+            if (getJwt()==null)
+                showLoginAlert()
+            else
+                binding.detailStarPanel.visibility = View.VISIBLE
         }
 
         binding.detailAdaptTv.setOnClickListener {
@@ -88,28 +85,22 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
 
         //방문 uncheck상태에서 체크를 누르면 버튼이 활성화되기전 별점 패널이 뜸
         binding.detailEventCheckBtn.setOnClickListener{
-            when (userId){
-                -1->showLoginAlert()
-                else->{
-                    setVisitedButton(false)
-                    deleteVisitedEvent()}
+            if (getJwt()==null)
+                showLoginAlert()
+            else {
+                setVisitedButton(false)
+                deleteVisitedEvent()
             }
         }
 
         binding.detailEventDislikeBtn.setOnClickListener {
-            when (userId) {
-                -1 -> showLoginAlert()
-                else -> {
-                    setSavedButton(true)
-                    saveEvent()
-                }
-            }
+            if (getJwt()==null)
+                showLoginAlert()
+            else
+                saveEvent()
         }
         binding.detailEventLikeBtn.setOnClickListener{
-            if (userId!=-1){
-                setSavedButton(false)
-                deleteSavedEvent()
-            }
+            deleteSavedEvent()
         }
 
         binding.detailBackBtn.setOnClickListener {
@@ -145,7 +136,7 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
     }
 
     fun setDetailInfo(lst: List<DetailInfoResult>){
-        val result:DetailInfoResult = lst.get(0)
+        val result:DetailInfoResult = lst[0]
         val time= result.eventtime?.replace("<br>".toRegex(), "\n")
         val age= result.agelimit?.replace("<br>".toRegex(), "\n")
         val price= result.price?.replace("<br>".toRegex(), "\n")
@@ -249,41 +240,26 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
     }
 
 
-    private fun getVisitedInfo(){
-        detailService.getVisitedInfo(eventIdx).enqueue(object: Callback<DetailIsVisitedResponse> {
-            override fun onResponse(call: Call<DetailIsVisitedResponse>, response: Response<DetailIsVisitedResponse>) {
+    private fun getBtnStatus(){
+        detailService.getBtnStatus(eventIdx).enqueue(object: Callback<DetailBtnStatusResponse> {
+            override fun onResponse(call: Call<DetailBtnStatusResponse>, response: Response<DetailBtnStatusResponse>) {
                 val resp = response.body()!!
+                Log.d("getBtnStatus",resp.result.toString())
                 when(resp.code){
                     1000->{
                         setVisitedButton(resp.result.isVisited)
-                    }
-                    else ->{
-
-                    }
-                }
-            }
-            override fun onFailure(call: Call<DetailIsVisitedResponse>, t: Throwable) {
-            }
-        })
-    }
-
-    private fun getSavedInfo(){
-        detailService.getSavedInfo(eventIdx).enqueue(object: Callback<DetailIsSavedResponse> {
-            override fun onResponse(call: Call<DetailIsSavedResponse>, response: Response<DetailIsSavedResponse>) {
-                val resp = response.body()!!
-                when(resp.code){
-                    1000->{
                         setSavedButton(resp.result.isSaved)
                     }
                     else ->{
-
                     }
                 }
             }
-            override fun onFailure(call: Call<DetailIsSavedResponse>, t: Throwable) {
+            override fun onFailure(call: Call<DetailBtnStatusResponse>, t: Throwable) {
             }
         })
     }
+
+
 
     //뷰 버튼 상태
     private fun setVisitedButton(isVisited: Boolean){
@@ -315,9 +291,10 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
                 val resp = response.body()!!
                 Log.d("isSaved",resp.toString())
                 when(resp.code){
-                    200->{
+                    1000->{
+                        setSavedButton(true)
                         binding.detailEventSavedCount.text = String.format("찜한 유저 수: %s명",++savedNum)
-                        showToast(resp.msg)
+                        showToast(resp.message)
                     }
                 }
             }
@@ -335,9 +312,10 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
                 val resp = response.body()!!
                 Log.d("isSaved/delete",resp.toString())
                 when(resp.code){
-                    200->{
+                    1000->{
+                        setSavedButton(false)
                         binding.detailEventSavedCount.text = String.format("찜한 유저 수: %s명",--savedNum)
-                        showToast(resp.msg)
+                        showToast(resp.message)
                     }
                 }
             }
@@ -362,7 +340,6 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
                     }
                     else ->{
                         Log.d("detail/visit",resp.msg)
-                        Log.d("detail/visit",userId.toString())
                     }
                 }
             }
@@ -446,11 +423,6 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
             .setNegativeButton("아니오") { _, _ ->
             }
             .show()
-    }
-
-    private fun getUserIdx(): Int {
-        val spf = getSharedPreferences("userInfo", MODE_PRIVATE)
-        return spf!!.getInt("userIdx",-1)
     }
 
     private fun showMap() {

@@ -10,6 +10,7 @@ import com.sjdev.wheretogo.databinding.ActivityLoginBinding
 import com.sjdev.wheretogo.ui.BaseActivity
 import com.sjdev.wheretogo.util.ApplicationClass.Companion.retrofit
 import com.sjdev.wheretogo.util.getJwt
+import com.sjdev.wheretogo.util.saveEmail
 import com.sjdev.wheretogo.util.saveJwt
 import retrofit2.Call
 import retrofit2.Callback
@@ -68,14 +69,4 @@ class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::in
 
         return LoginInfo(email,pwd)
     }
-
-    private fun saveEmail(email: String){
-        val spf = getSharedPreferences("userInfo", MODE_PRIVATE)
-        val editor = spf.edit()
-
-        editor.putString("email",email)
-        editor.apply()
-    }
-
-
 }

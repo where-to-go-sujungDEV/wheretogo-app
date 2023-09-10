@@ -44,11 +44,13 @@ data class LoginInfo(
     @SerializedName(value = "password")val password: String,
 )
 
-//회원탈퇴
+/**
+ * 회원 탈퇴
+ */
 data class DeleteUserResponse(
-    @SerializedName(value = "msg")val msg:String,
+    @SerializedName(value = "isSuccess")val isSuccess:Boolean,
     @SerializedName(value = "code")val code:Int,
-    @SerializedName(value = "isSuccess")val isSuccess:Boolean
+    @SerializedName(value = "message")val message:String
 )
 
 data class GetNameResponse(

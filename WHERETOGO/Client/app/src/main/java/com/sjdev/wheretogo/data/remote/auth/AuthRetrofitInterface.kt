@@ -10,8 +10,8 @@ interface AuthRetrofitInterface {
     @POST("/user/login")
     fun login(@Body appLoginInfo: LoginInfo): Call<LoginResponse>
 
-    @DELETE("/user/unregister/{userID}")
-    fun deleteUser(@Path("userID") userID: Int): Call<DeleteUserResponse>
+    @DELETE("/user/unregister")
+    fun deleteUser(): Call<DeleteUserResponse>
 
     @GET("/user/get-nickname")
     fun getName() : Call<GetNameResponse>
