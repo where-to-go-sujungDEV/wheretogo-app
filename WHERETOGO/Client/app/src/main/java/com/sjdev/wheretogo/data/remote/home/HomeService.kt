@@ -55,8 +55,7 @@ object HomeService{
 
     fun getRecommendEvent(fragment: HomeFragment){
 
-        service.getRecommendEvent().enqueue(object:
-            Callback<RecommendEventResponse> {
+        service.getRecommendEvent().enqueue(object: Callback<RecommendEventResponse> {
             override fun onResponse(call: Call<RecommendEventResponse>, response: Response<RecommendEventResponse>) {
                 val resp = response.body()!!
 

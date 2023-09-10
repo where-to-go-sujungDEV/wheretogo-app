@@ -17,13 +17,13 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.sjdev.wheretogo.R
-import com.sjdev.wheretogo.data.remote.mypage.EventStatusResponse
+import com.sjdev.wheretogo.data.remote.detail.DetailRetrofitInterface
+import com.sjdev.wheretogo.data.remote.mypage.EventBtnStatusResponse
 import com.sjdev.wheretogo.data.remote.mypage.MypageRetrofitInterface
 import com.sjdev.wheretogo.data.remote.search.EventResult
 import com.sjdev.wheretogo.data.remote.search.SearchService
 import com.sjdev.wheretogo.databinding.ItemRecycleEventBinding
 import com.sjdev.wheretogo.ui.login.LoginActivity
-import com.sjdev.wheretogo.util.ApplicationClass
 import com.sjdev.wheretogo.util.ApplicationClass.Companion.retrofit
 import retrofit2.Call
 import retrofit2.Callback
@@ -231,17 +231,15 @@ class SearchEventAdapter(var events: ArrayList<EventResult>, var con: Context) :
     }
 
     private fun getEventStatus(eventId: Int, holder: SearchEventAdapter.ViewHolder) {
-        val userId = getIdx()
-        eventStatusService.getEventStatus(userId, eventId).enqueue(object :
-            Callback<EventStatusResponse> {
+        eventStatusService.getBtnStatus(eventId).enqueue(object : Callback<EventBtnStatusResponse> {
             override fun onResponse(
-                call: Call<EventStatusResponse>,
-                response: Response<EventStatusResponse>
+                call: Call<EventBtnStatusResponse>,
+                response: Response<EventBtnStatusResponse>
             ) {
                 val resp = response.body()!!
                 when (resp.code) {
-                    200 -> {
-                        if (resp.isVisited) {
+                    1000 -> {
+                        if (resp.result.isVisited) {
                             holder.visitedBtn.setBackgroundResource(R.drawable.btn_check_click)
                             isVisitedBtnSelected = true
                         } else {
@@ -249,7 +247,7 @@ class SearchEventAdapter(var events: ArrayList<EventResult>, var con: Context) :
                             isVisitedBtnSelected = false
                         }
 
-                        if (resp.isSaved) {
+                        if (resp.result.isSaved) {
                             holder.likedBtn.setBackgroundResource(R.drawable.btn_like_click)
                             isSavedBtnSelected = true
                         } else {
@@ -263,7 +261,7 @@ class SearchEventAdapter(var events: ArrayList<EventResult>, var con: Context) :
                 }
             }
 
-            override fun onFailure(call: Call<EventStatusResponse>, t: Throwable) {
+            override fun onFailure(call: Call<EventBtnStatusResponse>, t: Throwable) {
             }
         })
     }

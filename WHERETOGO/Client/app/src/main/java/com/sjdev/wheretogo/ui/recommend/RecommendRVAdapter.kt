@@ -9,9 +9,9 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.sjdev.wheretogo.R
-import com.sjdev.wheretogo.data.remote.detail.DetailRetrofitInterface
-import com.sjdev.wheretogo.data.remote.detail.EventBtnStatusResponse
 import com.sjdev.wheretogo.data.remote.home.AllRecommendEvent
+import com.sjdev.wheretogo.data.remote.mypage.EventBtnStatusResponse
+import com.sjdev.wheretogo.data.remote.mypage.MypageRetrofitInterface
 import com.sjdev.wheretogo.databinding.ItemAllRecommendBinding
 import com.sjdev.wheretogo.util.ApplicationClass.Companion.retrofit
 import retrofit2.Call
@@ -21,7 +21,7 @@ import retrofit2.Response
 
 class RecommendRVAdapter(private val recommendList: ArrayList<AllRecommendEvent>?): RecyclerView.Adapter<RecommendRVAdapter.ViewHolder>() {
     private lateinit var context: Context
-    private val service = retrofit.create(DetailRetrofitInterface::class.java)
+    private val service = retrofit.create(MypageRetrofitInterface::class.java)
     private lateinit var mItemClickListener: OnItemClickListener
 
     interface OnItemClickListener {

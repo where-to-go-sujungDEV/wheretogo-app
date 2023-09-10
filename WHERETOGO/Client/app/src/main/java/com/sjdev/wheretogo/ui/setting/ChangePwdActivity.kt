@@ -29,7 +29,7 @@ class ChangePwdActivity: BaseActivity<ActivityChangePwdBinding>(ActivityChangePw
             override fun onResponse(call: Call<CheckPwdResponse>, response: Response<CheckPwdResponse>) {
                 val resp = response.body()!!
                 when(resp.code){
-                    1000->{
+                    5001->{
                         changePwd()
                     }
                     else->{

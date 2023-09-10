@@ -28,9 +28,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         homeService.getMainEvent(this)
         homeService.getPopularEvent(this)
         homeService.getRecommendEvent(this)
-//        setCompanyEvent()
+        setCompanyEvent()
     }
 
+    // 홈 최상단 배너 인디케이터
     private fun setIndicator(){
         val viewPager2 = binding.homeBannerVp
         val tabLayout = binding.homeTabLayout
@@ -46,6 +47,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         }
     }
 
+    // 홈 최상단 배너 통신
     fun setMainEvent(result: ArrayList<MainEventResult>){
         val bannerAdapter = HomeBannerVPAdapter(this)
 
@@ -59,6 +61,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         setIndicator()
     }
 
+    // 홈 인기 이벤트
     fun setPopularEvent(result: ArrayList<PopularEventResult>){
         val event1Adapter = HomeBannerVPAdapter(this)
 
@@ -70,7 +73,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         binding.homeEvent1Vp.orientation = ViewPager2.ORIENTATION_HORIZONTAL
     }
 
-
+    // 홈 유저 추천 이벤트
     fun setRecommendEvent(result: RecommendEventResult){
         val event2Adapter = HomeBannerVPAdapter(this)
         var sex = ""
@@ -89,13 +92,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         binding.homeEvent2Vp.orientation = ViewPager2.ORIENTATION_HORIZONTAL
     }
 
-//    private fun setCompanyEvent(){
-//        val event3Adapter = HomeBannerVPAdapter(this)
-//        for (i:Int in 0..4)
-//            event3Adapter.addFragment(BannerCompanyFragment(i))
-//
-//        binding.homeEvent3Vp.adapter = event3Adapter
-//        binding.homeEvent3Vp.orientation = ViewPager2.ORIENTATION_HORIZONTAL
-//    }
+    // 홈 동행별 추천 이벤트
+    private fun setCompanyEvent(){
+        val event3Adapter = HomeBannerVPAdapter(this)
+        for (i:Int in 0..4)
+            event3Adapter.addFragment(BannerCompanyFragment(i))
+
+        binding.homeEvent3Vp.adapter = event3Adapter
+        binding.homeEvent3Vp.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+    }
 
 }

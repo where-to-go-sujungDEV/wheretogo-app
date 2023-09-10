@@ -41,47 +41,16 @@ data class DetailInfoResult(
 
 )
 
-/**
- * 이벤트 방문, 찜 여부 조회
- */
-data class EventBtnStatusResponse(
-    @SerializedName(value = "isSuccess")val isSuccess:Boolean,
-    @SerializedName(value = "code")val code:Int,
-    @SerializedName(value = "result")val result: EventBtnStatusResult
-)
-
-data class EventBtnStatusResult(
-    @SerializedName(value = "isVisited") val isVisited: Boolean,
-    @SerializedName(value = "isSaved") val isSaved: Boolean
-)
-
-
-/**
- * 이벤트 찜하기
- */
-data class DetailSaveEventResponse(
-    @SerializedName("isSuccess") var isSuccess : Boolean,
-    @SerializedName("code") var code : Int,
-    @SerializedName("message") var message : String
-)
-
-//savedTBL에 삭제
-data class DetailDeleteSavedResponse(
-    @SerializedName("isSuccess") var isSuccess : Boolean,
-    @SerializedName("code") var code : Int,
-    @SerializedName("message") var message : String
-)
-
 
 //visitedTBL에 추가
-data class DetailVisitEventResponse(
+data class VisitEventResponse(
     @SerializedName("msg") var msg : String,
     @SerializedName("code") var code : Int,
     @SerializedName("isSuccess") var isSuccess : Boolean
 )
 
 //savedTBL에 삭제
-data class DetailDeleteVisitedResponse(
+data class DeleteVisitedEventResponse(
     @SerializedName("msg") var msg : String,
     @SerializedName("code") var code : Int,
     @SerializedName("isSuccess") var isSuccess : Boolean

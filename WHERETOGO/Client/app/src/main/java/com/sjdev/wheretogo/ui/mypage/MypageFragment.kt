@@ -102,6 +102,7 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding
 
     private fun logout(){
         removeJwt()
+        saveNickname("USER")
         binding.mypageLoginTv.text = "로그인"
     }
 }

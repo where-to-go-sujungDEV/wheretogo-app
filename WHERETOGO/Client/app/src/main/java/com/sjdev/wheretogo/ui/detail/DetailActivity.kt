@@ -19,6 +19,10 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.formatter.PercentFormatter
 import com.sjdev.wheretogo.BuildConfig
 import com.sjdev.wheretogo.data.remote.detail.*
+import com.sjdev.wheretogo.data.remote.mypage.DeleteSavedEventResponse
+import com.sjdev.wheretogo.data.remote.mypage.EventBtnStatusResponse
+import com.sjdev.wheretogo.data.remote.mypage.MypageRetrofitInterface
+import com.sjdev.wheretogo.data.remote.mypage.SaveEventResponse
 import com.sjdev.wheretogo.databinding.ActivityDetailBinding
 import com.sjdev.wheretogo.ui.BaseActivity
 import com.sjdev.wheretogo.ui.login.LoginActivity
@@ -41,6 +45,7 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
     private var visitedNum=0
     private var savedNum=0
     private val detailService = retrofit.create(DetailRetrofitInterface::class.java)
+    private val myPageService = retrofit.create(MypageRetrofitInterface::class.java)
     private val kakaoWebService = kakaoRetrofit.create(DetailRetrofitInterface::class.java)
     private var lat=0.0
     private var long=0.0
@@ -239,7 +244,7 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
 
 
     private fun getBtnStatus(){
-        detailService.getBtnStatus(eventIdx).enqueue(object: Callback<EventBtnStatusResponse> {
+        myPageService.getBtnStatus(eventIdx).enqueue(object: Callback<EventBtnStatusResponse> {
             override fun onResponse(call: Call<EventBtnStatusResponse>, response: Response<EventBtnStatusResponse>) {
                 val resp = response.body()!!
                 Log.d("getBtnStatus",resp.result.toString())
@@ -284,8 +289,8 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
 
     //이벤트 저장(서버에 반영)
     private fun saveEvent(){
-        detailService.saveEvent(eventIdx).enqueue(object: Callback<DetailSaveEventResponse> {
-            override fun onResponse(call: Call<DetailSaveEventResponse>, response: Response<DetailSaveEventResponse>) {
+        myPageService.saveEvent(eventIdx).enqueue(object: Callback<SaveEventResponse> {
+            override fun onResponse(call: Call<SaveEventResponse>, response: Response<SaveEventResponse>) {
                 val resp = response.body()!!
                 Log.d("isSaved",resp.toString())
                 when(resp.code){
@@ -296,7 +301,7 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
                     }
                 }
             }
-            override fun onFailure(call: Call<DetailSaveEventResponse>, t: Throwable) {
+            override fun onFailure(call: Call<SaveEventResponse>, t: Throwable) {
             }
         })
     }
@@ -305,8 +310,8 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
 
     //저장한 이벤트 삭제
     private fun deleteSavedEvent(){
-        detailService.deleteSavedEvent(eventIdx).enqueue(object: Callback<DetailDeleteSavedResponse> {
-            override fun onResponse(call: Call<DetailDeleteSavedResponse>, response: Response<DetailDeleteSavedResponse>) {
+        myPageService.deleteSavedEvent(eventIdx).enqueue(object: Callback<DeleteSavedEventResponse> {
+            override fun onResponse(call: Call<DeleteSavedEventResponse>, response: Response<DeleteSavedEventResponse>) {
                 val resp = response.body()!!
                 Log.d("isSaved/delete",resp.toString())
                 when(resp.code){
@@ -317,14 +322,14 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
                     }
                 }
             }
-            override fun onFailure(call: Call<DetailDeleteSavedResponse>, t: Throwable) {
+            override fun onFailure(call: Call<DeleteSavedEventResponse>, t: Throwable) {
             }
         })
     }
 
     private fun visitEvent(assess:String){
-        detailService.visitEvent(eventIdx,assess).enqueue(object: Callback<DetailVisitEventResponse> {
-            override fun onResponse(call: Call<DetailVisitEventResponse>, response: Response<DetailVisitEventResponse>) {
+        myPageService.visitEvent(eventIdx,assess).enqueue(object: Callback<VisitEventResponse> {
+            override fun onResponse(call: Call<VisitEventResponse>, response: Response<VisitEventResponse>) {
                 val resp = response.body()!!
                 when(resp.code){
                     200->{
@@ -341,7 +346,7 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
                     }
                 }
             }
-            override fun onFailure(call: Call<DetailVisitEventResponse>, t: Throwable) {
+            override fun onFailure(call: Call<VisitEventResponse>, t: Throwable) {
             }
         })
     }
@@ -349,8 +354,8 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
     //저장한 이벤트 삭제
     private fun deleteVisitedEvent(){
 
-        detailService.deleteVisitedEvent(eventIdx).enqueue(object: Callback<DetailDeleteVisitedResponse> {
-            override fun onResponse(call: Call<DetailDeleteVisitedResponse>, response: Response<DetailDeleteVisitedResponse>) {
+        myPageService.deleteVisitedEvent(eventIdx).enqueue(object: Callback<DeleteVisitedEventResponse> {
+            override fun onResponse(call: Call<DeleteVisitedEventResponse>, response: Response<DeleteVisitedEventResponse>) {
                 val resp = response.body()!!
                 Log.d("isVisited/delete",resp.toString())
                 when(resp.code){
@@ -363,7 +368,7 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
                     }
                 }
             }
-            override fun onFailure(call: Call<DetailDeleteVisitedResponse>, t: Throwable) {
+            override fun onFailure(call: Call<DeleteVisitedEventResponse>, t: Throwable) {
             }
         })
     }
