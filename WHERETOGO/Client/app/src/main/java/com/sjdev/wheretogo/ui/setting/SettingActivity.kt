@@ -10,6 +10,7 @@ import com.sjdev.wheretogo.ui.BaseActivity
 import com.sjdev.wheretogo.ui.keyword.KeywordActivity
 import com.sjdev.wheretogo.util.ApplicationClass
 import com.sjdev.wheretogo.util.ApplicationClass.Companion.retrofit
+import com.sjdev.wheretogo.util.saveName
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -101,11 +102,7 @@ class SettingActivity: BaseActivity<ActivitySettingBinding>(ActivitySettingBindi
                 val resp = response.body()!!
                 when(resp.code){
                     1000->{
-                        val spf = getSharedPreferences("userInfo", MODE_PRIVATE)
-                        val editor = spf.edit()
-                        editor.putString("nickname", resp.results!!.nickName)
-
-                        editor.apply()
+                        saveName(resp.result!!.nickName)
                     }
                 }
             }

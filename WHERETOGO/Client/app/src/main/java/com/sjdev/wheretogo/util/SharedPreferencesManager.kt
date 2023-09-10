@@ -12,3 +12,12 @@ fun saveJwt(jwtToken: String) {
 }
 
 fun getJwt(): String? = mSharedPreferences.getString(X_ACCESS_TOKEN, null)
+
+fun saveName(name: String) {
+    val editor = mSharedPreferences.edit()
+    editor.putString("nickname", name)
+
+    editor.apply()
+}
+
+fun getNickname(): String? = mSharedPreferences.getString("nickname", "USER")

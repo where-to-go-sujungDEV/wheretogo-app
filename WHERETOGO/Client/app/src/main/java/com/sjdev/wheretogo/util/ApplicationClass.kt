@@ -3,6 +3,7 @@ package com.sjdev.wheretogo.util
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -26,6 +27,7 @@ class ApplicationClass : Application() {
     override fun onCreate() {
         super.onCreate()
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+
         val client: OkHttpClient = OkHttpClient.Builder()
             .readTimeout(40000, TimeUnit.MILLISECONDS)
             .connectTimeout(40000, TimeUnit.MILLISECONDS)
@@ -44,5 +46,7 @@ class ApplicationClass : Application() {
             .build()
 
         mSharedPreferences = applicationContext.getSharedPreferences(TAG, Context.MODE_PRIVATE)
+
+
     }
 }

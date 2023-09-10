@@ -8,8 +8,9 @@ import com.sjdev.wheretogo.data.remote.auth.LoginInfo
 import com.sjdev.wheretogo.data.remote.auth.LoginResponse
 import com.sjdev.wheretogo.databinding.ActivityLoginBinding
 import com.sjdev.wheretogo.ui.BaseActivity
-import com.sjdev.wheretogo.util.ApplicationClass
 import com.sjdev.wheretogo.util.ApplicationClass.Companion.retrofit
+import com.sjdev.wheretogo.util.getJwt
+import com.sjdev.wheretogo.util.saveJwt
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -33,8 +34,9 @@ class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::in
                 Log.d("detail/SUCCESS",resp.code.toString())
                 when(resp.code){
                     1000->{
+                        saveJwt(resp.result!!.jwt)
+                        Log.d("jwt",getJwt()!!)
                         showToast("로그인 성공")
-                        resp.result?.let { saveToken(it.jwt) }
                         finish()
                     }
                     else ->{
@@ -65,22 +67,6 @@ class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::in
         saveEmail(email)
 
         return LoginInfo(email,pwd)
-    }
-
-    private fun saveIdx(userIdx: Int){
-        val spf = getSharedPreferences("userInfo", MODE_PRIVATE)
-        val editor = spf.edit()
-
-        editor.putInt("userIdx",userIdx)
-        editor.apply()
-    }
-
-    private fun saveToken(token: String){
-        val spf = getSharedPreferences("userInfo", MODE_PRIVATE)
-        val editor = spf.edit()
-
-        editor.putString("token",token)
-        editor.apply()
     }
 
     private fun saveEmail(email: String){

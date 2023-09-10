@@ -14,8 +14,8 @@ import com.sjdev.wheretogo.ui.MainActivity
 import com.sjdev.wheretogo.ui.home.HomeBannerVPAdapter
 import com.sjdev.wheretogo.ui.login.LoginActivity
 import com.sjdev.wheretogo.ui.setting.SettingActivity
-import com.sjdev.wheretogo.util.ApplicationClass
 import com.sjdev.wheretogo.util.ApplicationClass.Companion.retrofit
+import com.sjdev.wheretogo.util.getJwt
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -30,7 +30,6 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding
         setIndicator()
         getEmail()
         initClickListener()
-        Log.d("userIdx",getIdx().toString());
     }
 
 
@@ -70,21 +69,16 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding
         }
     }
 
-    //유저 인덱스 가져옴
-    private fun getIdx(): Int {
-        val spf = activity?.getSharedPreferences("userInfo", AppCompatActivity.MODE_PRIVATE)
-        return spf!!.getInt("userIdx",-1)
-    }
-
     private fun saveName(){
         service.getName().enqueue(object: Callback<GetNameResponse> {
             override fun onResponse(call: Call<GetNameResponse>, response: Response<GetNameResponse>) {
                 val resp = response.body()!!
+                Log.d("nickName",resp.message)
                 when(resp.code){
-                    200->{
+                    1000->{
                         val spf = activity!!.getSharedPreferences("userInfo", AppCompatActivity.MODE_PRIVATE)
                         val editor = spf.edit()
-                        editor.putString("nickname", resp.results!!.nickName)
+                        editor.putString("nickname", resp.result!!.nickName)
 
                         editor.apply()
                     }
@@ -108,9 +102,9 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding
     }
 
     private fun initView(){
-        val userIdx: Int = getIdx()
+        val token: String? = getJwt()
         saveName()
-        if (userIdx==-1){
+        if (token == null){
             binding.mypageLoginTv.text ="로그인"
             binding.mypageNicknameTv.text = "로그인하세요"
             binding.mypageEmailTv.text = "로그인 후 사용 가능한 서비스입니다."
@@ -127,7 +121,7 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding
     private fun logout(){
         val spf = activity?.getSharedPreferences("userInfo",AppCompatActivity.MODE_PRIVATE)
         val editor = spf!!.edit()
-        editor.remove("userIdx") //키값에 저장된값 삭제-> idx=-1
+        editor.remove("token") //키값에 저장된값 삭제
         editor.remove("nickname")
         editor.apply()
         binding.mypageLoginTv.text = "로그인"

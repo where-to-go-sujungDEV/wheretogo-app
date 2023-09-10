@@ -12,6 +12,7 @@ import com.sjdev.wheretogo.databinding.FragmentHomeBinding
 import com.sjdev.wheretogo.ui.recommend.RecommendActivity
 
 import com.google.android.material.tabs.TabLayoutMediator
+import com.sjdev.wheretogo.util.getNickname
 
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
@@ -19,8 +20,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     private val homeService = HomeService
 
     override fun initAfterBinding() {
-        val userIdx: Int = getIdx()
-        binding.homeUserNameTv.text = getName()
+        binding.homeUserNameTv.text = getNickname()
         binding.homeRecommendMoreTv.setOnClickListener {
             startActivity(Intent(context, RecommendActivity::class.java))
         }
@@ -98,15 +98,4 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 //        binding.homeEvent3Vp.orientation = ViewPager2.ORIENTATION_HORIZONTAL
 //    }
 
-    //유저 닉네임 가져옴
-    private fun getName(): String {
-        val spf = activity?.getSharedPreferences("userInfo", AppCompatActivity.MODE_PRIVATE)
-        return spf!!.getString("nickname","USER")!!
-    }
-
-    //유저 인덱스 가져옴
-    private fun getIdx(): Int {
-        val spf = activity?.getSharedPreferences("userInfo", AppCompatActivity.MODE_PRIVATE)
-        return spf!!.getInt("userIdx",-1)
-    }
 }

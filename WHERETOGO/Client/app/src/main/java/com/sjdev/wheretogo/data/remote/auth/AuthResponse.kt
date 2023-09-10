@@ -52,10 +52,10 @@ data class DeleteUserResponse(
 )
 
 data class GetNameResponse(
-    @SerializedName(value = "msg")val msg:String,
-    @SerializedName(value = "code")val code:Int,
     @SerializedName(value = "isSuccess")val isSuccess:Boolean,
-    @SerializedName(value = "result")val results:GetNameResult?
+    @SerializedName(value = "code")val code:Int,
+    @SerializedName(value = "message")val message:String,
+    @SerializedName(value = "result")val result:GetNameResult?
 )
 
 data class GetNameResult(
