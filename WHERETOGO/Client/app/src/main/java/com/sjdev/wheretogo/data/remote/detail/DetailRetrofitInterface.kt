@@ -8,7 +8,7 @@ interface DetailRetrofitInterface {
     fun getUserStat(@Path("userIdx") userIdx: Int): Call<DetailInfoResponse>
 
     @GET("/event/userInfo/{eventID}")
-    fun getBtnStatus(@Path("eventID")eventID:Int) : Call<DetailBtnStatusResponse>
+    fun getBtnStatus(@Path("eventID")eventID:Int) : Call<EventBtnStatusResponse>
 
     //이벤트 찜하기
     @POST("/saved/put/{eventID}")

@@ -55,7 +55,7 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
 
         getDetailInfo()
         getBtnStatus()
-
+        initStar()
         //showMap()
         showBarChart()
     }
@@ -110,8 +110,6 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
         binding.detailReviewMoreBtn.setOnClickListener {
             startNextActivity(ShowReviewActivity::class.java)
         }
-
-        initStar()
 
     }
 
@@ -241,8 +239,8 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
 
 
     private fun getBtnStatus(){
-        detailService.getBtnStatus(eventIdx).enqueue(object: Callback<DetailBtnStatusResponse> {
-            override fun onResponse(call: Call<DetailBtnStatusResponse>, response: Response<DetailBtnStatusResponse>) {
+        detailService.getBtnStatus(eventIdx).enqueue(object: Callback<EventBtnStatusResponse> {
+            override fun onResponse(call: Call<EventBtnStatusResponse>, response: Response<EventBtnStatusResponse>) {
                 val resp = response.body()!!
                 Log.d("getBtnStatus",resp.result.toString())
                 when(resp.code){
@@ -254,7 +252,7 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
                     }
                 }
             }
-            override fun onFailure(call: Call<DetailBtnStatusResponse>, t: Throwable) {
+            override fun onFailure(call: Call<EventBtnStatusResponse>, t: Throwable) {
             }
         })
     }

@@ -1,20 +1,17 @@
 package com.sjdev.wheretogo.ui.recommend
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.sjdev.wheretogo.R
+import com.sjdev.wheretogo.data.remote.detail.DetailRetrofitInterface
+import com.sjdev.wheretogo.data.remote.detail.EventBtnStatusResponse
 import com.sjdev.wheretogo.data.remote.home.AllRecommendEvent
-import com.sjdev.wheretogo.data.remote.home.AllRecommendEventResult
-import com.sjdev.wheretogo.data.remote.mypage.EventStatusResponse
-import com.sjdev.wheretogo.data.remote.mypage.MypageRetrofitInterface
 import com.sjdev.wheretogo.databinding.ItemAllRecommendBinding
 import com.sjdev.wheretogo.util.ApplicationClass.Companion.retrofit
 import retrofit2.Call
@@ -24,10 +21,8 @@ import retrofit2.Response
 
 class RecommendRVAdapter(private val recommendList: ArrayList<AllRecommendEvent>?): RecyclerView.Adapter<RecommendRVAdapter.ViewHolder>() {
     private lateinit var context: Context
-    private var isEventVisited=false
-    private var isEventSaved=false
-    private val service = retrofit.create(MypageRetrofitInterface::class.java)
-    private lateinit var mItemClickListener: RecommendRVAdapter.OnItemClickListener
+    private val service = retrofit.create(DetailRetrofitInterface::class.java)
+    private lateinit var mItemClickListener: OnItemClickListener
 
     interface OnItemClickListener {
         fun onItemClick(allRecommendData: AllRecommendEvent)
@@ -62,7 +57,8 @@ class RecommendRVAdapter(private val recommendList: ArrayList<AllRecommendEvent>
                     .transform(CenterCrop(), RoundedCorners(40))
                     .into(binding.itemRecommendEventIv)
             }
-            else{binding.itemRecommendEventIv.setImageResource(R.drawable.default_event_img)
+            else{
+                binding.itemRecommendEventIv.setImageResource(R.drawable.default_event_img)
                 binding.itemRecommendEventIv.clipToOutline = true
             }
             binding.itemRecommendTitleTv.text = allRecommendEvent.eventName
@@ -83,14 +79,12 @@ class RecommendRVAdapter(private val recommendList: ArrayList<AllRecommendEvent>
     }
 
     private fun getEventStatus(eventId: Int, binding: ItemAllRecommendBinding){
-        val userId = getIdx()
-        service.getEventStatus(userId,eventId).enqueue(object:
-            Callback<EventStatusResponse> {
-            override fun onResponse(call: Call<EventStatusResponse>, response: Response<EventStatusResponse>) {
+        service.getBtnStatus(eventId).enqueue(object: Callback<EventBtnStatusResponse> {
+            override fun onResponse(call: Call<EventBtnStatusResponse>, response: Response<EventBtnStatusResponse>) {
                 val resp = response.body()!!
                 when(resp.code){
                     1000->{
-                        if (resp.isVisited){
+                        if (resp.result.isVisited){
                             binding.itemRecommendVisitedBtn.visibility = View.VISIBLE
                             binding.itemRecommendUnvisitedBtn.visibility = View.INVISIBLE
                         }
@@ -99,7 +93,7 @@ class RecommendRVAdapter(private val recommendList: ArrayList<AllRecommendEvent>
                             binding.itemRecommendUnvisitedBtn.visibility = View.VISIBLE
                         }
 
-                        if (resp.isSaved){
+                        if (resp.result.isSaved){
                             binding.itemRecommendLikeBtn.visibility = View.VISIBLE
                             binding.itemRecommendUnlikeBtn.visibility = View.INVISIBLE
                         }
@@ -110,14 +104,8 @@ class RecommendRVAdapter(private val recommendList: ArrayList<AllRecommendEvent>
                     }
                 }
             }
-            override fun onFailure(call: Call<EventStatusResponse>, t: Throwable) {
+            override fun onFailure(call: Call<EventBtnStatusResponse>, t: Throwable) {
             }
         })
-    }
-
-    //유저 인덱스 가져옴
-    private fun getIdx(): Int {
-        val spf = context.getSharedPreferences("userInfo", AppCompatActivity.MODE_PRIVATE)
-        return spf!!.getInt("userIdx",-1)
     }
 }

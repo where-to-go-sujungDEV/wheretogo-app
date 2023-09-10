@@ -16,8 +16,7 @@ interface AuthRetrofitInterface {
     @GET("/user/get-nickname")
     fun getName() : Call<GetNameResponse>
 
-    @POST("/user/check-pw/{userID}")
-    fun checkPwd(@Path ("userID") userID: Int,@Body originPwdInfo: OriginPwdInfo): Call<CheckPwdResponse>
+
 }
 
 

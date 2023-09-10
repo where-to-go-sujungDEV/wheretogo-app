@@ -42,15 +42,15 @@ data class DetailInfoResult(
 )
 
 /**
- * 상세정보 방문, 찜 여부 조회
+ * 이벤트 방문, 찜 여부 조회
  */
-data class DetailBtnStatusResponse(
+data class EventBtnStatusResponse(
     @SerializedName(value = "isSuccess")val isSuccess:Boolean,
     @SerializedName(value = "code")val code:Int,
-    @SerializedName(value = "result")val result: DetailStatusResult
+    @SerializedName(value = "result")val result: EventBtnStatusResult
 )
 
-data class DetailStatusResult(
+data class EventBtnStatusResult(
     @SerializedName(value = "isVisited") val isVisited: Boolean,
     @SerializedName(value = "isSaved") val isSaved: Boolean
 )

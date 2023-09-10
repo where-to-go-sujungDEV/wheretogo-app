@@ -64,14 +64,5 @@ data class GetNameResult(
     @SerializedName(value = "nickName")val nickName:String
 )
 
-data class CheckPwdResponse(
-    @SerializedName(value = "msg")val msg:String,
-    @SerializedName(value = "code")val code:Int,
-    @SerializedName(value = "isSuccess")val isSuccess:Boolean
-)
-
-data class OriginPwdInfo(
-    @SerializedName(value = "pw")val pw:String
-)
 
 

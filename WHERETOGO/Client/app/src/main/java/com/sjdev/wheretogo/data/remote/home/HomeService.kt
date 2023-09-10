@@ -65,7 +65,7 @@ object HomeService{
                         fragment.setRecommendEvent(resp.result!!)
                     }
                     else ->{
-                        //setRecommendEventNone(resp.msg)
+                        Log.d("homeFragment",resp.message)
                     }
                 }
             }
