@@ -61,7 +61,6 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
         getDetailInfo()
         getBtnStatus()
         initStar()
-        //showMap()
         showBarChart()
     }
 
@@ -158,6 +157,7 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
             detailDateDataTv.text = String.format("%s ~ %s",result.startDate.slice(IntRange(0,9)),result.endDate.slice(IntRange(0,9)))
         }
 
+
         if (time!=null){
             binding.detailTimeDataTv.text =time
         }
@@ -193,7 +193,7 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
 
         if (result.homepage!=null){
             binding.detailHomepageDataTv.text = Html.fromHtml(result.homepage)
-            binding.detailHomepageDataTv.movementMethod = LinkMovementMethod.getInstance();
+            binding.detailHomepageDataTv.movementMethod = LinkMovementMethod.getInstance()
         }
         else binding.detailHomepageTv.visibility= View.GONE
 
@@ -220,15 +220,10 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
         if (result.mapx!=null){
             long = result.mapx.toDouble()
             lat = result.mapy!!.toDouble()
-            if (result.mlevel==null){
-                level=6;
-            }
-            else {
-                level = result.mlevel!!
-            }
+            level = result.mlevel!!
+            showMap()
 
-        }
-        else {
+        } else {
             binding.detailMapView.visibility = View.GONE
         }
 
@@ -247,7 +242,6 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
         myPageService.getBtnStatus(eventIdx).enqueue(object: Callback<EventBtnStatusResponse> {
             override fun onResponse(call: Call<EventBtnStatusResponse>, response: Response<EventBtnStatusResponse>) {
                 val resp = response.body()!!
-                Log.d("getBtnStatus",resp.result.toString())
                 when(resp.code){
                     1000->{
                         setVisitedButton(resp.result.isVisited)
@@ -373,6 +367,26 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
         })
     }
 
+    // 카카오 지도 띄우기
+    private fun showMap() {
+        val mapView = MapView(this)
+        binding.detailMapView.addView(mapView)
+
+        //위치 설정
+        val mapPoint = MapPoint.mapPointWithGeoCoord(lat,long) //위치 설정
+        mapView.setMapCenterPoint(mapPoint, true) //중심점 설정
+        mapView.setZoomLevel(3,true) //확대 레벨 설정 (작을 수록 확대)
+
+        //마커 생성
+        val marker = MapPOIItem()
+        marker.itemName = "위치"
+        marker.mapPoint = MapPoint.mapPointWithGeoCoord(lat,long)
+        marker.markerType = MapPOIItem.MarkerType.BluePin
+
+        mapView.addPOIItem(marker)
+    }
+
+    // 블로그 후기 조회
     private fun getSearchBlog(text: String){
         val restAPI = BuildConfig.KAKAO_REST_API
 
@@ -428,20 +442,7 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
             .show()
     }
 
-    private fun showMap() {
-        val mapView = MapView(this)
-        binding.detailMapView.addView(mapView)
-
-        val mapPoint = MapPoint.mapPointWithGeoCoord(long,lat)
-        mapView.setMapCenterPoint(mapPoint, true)
-        mapView.setZoomLevel(1,true)
-
-        val marker = MapPOIItem()
-        marker.mapPoint = mapPoint
-        mapView.addPOIItem(marker)
-    }
-
-
+    // 도표
     private fun showBarChart(){
         // 값 추가
         val values = mutableListOf<BarEntry>()
@@ -493,7 +494,7 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
 
             description.isEnabled = false // description label 비활성화
             legend.isEnabled = false // 범례 비활성화
-            extraRightOffset = 40f; // 수치값 잘리지 않도록 오른쪽에 공간 부여
+            extraRightOffset = 40f // 수치값 잘리지 않도록 오른쪽에 공간 부여
 
             xAxis.run { // x 축
                 isEnabled = true // x축 값 표시
