@@ -19,12 +19,17 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.formatter.PercentFormatter
 import com.sjdev.wheretogo.BuildConfig
 import com.sjdev.wheretogo.data.remote.detail.*
+import com.sjdev.wheretogo.data.remote.mypage.DeleteSavedEventResponse
+import com.sjdev.wheretogo.data.remote.mypage.EventBtnStatusResponse
+import com.sjdev.wheretogo.data.remote.mypage.MypageRetrofitInterface
+import com.sjdev.wheretogo.data.remote.mypage.SaveEventResponse
 import com.sjdev.wheretogo.databinding.ActivityDetailBinding
 import com.sjdev.wheretogo.ui.BaseActivity
 import com.sjdev.wheretogo.ui.login.LoginActivity
 import com.sjdev.wheretogo.ui.review.ShowReviewActivity
 import com.sjdev.wheretogo.util.ApplicationClass.Companion.kakaoRetrofit
 import com.sjdev.wheretogo.util.ApplicationClass.Companion.retrofit
+import com.sjdev.wheretogo.util.getJwt
 import net.daum.mf.map.api.MapPOIItem
 import net.daum.mf.map.api.MapPoint
 import net.daum.mf.map.api.MapView
@@ -36,11 +41,11 @@ import retrofit2.Response
 class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding::inflate){
 
     private var eventIdx=0
-    private var userId=0
     private var status = "b"
     private var visitedNum=0
     private var savedNum=0
     private val detailService = retrofit.create(DetailRetrofitInterface::class.java)
+    private val myPageService = retrofit.create(MypageRetrofitInterface::class.java)
     private val kakaoWebService = kakaoRetrofit.create(DetailRetrofitInterface::class.java)
     private var lat=0.0
     private var long=0.0
@@ -51,30 +56,26 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
     override fun initAfterBinding() {
         eventIdx = intent.getIntExtra("eventIdx", -1)
         Log.d("eventId", eventIdx.toString())
-        userId=getUserIdx()
         initClickListener()
 
         getDetailInfo()
-        getVisitedInfo()
-        getSavedInfo()
-
-        //showMap()
+        getBtnStatus()
+        initStar()
         showBarChart()
     }
 
     override fun onRestart() {
         super.onRestart()
-        userId = getUserIdx()
-        getSavedInfo()
-        getVisitedInfo()
+
+        getBtnStatus()
     }
 
     private fun initClickListener(){
         binding.detailEventUncheckBtn.setOnClickListener{
-            when (userId){
-                -1->showLoginAlert()
-                else->binding.detailStarPanel.visibility = View.VISIBLE //체크버튼-> 별점 패널 띄우기
-            }
+            if (getJwt()==null)
+                showLoginAlert()
+            else
+                binding.detailStarPanel.visibility = View.VISIBLE
         }
 
         binding.detailAdaptTv.setOnClickListener {
@@ -88,28 +89,22 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
 
         //방문 uncheck상태에서 체크를 누르면 버튼이 활성화되기전 별점 패널이 뜸
         binding.detailEventCheckBtn.setOnClickListener{
-            when (userId){
-                -1->showLoginAlert()
-                else->{
-                    setVisitedButton(false)
-                    deleteVisitedEvent()}
+            if (getJwt()==null)
+                showLoginAlert()
+            else {
+                setVisitedButton(false)
+                deleteVisitedEvent()
             }
         }
 
         binding.detailEventDislikeBtn.setOnClickListener {
-            when (userId) {
-                -1 -> showLoginAlert()
-                else -> {
-                    setSavedButton(true)
-                    saveEvent()
-                }
-            }
+            if (getJwt()==null)
+                showLoginAlert()
+            else
+                saveEvent()
         }
         binding.detailEventLikeBtn.setOnClickListener{
-            if (userId!=-1){
-                setSavedButton(false)
-                deleteSavedEvent()
-            }
+            deleteSavedEvent()
         }
 
         binding.detailBackBtn.setOnClickListener {
@@ -119,8 +114,6 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
         binding.detailReviewMoreBtn.setOnClickListener {
             startNextActivity(ShowReviewActivity::class.java)
         }
-
-        initStar()
 
     }
 
@@ -145,7 +138,7 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
     }
 
     fun setDetailInfo(lst: List<DetailInfoResult>){
-        val result:DetailInfoResult = lst.get(0)
+        val result:DetailInfoResult = lst[0]
         val time= result.eventtime?.replace("<br>".toRegex(), "\n")
         val age= result.agelimit?.replace("<br>".toRegex(), "\n")
         val price= result.price?.replace("<br>".toRegex(), "\n")
@@ -163,6 +156,7 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
             detailEventSavedCount.text = String.format("찜한 유저 수: %s명",savedNum)
             detailDateDataTv.text = String.format("%s ~ %s",result.startDate.slice(IntRange(0,9)),result.endDate.slice(IntRange(0,9)))
         }
+
 
         if (time!=null){
             binding.detailTimeDataTv.text =time
@@ -199,7 +193,7 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
 
         if (result.homepage!=null){
             binding.detailHomepageDataTv.text = Html.fromHtml(result.homepage)
-            binding.detailHomepageDataTv.movementMethod = LinkMovementMethod.getInstance();
+            binding.detailHomepageDataTv.movementMethod = LinkMovementMethod.getInstance()
         }
         else binding.detailHomepageTv.visibility= View.GONE
 
@@ -226,15 +220,10 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
         if (result.mapx!=null){
             long = result.mapx.toDouble()
             lat = result.mapy!!.toDouble()
-            if (result.mlevel==null){
-                level=6;
-            }
-            else {
-                level = result.mlevel!!
-            }
+            level = result.mlevel!!
+            showMap()
 
-        }
-        else {
+        } else {
             binding.detailMapView.visibility = View.GONE
         }
 
@@ -249,41 +238,25 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
     }
 
 
-    private fun getVisitedInfo(){
-        detailService.getVisitedInfo(eventIdx).enqueue(object: Callback<DetailIsVisitedResponse> {
-            override fun onResponse(call: Call<DetailIsVisitedResponse>, response: Response<DetailIsVisitedResponse>) {
+    private fun getBtnStatus(){
+        myPageService.getBtnStatus(eventIdx).enqueue(object: Callback<EventBtnStatusResponse> {
+            override fun onResponse(call: Call<EventBtnStatusResponse>, response: Response<EventBtnStatusResponse>) {
                 val resp = response.body()!!
                 when(resp.code){
                     1000->{
                         setVisitedButton(resp.result.isVisited)
-                    }
-                    else ->{
-
-                    }
-                }
-            }
-            override fun onFailure(call: Call<DetailIsVisitedResponse>, t: Throwable) {
-            }
-        })
-    }
-
-    private fun getSavedInfo(){
-        detailService.getSavedInfo(eventIdx).enqueue(object: Callback<DetailIsSavedResponse> {
-            override fun onResponse(call: Call<DetailIsSavedResponse>, response: Response<DetailIsSavedResponse>) {
-                val resp = response.body()!!
-                when(resp.code){
-                    1000->{
                         setSavedButton(resp.result.isSaved)
                     }
                     else ->{
-
                     }
                 }
             }
-            override fun onFailure(call: Call<DetailIsSavedResponse>, t: Throwable) {
+            override fun onFailure(call: Call<EventBtnStatusResponse>, t: Throwable) {
             }
         })
     }
+
+
 
     //뷰 버튼 상태
     private fun setVisitedButton(isVisited: Boolean){
@@ -310,18 +283,19 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
 
     //이벤트 저장(서버에 반영)
     private fun saveEvent(){
-        detailService.saveEvent(eventIdx).enqueue(object: Callback<DetailSaveEventResponse> {
-            override fun onResponse(call: Call<DetailSaveEventResponse>, response: Response<DetailSaveEventResponse>) {
+        myPageService.saveEvent(eventIdx).enqueue(object: Callback<SaveEventResponse> {
+            override fun onResponse(call: Call<SaveEventResponse>, response: Response<SaveEventResponse>) {
                 val resp = response.body()!!
                 Log.d("isSaved",resp.toString())
                 when(resp.code){
-                    200->{
+                    1000->{
+                        setSavedButton(true)
                         binding.detailEventSavedCount.text = String.format("찜한 유저 수: %s명",++savedNum)
-                        showToast(resp.msg)
+                        showToast(resp.message)
                     }
                 }
             }
-            override fun onFailure(call: Call<DetailSaveEventResponse>, t: Throwable) {
+            override fun onFailure(call: Call<SaveEventResponse>, t: Throwable) {
             }
         })
     }
@@ -330,25 +304,26 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
 
     //저장한 이벤트 삭제
     private fun deleteSavedEvent(){
-        detailService.deleteSavedEvent(eventIdx).enqueue(object: Callback<DetailDeleteSavedResponse> {
-            override fun onResponse(call: Call<DetailDeleteSavedResponse>, response: Response<DetailDeleteSavedResponse>) {
+        myPageService.deleteSavedEvent(eventIdx).enqueue(object: Callback<DeleteSavedEventResponse> {
+            override fun onResponse(call: Call<DeleteSavedEventResponse>, response: Response<DeleteSavedEventResponse>) {
                 val resp = response.body()!!
                 Log.d("isSaved/delete",resp.toString())
                 when(resp.code){
-                    200->{
+                    1000->{
+                        setSavedButton(false)
                         binding.detailEventSavedCount.text = String.format("찜한 유저 수: %s명",--savedNum)
-                        showToast(resp.msg)
+                        showToast(resp.message)
                     }
                 }
             }
-            override fun onFailure(call: Call<DetailDeleteSavedResponse>, t: Throwable) {
+            override fun onFailure(call: Call<DeleteSavedEventResponse>, t: Throwable) {
             }
         })
     }
 
     private fun visitEvent(assess:String){
-        detailService.visitEvent(eventIdx,assess).enqueue(object: Callback<DetailVisitEventResponse> {
-            override fun onResponse(call: Call<DetailVisitEventResponse>, response: Response<DetailVisitEventResponse>) {
+        myPageService.visitEvent(eventIdx,assess).enqueue(object: Callback<VisitEventResponse> {
+            override fun onResponse(call: Call<VisitEventResponse>, response: Response<VisitEventResponse>) {
                 val resp = response.body()!!
                 when(resp.code){
                     200->{
@@ -362,11 +337,10 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
                     }
                     else ->{
                         Log.d("detail/visit",resp.msg)
-                        Log.d("detail/visit",userId.toString())
                     }
                 }
             }
-            override fun onFailure(call: Call<DetailVisitEventResponse>, t: Throwable) {
+            override fun onFailure(call: Call<VisitEventResponse>, t: Throwable) {
             }
         })
     }
@@ -374,8 +348,8 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
     //저장한 이벤트 삭제
     private fun deleteVisitedEvent(){
 
-        detailService.deleteVisitedEvent(eventIdx).enqueue(object: Callback<DetailDeleteVisitedResponse> {
-            override fun onResponse(call: Call<DetailDeleteVisitedResponse>, response: Response<DetailDeleteVisitedResponse>) {
+        myPageService.deleteVisitedEvent(eventIdx).enqueue(object: Callback<DeleteVisitedEventResponse> {
+            override fun onResponse(call: Call<DeleteVisitedEventResponse>, response: Response<DeleteVisitedEventResponse>) {
                 val resp = response.body()!!
                 Log.d("isVisited/delete",resp.toString())
                 when(resp.code){
@@ -388,11 +362,31 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
                     }
                 }
             }
-            override fun onFailure(call: Call<DetailDeleteVisitedResponse>, t: Throwable) {
+            override fun onFailure(call: Call<DeleteVisitedEventResponse>, t: Throwable) {
             }
         })
     }
 
+    // 카카오 지도 띄우기
+    private fun showMap() {
+        val mapView = MapView(this)
+        binding.detailMapView.addView(mapView)
+
+        //위치 설정
+        val mapPoint = MapPoint.mapPointWithGeoCoord(lat,long) //위치 설정
+        mapView.setMapCenterPoint(mapPoint, true) //중심점 설정
+        mapView.setZoomLevel(3,true) //확대 레벨 설정 (작을 수록 확대)
+
+        //마커 생성
+        val marker = MapPOIItem()
+        marker.itemName = "위치"
+        marker.mapPoint = MapPoint.mapPointWithGeoCoord(lat,long)
+        marker.markerType = MapPOIItem.MarkerType.BluePin
+
+        mapView.addPOIItem(marker)
+    }
+
+    // 블로그 후기 조회
     private fun getSearchBlog(text: String){
         val restAPI = BuildConfig.KAKAO_REST_API
 
@@ -448,25 +442,7 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
             .show()
     }
 
-    private fun getUserIdx(): Int {
-        val spf = getSharedPreferences("userInfo", MODE_PRIVATE)
-        return spf!!.getInt("userIdx",-1)
-    }
-
-    private fun showMap() {
-        val mapView = MapView(this)
-        binding.detailMapView.addView(mapView)
-
-        val mapPoint = MapPoint.mapPointWithGeoCoord(long,lat)
-        mapView.setMapCenterPoint(mapPoint, true)
-        mapView.setZoomLevel(1,true)
-
-        val marker = MapPOIItem()
-        marker.mapPoint = mapPoint
-        mapView.addPOIItem(marker)
-    }
-
-
+    // 도표
     private fun showBarChart(){
         // 값 추가
         val values = mutableListOf<BarEntry>()
@@ -518,7 +494,7 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
 
             description.isEnabled = false // description label 비활성화
             legend.isEnabled = false // 범례 비활성화
-            extraRightOffset = 40f; // 수치값 잘리지 않도록 오른쪽에 공간 부여
+            extraRightOffset = 40f // 수치값 잘리지 않도록 오른쪽에 공간 부여
 
             xAxis.run { // x 축
                 isEnabled = true // x축 값 표시

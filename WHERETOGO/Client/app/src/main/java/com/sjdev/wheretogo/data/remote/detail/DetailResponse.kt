@@ -41,53 +41,16 @@ data class DetailInfoResult(
 
 )
 
-//VisitedTBL 저장 여부 조회
-data class DetailIsVisitedResponse(
-    @SerializedName(value = "isSuccess")val isSuccess:Boolean,
-    @SerializedName(value = "code")val code:Int,
-    @SerializedName(value = "result")val result:IsVisitedResult
-)
-
-data class IsVisitedResult (
-    @SerializedName(value = "isVisited") val isVisited: Boolean
-)
-
-//SavedTBL 저장 여부 조회
-data class DetailIsSavedResponse(
-    @SerializedName(value = "isSuccess")val isSuccess:Boolean,
-    @SerializedName(value = "code")val code:Int,
-    @SerializedName(value = "result")val result:IsSavedResult
-)
-
-data class IsSavedResult(
-    @SerializedName(value = "isSaved") val isSaved: Boolean
-)
-
-
-//savedTBL에 추가
-data class DetailSaveEventResponse(
-    @SerializedName("msg") var msg : String,
-    @SerializedName("code") var code : Int,
-    @SerializedName("isSuccess") var isSuccess : Boolean
-)
-
-//savedTBL에 삭제
-data class DetailDeleteSavedResponse(
-    @SerializedName("msg") var msg : String,
-    @SerializedName("code") var code : Int,
-    @SerializedName("isSuccess") var isSuccess : Boolean
-)
-
 
 //visitedTBL에 추가
-data class DetailVisitEventResponse(
+data class VisitEventResponse(
     @SerializedName("msg") var msg : String,
     @SerializedName("code") var code : Int,
     @SerializedName("isSuccess") var isSuccess : Boolean
 )
 
 //savedTBL에 삭제
-data class DetailDeleteVisitedResponse(
+data class DeleteVisitedEventResponse(
     @SerializedName("msg") var msg : String,
     @SerializedName("code") var code : Int,
     @SerializedName("isSuccess") var isSuccess : Boolean

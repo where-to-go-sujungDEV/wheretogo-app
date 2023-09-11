@@ -78,7 +78,7 @@ data class AllRecommendEventResponse(
 )
 
 data class AllRecommendEventResult (
-    @SerializedName(value = "getRecommendEventResults") val allRecommendResult : ArrayList<AllRecommendEvent>
+    @SerializedName(value = "getRecommandEventResults") val allRecommendResult : ArrayList<AllRecommendEvent>
 )
 
 data class AllRecommendEvent(

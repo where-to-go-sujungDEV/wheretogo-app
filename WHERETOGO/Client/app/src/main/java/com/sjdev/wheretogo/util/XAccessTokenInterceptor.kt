@@ -1,4 +1,5 @@
 package com.sjdev.wheretogo.util
+import androidx.appcompat.app.AppCompatActivity
 import com.sjdev.wheretogo.util.ApplicationClass.Companion.X_ACCESS_TOKEN
 import okhttp3.Interceptor
 import okhttp3.Request

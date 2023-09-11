@@ -13,13 +13,12 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.sjdev.wheretogo.R
-import com.sjdev.wheretogo.data.remote.mypage.EventStatusResponse
-import com.sjdev.wheretogo.data.remote.mypage.MypageRetrofitInterface
-import com.sjdev.wheretogo.data.remote.mypage.SavedEventResult
+import com.sjdev.wheretogo.data.remote.detail.DeleteVisitedEventResponse
+import com.sjdev.wheretogo.data.remote.detail.VisitEventResponse
+import com.sjdev.wheretogo.data.remote.mypage.*
 import com.sjdev.wheretogo.data.remote.search.*
 import com.sjdev.wheretogo.databinding.ItemMypageSavedBinding
 import com.sjdev.wheretogo.ui.review.WriteReviewActivity
-import com.sjdev.wheretogo.util.ApplicationClass
 import com.sjdev.wheretogo.util.ApplicationClass.Companion.retrofit
 import retrofit2.Call
 import retrofit2.Callback
@@ -28,8 +27,7 @@ import retrofit2.Response
 class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventResult>) : RecyclerView.Adapter<UserSavedEventRVAdapter.ViewHolder>() {
     private lateinit var context: Context
     private var status = "b"
-    private val eventStatusService = retrofit.create(MypageRetrofitInterface::class.java)
-    private val setStatusService = retrofit.create(SearchRetrofitInterface::class.java)
+    private val service = retrofit.create(MypageRetrofitInterface::class.java)
     private var isEventVisited=true
     private var isEventSaved=true
     private var userId=0
@@ -122,7 +120,7 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
                 notifyItemChanged(holder.adapterPosition)
             }
             else {
-                setSavedEvent(userId, eventId)
+                setSavedEvent(userId)
                 isEventSaved=true
                 Toast.makeText(context, R.string.like_on, Toast.LENGTH_SHORT).show()
                 binding.itemMypageLikeBtn.setBackgroundResource(R.drawable.btn_like_click)
@@ -152,77 +150,69 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
     }
 
     private fun getEventStatus(binding: ItemMypageSavedBinding,eventId:Int){
-        eventStatusService.getEventStatus(userId,eventId).enqueue(object:
-            Callback<EventStatusResponse> {
-            override fun onResponse(call: Call<EventStatusResponse>, response: Response<EventStatusResponse>) {
+        service.getBtnStatus(eventId).enqueue(object:
+            Callback<EventBtnStatusResponse> {
+            override fun onResponse(call: Call<EventBtnStatusResponse>, response: Response<EventBtnStatusResponse>) {
                 val resp = response.body()!!
                 when(resp.code){
-                    200->{
-                        if (resp.isVisited){
+                    1000->{
+                        if (resp.result.isVisited){
                             binding.itemMypageVisitedBtn.setBackgroundResource(R.drawable.btn_check_click)
                             isEventVisited=true
                         }
-                        else {
+                        if (!resp.result.isVisited){
                             binding.itemMypageVisitedBtn.setBackgroundResource(R.drawable.btn_check_unclick)
                             isEventVisited=false
                         }
-                        if (resp.isSaved){
+                        if (resp.result.isSaved){
                             binding.itemMypageLikeBtn.setBackgroundResource(R.drawable.btn_like_click)
                             isEventSaved=true
 
                         }
-                        else {
+                        if (!resp.result.isSaved) {
                             binding.itemMypageLikeBtn.setBackgroundResource(R.drawable.btn_like_unclick)
                             isEventSaved=false
                         }
                     }
                 }
             }
-            override fun onFailure(call: Call<EventStatusResponse>, t: Throwable) {
+            override fun onFailure(call: Call<EventBtnStatusResponse>, t: Throwable) {
             }
         })
     }
 
     //save이벤트에 추가
-    private fun setSavedEvent(userID: Int, eventID: Int){
-        setStatusService.setSavedEvent(userID, eventID).enqueue(object: Callback<SetSavedEventResponse>{
-            override fun onResponse(call: Call<SetSavedEventResponse>, responseSet: Response<SetSavedEventResponse>) {
+    private fun setSavedEvent(eventID: Int){
+        service.saveEvent(eventID).enqueue(object: Callback<SaveEventResponse>{
+            override fun onResponse(call: Call<SaveEventResponse>, responseSet: Response<SaveEventResponse>) {
                 val resp = responseSet.body()!!
                 when(resp.code){
-                    200-> {
+                    1000-> {
                     }
-                    204 ->{
-                        Log.d("setSavedEvent/fail", resp.msg)
-                    }
+
                     else->{
-                        Log.d("setSavedEvent/ERROR", resp.msg)
+                        Log.d("setSavedEvent/ERROR", resp.message)
                     }
                 }
             }
 
-            override fun onFailure(call: Call<SetSavedEventResponse>, t: Throwable) {
+            override fun onFailure(call: Call<SaveEventResponse>, t: Throwable) {
                 Log.d("setSavedEvent/FAILURE", t.message.toString())
             }
         })
     }
     //save이벤트에서 삭제
     private fun setDeleteSavedEvent(eventId:Int){
-        setStatusService.setDeleteSavedResponse(userId,eventId).enqueue(object: Callback<DeleteSavedResponse> {
-            override fun onResponse(call: Call<DeleteSavedResponse>, response: Response<DeleteSavedResponse>) {
+        service.deleteSavedEvent(eventId).enqueue(object: Callback<DeleteSavedEventResponse> {
+            override fun onResponse(call: Call<DeleteSavedEventResponse>, response: Response<DeleteSavedEventResponse>) {
                 val resp = response.body()!!
                 when(resp.code){
-                    200->{
-                    }
-                    204-> {
-
-                    }
-                    else->{
-
+                    1000->{
                     }
                 }
             }
 
-            override fun onFailure(call: Call<DeleteSavedResponse>, t: Throwable) {
+            override fun onFailure(call: Call<DeleteSavedEventResponse>, t: Throwable) {
                 Log.d("getDeleteSavedEvent/FAILURE", t.message.toString())
             }
         })
@@ -232,46 +222,37 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
 
     //visitedTBL에 저장
     private fun setVisitedEvent(eventId:Int,assess :String){
-        setStatusService.setVisitedEvent(userId,eventId,assess).enqueue(object: Callback<SetVisitedEventResponse>{
-            override fun onResponse(call: Call<SetVisitedEventResponse>, responseSet: Response<SetVisitedEventResponse>) {
+        service.visitEvent(eventId,assess).enqueue(object: Callback<VisitEventResponse>{
+            override fun onResponse(call: Call<VisitEventResponse>, responseSet: Response<VisitEventResponse>) {
                 val resp = responseSet.body()!!
                 when(resp.code){
-                    200-> {
+                    1000-> {
                         Log.d("setVisitedEvent/Success", userId.toString())
                     }
-                    204 ->{
-                        Log.d("setVisitedEvent/fail", userId.toString())
-                        Log.d("setVisitedEvent/fail", resp.msg)
-                    }
+
                     else->{
                         Log.d("setVisitedEvent/ERROR", resp.msg)
                     }
                 }
             }
 
-            override fun onFailure(call: Call<SetVisitedEventResponse>, t: Throwable) {
+            override fun onFailure(call: Call<VisitEventResponse>, t: Throwable) {
                 Log.d("setVisitedEvent/FAILURE", t.message.toString())
             }
         })
     }
     private fun setDeleteVisitedEvent(eventId:Int){
-        setStatusService.setDeleteVisitedResponse(userId,eventId).enqueue(object: Callback<DeleteVisitedResponse> {
-            override fun onResponse(call: Call<DeleteVisitedResponse>, response: Response<DeleteVisitedResponse>) {
+        service.deleteVisitedEvent(eventId).enqueue(object: Callback<DeleteVisitedEventResponse> {
+            override fun onResponse(call: Call<DeleteVisitedEventResponse>, response: Response<DeleteVisitedEventResponse>) {
                 val resp = response.body()!!
                 when(resp.code){
-                    200->{
+                    1000->{
                         Log.d("setDeleteVisitedEvent/SUCCESS", resp.msg)
                     }
-                    204-> {
 
-                    }
-                    else->{
-
-                    }
                 }
             }
-
-            override fun onFailure(call: Call<DeleteVisitedResponse>, t: Throwable) {
+            override fun onFailure(call: Call<DeleteVisitedEventResponse>, t: Throwable) {
                 Log.d("setDeleteVisitedEvent/FAILURE", t.message.toString())
             }
         })

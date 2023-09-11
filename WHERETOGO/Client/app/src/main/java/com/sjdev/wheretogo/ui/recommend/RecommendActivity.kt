@@ -1,6 +1,7 @@
 package com.sjdev.wheretogo.ui.recommend
 
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
 import android.util.Log
@@ -23,6 +24,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class RecommendActivity: BaseActivity<ActivityRecommendBinding>(ActivityRecommendBinding::inflate){
+    private val TAG = "getAllRecommend"
     private val service = retrofit.create(HomeRetrofitInterface::class.java)
     private var sexValue="0"
     private var ageValue=0
@@ -76,16 +78,17 @@ class RecommendActivity: BaseActivity<ActivityRecommendBinding>(ActivityRecommen
     private fun getSpinnerValue() {
         val sex = binding.recommendGenderSpinner.selectedItem.toString()
         val age = binding.recommendAgeSpinner.selectedItem.toString()
-        if (sex=="전체"&&age=="전체")
+        if (sex=="전체"&&age=="전체"){
             binding.recommendExplainTv.text = "모든 유저에게 인기있는 이벤트입니다."
-        else binding.recommendExplainTv.text = String.format("%s %s에게 인기있는 이벤트입니다.",age,sex)
+        } else binding.recommendExplainTv.text = String.format("%s %s에게 인기있는 이벤트입니다.",age,sex)
+
         sexValue = when (sex){
             "여성"-> "w"
             "남성"-> "m"
             else-> "0"
         }
         ageValue = binding.recommendAgeSpinner.selectedItemPosition
-        Log.d("recommend",ageValue.toString())
+        Log.d(TAG,sexValue+ageValue.toString())
         getAllRecommendEvent(sexValue,ageValue)
     }
 
@@ -94,23 +97,23 @@ class RecommendActivity: BaseActivity<ActivityRecommendBinding>(ActivityRecommen
         service.getAllRecommendEvent(sexValue, ageValue).enqueue(object: Callback<AllRecommendEventResponse> {
             override fun onResponse(call: Call<AllRecommendEventResponse>, response: Response<AllRecommendEventResponse>) {
                 val resp = response.body()!!
-                resp.result?.toString()?.let { Log.d("recommend", it) }
+                Log.d(TAG,resp.result.toString())
                 when(resp.code){
                     1000->{
 
-                        setAllRecommendEvent(resp.result?.allRecommendResult!!)
+                        setAllRecommendEvent(resp.result!!.allRecommendResult)
                     }
                     else -> {
-                        Log.d("getAllRecommend/FAILURE", resp.message)
+                        Log.d(TAG, resp.message)
                     }
                 }
             }
             override fun onFailure(call: Call<AllRecommendEventResponse>, t: Throwable) {
-                Log.d("getAllRecommend/FAILURE", t.message.toString())
             }
         })
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun setAllRecommendEvent(allRecommendList: ArrayList<AllRecommendEvent>?){
         val adapter = RecommendRVAdapter(allRecommendList)
         //리사이클러뷰에 어댑터 연결
