@@ -105,7 +105,7 @@
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
             android:value="sjghwbhs3t" />
-        <meta-data android:name="com.kakao.sdk.AppKey" android:value="c67c29c48584b52e1cac251215c4b0bb"/>
+        <meta-data android:name="com.kakao.sdk.AppKey" android:value="${KAKAO_NATIVE_KEY}"/>
     </application>
 
 </manifest>

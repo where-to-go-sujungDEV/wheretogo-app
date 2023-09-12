@@ -47,9 +47,6 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
     private val detailService = retrofit.create(DetailRetrofitInterface::class.java)
     private val myPageService = retrofit.create(MypageRetrofitInterface::class.java)
     private val kakaoWebService = kakaoRetrofit.create(DetailRetrofitInterface::class.java)
-    private var lat=0.0
-    private var long=0.0
-    private var level=0
     lateinit var barData : BarData
 
 
@@ -218,10 +215,7 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
         }
 
         if (result.mapx!=null){
-            long = result.mapx.toDouble()
-            lat = result.mapy!!.toDouble()
-            level = result.mlevel!!
-            showMap()
+            showMap(result.mapx.toDouble(), result.mapy!!.toDouble(), result.mlevel!!)
 
         } else {
             binding.detailMapView.visibility = View.GONE
@@ -368,19 +362,19 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
     }
 
     // 카카오 지도 띄우기
-    private fun showMap() {
+    private fun showMap(lat : Double, long: Double, level:Int) {
         val mapView = MapView(this)
         binding.detailMapView.addView(mapView)
 
         //위치 설정
-        val mapPoint = MapPoint.mapPointWithGeoCoord(lat,long) //위치 설정
+        val mapPoint = MapPoint.mapPointWithGeoCoord(long, lat) //위치 설정
         mapView.setMapCenterPoint(mapPoint, true) //중심점 설정
-        mapView.setZoomLevel(3,true) //확대 레벨 설정 (작을 수록 확대)
+        mapView.setZoomLevel(level,true) //확대 레벨 설정 (작을 수록 확대)
 
         //마커 생성
         val marker = MapPOIItem()
         marker.itemName = "위치"
-        marker.mapPoint = MapPoint.mapPointWithGeoCoord(lat,long)
+        marker.mapPoint = MapPoint.mapPointWithGeoCoord(long, lat)
         marker.markerType = MapPOIItem.MarkerType.BluePin
 
         mapView.addPOIItem(marker)
