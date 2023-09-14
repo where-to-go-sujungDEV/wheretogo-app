@@ -5,32 +5,32 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sjdev.wheretogo.BaseFragment
-import com.sjdev.wheretogo.data.remote.getRetrofit
 import com.sjdev.wheretogo.data.remote.detail.DetailRetrofitInterface
 import com.sjdev.wheretogo.data.remote.mypage.MypageService
 import com.sjdev.wheretogo.data.remote.mypage.VisitedEventResult
 import com.sjdev.wheretogo.databinding.FragmentMypageBannerBinding
 import com.sjdev.wheretogo.ui.detail.DetailActivity
-import com.sjdev.wheretogo.ui.myReview.MyReviewActivity
+import com.sjdev.wheretogo.util.ApplicationClass
+import com.sjdev.wheretogo.util.ApplicationClass.Companion.retrofit
 
 class MypageVisitedFragment() : BaseFragment<FragmentMypageBannerBinding>(FragmentMypageBannerBinding::inflate){
     private val mypageService = MypageService
-    private val detailBooleanService = getRetrofit().create(DetailRetrofitInterface::class.java)
+    private val detailBooleanService = retrofit.create(DetailRetrofitInterface::class.java)
     private var userId =0
     override fun initAfterBinding() {
         //방문여부 표시
         userId=getIdx()
-        mypageService.getVisitedEvent(this,userId)
+        mypageService.getVisitedEvent(this)
     }
 
     override fun onStart() {
         super.onStart()
-        mypageService.getVisitedEvent(this,userId)
+        mypageService.getVisitedEvent(this)
     }
 
     override fun onResume(){
         super.onResume()
-        mypageService.getVisitedEvent(this,userId)
+        mypageService.getVisitedEvent(this)
     }
 
     fun setVisitedEvent(visitedEventList: ArrayList<VisitedEventResult>){
@@ -46,8 +46,7 @@ class MypageVisitedFragment() : BaseFragment<FragmentMypageBannerBinding>(Fragme
 
         adapter.setMyItemClickListener(object : UserVisitedEventRVAdapter.OnItemClickListener {
             override fun onItemClick(visitedEventData: VisitedEventResult) {
-//                val intent = Intent(context, DetailActivity::class.java)
-                val intent = Intent(context, MyReviewActivity::class.java)
+                val intent = Intent(context, DetailActivity::class.java)
                 intent.putExtra("eventIdx", visitedEventData.eventID)
                 startActivity(intent)
             }

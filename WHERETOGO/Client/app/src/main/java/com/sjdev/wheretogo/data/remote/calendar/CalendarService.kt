@@ -1,14 +1,15 @@
 package com.sjdev.wheretogo.data.remote.calendar
 
 import android.util.Log
-import com.sjdev.wheretogo.data.remote.getRetrofit
 import com.sjdev.wheretogo.ui.calendar.CalendarFragment
+import com.sjdev.wheretogo.util.ApplicationClass
+import com.sjdev.wheretogo.util.ApplicationClass.Companion.retrofit
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 object CalendarService {
-    private val calendarService = getRetrofit().create(CalendarRetrofitInterface::class.java)
+    private val calendarService = retrofit.create(CalendarRetrofitInterface::class.java)
 
     fun getCalendarDay(fragment: CalendarFragment, userID: Int){
         calendarService.getCalendarDay(userID).enqueue(object: Callback<CalendarResponse> {

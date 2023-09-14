@@ -5,19 +5,21 @@ import android.util.Log
 import com.sjdev.wheretogo.data.remote.auth.AuthRetrofitInterface
 import com.sjdev.wheretogo.data.remote.auth.DeleteUserResponse
 import com.sjdev.wheretogo.data.remote.auth.GetNameResponse
-import com.sjdev.wheretogo.data.remote.getRetrofit
 import com.sjdev.wheretogo.databinding.ActivitySettingBinding
 import com.sjdev.wheretogo.ui.BaseActivity
 import com.sjdev.wheretogo.ui.keyword.KeywordActivity
+import com.sjdev.wheretogo.util.ApplicationClass.Companion.retrofit
+import com.sjdev.wheretogo.util.removeJwt
+import com.sjdev.wheretogo.util.saveNickname
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class SettingActivity: BaseActivity<ActivitySettingBinding>(ActivitySettingBinding::inflate) {
-    private val service = getRetrofit().create(AuthRetrofitInterface::class.java)
+    private val service = retrofit.create(AuthRetrofitInterface::class.java)
 
     override fun initAfterBinding() {
-        saveName(getIdx())
+        saveName()
         binding.settingChangeNickname.setOnClickListener {
             startNextActivity(ChangeInfoActivity::class.java)
         }
@@ -72,21 +74,18 @@ class SettingActivity: BaseActivity<ActivitySettingBinding>(ActivitySettingBindi
         finish()
     }
 
+    // 회원 탈퇴
     private fun deleteUser(){
-        Log.d("deleteUser","함수 실행")
-        service.deleteUser(getIdx()).enqueue(object: Callback<DeleteUserResponse> {
+        service.deleteUser().enqueue(object: Callback<DeleteUserResponse> {
             override fun onResponse(call: Call<DeleteUserResponse>, response: Response<DeleteUserResponse>) {
                 val resp = response.body()!!
-                Log.d("deleteUser",resp.code.toString())
+                Log.d("deleteUser","ddd")
+                Log.d("deleteUser",resp.toString())
                 when (resp.code){
-                    200->{
-                        showDeleteResult(resp.msg)
-                        val spf = getSharedPreferences("userInfo",MODE_PRIVATE)
-                        val editor = spf!!.edit()
-                        editor.remove("userIdx") //키값에 저장된값 삭제-> idx=-1
-                        editor.apply()
+                    1000->{
+                        showDeleteResult(resp.message)
+                        removeJwt()
                     }
-                    204->showDeleteResult(resp.msg)
                 }
             }
             override fun onFailure(call: Call<DeleteUserResponse>, t: Throwable) {
@@ -94,17 +93,13 @@ class SettingActivity: BaseActivity<ActivitySettingBinding>(ActivitySettingBindi
         })
     }
 
-    private fun saveName(userIdx: Int){
-        service.getName(userIdx).enqueue(object: Callback<GetNameResponse> {
+    private fun saveName(){
+        service.getName().enqueue(object: Callback<GetNameResponse> {
             override fun onResponse(call: Call<GetNameResponse>, response: Response<GetNameResponse>) {
                 val resp = response.body()!!
                 when(resp.code){
-                    200->{
-                        val spf = getSharedPreferences("userInfo", MODE_PRIVATE)
-                        val editor = spf.edit()
-                        editor.putString("nickname", resp.results!!.nickName)
-
-                        editor.apply()
+                    1000->{
+                        saveNickname(resp.result!!.nickName)
                     }
                 }
             }
@@ -112,11 +107,4 @@ class SettingActivity: BaseActivity<ActivitySettingBinding>(ActivitySettingBindi
             }
         })
     }
-
-    //유저 인덱스 가져옴
-    private fun getIdx(): Int {
-        val spf = getSharedPreferences("userInfo", MODE_PRIVATE)
-        return spf!!.getInt("userIdx",-1)
-    }
-
 }

@@ -1,6 +1,7 @@
 package com.sjdev.wheretogo.ui.recommend
 
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
 import android.util.Log
@@ -11,16 +12,20 @@ import android.widget.Spinner
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sjdev.wheretogo.R
-import com.sjdev.wheretogo.data.remote.getRetrofit
-import com.sjdev.wheretogo.data.remote.home.*
+import com.sjdev.wheretogo.data.remote.home.AllRecommendEventResponse
+import com.sjdev.wheretogo.data.remote.home.AllRecommendEvent
+import com.sjdev.wheretogo.data.remote.home.HomeRetrofitInterface
 import com.sjdev.wheretogo.databinding.ActivityRecommendBinding
 import com.sjdev.wheretogo.ui.BaseActivity
 import com.sjdev.wheretogo.ui.detail.DetailActivity
+import com.sjdev.wheretogo.util.ApplicationClass.Companion.retrofit
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+
 class RecommendActivity: BaseActivity<ActivityRecommendBinding>(ActivityRecommendBinding::inflate){
-    private val service = getRetrofit().create(HomeRetrofitInterface::class.java)
+    private val TAG = "getAllRecommend"
+    private val service = retrofit.create(HomeRetrofitInterface::class.java)
     private var sexValue="0"
     private var ageValue=0
     private val gender = arrayOf("전체","여성","남성")
@@ -73,15 +78,17 @@ class RecommendActivity: BaseActivity<ActivityRecommendBinding>(ActivityRecommen
     private fun getSpinnerValue() {
         val sex = binding.recommendGenderSpinner.selectedItem.toString()
         val age = binding.recommendAgeSpinner.selectedItem.toString()
-        if (sex=="전체"&&age=="전체")
+        if (sex=="전체"&&age=="전체"){
             binding.recommendExplainTv.text = "모든 유저에게 인기있는 이벤트입니다."
-        else binding.recommendExplainTv.text = String.format("%s %s에게 인기있는 이벤트입니다.",age,sex)
+        } else binding.recommendExplainTv.text = String.format("%s %s에게 인기있는 이벤트입니다.",age,sex)
+
         sexValue = when (sex){
             "여성"-> "w"
             "남성"-> "m"
             else-> "0"
         }
         ageValue = binding.recommendAgeSpinner.selectedItemPosition
+        Log.d(TAG,sexValue+ageValue.toString())
         getAllRecommendEvent(sexValue,ageValue)
     }
 
@@ -90,20 +97,24 @@ class RecommendActivity: BaseActivity<ActivityRecommendBinding>(ActivityRecommen
         service.getAllRecommendEvent(sexValue, ageValue).enqueue(object: Callback<AllRecommendEventResponse> {
             override fun onResponse(call: Call<AllRecommendEventResponse>, response: Response<AllRecommendEventResponse>) {
                 val resp = response.body()!!
-                Log.d("getAllRecommend/SUCCESS",resp.code.toString())
+                Log.d(TAG,resp.result.toString())
                 when(resp.code){
-                    200->{
-                        setAllRecommendEvent(resp.results!!)
+                    1000->{
+
+                        setAllRecommendEvent(resp.result!!.allRecommendResult)
+                    }
+                    else -> {
+                        Log.d(TAG, resp.message)
                     }
                 }
             }
             override fun onFailure(call: Call<AllRecommendEventResponse>, t: Throwable) {
-                Log.d("getAllRecommend/FAILURE", t.message.toString())
             }
         })
     }
 
-    fun setAllRecommendEvent(allRecommendList: ArrayList<AllRecommendEventResult>){
+    @SuppressLint("NotifyDataSetChanged")
+    fun setAllRecommendEvent(allRecommendList: ArrayList<AllRecommendEvent>?){
         val adapter = RecommendRVAdapter(allRecommendList)
         //리사이클러뷰에 어댑터 연결
         binding.allRecommendEventRv.adapter = adapter
@@ -111,7 +122,8 @@ class RecommendActivity: BaseActivity<ActivityRecommendBinding>(ActivityRecommen
             LinearLayoutManager.VERTICAL,false)
 
         adapter.setMyItemClickListener(object : RecommendRVAdapter.OnItemClickListener {
-            override fun onItemClick(allRecommendData: AllRecommendEventResult) {
+
+            override fun onItemClick(allRecommendData: AllRecommendEvent) {
                 val intent = Intent(applicationContext,DetailActivity::class.java)
                 intent.putExtra("eventIdx", allRecommendData.eventID)
                 startActivity(intent)

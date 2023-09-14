@@ -12,13 +12,13 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.sjdev.wheretogo.R
-import com.sjdev.wheretogo.data.remote.getRetrofit
-import com.sjdev.wheretogo.data.remote.mypage.EventStatusResponse
+import com.sjdev.wheretogo.data.remote.mypage.EventBtnStatusResponse
 import com.sjdev.wheretogo.data.remote.mypage.MypageRetrofitInterface
 import com.sjdev.wheretogo.data.remote.mypage.VisitedEventResult
 import com.sjdev.wheretogo.data.remote.search.*
 import com.sjdev.wheretogo.databinding.ItemMypageVisitedBinding
 import com.sjdev.wheretogo.ui.review.WriteReviewActivity
+import com.sjdev.wheretogo.util.ApplicationClass.Companion.retrofit
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -26,8 +26,8 @@ import retrofit2.Response
 class UserVisitedEventRVAdapter (private val visitedEventList: ArrayList<VisitedEventResult>) : RecyclerView.Adapter<UserVisitedEventRVAdapter.ViewHolder>() {
     private lateinit var context: Context
     private var status = "b"
-    private val eventStatusService = getRetrofit().create(MypageRetrofitInterface::class.java)
-    private val setStatusService = getRetrofit().create(SearchRetrofitInterface::class.java)
+    private val eventStatusService = retrofit.create(MypageRetrofitInterface::class.java)
+    private val setStatusService = retrofit.create(SearchRetrofitInterface::class.java)
     private var isEventVisited=false
     private var isEventSaved=false
     private var userId=0
@@ -136,36 +136,33 @@ class UserVisitedEventRVAdapter (private val visitedEventList: ArrayList<Visited
     }
 
     private fun getEventStatus(binding: ItemMypageVisitedBinding, eventId:Int){
-        val userId = getIdx()
-        eventStatusService.getEventStatus(userId,eventId).enqueue(object:
-            Callback<EventStatusResponse> {
-            override fun onResponse(call: Call<EventStatusResponse>, response: Response<EventStatusResponse>) {
+        eventStatusService.getBtnStatus(eventId).enqueue(object:
+            Callback<EventBtnStatusResponse> {
+            override fun onResponse(call: Call<EventBtnStatusResponse>, response: Response<EventBtnStatusResponse>) {
                 val resp = response.body()!!
                 when(resp.code){
-                    200->{
-                        Log.d("getVisited/Is?",resp.isVisited.toString())
-                        if (resp.isVisited){
+                    1000->{
+                        if (resp.result.isVisited){
                             binding.itemMypageVisitVisitedBtn.setBackgroundResource(R.drawable.btn_check_click)
                             isEventVisited=true
                         }
-                        else {
+                        if (!resp.result.isVisited) {
                             binding.itemMypageVisitVisitedBtn.setBackgroundResource(R.drawable.btn_check_unclick)
                             isEventVisited=false
                         }
-                        if (resp.isSaved){
+                        if (resp.result.isSaved){
                             binding.itemMypageVisitLikedBtn.setBackgroundResource(R.drawable.btn_like_click)
                             isEventSaved=true
                         }
-                        else {
+                        if (!resp.result.isSaved) {
                             binding.itemMypageVisitLikedBtn.setBackgroundResource(R.drawable.btn_like_unclick)
                             isEventSaved=false
                         }
                     }
-                    else ->{
-                    }
+
                 }
             }
-            override fun onFailure(call: Call<EventStatusResponse>, t: Throwable) {
+            override fun onFailure(call: Call<EventBtnStatusResponse>, t: Throwable) {
             }
         })
     }
@@ -176,7 +173,7 @@ class UserVisitedEventRVAdapter (private val visitedEventList: ArrayList<Visited
             override fun onResponse(call: Call<SetSavedEventResponse>, responseSet: Response<SetSavedEventResponse>) {
                 val resp = responseSet.body()!!
                 when(resp.code){
-                    200-> {
+                    1000-> {
                     }
                 }
             }
@@ -192,7 +189,7 @@ class UserVisitedEventRVAdapter (private val visitedEventList: ArrayList<Visited
             override fun onResponse(call: Call<DeleteSavedResponse>, response: Response<DeleteSavedResponse>) {
                 val resp = response.body()!!
                 when(resp.code){
-                    200->{
+                    1000->{
                     }
                 }
             }
@@ -211,7 +208,7 @@ class UserVisitedEventRVAdapter (private val visitedEventList: ArrayList<Visited
             override fun onResponse(call: Call<SetVisitedEventResponse>, responseSet: Response<SetVisitedEventResponse>) {
                 val resp = responseSet.body()!!
                 when(resp.code){
-                    200-> {
+                    1000-> {
                     }
                 }
             }
@@ -226,7 +223,7 @@ class UserVisitedEventRVAdapter (private val visitedEventList: ArrayList<Visited
             override fun onResponse(call: Call<DeleteVisitedResponse>, response: Response<DeleteVisitedResponse>) {
                 val resp = response.body()!!
                 when(resp.code){
-                    200->{
+                    1000->{
                         Log.d("setDeleteVisitedEvent/SUCCESS", resp.msg)
                     }
                 }

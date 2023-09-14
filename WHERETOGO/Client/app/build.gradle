@@ -3,7 +3,6 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'com.google.gms.google-services'
-    id 'org.jetbrains.kotlin.android'
 }
 
 Properties properties = new Properties()
@@ -24,10 +23,9 @@ android {
         buildConfigField "String", "BLOG_CLIENT_ID", properties['blog_client_id']
         buildConfigField "String", "BLOG_CLIENT_SECRET", properties['blog_client_secret']
         buildConfigField "String", "KAKAO_NATIVE_KEY", properties['kakao_native_key']
-//        buildConfigField "String", "KAKAO_REST_API", properties['kakao_rest_api']
+        buildConfigField "String", "KAKAO_REST_API", properties['kakao_rest_api']
 
         manifestPlaceholders = [KAKAO_NATIVE_KEY:'kakao_native_key']
-
     }
 
     buildTypes {
@@ -36,6 +34,8 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -57,8 +57,7 @@ dependencies {
 
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'com.google.firebase:firebase-messaging:20.1.0'
-    implementation 'androidx.core:core-ktx:+'
-    implementation 'androidx.core:core-ktx:+'
+    implementation files('libs/libDaumMapAndroid.jar')
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
@@ -113,9 +112,6 @@ dependencies {
     //kakao map
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation files('libs/libDaumMapAndroid.jar')
-
-    // 메시지(카카오톡 공유)
-    implementation 'com.kakao.sdk:v2-share:2.13.0'
 
     // chart
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'

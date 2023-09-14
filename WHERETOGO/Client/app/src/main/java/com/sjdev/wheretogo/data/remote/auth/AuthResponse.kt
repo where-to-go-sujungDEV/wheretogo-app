@@ -3,7 +3,7 @@ package com.sjdev.wheretogo.data.remote.auth
 import com.google.gson.annotations.SerializedName
 
 data class SignUpResponse(
-    @SerializedName(value = "msg")val msg:String,
+    @SerializedName(value = "message")val message:String,
     @SerializedName(value = "code")val code:Int,
     @SerializedName(value = "isSuccess")val isSuccess:Boolean
 )
@@ -20,9 +20,12 @@ data class SignUpInfo(
 data class LoginResponse(
     @SerializedName(value = "code")val code:Int,
     @SerializedName(value = "isSuccess")val isSuccess:Boolean,
-    @SerializedName(value = "msg")val msg:String,
-    @SerializedName(value = "token")val token:String?,
-    @SerializedName(value = "user")val user: UserResult?
+    @SerializedName(value = "message")val message:String,
+    @SerializedName(value = "result")val result:LoginResult?,
+)
+
+data class LoginResult (
+    @SerializedName(value = "jwt") val jwt: String
 )
 
 data class UserResult (
@@ -39,35 +42,27 @@ data class UserResult (
 data class LoginInfo(
     @SerializedName(value = "email")val email: String,
     @SerializedName(value = "password")val password: String,
-    @SerializedName(value = "deviceToken")val deviceToken: String
 )
 
-//회원탈퇴
+/**
+ * 회원 탈퇴
+ */
 data class DeleteUserResponse(
-    @SerializedName(value = "msg")val msg:String,
+    @SerializedName(value = "isSuccess")val isSuccess:Boolean,
     @SerializedName(value = "code")val code:Int,
-    @SerializedName(value = "isSuccess")val isSuccess:Boolean
+    @SerializedName(value = "message")val message:String
 )
 
 data class GetNameResponse(
-    @SerializedName(value = "msg")val msg:String,
-    @SerializedName(value = "code")val code:Int,
     @SerializedName(value = "isSuccess")val isSuccess:Boolean,
-    @SerializedName(value = "results")val results:GetNameResult?
+    @SerializedName(value = "code")val code:Int,
+    @SerializedName(value = "message")val message:String,
+    @SerializedName(value = "result")val result:GetNameResult?
 )
 
 data class GetNameResult(
     @SerializedName(value = "nickName")val nickName:String
 )
 
-data class CheckPwdResponse(
-    @SerializedName(value = "msg")val msg:String,
-    @SerializedName(value = "code")val code:Int,
-    @SerializedName(value = "isSuccess")val isSuccess:Boolean
-)
-
-data class OriginPwdInfo(
-    @SerializedName(value = "pw")val pw:String
-)
 
 

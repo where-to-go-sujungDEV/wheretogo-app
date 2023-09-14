@@ -12,6 +12,7 @@ import com.sjdev.wheretogo.databinding.FragmentHomeBinding
 import com.sjdev.wheretogo.ui.recommend.RecommendActivity
 
 import com.google.android.material.tabs.TabLayoutMediator
+import com.sjdev.wheretogo.util.getNickname
 
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
@@ -19,18 +20,18 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     private val homeService = HomeService
 
     override fun initAfterBinding() {
-        val userIdx: Int = getIdx()
-        binding.homeUserNameTv.text = getName()
+        binding.homeUserNameTv.text = getNickname()
         binding.homeRecommendMoreTv.setOnClickListener {
             startActivity(Intent(context, RecommendActivity::class.java))
         }
 
         homeService.getMainEvent(this)
         homeService.getPopularEvent(this)
-        homeService.getRecommendEvent(this, userIdx)
+        homeService.getRecommendEvent(this)
         setCompanyEvent()
     }
 
+    // 홈 최상단 배너 인디케이터
     private fun setIndicator(){
         val viewPager2 = binding.homeBannerVp
         val tabLayout = binding.homeTabLayout
@@ -46,6 +47,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         }
     }
 
+    // 홈 최상단 배너 통신
     fun setMainEvent(result: ArrayList<MainEventResult>){
         val bannerAdapter = HomeBannerVPAdapter(this)
 
@@ -59,6 +61,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         setIndicator()
     }
 
+    // 홈 인기 이벤트
     fun setPopularEvent(result: ArrayList<PopularEventResult>){
         val event1Adapter = HomeBannerVPAdapter(this)
 
@@ -70,19 +73,18 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         binding.homeEvent1Vp.orientation = ViewPager2.ORIENTATION_HORIZONTAL
     }
 
-
-    fun setRecommendEvent(recommendList: ArrayList<RecommendEventResult>, userInfo: ArrayList<UserInfo>){
+    // 홈 유저 추천 이벤트
+    fun setRecommendEvent(result: RecommendEventResult){
         val event2Adapter = HomeBannerVPAdapter(this)
+        var sex = ""
 
-        for (item in userInfo){
-            var sex = item.sex
-            when (sex){
-                "w"->sex = "여성"
-                "m"->sex = "남성"
-            }
-            binding.homeExplain1Tv.text = String.format("%d대 %s",item.age*10,sex)
+        when (result.sex){
+            "w"->sex = "여성"
+            "m"->sex = "남성"
         }
-        for (item in recommendList){
+        binding.homeExplain1Tv.text = String.format("%d대 %s",result.age*10,sex)
+
+        for (item in result.recommendEvents!!){
             event2Adapter.addFragment(BannerRecommendFragment(item))
         }
 
@@ -90,6 +92,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         binding.homeEvent2Vp.orientation = ViewPager2.ORIENTATION_HORIZONTAL
     }
 
+    // 홈 동행별 추천 이벤트
     private fun setCompanyEvent(){
         val event3Adapter = HomeBannerVPAdapter(this)
         for (i:Int in 0..4)
@@ -99,15 +102,4 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         binding.homeEvent3Vp.orientation = ViewPager2.ORIENTATION_HORIZONTAL
     }
 
-    //유저 닉네임 가져옴
-    private fun getName(): String {
-        val spf = activity?.getSharedPreferences("userInfo", AppCompatActivity.MODE_PRIVATE)
-        return spf!!.getString("nickname","USER")!!
-    }
-
-    //유저 인덱스 가져옴
-    private fun getIdx(): Int {
-        val spf = activity?.getSharedPreferences("userInfo", AppCompatActivity.MODE_PRIVATE)
-        return spf!!.getInt("userIdx",-1)
-    }
 }

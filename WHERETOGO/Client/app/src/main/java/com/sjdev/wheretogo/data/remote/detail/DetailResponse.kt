@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 data class DetailInfoResponse(
     @SerializedName(value = "code")val code:Int,
     @SerializedName(value = "isSuccess")val isSuccess:Boolean,
-    @SerializedName(value = "results")val results:DetailInfoResult
+    @SerializedName(value = "result")val result: ArrayList<DetailInfoResult>
 )
 
 data class DetailInfoResult(
@@ -28,7 +28,6 @@ data class DetailInfoResult(
     @SerializedName(value = "mlevel")val mlevel: Int?,
 
     @SerializedName(value = "tel")val tel: String?,
-    @SerializedName(value = "telname")val telname: String?,
 
     @SerializedName(value = "agelimit")val agelimit: String?,
     @SerializedName(value = "eventtime")val eventtime: String?,
@@ -42,45 +41,16 @@ data class DetailInfoResult(
 
 )
 
-//VisitedTBL 저장 여부 조회
-data class DetailIsVisitedResponse(
-    @SerializedName(value = "isVisited")val isVisited:Boolean,
-    @SerializedName(value = "code")val code:Int,
-    @SerializedName(value = "isSuccess")val isSuccess:Boolean
-)
-
-//SavedTBL 저장 여부 조회
-data class DetailIsSavedResponse(
-    @SerializedName(value = "isSaved")val isSaved:Boolean,
-    @SerializedName(value = "code")val code:Int,
-    @SerializedName(value = "isSuccess")val isSuccess:Boolean
-)
-
-
-//savedTBL에 추가
-data class DetailSaveEventResponse(
-    @SerializedName("msg") var msg : String,
-    @SerializedName("code") var code : Int,
-    @SerializedName("isSuccess") var isSuccess : Boolean
-)
-
-//savedTBL에 삭제
-data class DetailDeleteSavedResponse(
-    @SerializedName("msg") var msg : String,
-    @SerializedName("code") var code : Int,
-    @SerializedName("isSuccess") var isSuccess : Boolean
-)
-
 
 //visitedTBL에 추가
-data class DetailVisitEventResponse(
+data class VisitEventResponse(
     @SerializedName("msg") var msg : String,
     @SerializedName("code") var code : Int,
     @SerializedName("isSuccess") var isSuccess : Boolean
 )
 
 //savedTBL에 삭제
-data class DetailDeleteVisitedResponse(
+data class DeleteVisitedEventResponse(
     @SerializedName("msg") var msg : String,
     @SerializedName("code") var code : Int,
     @SerializedName("isSuccess") var isSuccess : Boolean
