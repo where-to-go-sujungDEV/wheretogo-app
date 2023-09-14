@@ -2,7 +2,7 @@ package com.sjdev.wheretogo.ui.home
 
 import android.content.Intent
 import android.view.ViewGroup
-import android.view.ViewGroup.MarginLayoutParams
+import android.view.ViewGroup.*
 import androidx.appcompat.app.AppCompatActivity
 
 import androidx.viewpager2.widget.ViewPager2
@@ -12,6 +12,7 @@ import com.sjdev.wheretogo.databinding.FragmentHomeBinding
 import com.sjdev.wheretogo.ui.recommend.RecommendActivity
 
 import com.google.android.material.tabs.TabLayoutMediator
+import com.sjdev.wheretogo.util.getJwt
 import com.sjdev.wheretogo.util.getNickname
 
 
@@ -26,8 +27,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         }
 
         homeService.getMainEvent(this)
+        if (getJwt()==null){
+            binding.homeLl2.visibility = GONE
+        }else{
+            homeService.getRecommendEvent(this)
+        }
         homeService.getPopularEvent(this)
-        homeService.getRecommendEvent(this)
+
         setCompanyEvent()
     }
 

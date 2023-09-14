@@ -22,7 +22,7 @@ object MypageService {
                         fragment.setSavedEvent(resp.result!!)
                     }
                     else ->{
-                        fragment.setSavedEventNone(resp.message)
+                        fragment.setSavedEventNone("로그인을 해주세요")
                     }
                 }
             }
@@ -43,7 +43,7 @@ object MypageService {
                         fragment.setVisitedEvent(resp.result!!)
                     }
                     else ->{
-                        fragment.setVisitedEventNone(resp.message)
+                        fragment.setVisitedEventNone("로그인을 해주세요")
                     }
                 }
             }
