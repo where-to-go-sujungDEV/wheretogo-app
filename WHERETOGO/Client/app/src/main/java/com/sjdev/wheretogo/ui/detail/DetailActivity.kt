@@ -66,29 +66,18 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
         showBarChart()
     }
 
-    private fun initBtn(){
-        if (isSavedBtnSelected)
-            binding.detailEventLikeBtn.setBackgroundResource(R.drawable.btn_like_click)
-        else
-            binding.detailEventLikeBtn.setBackgroundResource(R.drawable.btn_like_unclick)
-        if (isVisitedBtnSelected)
-            binding.detailEventVisitedBtn.setBackgroundResource(R.drawable.btn_check_click)
-        else
-            binding.detailEventVisitedBtn.setBackgroundResource(R.drawable.btn_check_unclick)
-    }
-
     private fun initClickListener(){
 
         binding.detailEventLikeBtn.setOnClickListener {
             if (getJwt()==null) showLoginAlert()
             else {
                 if (!isSavedBtnSelected) {
-                    saveEvent()
                     isSavedBtnSelected = true
+                    saveEvent()
                 }
                 else {
-                    deleteSavedEvent()
                     isSavedBtnSelected = false
+                    deleteSavedEvent()
                 }
             }
         }
@@ -108,7 +97,17 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
         binding.detailReviewMoreBtn.setOnClickListener {
             startNextActivity(ShowReviewActivity::class.java)
         }
+    }
 
+    private fun initBtn(){
+        if (isSavedBtnSelected)
+            binding.detailEventLikeBtn.setBackgroundResource(R.drawable.btn_like_click)
+        else
+            binding.detailEventLikeBtn.setBackgroundResource(R.drawable.btn_like_unclick)
+        if (isVisitedBtnSelected)
+            binding.detailEventVisitedBtn.setBackgroundResource(R.drawable.btn_check_click)
+        else
+            binding.detailEventVisitedBtn.setBackgroundResource(R.drawable.btn_check_unclick)
     }
 
     private fun getDetailInfo(){
@@ -296,9 +295,7 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
                 val resp = response.body()!!
                 when(resp.code){
                     200->{
-                        isVisitedBtnSelected = true
                         initBtn()
-                        Log.d("detail/visit","방문함")
                         binding.detailEventVisitedCount.text=String.format("방문 유저 수: %s명",++visitedNum)
                         showToast("my> 방문한 이벤트에 담았어요!")
                     }
@@ -325,7 +322,6 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
                 when(resp.code){
                     200->{
                         binding.detailEventVisitedCount.text=String.format("방문 유저 수: %s명",--visitedNum)
-                        isVisitedBtnSelected = false
                         initBtn()
                         showToast(resp.msg)
                     }
