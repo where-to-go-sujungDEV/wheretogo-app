@@ -18,6 +18,7 @@ import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.formatter.PercentFormatter
 import com.sjdev.wheretogo.BuildConfig
+import com.sjdev.wheretogo.R
 import com.sjdev.wheretogo.data.remote.detail.*
 import com.sjdev.wheretogo.data.remote.mypage.DeleteSavedEventResponse
 import com.sjdev.wheretogo.data.remote.mypage.EventBtnStatusResponse
@@ -42,6 +43,8 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
 
     private var eventIdx=0
     private var status = "b"
+    var isSavedBtnSelected: Boolean = false
+    var isVisitedBtnSelected: Boolean = false
     private var visitedNum=0
     private var savedNum=0
     private val detailService = retrofit.create(DetailRetrofitInterface::class.java)
@@ -57,51 +60,45 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
 
         getDetailInfo()
         getBtnStatus()
+        initBtn()
+
         initStar()
         showBarChart()
     }
 
-    override fun onRestart() {
-        super.onRestart()
-
-        getBtnStatus()
+    private fun initBtn(){
+        if (isSavedBtnSelected)
+            binding.detailEventLikeBtn.setBackgroundResource(R.drawable.btn_like_click)
+        else
+            binding.detailEventLikeBtn.setBackgroundResource(R.drawable.btn_like_unclick)
+        if (isVisitedBtnSelected)
+            binding.detailEventVisitedBtn.setBackgroundResource(R.drawable.btn_check_click)
+        else
+            binding.detailEventVisitedBtn.setBackgroundResource(R.drawable.btn_check_unclick)
     }
 
     private fun initClickListener(){
-        binding.detailEventUncheckBtn.setOnClickListener{
-            if (getJwt()==null)
-                showLoginAlert()
-            else
-                binding.detailStarPanel.visibility = View.VISIBLE
-        }
 
-        binding.detailAdaptTv.setOnClickListener {
-            visitEvent(status)
-            binding.detailStarPanel.visibility = View.INVISIBLE
-        }
-
-        binding.detailCancelTv.setOnClickListener {
-            binding.detailStarPanel.visibility = View.INVISIBLE
-        }
-
-        //방문 uncheck상태에서 체크를 누르면 버튼이 활성화되기전 별점 패널이 뜸
-        binding.detailEventCheckBtn.setOnClickListener{
-            if (getJwt()==null)
-                showLoginAlert()
+        binding.detailEventLikeBtn.setOnClickListener {
+            if (getJwt()==null) showLoginAlert()
             else {
-                setVisitedButton(false)
-                deleteVisitedEvent()
+                if (!isSavedBtnSelected) {
+                    saveEvent()
+                    isSavedBtnSelected = true
+                }
+                else {
+                    deleteSavedEvent()
+                    isSavedBtnSelected = false
+                }
             }
         }
 
-        binding.detailEventDislikeBtn.setOnClickListener {
-            if (getJwt()==null)
-                showLoginAlert()
-            else
-                saveEvent()
-        }
-        binding.detailEventLikeBtn.setOnClickListener{
-            deleteSavedEvent()
+        binding.detailEventVisitedBtn.setOnClickListener {
+            if (getJwt()==null) showLoginAlert()
+            else {
+                if (!isVisitedBtnSelected) visitEvent("B")
+                else deleteVisitedEvent()
+            }
         }
 
         binding.detailBackBtn.setOnClickListener {
@@ -238,8 +235,9 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
                 val resp = response.body()!!
                 when(resp.code){
                     1000->{
-                        setVisitedButton(resp.result.isVisited)
-                        setSavedButton(resp.result.isSaved)
+                        isVisitedBtnSelected=resp.result.isVisited
+                        isSavedBtnSelected = resp.result.isSaved
+                        initBtn()
                     }
                     else ->{
                     }
@@ -252,29 +250,6 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
 
 
 
-    //뷰 버튼 상태
-    private fun setVisitedButton(isVisited: Boolean){
-        if (isVisited){
-            binding.detailEventCheckBtn.visibility = View.VISIBLE
-            binding.detailEventUncheckBtn.visibility = View.INVISIBLE
-        }
-        else{
-            binding.detailEventCheckBtn.visibility = View.INVISIBLE
-            binding.detailEventUncheckBtn.visibility = View.VISIBLE
-        }
-    }
-
-    private fun setSavedButton(isSaved: Boolean){
-        if (isSaved){
-            binding.detailEventLikeBtn.visibility = View.VISIBLE
-            binding.detailEventDislikeBtn.visibility = View.INVISIBLE
-        }
-        else{
-            binding.detailEventLikeBtn.visibility = View.INVISIBLE
-            binding.detailEventDislikeBtn.visibility = View.VISIBLE
-        }
-    }
-
     //이벤트 저장(서버에 반영)
     private fun saveEvent(){
         myPageService.saveEvent(eventIdx).enqueue(object: Callback<SaveEventResponse> {
@@ -283,7 +258,7 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
                 Log.d("isSaved",resp.toString())
                 when(resp.code){
                     1000->{
-                        setSavedButton(true)
+                        initBtn()
                         binding.detailEventSavedCount.text = String.format("찜한 유저 수: %s명",++savedNum)
                         showToast(resp.message)
                     }
@@ -304,7 +279,7 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
                 Log.d("isSaved/delete",resp.toString())
                 when(resp.code){
                     1000->{
-                        setSavedButton(false)
+                        initBtn()
                         binding.detailEventSavedCount.text = String.format("찜한 유저 수: %s명",--savedNum)
                         showToast(resp.message)
                     }
@@ -321,7 +296,8 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
                 val resp = response.body()!!
                 when(resp.code){
                     200->{
-                        setVisitedButton(true)
+                        isVisitedBtnSelected = true
+                        initBtn()
                         Log.d("detail/visit","방문함")
                         binding.detailEventVisitedCount.text=String.format("방문 유저 수: %s명",++visitedNum)
                         showToast("my> 방문한 이벤트에 담았어요!")
@@ -349,6 +325,8 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
                 when(resp.code){
                     200->{
                         binding.detailEventVisitedCount.text=String.format("방문 유저 수: %s명",--visitedNum)
+                        isVisitedBtnSelected = false
+                        initBtn()
                         showToast(resp.msg)
                     }
                     else->{
