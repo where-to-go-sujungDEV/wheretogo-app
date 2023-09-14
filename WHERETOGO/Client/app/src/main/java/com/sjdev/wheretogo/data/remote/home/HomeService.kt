@@ -40,6 +40,7 @@ object HomeService{
                 val resp = response.body()!!
                 when(resp.code){
                     1000->{
+                        Log.d("homeFra/popular",resp.result.toString())
                         fragment.setPopularEvent(resp.result)
                     }
                     else ->{

@@ -16,7 +16,6 @@ import com.sjdev.wheretogo.R
 import com.sjdev.wheretogo.data.remote.detail.DeleteVisitedEventResponse
 import com.sjdev.wheretogo.data.remote.detail.VisitEventResponse
 import com.sjdev.wheretogo.data.remote.mypage.*
-import com.sjdev.wheretogo.data.remote.search.*
 import com.sjdev.wheretogo.databinding.ItemMypageSavedBinding
 import com.sjdev.wheretogo.ui.review.WriteReviewActivity
 import com.sjdev.wheretogo.util.ApplicationClass.Companion.retrofit
@@ -28,9 +27,8 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
     private lateinit var context: Context
     private var status = "b"
     private val service = retrofit.create(MypageRetrofitInterface::class.java)
-    private var isEventVisited=true
-    private var isEventSaved=true
-    private var userId=0
+    private var isEventVisited=false
+    private var isEventSaved=false
     interface OnItemClickListener {
         fun onItemClick(savedEventData: SavedEventResult)
     }
@@ -46,7 +44,7 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): UserSavedEventRVAdapter.ViewHolder {
         //아이템뷰 객체 생성
         context= viewGroup.context
-        val binding: ItemMypageSavedBinding = ItemMypageSavedBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
+        val binding = ItemMypageSavedBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
 
         return ViewHolder(binding) //아이템뷰 객체를 재활용하도록 뷰 홀더에게 던져줌
     }
@@ -58,15 +56,10 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
         }
     }
 
-    override fun getItemCount(): Int {
-        return savedEventList.size
-    }
-
     inner class ViewHolder(val binding: ItemMypageSavedBinding): RecyclerView.ViewHolder(binding.root){
 
         fun bind(savedEvent: SavedEventResult,holder: UserSavedEventRVAdapter.ViewHolder){
             val eventId=savedEvent.eventID
-            userId=getIdx()
             getEventStatus(binding,eventId)
 
             if (savedEvent.pic!=null){
@@ -74,11 +67,10 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
                     .transform(CenterCrop(), RoundedCorners(40))
                     .into(binding.mypageLikeEventIv)
             }
-            else{binding.mypageLikeEventIv.setImageResource(R.drawable.default_event_img)
+            else{
+                binding.mypageLikeEventIv.setImageResource(R.drawable.default_event_img)
                 binding.mypageLikeEventIv.clipToOutline = true
             }
-
-
 
             binding.itemMypageLikeTitleTv.text = savedEvent.eventName
             binding.itemMypageLikeTagTv.text = savedEvent.kind
@@ -95,35 +87,43 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
         }
     }
 
-    private fun initClickListener(binding: ItemMypageSavedBinding, eventId:Int, holder: ViewHolder){
-        binding.itemMypageVisitedBtn.setOnClickListener {
-            Log.d("eventd",isEventVisited.toString())
+    private fun initBtn(binding: ItemMypageSavedBinding){
+        if (isEventSaved)
+            binding.itemMypageLikeBtn.setBackgroundResource(R.drawable.btn_like_click)
+        else
+            binding.itemMypageLikeBtn.setBackgroundResource(R.drawable.btn_like_unclick)
+        if (isEventVisited)
+            binding.itemMypageVisitedBtn.setBackgroundResource(R.drawable.btn_check_click)
+        else
+            binding.itemMypageVisitedBtn.setBackgroundResource(R.drawable.btn_check_unclick)
+    }
 
+
+    private fun initClickListener(binding: ItemMypageSavedBinding, eventId:Int, holder: ViewHolder){
+        //찜하기 버튼 클릭
+        binding.itemMypageLikeBtn.setOnClickListener {
+            if (isEventSaved){
+                isEventSaved=false
+                deleteSavedEvent(binding,eventId)
+
+                //찜한 이벤트 목록에서 아이템 삭제
+                savedEventList.removeAt(holder.adapterPosition)
+                notifyItemRemoved(holder.adapterPosition)
+            }
+            else {
+                isEventSaved=true
+                saveEvent(binding,eventId)
+            }
+        }
+
+        // 방문하기 버튼 클릭
+        binding.itemMypageVisitedBtn.setOnClickListener {
             if (isEventVisited){
-                setDeleteVisitedEvent(eventId)
                 isEventVisited=false
-                binding.itemMypageVisitedBtn.setBackgroundResource(R.drawable.btn_check_unclick)
-                Toast.makeText(context, R.string.visited_off, Toast.LENGTH_SHORT).show()
+                deleteVisitedEvent(binding, eventId)
             }
             else{
                 binding.mySavedStarPanel.visibility = View.VISIBLE
-            }
-        }
-        binding.itemMypageLikeBtn.setOnClickListener {
-            if (isEventSaved){
-                setDeleteSavedEvent(eventId)
-                isEventSaved=false
-                Toast.makeText(context, R.string.like_off, Toast.LENGTH_SHORT).show()
-                binding.itemMypageLikeBtn.setBackgroundResource(R.drawable.btn_like_unclick)
-                savedEventList.removeAt(holder.adapterPosition)
-                notifyItemRemoved(holder.adapterPosition)
-                notifyItemChanged(holder.adapterPosition)
-            }
-            else {
-                setSavedEvent(userId)
-                isEventSaved=true
-                Toast.makeText(context, R.string.like_on, Toast.LENGTH_SHORT).show()
-                binding.itemMypageLikeBtn.setBackgroundResource(R.drawable.btn_like_click)
             }
         }
 
@@ -142,37 +142,23 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
         }
     }
 
-    private fun visitEvent(binding: ItemMypageSavedBinding,eventId:Int){
-        setVisitedEvent(eventId,status)
+    private fun visitEvent(binding: ItemMypageSavedBinding, eventId:Int){
+        visitEvent(eventId,status)
         binding.itemMypageVisitedBtn.setBackgroundResource(R.drawable.btn_check_click)
         Toast.makeText(context, R.string.visited_on, Toast.LENGTH_SHORT).show()
         isEventVisited=true
     }
 
-    private fun getEventStatus(binding: ItemMypageSavedBinding,eventId:Int){
-        service.getBtnStatus(eventId).enqueue(object:
-            Callback<EventBtnStatusResponse> {
+    //binding 없애면 안됨!
+    private fun getEventStatus(binding: ItemMypageSavedBinding, eventId:Int){
+        service.getBtnStatus(eventId).enqueue(object: Callback<EventBtnStatusResponse> {
             override fun onResponse(call: Call<EventBtnStatusResponse>, response: Response<EventBtnStatusResponse>) {
                 val resp = response.body()!!
                 when(resp.code){
                     1000->{
-                        if (resp.result.isVisited){
-                            binding.itemMypageVisitedBtn.setBackgroundResource(R.drawable.btn_check_click)
-                            isEventVisited=true
-                        }
-                        if (!resp.result.isVisited){
-                            binding.itemMypageVisitedBtn.setBackgroundResource(R.drawable.btn_check_unclick)
-                            isEventVisited=false
-                        }
-                        if (resp.result.isSaved){
-                            binding.itemMypageLikeBtn.setBackgroundResource(R.drawable.btn_like_click)
-                            isEventSaved=true
-
-                        }
-                        if (!resp.result.isSaved) {
-                            binding.itemMypageLikeBtn.setBackgroundResource(R.drawable.btn_like_unclick)
-                            isEventSaved=false
-                        }
+                        isEventSaved = resp.result.isSaved
+                        isEventVisited = resp.result.isVisited
+                        initBtn(binding)
                     }
                 }
             }
@@ -181,13 +167,14 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
         })
     }
 
-    //save이벤트에 추가
-    private fun setSavedEvent(eventID: Int){
+    //찜하기
+    private fun saveEvent(binding: ItemMypageSavedBinding, eventID: Int){
         service.saveEvent(eventID).enqueue(object: Callback<SaveEventResponse>{
             override fun onResponse(call: Call<SaveEventResponse>, responseSet: Response<SaveEventResponse>) {
                 val resp = responseSet.body()!!
                 when(resp.code){
                     1000-> {
+                        initBtn(binding)
                     }
 
                     else->{
@@ -201,13 +188,14 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
             }
         })
     }
-    //save이벤트에서 삭제
-    private fun setDeleteSavedEvent(eventId:Int){
+    //찜하기 취소
+    private fun deleteSavedEvent(binding: ItemMypageSavedBinding,eventId:Int){
         service.deleteSavedEvent(eventId).enqueue(object: Callback<DeleteSavedEventResponse> {
             override fun onResponse(call: Call<DeleteSavedEventResponse>, response: Response<DeleteSavedEventResponse>) {
                 val resp = response.body()!!
                 when(resp.code){
                     1000->{
+                        initBtn(binding)
                     }
                 }
             }
@@ -220,14 +208,13 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
 
 
 
-    //visitedTBL에 저장
-    private fun setVisitedEvent(eventId:Int,assess :String){
+    //방문하기
+    private fun visitEvent(eventId:Int, assess :String){
         service.visitEvent(eventId,assess).enqueue(object: Callback<VisitEventResponse>{
             override fun onResponse(call: Call<VisitEventResponse>, responseSet: Response<VisitEventResponse>) {
                 val resp = responseSet.body()!!
                 when(resp.code){
                     1000-> {
-                        Log.d("setVisitedEvent/Success", userId.toString())
                     }
 
                     else->{
@@ -241,7 +228,9 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
             }
         })
     }
-    private fun setDeleteVisitedEvent(eventId:Int){
+
+    //방문 취소
+    private fun deleteVisitedEvent(binding: ItemMypageSavedBinding, eventId:Int){
         service.deleteVisitedEvent(eventId).enqueue(object: Callback<DeleteVisitedEventResponse> {
             override fun onResponse(call: Call<DeleteVisitedEventResponse>, response: Response<DeleteVisitedEventResponse>) {
                 val resp = response.body()!!
@@ -269,11 +258,7 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
         }
     }
 
-
-    //유저 인덱스 가져옴
-    private fun getIdx(): Int {
-        val spf = context.getSharedPreferences("userInfo", AppCompatActivity.MODE_PRIVATE)
-        return spf!!.getInt("userIdx",-1)
+    override fun getItemCount(): Int {
+        return savedEventList.size
     }
-
 }
