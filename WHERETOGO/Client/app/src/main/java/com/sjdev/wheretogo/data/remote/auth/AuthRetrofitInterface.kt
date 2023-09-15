@@ -13,7 +13,7 @@ interface AuthRetrofitInterface {
     @DELETE("/user/unregister")
     fun deleteUser(): Call<DeleteUserResponse>
 
-    @GET("/user/get-nickname")
+    @GET("/user/nickname")
     fun getName() : Call<GetNameResponse>
 
 

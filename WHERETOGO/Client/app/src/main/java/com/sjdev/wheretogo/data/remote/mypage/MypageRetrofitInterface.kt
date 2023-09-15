@@ -14,26 +14,27 @@ interface MypageRetrofitInterface {
     fun getBtnStatus(@Path("eventID")eventID:Int) : Call<EventBtnStatusResponse>
 
     // 이벤트 찜하기
-    @POST("/saved/put/{eventID}")
+    @POST("/saved/{eventID}")
     fun saveEvent( @Path("eventID")eventID: Int): Call<SaveEventResponse>
+
+    // 찜하기 취소
+    @DELETE("/saved/{eventID}")
+    fun deleteSavedEvent(@Path("eventID") eventID: Int): Call<DeleteSavedEventResponse>
+
 
     // 이벤트 방문하기
     @POST("/visited/{userID}/{eventID}/{assess}")
     fun visitEvent(@Path("eventID")eventID: Int, @Path("assess") assess : String): Call<VisitEventResponse>
-
-    // 찜하기 취소
-    @DELETE("/saved/delete/{eventID}")
-    fun deleteSavedEvent(@Path("eventID") eventID: Int): Call<DeleteSavedEventResponse>
 
     // 방문하기 취소
     @DELETE("/visited/{eventID}")
     fun deleteVisitedEvent(@Path("eventID") eventID: Int): Call<DeleteVisitedEventResponse>
 
     // 찜한 이벤트 조회
-    @GET("/saved/get")
+    @GET("/saved")
     fun getSavedEvent(): Call<SavedEventResponse>
 
     // 방문한 이벤트 조회
-    @GET("/visited/get")
+    @GET("/visited")
     fun getVisitedEvent(): Call<VisitedEventResponse>
 }
