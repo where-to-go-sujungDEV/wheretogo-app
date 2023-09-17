@@ -25,7 +25,6 @@ fun removeJwt(){
 fun saveNickname(name: String) {
     val editor = mSharedPreferences.edit()
     editor.putString("nickname", name)
-    Log.d("nickname/sharedPref", name)
     editor.apply()
 }
 

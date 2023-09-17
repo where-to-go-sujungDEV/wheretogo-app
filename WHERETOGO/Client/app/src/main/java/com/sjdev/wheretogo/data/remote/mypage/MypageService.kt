@@ -17,9 +17,10 @@ object MypageService {
             override fun onResponse(call: Call<SavedEventResponse>, response: Response<SavedEventResponse>) {
                 val resp = response.body()!!
                 Log.d("getSaved/SUCCESS",resp.code.toString())
+                if (resp.result==null) return
                 when(resp.code){
                     1000->{
-                        fragment.setSavedEvent(resp.result!!)
+                        fragment.setSavedEvent(resp.result)
                     }
                     else ->{
                         fragment.setSavedEventNone("로그인을 해주세요")

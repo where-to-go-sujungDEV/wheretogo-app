@@ -76,6 +76,7 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding
                 when(resp.code){
                     1000->{
                         binding.mypageNicknameTv.text = resp.result!!.nickName
+                        saveNickname(resp.result.nickName)
                     }
                 }
             }

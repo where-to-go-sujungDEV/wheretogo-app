@@ -3,7 +3,6 @@ package com.sjdev.wheretogo.ui.home
 import android.content.Intent
 import android.view.ViewGroup
 import android.view.ViewGroup.*
-import androidx.appcompat.app.AppCompatActivity
 
 import androidx.viewpager2.widget.ViewPager2
 import com.sjdev.wheretogo.BaseFragment
@@ -25,7 +24,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         binding.homeRecommendMoreTv.setOnClickListener {
             startActivity(Intent(context, RecommendActivity::class.java))
         }
-
         homeService.getMainEvent(this)
         if (getJwt()==null){
             binding.homeLl2.visibility = GONE
@@ -88,6 +86,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             "w"->sex = "여성"
             "m"->sex = "남성"
         }
+
+        if (result==null)  binding.homeExplain1Tv.text = "모두"
         binding.homeExplain1Tv.text = String.format("%d대 %s",result.age*10,sex)
 
         for (item in result.recommendEvents!!){

@@ -75,7 +75,7 @@ class RecommendRVAdapter(private val recommendList: ArrayList<AllRecommendEvent>
             binding.itemRecommendTagTv.text = allRecommendEvent.kind
             binding.itemRecommendLikeCountTv.text = String.format("해당 그룹 저장 수: %d건",allRecommendEvent.userTopNum)
 
-            initClickListener(binding, allRecommendEvent.eventID)
+            //initClickListener(binding, allRecommendEvent.eventID)
         }
     }
 
@@ -141,7 +141,6 @@ class RecommendRVAdapter(private val recommendList: ArrayList<AllRecommendEvent>
             }
 
             override fun onFailure(call: Call<SaveEventResponse>, t: Throwable) {
-                Log.d("setSavedEvent/FAILURE", t.message.toString())
             }
         })
     }
@@ -160,7 +159,6 @@ class RecommendRVAdapter(private val recommendList: ArrayList<AllRecommendEvent>
             }
 
             override fun onFailure(call: Call<DeleteSavedEventResponse>, t: Throwable) {
-                Log.d("getDeleteSavedEvent/FAILURE", t.message.toString())
             }
         })
     }
@@ -183,7 +181,6 @@ class RecommendRVAdapter(private val recommendList: ArrayList<AllRecommendEvent>
             }
 
             override fun onFailure(call: Call<VisitEventResponse>, t: Throwable) {
-                Log.d("setVisitedEvent/FAILURE", t.message.toString())
             }
         })
     }
@@ -202,7 +199,6 @@ class RecommendRVAdapter(private val recommendList: ArrayList<AllRecommendEvent>
                 }
             }
             override fun onFailure(call: Call<DeleteVisitedEventResponse>, t: Throwable) {
-                Log.d("setDeleteVisitedEvent/FAILURE", t.message.toString())
             }
         })
     }
