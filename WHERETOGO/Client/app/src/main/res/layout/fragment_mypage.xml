@@ -24,7 +24,7 @@
         android:layout_marginStart="21dp"
         android:layout_marginTop="12dp"
         android:textSize="15sp"
-        android:text="닉네임 님"
+        android:text=""
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toEndOf="@id/mypage_profile_iv"/>
     <ImageView

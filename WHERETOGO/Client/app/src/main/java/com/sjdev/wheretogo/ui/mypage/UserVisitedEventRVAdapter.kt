@@ -38,10 +38,7 @@ class UserVisitedEventRVAdapter(private val visitedEventList: ArrayList<VisitedE
         mItemClickListener = itemClickListener
     }
 
-    override fun onCreateViewHolder(
-        viewGroup: ViewGroup,
-        viewType: Int
-    ): UserVisitedEventRVAdapter.ViewHolder {
+    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): UserVisitedEventRVAdapter.ViewHolder {
         //아이템뷰 객체 생성
         context = viewGroup.context
         val binding: ItemMypageVisitedBinding = ItemMypageVisitedBinding.inflate(
@@ -167,7 +164,6 @@ class UserVisitedEventRVAdapter(private val visitedEventList: ArrayList<VisitedE
             }
 
             override fun onFailure(call: Call<SaveEventResponse>, t: Throwable) {
-                Log.d("setSavedEvent/FAILURE", t.message.toString())
             }
         })
     }
@@ -186,7 +182,6 @@ class UserVisitedEventRVAdapter(private val visitedEventList: ArrayList<VisitedE
             }
 
             override fun onFailure(call: Call<DeleteSavedEventResponse>, t: Throwable) {
-                Log.d("getDeleteSavedEvent/FAILURE", t.message.toString())
             }
         })
     }
@@ -206,7 +201,6 @@ class UserVisitedEventRVAdapter(private val visitedEventList: ArrayList<VisitedE
             }
 
             override fun onFailure(call: Call<VisitEventResponse>, t: Throwable) {
-                Log.d("setVisitedEvent/FAILURE", t.message.toString())
             }
         })
     }
@@ -225,7 +219,6 @@ class UserVisitedEventRVAdapter(private val visitedEventList: ArrayList<VisitedE
             }
 
             override fun onFailure(call: Call<DeleteVisitedEventResponse>, t: Throwable) {
-                Log.d("setDeleteVisitedEvent/FAILURE", t.message.toString())
             }
         })
     }
