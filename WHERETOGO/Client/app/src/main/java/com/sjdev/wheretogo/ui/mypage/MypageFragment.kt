@@ -1,6 +1,7 @@
 package com.sjdev.wheretogo.ui.mypage
 
 import android.content.Intent
+import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.viewpager2.widget.ViewPager2
@@ -25,12 +26,12 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding
 
     override fun initAfterBinding() {
         initLayout()
+        getName()
         initView()
         setIndicator()
         getEmail()
         initClickListener()
     }
-
 
    private fun initLayout(){
         val bannerAdapter = HomeBannerVPAdapter(this)
@@ -74,7 +75,7 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding
                 Log.d("nickName",resp.message)
                 when(resp.code){
                     1000->{
-                        saveNickname(resp.result!!.nickName)
+                        binding.mypageNicknameTv.text = resp.result!!.nickName
                     }
                 }
             }
@@ -85,7 +86,8 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding
 
     private fun initView(){
         val token: String? = getJwt()
-        getName()
+        Log.d("mypage/token", token.toString())
+        Log.d("mypage/email", getEmail().toString())
         if (token == null){
             binding.mypageLoginTv.text ="로그인"
             binding.mypageNicknameTv.text = "로그인하세요"
@@ -96,12 +98,12 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding
             binding.mypageLoginTv.text ="로그아웃"
             binding.mypageEmailTv.text = getEmail()
             binding.mypageSettingIv.visibility = View.VISIBLE
-            binding.mypageNicknameTv.text = getNickname()
         }
     }
 
     private fun logout(){
         removeJwt()
+        removeEmail()
         saveNickname("USER")
         binding.mypageLoginTv.text = "로그인"
     }

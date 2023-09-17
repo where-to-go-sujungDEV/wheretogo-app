@@ -12,7 +12,7 @@ interface HomeRetrofitInterface {
     @GET("/event/top")
     fun getPopularEvent(): Call<PopularEventResponse>
 
-    @GET("/event/userTop")
+    @GET("/event/user-top")
     fun getRecommendEvent(): Call<RecommendEventResponse>
 
     @GET("/event/recommand/{sex}/{age}")
