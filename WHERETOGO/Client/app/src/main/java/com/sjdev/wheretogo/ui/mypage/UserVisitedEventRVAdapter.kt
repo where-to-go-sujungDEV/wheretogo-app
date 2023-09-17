@@ -103,27 +103,21 @@ class UserVisitedEventRVAdapter(private val visitedEventList: ArrayList<VisitedE
 
     private fun initClickListener(binding: ItemMypageVisitedBinding, holder: ViewHolder, eventId: Int) {
         binding.itemMypageVisitedBtn.setOnClickListener {
+            isEventVisited = !isEventVisited
             if (isEventVisited) {
-                isEventVisited = false
+                visitEvent(binding,eventId)
+            } else {
                 deleteVisitedEvent(binding, eventId)
-
+                //rv에서 아이템 삭제
                 visitedEventList.removeAt(holder.adapterPosition)
                 notifyItemRemoved(holder.adapterPosition)
-            } else {
-                isEventVisited = true
-                visitEvent(binding,eventId)
-                binding.itemMypageLikeBtn.setBackgroundResource(R.drawable.btn_check_click)
             }
         }
 
         binding.itemMypageLikeBtn.setOnClickListener {
-            if (isEventSaved) {
-                isEventSaved = false
-                deleteSavedEvent(binding, eventId)
-            } else {
-                isEventSaved = true
-                saveEvent(binding, eventId)
-            }
+            isEventSaved = !isEventSaved
+            if (isEventSaved) saveEvent(binding, eventId)
+            else deleteSavedEvent(binding, eventId)
         }
 
         binding.itemMypageVisitedReviewTv.setOnClickListener { //평가하기 이동
@@ -217,7 +211,6 @@ class UserVisitedEventRVAdapter(private val visitedEventList: ArrayList<VisitedE
                     }
                 }
             }
-
             override fun onFailure(call: Call<DeleteVisitedEventResponse>, t: Throwable) {
             }
         })

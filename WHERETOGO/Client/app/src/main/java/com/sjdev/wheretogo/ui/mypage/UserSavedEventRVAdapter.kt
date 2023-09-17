@@ -79,8 +79,6 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
 
 
             initClickListener(binding,savedEvent.eventID,holder)
-
-
         }
     }
 
@@ -99,29 +97,21 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
     private fun initClickListener(binding: ItemMypageSavedBinding, eventId:Int, holder: ViewHolder){
         //찜하기 버튼 클릭
         binding.itemMypageLikeBtn.setOnClickListener {
+            isEventSaved = !isEventSaved
             if (isEventSaved){
-                isEventSaved=false
+                saveEvent(binding,eventId)
+            } else {
                 deleteSavedEvent(binding,eventId)
-
                 //찜한 이벤트 목록에서 아이템 삭제
                 savedEventList.removeAt(holder.adapterPosition)
                 notifyItemRemoved(holder.adapterPosition)
             }
-            else {
-                isEventSaved=true
-                saveEvent(binding,eventId)
-            }
         }
+        //방문하기 버튼 클릭
         binding.itemMypageVisitedBtn.setOnClickListener {
-            if (isEventVisited){
-                isEventVisited=false
-                deleteVisitedEvent(binding,eventId)
-
-            }
-            else {
-                isEventVisited=true
-                visitEvent(binding,eventId)
-            }
+            isEventVisited = !isEventVisited
+            if (isEventVisited) visitEvent(binding,eventId)
+            else deleteVisitedEvent(binding,eventId)
         }
 
         binding.itemMypageLikedReviewTv.setOnClickListener{ //평가하기 이동
