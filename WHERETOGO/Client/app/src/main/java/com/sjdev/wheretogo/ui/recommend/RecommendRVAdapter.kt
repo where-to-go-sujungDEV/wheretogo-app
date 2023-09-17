@@ -1,28 +1,37 @@
 package com.sjdev.wheretogo.ui.recommend
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.sjdev.wheretogo.R
+import com.sjdev.wheretogo.data.remote.detail.DeleteVisitedEventResponse
+import com.sjdev.wheretogo.data.remote.detail.VisitEventResponse
 import com.sjdev.wheretogo.data.remote.home.AllRecommendEvent
+import com.sjdev.wheretogo.data.remote.mypage.DeleteSavedEventResponse
 import com.sjdev.wheretogo.data.remote.mypage.EventBtnStatusResponse
 import com.sjdev.wheretogo.data.remote.mypage.MypageRetrofitInterface
+import com.sjdev.wheretogo.data.remote.mypage.SaveEventResponse
 import com.sjdev.wheretogo.databinding.ItemAllRecommendBinding
+import com.sjdev.wheretogo.databinding.ItemMypageSavedBinding
 import com.sjdev.wheretogo.util.ApplicationClass.Companion.retrofit
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 
-class RecommendRVAdapter(private val recommendList: ArrayList<AllRecommendEvent>?): RecyclerView.Adapter<RecommendRVAdapter.ViewHolder>() {
+class RecommendRVAdapter(private val recommendList: ArrayList<AllRecommendEvent>): RecyclerView.Adapter<RecommendRVAdapter.ViewHolder>() {
     private lateinit var context: Context
     private val service = retrofit.create(MypageRetrofitInterface::class.java)
     private lateinit var mItemClickListener: OnItemClickListener
+    private var isEventVisited = false
+    private var isEventSaved = false
 
     interface OnItemClickListener {
         fun onItemClick(allRecommendData: AllRecommendEvent)
@@ -32,8 +41,7 @@ class RecommendRVAdapter(private val recommendList: ArrayList<AllRecommendEvent>
         mItemClickListener = itemClickListener
     }
 
-    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int
-    ): RecommendRVAdapter.ViewHolder {
+    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): RecommendRVAdapter.ViewHolder {
         context= viewGroup.context
         val binding: ItemAllRecommendBinding = ItemAllRecommendBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
 
@@ -41,9 +49,9 @@ class RecommendRVAdapter(private val recommendList: ArrayList<AllRecommendEvent>
     }
 
     override fun onBindViewHolder(holder: RecommendRVAdapter.ViewHolder, position: Int) {
-        recommendList?.let { holder.bind(it.get(position)) } //position=indexid 받아온 뷰홀더에 바인딩을 해주기 위해 해당 포지션의 데이터를 던져줌
+        holder.bind(recommendList[position])
         holder.binding.itemRecommendLikeFrame.setOnClickListener {
-            recommendList?.let { it1 -> mItemClickListener.onItemClick(it1.get(position)) }
+           mItemClickListener.onItemClick(recommendList[position])
         }
     }
 
@@ -51,7 +59,7 @@ class RecommendRVAdapter(private val recommendList: ArrayList<AllRecommendEvent>
     inner class ViewHolder(val binding: ItemAllRecommendBinding): RecyclerView.ViewHolder(binding.root){
 
         fun bind(allRecommendEvent: AllRecommendEvent){
-
+            getEventStatus(allRecommendEvent.eventID, binding)
             if (allRecommendEvent.pic!=null){
                 Glide.with(context).load(allRecommendEvent.pic)
                     .transform(CenterCrop(), RoundedCorners(40))
@@ -67,15 +75,34 @@ class RecommendRVAdapter(private val recommendList: ArrayList<AllRecommendEvent>
             binding.itemRecommendTagTv.text = allRecommendEvent.kind
             binding.itemRecommendLikeCountTv.text = String.format("해당 그룹 저장 수: %d건",allRecommendEvent.userTopNum)
 
-            getEventStatus(allRecommendEvent.eventID, binding)
-
-
-
+            initClickListener(binding, allRecommendEvent.eventID)
         }
-}
+    }
 
-    override fun getItemCount(): Int {
-        return recommendList!!.size
+    private fun initBtn(binding: ItemAllRecommendBinding){
+        Toast.makeText(context, "isEventSaved="+isEventSaved + "\nisEventVisited= "+isEventVisited, Toast.LENGTH_SHORT).show()
+        if (isEventSaved)
+            binding.itemRecSaveBtn.setBackgroundResource(R.drawable.btn_like_click)
+        else if (!isEventSaved)
+            binding.itemRecSaveBtn.setBackgroundResource(R.drawable.btn_like_unclick)
+        if (isEventVisited)
+            binding.itemRecVisitBtn.setBackgroundResource(R.drawable.btn_check_click)
+        else if (!isEventVisited)
+            binding.itemRecVisitBtn.setBackgroundResource(R.drawable.btn_check_unclick)
+    }
+
+    private fun initClickListener(binding: ItemAllRecommendBinding, eventId: Int){
+        binding.itemRecSaveBtn.setOnClickListener {
+            isEventSaved = !isEventSaved
+            if (isEventSaved) saveEvent(binding,eventId)
+            else deleteSavedEvent(binding,eventId)
+        }
+        binding.itemRecVisitBtn.setOnClickListener {
+            isEventVisited = !isEventVisited
+            if (isEventVisited) visitEvent(binding,eventId)
+            else deleteVisitedEvent(binding,eventId)
+        }
+
     }
 
     private fun getEventStatus(eventId: Int, binding: ItemAllRecommendBinding){
@@ -84,28 +111,103 @@ class RecommendRVAdapter(private val recommendList: ArrayList<AllRecommendEvent>
                 val resp = response.body()!!
                 when(resp.code){
                     1000->{
-                        if (resp.result.isVisited){
-                            binding.itemRecommendVisitedBtn.visibility = View.VISIBLE
-                            binding.itemRecommendUnvisitedBtn.visibility = View.INVISIBLE
-                        }
-                        else {
-                            binding.itemRecommendVisitedBtn.visibility = View.INVISIBLE
-                            binding.itemRecommendUnvisitedBtn.visibility = View.VISIBLE
-                        }
+                        isEventSaved = resp.result.isSaved
+                        isEventVisited = resp.result.isVisited
+                        initBtn(binding)
 
-                        if (resp.result.isSaved){
-                            binding.itemRecommendLikeBtn.visibility = View.VISIBLE
-                            binding.itemRecommendUnlikeBtn.visibility = View.INVISIBLE
-                        }
-                        else{
-                            binding.itemRecommendLikeBtn.visibility = View.INVISIBLE
-                            binding.itemRecommendUnlikeBtn.visibility = View.VISIBLE
-                        }
                     }
                 }
             }
             override fun onFailure(call: Call<EventBtnStatusResponse>, t: Throwable) {
             }
         })
+    }
+
+    //찜하기
+    private fun saveEvent(binding: ItemAllRecommendBinding, eventID: Int){
+        service.saveEvent(eventID).enqueue(object: Callback<SaveEventResponse>{
+            override fun onResponse(call: Call<SaveEventResponse>, responseSet: Response<SaveEventResponse>) {
+                val resp = responseSet.body()!!
+                when(resp.code){
+                    1000-> {
+                        initBtn(binding)
+                        Toast.makeText(context, R.string.like_on, Toast.LENGTH_SHORT).show()
+                    }
+
+                    else->{
+                        Log.d("setSavedEvent/ERROR", resp.message)
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<SaveEventResponse>, t: Throwable) {
+                Log.d("setSavedEvent/FAILURE", t.message.toString())
+            }
+        })
+    }
+
+    //찜하기 취소
+    private fun deleteSavedEvent(binding: ItemAllRecommendBinding,eventId:Int){
+        service.deleteSavedEvent(eventId).enqueue(object: Callback<DeleteSavedEventResponse> {
+            override fun onResponse(call: Call<DeleteSavedEventResponse>, response: Response<DeleteSavedEventResponse>) {
+                val resp = response.body()!!
+                when(resp.code){
+                    1000->{
+                        initBtn(binding)
+                        Toast.makeText(context, R.string.like_off, Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<DeleteSavedEventResponse>, t: Throwable) {
+                Log.d("getDeleteSavedEvent/FAILURE", t.message.toString())
+            }
+        })
+    }
+
+    //방문하기
+    private fun visitEvent(binding: ItemAllRecommendBinding, eventId:Int){
+        service.visitEvent(eventId).enqueue(object: Callback<VisitEventResponse>{
+            override fun onResponse(call: Call<VisitEventResponse>, responseSet: Response<VisitEventResponse>) {
+                val resp = responseSet.body()!!
+                when(resp.code){
+                    1000-> {
+                        initBtn(binding)
+                        Toast.makeText(context, R.string.visited_on, Toast.LENGTH_SHORT).show()
+                    }
+
+                    else->{
+                        Log.d("setVisitedEvent/ERROR", resp.message)
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<VisitEventResponse>, t: Throwable) {
+                Log.d("setVisitedEvent/FAILURE", t.message.toString())
+            }
+        })
+    }
+
+    //방문 취소
+    private fun deleteVisitedEvent(binding: ItemAllRecommendBinding, eventId:Int){
+        service.deleteVisitedEvent(eventId).enqueue(object: Callback<DeleteVisitedEventResponse> {
+            override fun onResponse(call: Call<DeleteVisitedEventResponse>, response: Response<DeleteVisitedEventResponse>) {
+                val resp = response.body()!!
+                when(resp.code){
+                    1000->{
+                        initBtn(binding)
+                        Toast.makeText(context, R.string.visited_off, Toast.LENGTH_SHORT).show()
+                    }
+
+                }
+            }
+            override fun onFailure(call: Call<DeleteVisitedEventResponse>, t: Throwable) {
+                Log.d("setDeleteVisitedEvent/FAILURE", t.message.toString())
+            }
+        })
+    }
+
+    override fun getItemCount(): Int {
+        return recommendList.size
     }
 }

@@ -41,20 +41,13 @@ class UserVisitedEventRVAdapter(private val visitedEventList: ArrayList<VisitedE
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): UserVisitedEventRVAdapter.ViewHolder {
         //아이템뷰 객체 생성
         context = viewGroup.context
-        val binding: ItemMypageVisitedBinding = ItemMypageVisitedBinding.inflate(
-            LayoutInflater.from(viewGroup.context),
-            viewGroup,
-            false
-        )
+        val binding: ItemMypageVisitedBinding = ItemMypageVisitedBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
 
         return ViewHolder(binding) //아이템뷰 객체를 재활용하도록 뷰 홀더에게 던져줌
     }
 
     override fun onBindViewHolder(holder: UserVisitedEventRVAdapter.ViewHolder, position: Int) {
-        holder.bind(
-            visitedEventList[position],
-            holder
-        ) //position=indexid 받아온 뷰홀더에 바인딩을 해주기 위해 해당 포지션의 데이터를 던져줌
+        holder.bind(visitedEventList[position], holder) //position=indexid 받아온 뷰홀더에 바인딩을 해주기 위해 해당 포지션의 데이터를 던져줌
         holder.binding.itemMypageLikeFrame.setOnClickListener {
             mItemClickListener.onItemClick(visitedEventList[position])
         }

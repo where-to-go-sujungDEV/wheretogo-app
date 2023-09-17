@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/item_recommend_like_frame"
     android:layout_width="326dp"
     android:layout_height="wrap_content"
@@ -67,45 +68,25 @@
         app:layout_constraintTop_toBottomOf="@id/item_recommend_title_tv"
         app:layout_constraintStart_toStartOf="parent"
         />
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/item_recommend_visited_btn"
-        android:layout_width="22dp"
-        android:layout_height="22dp"
+    <ImageButton
+        android:id="@+id/item_rec_visit_btn"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_marginTop="3dp"
-        android:layout_marginStart="250dp"
-        android:visibility="invisible"
-        android:src="@drawable/btn_check_click"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/item_recommend_title_tv"/>
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/item_recommend_unvisited_btn"
-        android:layout_width="22dp"
-        android:layout_height="22dp"
-        android:layout_marginTop="3dp"
-        android:layout_marginStart="250dp"
-        android:src="@drawable/btn_check_unclick"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginEnd="30dp"
+        android:visibility="visible"
+        tools:src="@drawable/btn_check_unclick"
+        app:layout_constraintEnd_toStartOf="@id/item_rec_save_btn"
         app:layout_constraintTop_toBottomOf="@id/item_recommend_title_tv"/>
 
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/item_recommend_like_btn"
-        android:layout_width="22dp"
-        android:layout_height="22dp"
-        android:layout_marginStart="10dp"
+    <ImageButton
+        android:id="@+id/item_rec_save_btn"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="10dp"
         android:layout_marginTop="3dp"
-        android:visibility="invisible"
-        android:src="@drawable/btn_like_click"
-        app:layout_constraintStart_toEndOf="@id/item_recommend_visited_btn"
-        app:layout_constraintTop_toBottomOf="@id/item_recommend_title_tv"/>
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/item_recommend_unlike_btn"
-        android:layout_width="22dp"
-        android:layout_height="22dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="3dp"
-        android:src="@drawable/btn_like_unclick"
-        app:layout_constraintStart_toEndOf="@id/item_recommend_visited_btn"
+        android:visibility="visible"
+        tools:src="@drawable/btn_like_unclick"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/item_recommend_title_tv"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

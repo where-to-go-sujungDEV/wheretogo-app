@@ -11,7 +11,6 @@ import retrofit2.Response
 
 object HomeService{
     private val service = retrofit.create(HomeRetrofitInterface::class.java)
-    private const val id = 1
 
     fun getMainEvent(fragment: HomeFragment){
         service.getMainEvent().enqueue(object: Callback<MainEventResponse> {
