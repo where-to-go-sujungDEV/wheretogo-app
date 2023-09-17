@@ -21,12 +21,14 @@ import com.sjdev.wheretogo.util.ApplicationClass.Companion.retrofit
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import kotlin.properties.Delegates
 
 class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventResult>) : RecyclerView.Adapter<UserSavedEventRVAdapter.ViewHolder>() {
     private lateinit var context: Context
     private val service = retrofit.create(MypageRetrofitInterface::class.java)
-    private var isEventVisited=false
-    private var isEventSaved=false
+    private var isEventVisited by Delegates.notNull<Boolean>()
+    private var isEventSaved by Delegates.notNull<Boolean>()
+
     interface OnItemClickListener {
         fun onItemClick(savedEventData: SavedEventResult)
     }
@@ -78,7 +80,7 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
             binding.itemMypageLikeCountTv.text = String.format("담은 수: %d건",savedEvent.savedNum)
 
 
-            initClickListener(binding,savedEvent.eventID,holder)
+            //initClickListener(binding,savedEvent.eventID,holder)
         }
     }
 
@@ -91,6 +93,7 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
             binding.itemMypageVisitedBtn.setBackgroundResource(R.drawable.btn_check_click)
         else
             binding.itemMypageVisitedBtn.setBackgroundResource(R.drawable.btn_check_unclick)
+        notifyDataSetChanged()
     }
 
 

@@ -87,7 +87,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             "m"->sex = "남성"
         }
 
-        if (result==null)  binding.homeExplain1Tv.text = "모두"
         binding.homeExplain1Tv.text = String.format("%d대 %s",result.age*10,sex)
 
         for (item in result.recommendEvents!!){

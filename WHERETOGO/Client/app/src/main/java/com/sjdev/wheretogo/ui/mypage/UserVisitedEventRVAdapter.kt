@@ -79,7 +79,7 @@ class UserVisitedEventRVAdapter(private val visitedEventList: ArrayList<VisitedE
             if (visitedEvent.endDate != null)
                 binding.itemMypageVisitedEndDate.text = visitedEvent.endDate.slice(IntRange(0, 9))
 
-            initClickListener(binding, holder, eventId)
+            //initClickListener(binding, holder, eventId)
         }
     }
 
