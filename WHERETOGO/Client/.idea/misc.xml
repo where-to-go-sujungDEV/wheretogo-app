@@ -207,7 +207,7 @@
         <entry key="app/src/main/res/layout/fragment_search.xml" value="0.1" />
         <entry key="app/src/main/res/layout/item_all_recommend.xml" value="0.1" />
         <entry key="app/src/main/res/layout/item_mypage_saved.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/item_mypage_visited.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/item_mypage_visited.xml" value="0.1" />
         <entry key="app/src/main/res/layout/item_recycle_event.xml" value="0.1" />
         <entry key="app/src/main/res/layout/item_recycle_filter.xml" value="0.3151041666666667" />
         <entry key="app/src/main/res/layout/item_recycle_popup_dialog.xml" value="0.3151041666666667" />

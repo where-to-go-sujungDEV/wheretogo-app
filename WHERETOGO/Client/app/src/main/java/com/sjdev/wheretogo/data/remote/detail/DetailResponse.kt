@@ -44,14 +44,14 @@ data class DetailInfoResult(
 
 //visitedTBL에 추가
 data class VisitEventResponse(
-    @SerializedName("msg") var msg : String,
+    @SerializedName("message") var message : String,
     @SerializedName("code") var code : Int,
     @SerializedName("isSuccess") var isSuccess : Boolean
 )
 
 //savedTBL에 삭제
 data class DeleteVisitedEventResponse(
-    @SerializedName("msg") var msg : String,
+    @SerializedName("message") var message : String,
     @SerializedName("code") var code : Int,
     @SerializedName("isSuccess") var isSuccess : Boolean
 )

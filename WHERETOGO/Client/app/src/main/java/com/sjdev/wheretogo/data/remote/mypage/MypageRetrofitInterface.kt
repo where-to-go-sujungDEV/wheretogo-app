@@ -23,8 +23,8 @@ interface MypageRetrofitInterface {
 
 
     // 이벤트 방문하기
-    @POST("/visited/{userID}/{eventID}/{assess}")
-    fun visitEvent(@Path("eventID")eventID: Int, @Path("assess") assess : String): Call<VisitEventResponse>
+    @POST("/visited/{eventID}")
+    fun visitEvent(@Path("eventID")eventID: Int): Call<VisitEventResponse>
 
     // 방문하기 취소
     @DELETE("/visited/{eventID}")

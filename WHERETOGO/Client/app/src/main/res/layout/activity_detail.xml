@@ -470,62 +470,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/detail_blog_rv"/>
-
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/detail_star_panel"
-            android:layout_width="200dp"
-            android:layout_height="120dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginStart="20dp"
-            android:elevation="10dp"
-            android:visibility="invisible"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/detail_event_visited_btn"
-            android:background="@color/gray">
-
-            <com.willy.ratingbar.BaseRatingBar
-                android:id="@+id/detail_visited_ratingbar"
-                android:layout_width="160dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:srb_drawableEmpty="@drawable/mypage_star_off"
-                app:srb_drawableFilled="@drawable/mypage_star_on"
-                app:srb_isIndicator="false"
-                app:srb_minimumStars="1"
-                app:srb_numStars="3"
-                app:srb_rating="1"
-                app:srb_scrollable="true"
-                app:srb_starHeight="40dp"
-                app:srb_starWidth="40dp"
-                app:srb_stepSize="1" />
-
-            <TextView
-                android:id="@+id/detail_adapt_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="17sp"
-                app:layout_constraintEnd_toStartOf="@id/detail_cancel_tv"
-                android:layout_marginEnd="20dp"
-                android:layout_marginBottom="18dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:text="확인"/>
-            <TextView
-                android:id="@+id/detail_cancel_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="17sp"
-                android:text="취소"
-                android:layout_marginEnd="25dp"
-                android:layout_marginBottom="18dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.core.widget.NestedScrollView>

@@ -97,6 +97,7 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(FragmentMypageBinding
         else{
             binding.mypageLoginTv.text ="로그아웃"
             binding.mypageEmailTv.text = getEmail()
+            binding.mypageNicknameTv.text = getNickname()
             binding.mypageSettingIv.visibility = View.VISIBLE
         }
     }
