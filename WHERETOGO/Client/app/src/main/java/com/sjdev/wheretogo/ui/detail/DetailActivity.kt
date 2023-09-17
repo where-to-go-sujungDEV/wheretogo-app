@@ -18,6 +18,7 @@ import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.formatter.PercentFormatter
 import com.sjdev.wheretogo.BuildConfig
+import com.sjdev.wheretogo.R
 import com.sjdev.wheretogo.data.remote.detail.*
 import com.sjdev.wheretogo.data.remote.mypage.DeleteSavedEventResponse
 import com.sjdev.wheretogo.data.remote.mypage.EventBtnStatusResponse
@@ -41,15 +42,13 @@ import retrofit2.Response
 class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding::inflate){
 
     private var eventIdx=0
-    private var status = "b"
+    var isSavedBtnSelected: Boolean = false
+    var isVisitedBtnSelected: Boolean = false
     private var visitedNum=0
     private var savedNum=0
     private val detailService = retrofit.create(DetailRetrofitInterface::class.java)
     private val myPageService = retrofit.create(MypageRetrofitInterface::class.java)
     private val kakaoWebService = kakaoRetrofit.create(DetailRetrofitInterface::class.java)
-    private var lat=0.0
-    private var long=0.0
-    private var level=0
     lateinit var barData : BarData
 
 
@@ -60,51 +59,39 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
 
         getDetailInfo()
         getBtnStatus()
-        initStar()
+        initBtn()
+
         showBarChart()
     }
 
-    override fun onRestart() {
-        super.onRestart()
-
-        getBtnStatus()
-    }
-
     private fun initClickListener(){
-        binding.detailEventUncheckBtn.setOnClickListener{
-            if (getJwt()==null)
-                showLoginAlert()
-            else
-                binding.detailStarPanel.visibility = View.VISIBLE
-        }
 
-        binding.detailAdaptTv.setOnClickListener {
-            visitEvent(status)
-            binding.detailStarPanel.visibility = View.INVISIBLE
-        }
-
-        binding.detailCancelTv.setOnClickListener {
-            binding.detailStarPanel.visibility = View.INVISIBLE
-        }
-
-        //방문 uncheck상태에서 체크를 누르면 버튼이 활성화되기전 별점 패널이 뜸
-        binding.detailEventCheckBtn.setOnClickListener{
-            if (getJwt()==null)
-                showLoginAlert()
+        binding.detailEventLikeBtn.setOnClickListener {
+            if (getJwt()==null) showLoginAlert()
             else {
-                setVisitedButton(false)
-                deleteVisitedEvent()
+                if (!isSavedBtnSelected) {
+                    isSavedBtnSelected = true
+                    saveEvent()
+                }
+                else {
+                    isSavedBtnSelected = false
+                    deleteSavedEvent()
+                }
             }
         }
 
-        binding.detailEventDislikeBtn.setOnClickListener {
-            if (getJwt()==null)
-                showLoginAlert()
-            else
-                saveEvent()
-        }
-        binding.detailEventLikeBtn.setOnClickListener{
-            deleteSavedEvent()
+        binding.detailEventVisitedBtn.setOnClickListener {
+            if (getJwt()==null) showLoginAlert()
+            else {
+                if (!isVisitedBtnSelected) {
+                    isVisitedBtnSelected = true
+                    visitEvent()
+                }
+                else {
+                    isVisitedBtnSelected = false
+                    deleteVisitedEvent()
+                }
+            }
         }
 
         binding.detailBackBtn.setOnClickListener {
@@ -114,7 +101,17 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
         binding.detailReviewMoreBtn.setOnClickListener {
             startNextActivity(ShowReviewActivity::class.java)
         }
+    }
 
+    private fun initBtn(){
+        if (isSavedBtnSelected)
+            binding.detailEventLikeBtn.setBackgroundResource(R.drawable.btn_like_click)
+        else
+            binding.detailEventLikeBtn.setBackgroundResource(R.drawable.btn_like_unclick)
+        if (isVisitedBtnSelected)
+            binding.detailEventVisitedBtn.setBackgroundResource(R.drawable.btn_check_click)
+        else
+            binding.detailEventVisitedBtn.setBackgroundResource(R.drawable.btn_check_unclick)
     }
 
     private fun getDetailInfo(){
@@ -218,10 +215,7 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
         }
 
         if (result.mapx!=null){
-            long = result.mapx.toDouble()
-            lat = result.mapy!!.toDouble()
-            level = result.mlevel!!
-            showMap()
+            showMap(result.mapx.toDouble(), result.mapy!!.toDouble(), result.mlevel!!)
 
         } else {
             binding.detailMapView.visibility = View.GONE
@@ -244,8 +238,9 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
                 val resp = response.body()!!
                 when(resp.code){
                     1000->{
-                        setVisitedButton(resp.result.isVisited)
-                        setSavedButton(resp.result.isSaved)
+                        isVisitedBtnSelected=resp.result.isVisited
+                        isSavedBtnSelected = resp.result.isSaved
+                        initBtn()
                     }
                     else ->{
                     }
@@ -258,29 +253,6 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
 
 
 
-    //뷰 버튼 상태
-    private fun setVisitedButton(isVisited: Boolean){
-        if (isVisited){
-            binding.detailEventCheckBtn.visibility = View.VISIBLE
-            binding.detailEventUncheckBtn.visibility = View.INVISIBLE
-        }
-        else{
-            binding.detailEventCheckBtn.visibility = View.INVISIBLE
-            binding.detailEventUncheckBtn.visibility = View.VISIBLE
-        }
-    }
-
-    private fun setSavedButton(isSaved: Boolean){
-        if (isSaved){
-            binding.detailEventLikeBtn.visibility = View.VISIBLE
-            binding.detailEventDislikeBtn.visibility = View.INVISIBLE
-        }
-        else{
-            binding.detailEventLikeBtn.visibility = View.INVISIBLE
-            binding.detailEventDislikeBtn.visibility = View.VISIBLE
-        }
-    }
-
     //이벤트 저장(서버에 반영)
     private fun saveEvent(){
         myPageService.saveEvent(eventIdx).enqueue(object: Callback<SaveEventResponse> {
@@ -289,7 +261,7 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
                 Log.d("isSaved",resp.toString())
                 when(resp.code){
                     1000->{
-                        setSavedButton(true)
+                        initBtn()
                         binding.detailEventSavedCount.text = String.format("찜한 유저 수: %s명",++savedNum)
                         showToast(resp.message)
                     }
@@ -310,7 +282,7 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
                 Log.d("isSaved/delete",resp.toString())
                 when(resp.code){
                     1000->{
-                        setSavedButton(false)
+                        initBtn()
                         binding.detailEventSavedCount.text = String.format("찜한 유저 수: %s명",--savedNum)
                         showToast(resp.message)
                     }
@@ -321,23 +293,20 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
         })
     }
 
-    private fun visitEvent(assess:String){
-        myPageService.visitEvent(eventIdx,assess).enqueue(object: Callback<VisitEventResponse> {
+    private fun visitEvent(){
+        myPageService.visitEvent(eventIdx).enqueue(object: Callback<VisitEventResponse> {
             override fun onResponse(call: Call<VisitEventResponse>, response: Response<VisitEventResponse>) {
                 val resp = response.body()!!
                 when(resp.code){
-                    200->{
-                        setVisitedButton(true)
-                        Log.d("detail/visit","방문함")
+                    1000->{
+                        initBtn()
                         binding.detailEventVisitedCount.text=String.format("방문 유저 수: %s명",++visitedNum)
                         showToast("my> 방문한 이벤트에 담았어요!")
                     }
-                    500 ->{
-                        showToast(resp.msg)
-                    }
                     else ->{
-                        Log.d("detail/visit",resp.msg)
+                        Log.d("detail/visit",resp.message)
                     }
+
                 }
             }
             override fun onFailure(call: Call<VisitEventResponse>, t: Throwable) {
@@ -353,12 +322,13 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
                 val resp = response.body()!!
                 Log.d("isVisited/delete",resp.toString())
                 when(resp.code){
-                    200->{
+                    1000->{
                         binding.detailEventVisitedCount.text=String.format("방문 유저 수: %s명",--visitedNum)
-                        showToast(resp.msg)
+                        initBtn()
+                        showToast("my> 방문한 이벤트에서 취소했어요!")
                     }
                     else->{
-                        showToast(resp.msg)
+                        showToast(resp.message)
                     }
                 }
             }
@@ -368,19 +338,19 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
     }
 
     // 카카오 지도 띄우기
-    private fun showMap() {
+    private fun showMap(lat : Double, long: Double, level:Int) {
         val mapView = MapView(this)
         binding.detailMapView.addView(mapView)
 
         //위치 설정
-        val mapPoint = MapPoint.mapPointWithGeoCoord(lat,long) //위치 설정
+        val mapPoint = MapPoint.mapPointWithGeoCoord(long, lat) //위치 설정
         mapView.setMapCenterPoint(mapPoint, true) //중심점 설정
-        mapView.setZoomLevel(3,true) //확대 레벨 설정 (작을 수록 확대)
+        mapView.setZoomLevel(level,true) //확대 레벨 설정 (작을 수록 확대)
 
         //마커 생성
         val marker = MapPOIItem()
         marker.itemName = "위치"
-        marker.mapPoint = MapPoint.mapPointWithGeoCoord(lat,long)
+        marker.mapPoint = MapPoint.mapPointWithGeoCoord(long, lat)
         marker.markerType = MapPOIItem.MarkerType.BluePin
 
         mapView.addPOIItem(marker)
@@ -418,17 +388,6 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
                 startActivity(intent)
             }
         })
-    }
-
-    //별점 상태 조절
-    private fun initStar(){
-        binding.detailVisitedRatingbar.setOnRatingChangeListener { _, rating, _ ->
-            when (rating) {
-                1.0f -> status = "b"
-                2.0f -> status = "s"
-                3.0f -> status = "g"
-            }
-        }
     }
 
     private fun showLoginAlert() {

@@ -1,5 +1,6 @@
 package com.sjdev.wheretogo.util
 
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.sjdev.wheretogo.util.ApplicationClass.Companion.X_ACCESS_TOKEN
 import com.sjdev.wheretogo.util.ApplicationClass.Companion.mSharedPreferences
@@ -24,7 +25,7 @@ fun removeJwt(){
 fun saveNickname(name: String) {
     val editor = mSharedPreferences.edit()
     editor.putString("nickname", name)
-
+    Log.d("nickname/sharedPref", name)
     editor.apply()
 }
 
@@ -38,3 +39,9 @@ fun saveEmail(email : String){
     editor.apply()
 }
 fun getEmail() : String? = mSharedPreferences.getString("email",null)
+
+fun removeEmail(){
+    val editor = mSharedPreferences.edit()
+    editor.remove("email")
+    editor.apply()
+}

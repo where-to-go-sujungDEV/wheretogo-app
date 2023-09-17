@@ -8,6 +8,7 @@ import com.sjdev.wheretogo.data.remote.auth.LoginInfo
 import com.sjdev.wheretogo.data.remote.auth.LoginResponse
 import com.sjdev.wheretogo.databinding.ActivityLoginBinding
 import com.sjdev.wheretogo.ui.BaseActivity
+import com.sjdev.wheretogo.ui.signup.SignUpActivity
 import com.sjdev.wheretogo.util.ApplicationClass.Companion.retrofit
 import com.sjdev.wheretogo.util.getJwt
 import com.sjdev.wheretogo.util.saveEmail
@@ -26,6 +27,9 @@ class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::in
     private fun initClickListener(){
         binding.loginLoginBtn.setOnClickListener {
             validateLogin()
+        }
+        binding.loginSignInBtn.setOnClickListener {
+            startNextActivity(SignUpActivity::class.java)
         }
     }
     private fun login (loginInfo:LoginInfo){

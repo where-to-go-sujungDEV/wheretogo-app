@@ -114,7 +114,7 @@ class RecommendActivity: BaseActivity<ActivityRecommendBinding>(ActivityRecommen
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setAllRecommendEvent(allRecommendList: ArrayList<AllRecommendEvent>?){
+    fun setAllRecommendEvent(allRecommendList: ArrayList<AllRecommendEvent>){
         val adapter = RecommendRVAdapter(allRecommendList)
         //리사이클러뷰에 어댑터 연결
         binding.allRecommendEventRv.adapter = adapter

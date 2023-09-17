@@ -12,7 +12,7 @@
         <TextView
             android:id="@+id/mypage_save_explain_tv"
             android:layout_width="wrap_content"
-            android:layout_height="17dp"
+            android:layout_height="wrap_content"
             android:text="내가 찜한 행사들이에요."
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             tools:listitem="@layout/item_mypage_saved"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="20dp"
             android:paddingBottom="120dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/mypage_save_explain_tv"

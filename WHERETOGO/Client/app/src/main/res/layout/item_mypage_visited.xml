@@ -6,13 +6,12 @@
     android:layout_width="326dp"
     android:layout_height="wrap_content"
     android:layout_marginTop="8dp">
+
     <ImageView
         android:id="@+id/mypage_visited_event_iv"
         android:layout_width="326dp"
         android:layout_height="165dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/img_mypage_panel"
-        android:background="@drawable/event_banner_border"
+        android:background="@drawable/event_banner_cover"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
     <View
@@ -109,7 +108,7 @@
         />
 
     <ImageButton
-        android:id="@+id/item_mypage_visit_visited_btn"
+        android:id="@+id/item_mypage_visited_btn"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_marginTop="3dp"
@@ -121,14 +120,14 @@
 
 
     <ImageButton
-        android:id="@+id/item_mypage_visit_liked_btn"
+        android:id="@+id/item_mypage_like_btn"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="3dp"
         tools:srcCompat="@drawable/btn_like_unclick"
         android:background="@color/transparent"
-        app:layout_constraintStart_toEndOf="@+id/item_mypage_visit_visited_btn"
+        app:layout_constraintStart_toEndOf="@+id/item_mypage_visited_btn"
         app:layout_constraintTop_toBottomOf="@id/item_mypage_visited_title_tv"/>
 
 

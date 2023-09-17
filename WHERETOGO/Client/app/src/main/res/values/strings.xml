@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">WHERETOGO</string>
+    <string name="app_name">어디가?</string>
     <!--공통-->
     <string name="img_app_logo">logo image</string>
     <string name="ic_back">back icon</string>
