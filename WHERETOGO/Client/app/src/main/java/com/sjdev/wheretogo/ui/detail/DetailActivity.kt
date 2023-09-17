@@ -42,8 +42,8 @@ import retrofit2.Response
 class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding::inflate){
 
     private var eventIdx=0
-    var isSavedBtnSelected: Boolean = false
-    var isVisitedBtnSelected: Boolean = false
+    var isEventSaved: Boolean = false
+    var isEventVisited: Boolean = false
     private var visitedNum=0
     private var savedNum=0
     private val detailService = retrofit.create(DetailRetrofitInterface::class.java)
@@ -69,28 +69,18 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
         binding.detailEventLikeBtn.setOnClickListener {
             if (getJwt()==null) showLoginAlert()
             else {
-                if (!isSavedBtnSelected) {
-                    isSavedBtnSelected = true
-                    saveEvent()
-                }
-                else {
-                    isSavedBtnSelected = false
-                    deleteSavedEvent()
-                }
+                isEventSaved = !isEventSaved
+                if (isEventSaved) saveEvent()
+                else deleteSavedEvent()
             }
         }
 
         binding.detailEventVisitedBtn.setOnClickListener {
             if (getJwt()==null) showLoginAlert()
             else {
-                if (!isVisitedBtnSelected) {
-                    isVisitedBtnSelected = true
-                    visitEvent()
-                }
-                else {
-                    isVisitedBtnSelected = false
-                    deleteVisitedEvent()
-                }
+                isEventVisited = !isEventVisited
+                if (isEventVisited) visitEvent()
+                else deleteVisitedEvent()
             }
         }
 
@@ -104,11 +94,11 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
     }
 
     private fun initBtn(){
-        if (isSavedBtnSelected)
+        if (isEventSaved)
             binding.detailEventLikeBtn.setBackgroundResource(R.drawable.btn_like_click)
         else
             binding.detailEventLikeBtn.setBackgroundResource(R.drawable.btn_like_unclick)
-        if (isVisitedBtnSelected)
+        if (isEventVisited)
             binding.detailEventVisitedBtn.setBackgroundResource(R.drawable.btn_check_click)
         else
             binding.detailEventVisitedBtn.setBackgroundResource(R.drawable.btn_check_unclick)
@@ -238,8 +228,8 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
                 val resp = response.body()!!
                 when(resp.code){
                     1000->{
-                        isVisitedBtnSelected=resp.result.isVisited
-                        isSavedBtnSelected = resp.result.isSaved
+                        isEventVisited=resp.result.isVisited
+                        isEventSaved = resp.result.isSaved
                         initBtn()
                     }
                     else ->{
@@ -363,7 +353,6 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
         kakaoWebService.getSearchBlog(restAPI,text,3).enqueue(object: Callback<SearchBlogResponse>{
             override fun onResponse(call: Call<SearchBlogResponse>, response: Response<SearchBlogResponse>){
                 val resp = response.body()!!
-                Log.d("blog",resp.toString())
                 setSearchBlog(resp.documents)
             }
 
@@ -372,7 +361,8 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
         })
     }
 
-    private fun setSearchBlog(searchBlogList: ArrayList<SearchBlogResult>){
+    // 블로그 후기 바인딩
+   private fun setSearchBlog(searchBlogList: ArrayList<SearchBlogResult>){
         val adapter = SearchBlogRVAdapter(searchBlogList)
         //리사이클러뷰에 어댑터 연결
         binding.apply {
@@ -393,11 +383,8 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
     private fun showLoginAlert() {
         AlertDialog.Builder(this)
             .setMessage("해당 기능을 사용하려면 로그인이 필요합니다.\n로그인 페이지로 이동하시겠습니까?")
-            .setPositiveButton("예") { _, _ ->
-                startNextActivity(LoginActivity::class.java)
-            }
-            .setNegativeButton("아니오") { _, _ ->
-            }
+            .setPositiveButton("예") { _, _ -> startNextActivity(LoginActivity::class.java) }
+            .setNegativeButton("아니오") { _, _ -> }
             .show()
     }
 
@@ -476,7 +463,6 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
                 axisMinimum = 0f
                 axisMaximum = 100f
             }
-
         }
     }
 }

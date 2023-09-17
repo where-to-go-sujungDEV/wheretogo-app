@@ -21,12 +21,14 @@ import com.sjdev.wheretogo.util.ApplicationClass.Companion.retrofit
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import kotlin.properties.Delegates
 
 class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventResult>) : RecyclerView.Adapter<UserSavedEventRVAdapter.ViewHolder>() {
     private lateinit var context: Context
     private val service = retrofit.create(MypageRetrofitInterface::class.java)
-    private var isEventVisited=false
-    private var isEventSaved=false
+    private var isEventVisited by Delegates.notNull<Boolean>()
+    private var isEventSaved by Delegates.notNull<Boolean>()
+
     interface OnItemClickListener {
         fun onItemClick(savedEventData: SavedEventResult)
     }
@@ -78,9 +80,7 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
             binding.itemMypageLikeCountTv.text = String.format("담은 수: %d건",savedEvent.savedNum)
 
 
-            initClickListener(binding,savedEvent.eventID,holder)
-
-
+            //initClickListener(binding,savedEvent.eventID,holder)
         }
     }
 
@@ -93,35 +93,28 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
             binding.itemMypageVisitedBtn.setBackgroundResource(R.drawable.btn_check_click)
         else
             binding.itemMypageVisitedBtn.setBackgroundResource(R.drawable.btn_check_unclick)
+        notifyDataSetChanged()
     }
 
 
     private fun initClickListener(binding: ItemMypageSavedBinding, eventId:Int, holder: ViewHolder){
         //찜하기 버튼 클릭
         binding.itemMypageLikeBtn.setOnClickListener {
+            isEventSaved = !isEventSaved
             if (isEventSaved){
-                isEventSaved=false
+                saveEvent(binding,eventId)
+            } else {
                 deleteSavedEvent(binding,eventId)
-
                 //찜한 이벤트 목록에서 아이템 삭제
                 savedEventList.removeAt(holder.adapterPosition)
                 notifyItemRemoved(holder.adapterPosition)
             }
-            else {
-                isEventSaved=true
-                saveEvent(binding,eventId)
-            }
         }
+        //방문하기 버튼 클릭
         binding.itemMypageVisitedBtn.setOnClickListener {
-            if (isEventVisited){
-                isEventVisited=false
-                deleteVisitedEvent(binding,eventId)
-
-            }
-            else {
-                isEventVisited=true
-                visitEvent(binding,eventId)
-            }
+            isEventVisited = !isEventVisited
+            if (isEventVisited) visitEvent(binding,eventId)
+            else deleteVisitedEvent(binding,eventId)
         }
 
         binding.itemMypageLikedReviewTv.setOnClickListener{ //평가하기 이동
@@ -166,7 +159,6 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
             }
 
             override fun onFailure(call: Call<SaveEventResponse>, t: Throwable) {
-                Log.d("setSavedEvent/FAILURE", t.message.toString())
             }
         })
     }
@@ -183,7 +175,6 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
             }
 
             override fun onFailure(call: Call<DeleteSavedEventResponse>, t: Throwable) {
-                Log.d("getDeleteSavedEvent/FAILURE", t.message.toString())
             }
         })
     }
@@ -207,7 +198,6 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
             }
 
             override fun onFailure(call: Call<VisitEventResponse>, t: Throwable) {
-                Log.d("setVisitedEvent/FAILURE", t.message.toString())
             }
         })
     }
@@ -225,7 +215,6 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
                 }
             }
             override fun onFailure(call: Call<DeleteVisitedEventResponse>, t: Throwable) {
-                Log.d("setDeleteVisitedEvent/FAILURE", t.message.toString())
             }
         })
     }

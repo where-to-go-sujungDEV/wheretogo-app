@@ -13,10 +13,7 @@ import com.sjdev.wheretogo.ui.detail.DetailActivity
 
 class MypageSavedFragment() : BaseFragment<FragmentMypageBannerBinding>(FragmentMypageBannerBinding::inflate) {
     private val mypageService = MypageService
-    private var userId = 0
     override fun initAfterBinding() {
-        userId = getIdx()
-        Log.d("mypage",getIdx().toString())
         mypageService.getSavedEvent(this)
     }
 
@@ -48,9 +45,6 @@ class MypageSavedFragment() : BaseFragment<FragmentMypageBannerBinding>(Fragment
                 startActivity(intent)
             }
         })
-
-
-        adapter.notifyDataSetChanged()
     }
     fun setSavedEventNone(msg:String){
         binding.mypageExplainTv.text = "내가 찜한 행사들이에요."
@@ -58,12 +52,4 @@ class MypageSavedFragment() : BaseFragment<FragmentMypageBannerBinding>(Fragment
         binding.mypageBannerNoneTv.visibility= View.VISIBLE
         binding.mypageLikeRv.visibility=View.INVISIBLE
     }
-
-    //유저 인덱스 가져옴
-    private fun getIdx(): Int {
-        val spf = activity?.getSharedPreferences("userInfo", AppCompatActivity.MODE_PRIVATE)
-        return spf!!.getInt("userIdx",-1)
-    }
 }
-
-

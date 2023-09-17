@@ -38,26 +38,16 @@ class UserVisitedEventRVAdapter(private val visitedEventList: ArrayList<VisitedE
         mItemClickListener = itemClickListener
     }
 
-    override fun onCreateViewHolder(
-        viewGroup: ViewGroup,
-        viewType: Int
-    ): UserVisitedEventRVAdapter.ViewHolder {
+    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): UserVisitedEventRVAdapter.ViewHolder {
         //아이템뷰 객체 생성
         context = viewGroup.context
-        val binding: ItemMypageVisitedBinding = ItemMypageVisitedBinding.inflate(
-            LayoutInflater.from(viewGroup.context),
-            viewGroup,
-            false
-        )
+        val binding: ItemMypageVisitedBinding = ItemMypageVisitedBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
 
         return ViewHolder(binding) //아이템뷰 객체를 재활용하도록 뷰 홀더에게 던져줌
     }
 
     override fun onBindViewHolder(holder: UserVisitedEventRVAdapter.ViewHolder, position: Int) {
-        holder.bind(
-            visitedEventList[position],
-            holder
-        ) //position=indexid 받아온 뷰홀더에 바인딩을 해주기 위해 해당 포지션의 데이터를 던져줌
+        holder.bind(visitedEventList[position], holder) //position=indexid 받아온 뷰홀더에 바인딩을 해주기 위해 해당 포지션의 데이터를 던져줌
         holder.binding.itemMypageLikeFrame.setOnClickListener {
             mItemClickListener.onItemClick(visitedEventList[position])
         }
@@ -89,7 +79,7 @@ class UserVisitedEventRVAdapter(private val visitedEventList: ArrayList<VisitedE
             if (visitedEvent.endDate != null)
                 binding.itemMypageVisitedEndDate.text = visitedEvent.endDate.slice(IntRange(0, 9))
 
-            initClickListener(binding, holder, eventId)
+            //initClickListener(binding, holder, eventId)
         }
     }
 
@@ -106,27 +96,21 @@ class UserVisitedEventRVAdapter(private val visitedEventList: ArrayList<VisitedE
 
     private fun initClickListener(binding: ItemMypageVisitedBinding, holder: ViewHolder, eventId: Int) {
         binding.itemMypageVisitedBtn.setOnClickListener {
+            isEventVisited = !isEventVisited
             if (isEventVisited) {
-                isEventVisited = false
+                visitEvent(binding,eventId)
+            } else {
                 deleteVisitedEvent(binding, eventId)
-
+                //rv에서 아이템 삭제
                 visitedEventList.removeAt(holder.adapterPosition)
                 notifyItemRemoved(holder.adapterPosition)
-            } else {
-                isEventVisited = true
-                visitEvent(binding,eventId)
-                binding.itemMypageLikeBtn.setBackgroundResource(R.drawable.btn_check_click)
             }
         }
 
         binding.itemMypageLikeBtn.setOnClickListener {
-            if (isEventSaved) {
-                isEventSaved = false
-                deleteSavedEvent(binding, eventId)
-            } else {
-                isEventSaved = true
-                saveEvent(binding, eventId)
-            }
+            isEventSaved = !isEventSaved
+            if (isEventSaved) saveEvent(binding, eventId)
+            else deleteSavedEvent(binding, eventId)
         }
 
         binding.itemMypageVisitedReviewTv.setOnClickListener { //평가하기 이동
@@ -167,7 +151,6 @@ class UserVisitedEventRVAdapter(private val visitedEventList: ArrayList<VisitedE
             }
 
             override fun onFailure(call: Call<SaveEventResponse>, t: Throwable) {
-                Log.d("setSavedEvent/FAILURE", t.message.toString())
             }
         })
     }
@@ -186,7 +169,6 @@ class UserVisitedEventRVAdapter(private val visitedEventList: ArrayList<VisitedE
             }
 
             override fun onFailure(call: Call<DeleteSavedEventResponse>, t: Throwable) {
-                Log.d("getDeleteSavedEvent/FAILURE", t.message.toString())
             }
         })
     }
@@ -206,7 +188,6 @@ class UserVisitedEventRVAdapter(private val visitedEventList: ArrayList<VisitedE
             }
 
             override fun onFailure(call: Call<VisitEventResponse>, t: Throwable) {
-                Log.d("setVisitedEvent/FAILURE", t.message.toString())
             }
         })
     }
@@ -223,9 +204,7 @@ class UserVisitedEventRVAdapter(private val visitedEventList: ArrayList<VisitedE
                     }
                 }
             }
-
             override fun onFailure(call: Call<DeleteVisitedEventResponse>, t: Throwable) {
-                Log.d("setDeleteVisitedEvent/FAILURE", t.message.toString())
             }
         })
     }
