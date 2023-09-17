@@ -62,6 +62,7 @@ object HomeService{
 
                 when(resp.code){
                     1000->{
+                        Log.d("homeFragment", resp.message)
                         fragment.setRecommendEvent(resp.result!!)
                     }
                     else ->{

@@ -42,7 +42,6 @@ import retrofit2.Response
 class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding::inflate){
 
     private var eventIdx=0
-    private var status = "b"
     var isSavedBtnSelected: Boolean = false
     var isVisitedBtnSelected: Boolean = false
     private var visitedNum=0
@@ -62,7 +61,6 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
         getBtnStatus()
         initBtn()
 
-        initStar()
         showBarChart()
     }
 
@@ -85,8 +83,14 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
         binding.detailEventVisitedBtn.setOnClickListener {
             if (getJwt()==null) showLoginAlert()
             else {
-                if (!isVisitedBtnSelected) visitEvent("B")
-                else deleteVisitedEvent()
+                if (!isVisitedBtnSelected) {
+                    isVisitedBtnSelected = true
+                    visitEvent()
+                }
+                else {
+                    isVisitedBtnSelected = false
+                    deleteVisitedEvent()
+                }
             }
         }
 
@@ -289,22 +293,20 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
         })
     }
 
-    private fun visitEvent(assess:String){
-        myPageService.visitEvent(eventIdx,assess).enqueue(object: Callback<VisitEventResponse> {
+    private fun visitEvent(){
+        myPageService.visitEvent(eventIdx).enqueue(object: Callback<VisitEventResponse> {
             override fun onResponse(call: Call<VisitEventResponse>, response: Response<VisitEventResponse>) {
                 val resp = response.body()!!
                 when(resp.code){
-                    200->{
+                    1000->{
                         initBtn()
                         binding.detailEventVisitedCount.text=String.format("방문 유저 수: %s명",++visitedNum)
                         showToast("my> 방문한 이벤트에 담았어요!")
                     }
-                    500 ->{
-                        showToast(resp.msg)
-                    }
                     else ->{
-                        Log.d("detail/visit",resp.msg)
+                        Log.d("detail/visit",resp.message)
                     }
+
                 }
             }
             override fun onFailure(call: Call<VisitEventResponse>, t: Throwable) {
@@ -320,13 +322,13 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
                 val resp = response.body()!!
                 Log.d("isVisited/delete",resp.toString())
                 when(resp.code){
-                    200->{
+                    1000->{
                         binding.detailEventVisitedCount.text=String.format("방문 유저 수: %s명",--visitedNum)
                         initBtn()
-                        showToast(resp.msg)
+                        showToast("my> 방문한 이벤트에서 취소했어요!")
                     }
                     else->{
-                        showToast(resp.msg)
+                        showToast(resp.message)
                     }
                 }
             }
@@ -386,17 +388,6 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
                 startActivity(intent)
             }
         })
-    }
-
-    //별점 상태 조절
-    private fun initStar(){
-        binding.detailVisitedRatingbar.setOnRatingChangeListener { _, rating, _ ->
-            when (rating) {
-                1.0f -> status = "b"
-                2.0f -> status = "s"
-                3.0f -> status = "g"
-            }
-        }
     }
 
     private fun showLoginAlert() {

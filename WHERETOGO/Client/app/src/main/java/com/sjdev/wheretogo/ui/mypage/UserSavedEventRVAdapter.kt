@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
@@ -25,7 +24,6 @@ import retrofit2.Response
 
 class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventResult>) : RecyclerView.Adapter<UserSavedEventRVAdapter.ViewHolder>() {
     private lateinit var context: Context
-    private var status = "b"
     private val service = retrofit.create(MypageRetrofitInterface::class.java)
     private var isEventVisited=false
     private var isEventSaved=false
@@ -80,7 +78,6 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
             binding.itemMypageLikeCountTv.text = String.format("담은 수: %d건",savedEvent.savedNum)
 
 
-            initStar(binding)
             initClickListener(binding,savedEvent.eventID,holder)
 
 
@@ -115,25 +112,16 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
                 saveEvent(binding,eventId)
             }
         }
-
-        // 방문하기 버튼 클릭
         binding.itemMypageVisitedBtn.setOnClickListener {
             if (isEventVisited){
                 isEventVisited=false
-                deleteVisitedEvent(binding, eventId)
-            }
-            else{
-                binding.mySavedStarPanel.visibility = View.VISIBLE
-            }
-        }
+                deleteVisitedEvent(binding,eventId)
 
-        binding.mySavedAdaptTv.setOnClickListener {
-            visitEvent(binding,eventId)
-            binding.mySavedStarPanel.visibility = View.INVISIBLE
-        }
-
-        binding.mySavedCancelTv.setOnClickListener {
-            binding.mySavedStarPanel.visibility = View.INVISIBLE
+            }
+            else {
+                isEventVisited=true
+                visitEvent(binding,eventId)
+            }
         }
 
         binding.itemMypageLikedReviewTv.setOnClickListener{ //평가하기 이동
@@ -142,12 +130,6 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
         }
     }
 
-    private fun visitEvent(binding: ItemMypageSavedBinding, eventId:Int){
-        visitEvent(eventId,status)
-        binding.itemMypageVisitedBtn.setBackgroundResource(R.drawable.btn_check_click)
-        Toast.makeText(context, R.string.visited_on, Toast.LENGTH_SHORT).show()
-        isEventVisited=true
-    }
 
     //binding 없애면 안됨!
     private fun getEventStatus(binding: ItemMypageSavedBinding, eventId:Int){
@@ -209,16 +191,17 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
 
 
     //방문하기
-    private fun visitEvent(eventId:Int, assess :String){
-        service.visitEvent(eventId,assess).enqueue(object: Callback<VisitEventResponse>{
+    private fun visitEvent(binding: ItemMypageSavedBinding, eventId:Int){
+        service.visitEvent(eventId).enqueue(object: Callback<VisitEventResponse>{
             override fun onResponse(call: Call<VisitEventResponse>, responseSet: Response<VisitEventResponse>) {
                 val resp = responseSet.body()!!
                 when(resp.code){
                     1000-> {
+                        initBtn(binding)
                     }
 
                     else->{
-                        Log.d("setVisitedEvent/ERROR", resp.msg)
+                        Log.d("setVisitedEvent/ERROR", resp.message)
                     }
                 }
             }
@@ -236,7 +219,7 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
                 val resp = response.body()!!
                 when(resp.code){
                     1000->{
-                        Log.d("setDeleteVisitedEvent/SUCCESS", resp.msg)
+                        initBtn(binding)
                     }
 
                 }
@@ -245,17 +228,6 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
                 Log.d("setDeleteVisitedEvent/FAILURE", t.message.toString())
             }
         })
-    }
-
-    //별점
-    private fun initStar(binding: ItemMypageSavedBinding){
-        binding.mySavedRatingbar.setOnRatingChangeListener { _, rating, _ ->
-            when (rating) {
-                1.0f -> status = "b"
-                2.0f -> status = "s"
-                3.0f -> status = "g"
-            }
-        }
     }
 
     override fun getItemCount(): Int {
