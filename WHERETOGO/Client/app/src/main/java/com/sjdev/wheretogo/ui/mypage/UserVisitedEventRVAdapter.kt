@@ -2,10 +2,8 @@ package com.sjdev.wheretogo.ui.mypage
 
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
@@ -17,6 +15,7 @@ import com.sjdev.wheretogo.data.remote.mypage.*
 import com.sjdev.wheretogo.databinding.ItemMypageVisitedBinding
 import com.sjdev.wheretogo.ui.review.WriteReviewActivity
 import com.sjdev.wheretogo.util.ApplicationClass.Companion.retrofit
+import com.sjdev.wheretogo.util.showDialog
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -79,15 +78,18 @@ class UserVisitedEventRVAdapter(private val visitedEventList: ArrayList<VisitedE
             if (visitedEvent.endDate != null)
                 binding.itemMypageVisitedEndDate.text = visitedEvent.endDate.slice(IntRange(0, 9))
 
-            //initClickListener(binding, holder, eventId)
+            initClickListener(binding, holder, eventId)
         }
     }
 
-    private fun initBtn(binding: ItemMypageVisitedBinding) {
+    private fun setSaveBtn(binding: ItemMypageVisitedBinding) {
         if (isEventSaved)
             binding.itemMypageLikeBtn.setBackgroundResource(R.drawable.btn_like_click)
         else
             binding.itemMypageLikeBtn.setBackgroundResource(R.drawable.btn_like_unclick)
+    }
+
+    private fun setVisitBtn(binding: ItemMypageVisitedBinding){
         if (isEventVisited)
             binding.itemMypageVisitedBtn.setBackgroundResource(R.drawable.btn_check_click)
         else
@@ -128,7 +130,8 @@ class UserVisitedEventRVAdapter(private val visitedEventList: ArrayList<VisitedE
                     1000 -> {
                         isEventSaved = resp.result.isSaved
                         isEventVisited = resp.result.isVisited
-                        initBtn(binding)
+                        setSaveBtn(binding)
+                        setVisitBtn(binding)
                     }
                 }
             }
@@ -144,8 +147,8 @@ class UserVisitedEventRVAdapter(private val visitedEventList: ArrayList<VisitedE
                 val resp = responseSet.body()!!
                 when (resp.code) {
                     1000 -> {
-                        initBtn(binding)
-                        Toast.makeText(context, R.string.like_on, Toast.LENGTH_SHORT).show()
+                        setSaveBtn(binding)
+                        showDialog(context, R.string.like_on)
                     }
                 }
             }
@@ -162,8 +165,8 @@ class UserVisitedEventRVAdapter(private val visitedEventList: ArrayList<VisitedE
                 val resp = response.body()!!
                 when (resp.code) {
                     1000 -> {
-                        initBtn(binding)
-                        Toast.makeText(context, R.string.like_off, Toast.LENGTH_SHORT).show()
+                        setSaveBtn(binding)
+                        showDialog(context, R.string.like_off)
                     }
                 }
             }
@@ -181,8 +184,8 @@ class UserVisitedEventRVAdapter(private val visitedEventList: ArrayList<VisitedE
                 val resp = responseSet.body()!!
                 when (resp.code) {
                     1000 -> {
-                        initBtn(binding)
-                        Toast.makeText(context, R.string.visited_off, Toast.LENGTH_SHORT).show()
+                        setVisitBtn(binding)
+                        showDialog(context, R.string.visited_on)
                     }
                 }
             }
@@ -199,8 +202,8 @@ class UserVisitedEventRVAdapter(private val visitedEventList: ArrayList<VisitedE
                 val resp = response.body()!!
                 when (resp.code) {
                     1000 -> {
-                        initBtn(binding)
-                        Log.d("setDeleteVisitedEvent/SUCCESS", resp.message)
+                        setVisitBtn(binding)
+                        showDialog(context, R.string.visited_off)
                     }
                 }
             }

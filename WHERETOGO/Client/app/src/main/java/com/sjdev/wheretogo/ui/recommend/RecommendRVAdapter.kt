@@ -3,9 +3,7 @@ package com.sjdev.wheretogo.ui.recommend
 import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
@@ -19,8 +17,8 @@ import com.sjdev.wheretogo.data.remote.mypage.EventBtnStatusResponse
 import com.sjdev.wheretogo.data.remote.mypage.MypageRetrofitInterface
 import com.sjdev.wheretogo.data.remote.mypage.SaveEventResponse
 import com.sjdev.wheretogo.databinding.ItemAllRecommendBinding
-import com.sjdev.wheretogo.databinding.ItemMypageSavedBinding
 import com.sjdev.wheretogo.util.ApplicationClass.Companion.retrofit
+import com.sjdev.wheretogo.util.showDialog
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -75,34 +73,36 @@ class RecommendRVAdapter(private val recommendList: ArrayList<AllRecommendEvent>
             binding.itemRecommendTagTv.text = allRecommendEvent.kind
             binding.itemRecommendLikeCountTv.text = String.format("해당 그룹 저장 수: %d건",allRecommendEvent.userTopNum)
 
-            //initClickListener(binding, allRecommendEvent.eventID)
+            initClickListener(binding, allRecommendEvent.eventID)
         }
     }
 
-    private fun initBtn(binding: ItemAllRecommendBinding){
-        Toast.makeText(context, "isEventSaved="+isEventSaved + "\nisEventVisited= "+isEventVisited, Toast.LENGTH_SHORT).show()
-        if (isEventSaved)
-            binding.itemRecSaveBtn.setBackgroundResource(R.drawable.btn_like_click)
-        else if (!isEventSaved)
-            binding.itemRecSaveBtn.setBackgroundResource(R.drawable.btn_like_unclick)
+    private fun setVisitBtn(binding: ItemAllRecommendBinding){
+
         if (isEventVisited)
             binding.itemRecVisitBtn.setBackgroundResource(R.drawable.btn_check_click)
-        else if (!isEventVisited)
+        else
             binding.itemRecVisitBtn.setBackgroundResource(R.drawable.btn_check_unclick)
     }
+    private fun setSaveBtn(binding: ItemAllRecommendBinding){
+        if (isEventSaved)
+            binding.itemRecSaveBtn.setBackgroundResource(R.drawable.btn_like_click)
+        else
+            binding.itemRecSaveBtn.setBackgroundResource(R.drawable.btn_like_unclick)
+    }
+
 
     private fun initClickListener(binding: ItemAllRecommendBinding, eventId: Int){
         binding.itemRecSaveBtn.setOnClickListener {
             isEventSaved = !isEventSaved
-            if (isEventSaved) saveEvent(binding,eventId)
-            else deleteSavedEvent(binding,eventId)
+            if (isEventSaved) saveEvent(binding, eventId)
+            else deleteSavedEvent(binding, eventId)
         }
         binding.itemRecVisitBtn.setOnClickListener {
             isEventVisited = !isEventVisited
-            if (isEventVisited) visitEvent(binding,eventId)
-            else deleteVisitedEvent(binding,eventId)
+            if (isEventVisited) visitEvent(binding, eventId)
+            else deleteVisitedEvent(binding, eventId)
         }
-
     }
 
     private fun getEventStatus(eventId: Int, binding: ItemAllRecommendBinding){
@@ -113,7 +113,8 @@ class RecommendRVAdapter(private val recommendList: ArrayList<AllRecommendEvent>
                     1000->{
                         isEventSaved = resp.result.isSaved
                         isEventVisited = resp.result.isVisited
-                        initBtn(binding)
+                        setSaveBtn(binding)
+                        setVisitBtn(binding)
 
                     }
                 }
@@ -130,8 +131,8 @@ class RecommendRVAdapter(private val recommendList: ArrayList<AllRecommendEvent>
                 val resp = responseSet.body()!!
                 when(resp.code){
                     1000-> {
-                        initBtn(binding)
-                        Toast.makeText(context, R.string.like_on, Toast.LENGTH_SHORT).show()
+                        setSaveBtn(binding)
+                        showDialog(context, R.string.like_on)
                     }
 
                     else->{
@@ -152,8 +153,8 @@ class RecommendRVAdapter(private val recommendList: ArrayList<AllRecommendEvent>
                 val resp = response.body()!!
                 when(resp.code){
                     1000->{
-                        initBtn(binding)
-                        Toast.makeText(context, R.string.like_off, Toast.LENGTH_SHORT).show()
+                        setSaveBtn(binding)
+                        showDialog(context, R.string.like_off)
                     }
                 }
             }
@@ -170,8 +171,8 @@ class RecommendRVAdapter(private val recommendList: ArrayList<AllRecommendEvent>
                 val resp = responseSet.body()!!
                 when(resp.code){
                     1000-> {
-                        initBtn(binding)
-                        Toast.makeText(context, R.string.visited_on, Toast.LENGTH_SHORT).show()
+                        setVisitBtn(binding)
+                        showDialog(context, R.string.visited_on)
                     }
 
                     else->{
@@ -192,8 +193,8 @@ class RecommendRVAdapter(private val recommendList: ArrayList<AllRecommendEvent>
                 val resp = response.body()!!
                 when(resp.code){
                     1000->{
-                        initBtn(binding)
-                        Toast.makeText(context, R.string.visited_off, Toast.LENGTH_SHORT).show()
+                        setVisitBtn(binding)
+                        showDialog(context, R.string.visited_off)
                     }
 
                 }
