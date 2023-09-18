@@ -1,5 +1,6 @@
 package com.sjdev.wheretogo.ui.calendar
 
+import android.annotation.SuppressLint
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import com.prolificinteractive.materialcalendarview.DayViewDecorator
 import com.prolificinteractive.materialcalendarview.DayViewFacade
@@ -13,8 +14,10 @@ lateinit var dates : ArrayList<CalendarResult>
 lateinit var eventName :String
 
 class EventDayDecorator (context: Activity, events: ArrayList<CalendarResult>): DayViewDecorator {
-    val drawable = context?.resources.getDrawable(com.sjdev.wheretogo.R.drawable.calendar_event_day_background)
+    @SuppressLint("UseCompatLoadingForDrawables")
+    val drawable = context.resources.getDrawable(com.sjdev.wheretogo.R.drawable.calendar_event_day_background)
 
+    @SuppressLint("SimpleDateFormat")
     override fun shouldDecorate(day: CalendarDay?): Boolean {
         var result : Boolean = false
         dates.forEach{e->
@@ -28,7 +31,7 @@ class EventDayDecorator (context: Activity, events: ArrayList<CalendarResult>): 
             var cal_e = Calendar.getInstance()
             cal_e.setTime(date_e)
 
-            if((day!!.calendar >= cal_s) && (day!!.calendar <= cal_e)){
+            if((day!!.calendar >= cal_s) && (day.calendar <= cal_e)){
                 result = true
             }
         }
