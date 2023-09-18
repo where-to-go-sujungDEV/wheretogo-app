@@ -35,8 +35,9 @@ class CompanyPopularActivity: BaseActivity<ActivityCompanyPopularBinding>(Activi
     private lateinit var dialog :Dialog
     private lateinit var bindingSub: ItemSearchFilterDialogBinding
 
-    var kindList: Array<Int> = Array(15) { 0 }
+    var kind : String = ""
     private var free : Int = 0
+
 
 
     private var startDate : String? = ""
@@ -82,7 +83,7 @@ class CompanyPopularActivity: BaseActivity<ActivityCompanyPopularBinding>(Activi
 
         bindingSub.filterCancelBtn.setOnClickListener {
             for (i:Int in 0..14)
-                kindList[i] = 0
+                kind = "000000000000000"
             startDate = null
             endDate = null
             free = 0
@@ -227,21 +228,7 @@ class CompanyPopularActivity: BaseActivity<ActivityCompanyPopularBinding>(Activi
                 subAreaCode,
                 startDate,
                 endDate,
-                kindList[0],
-                kindList[1],
-                kindList[2],
-                kindList[3],
-                kindList[4],
-                kindList[5],
-                kindList[6],
-                kindList[7],
-                kindList[8],
-                kindList[9],
-                kindList[10],
-                kindList[11],
-                kindList[12],
-                kindList[13],
-                kindList[14],
+                kind,
                 free,
                 align
             )
@@ -251,8 +238,7 @@ class CompanyPopularActivity: BaseActivity<ActivityCompanyPopularBinding>(Activi
 
 
     fun setFilterReset() {
-        for (i:Int in 0..14)
-            kindList[i] = 0
+        kind = ""
         startDate= ""
         endDate = ""
         mainAreaCode = 0
