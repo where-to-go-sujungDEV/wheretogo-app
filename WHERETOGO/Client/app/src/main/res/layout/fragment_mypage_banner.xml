@@ -12,8 +12,8 @@
         <TextView
             android:id="@+id/mypage_explain_tv"
             android:layout_width="wrap_content"
-            android:layout_height="17dp"
-            android:text="내가 찜한 행사들이에요."
+            android:layout_height="wrap_content"
+            android:text="@string/mypage_event_saved"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

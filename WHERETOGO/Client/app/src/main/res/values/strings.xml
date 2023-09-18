@@ -38,6 +38,9 @@
     <string name="visited_on">MY> 다녀온 이벤트에 담았어요!</string>
     <string name="visited_off">MY> 다녀온 이벤트에서 삭제했어요!</string>
 
+    <!--마이페이지-->
+    <string name="mypage_event_saved">내가 찜한 행사들이에요.</string>
+
     <string-array name="sortBy">
         <item>인기순</item>
         <item>시작일순</item>

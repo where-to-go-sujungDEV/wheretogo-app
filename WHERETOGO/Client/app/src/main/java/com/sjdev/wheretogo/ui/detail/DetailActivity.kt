@@ -124,8 +124,7 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
         })
     }
 
-    fun setDetailInfo(lst: List<DetailInfoResult>){
-        val result:DetailInfoResult = lst[0]
+    fun setDetailInfo(result: DetailInfoResult){
         val time= result.eventtime?.replace("<br>".toRegex(), "\n")
         val age= result.agelimit?.replace("<br>".toRegex(), "\n")
         val price= result.price?.replace("<br>".toRegex(), "\n")
@@ -133,8 +132,8 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
         val overview= result.overview?.replace("<br>".toRegex(), "\n")
         val place=result.place?.replace("<br>".toRegex(), "\n")
         val eventPlace=result.eventplace?.replace("<br>".toRegex(), "\n")
-        savedNum=result.savedNum!!
-        visitedNum=result.visitedNum!!
+        savedNum= result.savedNum
+        visitedNum= result.visitedNum
 
         binding.apply{
             detailKindTv.text=result.kind
