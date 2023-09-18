@@ -18,7 +18,9 @@ import com.sjdev.wheretogo.R
 import com.sjdev.wheretogo.data.remote.search.*
 import com.sjdev.wheretogo.databinding.FragmentSearchBinding
 import com.sjdev.wheretogo.ui.detail.DetailActivity
+import java.net.URLEncoder
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class SearchFragment : Fragment() {
@@ -58,27 +60,14 @@ class SearchFragment : Fragment() {
     lateinit var sortSpinner : Spinner
     lateinit var filter : TextView
 
-    var search: String? = ""
-    var aCode : Int? = 0
-    var aDCode : Int? = 0
-    var fromD : String? = ""
-    var toD : String? = ""
-    var k1: Int? = 0
-    var k2: Int? = 0
-    var k3: Int? = 0
-    var k4: Int? = 0
-    var k5: Int? = 0
-    var k6: Int? = 0
-    var k7: Int? = 0
-    var k8: Int? = 0
-    var k9: Int? = 0
-    var k10: Int? = 0
-    var k11: Int? = 0
-    var k12: Int? = 0
-    var k13: Int? = 0
-    var k14: Int? = 0
-    var k15: Int? = 0
-    var free : Int? = 0
+    var search: String? = null
+    var aCode : Int? = null
+    var aDCode : Int? = null
+    var fromD : String? = null
+    var toD : String? = null
+    var kind : String? = null
+    var free : Int? = null
+
     var align: String? = "popular"
 
     private val eventService = EventService
@@ -100,9 +89,8 @@ class SearchFragment : Fragment() {
 
         filter = binding.root.findViewById(R.id.filter)
 
-
         // DB에서 이벤트 받아오기
-        eventService.getEvents(this,search,aCode,aDCode,fromD,toD,k1,k2,k3,k4,k5,k6,k7,k8,k9,k10,k11,k12,k13,k14,k15,free,align)
+        eventService.getEvents(this,search,aCode,aDCode,fromD,toD,kind,free,align)
 
         // 정렬 기준 스피너 정의
         val sortBy = resources.getStringArray((R.array.sortBy))
@@ -112,13 +100,11 @@ class SearchFragment : Fragment() {
         sortSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 when (p2){
-                    0-> { align = "popular"
-                        eventService.getEvents(this@SearchFragment,search,aCode,aDCode,fromD,toD,k1,k2,k3,k4,k5,k6,k7,k8,k9,k10,k11,k12,k13,k14,k15,free,align) }
-                    1->{ align = "start"
-                        eventService.getEvents(this@SearchFragment,search,aCode,aDCode,fromD,toD,k1,k2,k3,k4,k5,k6,k7,k8,k9,k10,k11,k12,k13,k14,k15,free,align) }
-                    2->{ align = "end"
-                        eventService.getEvents(this@SearchFragment,search,aCode,aDCode,fromD,toD,k1,k2,k3,k4,k5,k6,k7,k8,k9,k10,k11,k12,k13,k14,k15,free,align) }
+                    0-> { align = "popular" }
+                    1->{ align = "start" }
+                    2->{ align = "end" }
                 }
+                eventService.getEvents(this@SearchFragment,search,aCode,aDCode,fromD,toD,kind,free,align)
             }
             override fun onNothingSelected(p0: AdapterView<*>?) {
             }
@@ -136,14 +122,13 @@ class SearchFragment : Fragment() {
     // 이벤트 검색어 입력 시
     var searchViewTextListener: SearchView.OnQueryTextListener = object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(s: String): Boolean {
-                // 아무 것도 입력하지 않을 경우
-                if(s.equals("")) {
+                if(s == null) {
                     setFilterReset()
-                    eventService.getEvents(this@SearchFragment,search,aCode,aDCode,fromD,toD,k1,k2,k3,k4,k5,k6,k7,k8,k9,k10,k11,k12,k13,k14,k15,free,align)
+                    eventService.getEvents(this@SearchFragment,search,aCode,aDCode,fromD,toD,kind,free,align)
                 }
                 else {
                     search = s
-                    eventService.getEvents(this@SearchFragment,search,aCode,aDCode,fromD,toD,k1,k2,k3,k4,k5,k6,k7,k8,k9,k10,k11,k12,k13,k14,k15,free,align)
+                    eventService.getEvents(this@SearchFragment,search,aCode,aDCode,fromD,toD,kind,free,align)
                 }
                 return false
             }
@@ -206,32 +191,10 @@ class SearchFragment : Fragment() {
         filterKindRVAdapter = FilterKindRVAdapter(getKindList(), requireContext(), this)
         rv_filter_kind.adapter = filterKindRVAdapter
 
-        /** 종료 버튼 **/
+        /** 필터 취소 버튼 **/
         filter_cancelBtn.setOnClickListener(object : View.OnClickListener {
             override fun onClick(p0: View?) {
-                // 모든 필터 값을 취소시킨다.
-                search = ""
-                k1= 0
-                k2= 0
-                k3= 0
-                k4 = 0
-                k5= 0
-                k6 = 0
-                k7= 0
-                k8= 0
-                k9 = 0
-                k10= 0
-                k11 = 0
-                k12 = 0
-                k13= 0
-                k14= 0
-                k15 = 0
-                fromD= null
-                toD = null
-                aCode = 0
-                aDCode  = 0
-                free = 0
-                align = "popular"
+                setFilterReset()
 
                 dialog.dismiss()
             }
@@ -302,8 +265,6 @@ class SearchFragment : Fragment() {
                 filter_endDate.setText("선택안함")
 
                 setFilterReset()
-
-                
 //                eventService.getEvents(this@SearchFragment,search,aCode,aDCode,fromD,toD,k1,k2,k3,k4,k5,k6,k7,k8,k9,k10,k11,k12,k13,k14,k15,free,align)
             }
         })
@@ -311,7 +272,7 @@ class SearchFragment : Fragment() {
         /** 필터값 적용 **/
         filterSetBtn.setOnClickListener(object : View.OnClickListener {
             override fun onClick(p0: View?) {
-                eventService.getEvents(this@SearchFragment,search,aCode,aDCode,fromD,toD,k1,k2,k3,k4,k5,k6,k7,k8,k9,k10,k11,k12,k13,k14,k15,free,align)
+                eventService.getEvents(this@SearchFragment,search,aCode,aDCode,fromD,toD,kind,free,align)
                 dialog.dismiss()
             }
         })
@@ -394,28 +355,12 @@ class SearchFragment : Fragment() {
     }
 
     fun setFilterReset() {
-        search = ""
-        k1= 0
-        k2= 0
-        k3= 0
-        k4= 0
-        k5= 0
-        k6= 0
-        k7= 0
-        k8= 0
-        k9 = 0
-        k10= 0
-        k11 = 0
-        k12 = 0
-        k13= 0
-        k14= 0
-        k15 = 0
-        fromD= ""
-        toD = ""
-        aCode = 0
-        aDCode  = 0
-        free = 0
-        align = "popular"
+        kind = null
+        fromD= null
+        toD = null
+        aCode = null
+        aDCode  = null
+        free = null
     }
 
     fun noEventMsg() {

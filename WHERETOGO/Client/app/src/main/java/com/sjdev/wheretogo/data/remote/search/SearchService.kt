@@ -11,20 +11,18 @@ import retrofit2.Response
 object SearchService{
     val searchService = retrofit.create(SearchRetrofitInterface::class.java)
 
-
-
     fun setSavedEvent(fragment: SearchEventAdapter, userID: Int, eventID: Int){
         searchService.setSavedEvent(userID, eventID).enqueue(object: Callback<SetSavedEventResponse>{
             override fun onResponse(call: Call<SetSavedEventResponse>, responseSet: Response<SetSavedEventResponse>) {
                 val resp = responseSet.body()!!
                 when(resp.code){
-                    200-> {
+                    1000-> {
                         Log.d("setSavedEvent/Success", resp.msg)
                         fragment.setMyEvent(resp.isSuccess)
                     }
-                    204 ->{
-                        Log.d("setSavedEvent/fail", resp.msg)
-                    }
+//                    204 ->{
+//                        Log.d("setSavedEvent/fail", resp.msg)
+//                    }
                     else->{
                         Log.d("setSavedEvent/ERROR", resp.msg)
                     }

@@ -24,6 +24,8 @@ class FilterKindRVAdapter (var kindList: ArrayList<String>, var con: Context, va
         val inflater = con.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val view = inflater.inflate(R.layout.item_recycle_filter, parent, false)
 
+        companyPopularActivity.kind = "000000000000000"
+
         return ViewHolder(view)
     }
 
@@ -35,42 +37,10 @@ class FilterKindRVAdapter (var kindList: ArrayList<String>, var con: Context, va
         holder.filter_tag_btn.setOnClickListener(View.OnClickListener {
             if(!holder.filter_tag_btn.isSelected) {
                 holder.filter_tag_btn.isSelected=true
-                when(position){
-                    0->companyPopularActivity.kindList[0] = 1
-                    1->companyPopularActivity.kindList[1] = 1
-                    2->companyPopularActivity.kindList[2] = 1
-                    3->companyPopularActivity.kindList[3] = 1
-                    4->companyPopularActivity.kindList[4] = 1
-                    5->companyPopularActivity.kindList[5] = 1
-                    6->companyPopularActivity.kindList[6] = 1
-                    7->companyPopularActivity.kindList[7] = 1
-                    8->companyPopularActivity.kindList[8] = 1
-                    9->companyPopularActivity.kindList[9] = 1
-                    10->companyPopularActivity.kindList[10] = 1
-                    11->companyPopularActivity.kindList[11] = 1
-                    12->companyPopularActivity.kindList[12] = 1
-                    13->companyPopularActivity.kindList[13] = 1
-                    14->companyPopularActivity.kindList[14] = 1
-                }
+                companyPopularActivity.kind = companyPopularActivity.kind?.substring(0,position) + "1" + companyPopularActivity.kind?.substring(position+1)
             } else{
                 holder.filter_tag_btn.isSelected =false
-                when(position){
-                    0->companyPopularActivity.kindList[0] = 0
-                    1->companyPopularActivity.kindList[1] = 0
-                    2->companyPopularActivity.kindList[2] = 0
-                    3->companyPopularActivity.kindList[3] = 0
-                    4->companyPopularActivity.kindList[4] = 0
-                    5->companyPopularActivity.kindList[5] = 0
-                    6->companyPopularActivity.kindList[6] = 0
-                    7->companyPopularActivity.kindList[7] = 0
-                    8->companyPopularActivity.kindList[8] = 0
-                    9->companyPopularActivity.kindList[9] = 0
-                    10->companyPopularActivity.kindList[10] = 0
-                    11->companyPopularActivity.kindList[11] = 0
-                    12->companyPopularActivity.kindList[12] = 0
-                    13->companyPopularActivity.kindList[13] = 0
-                    14->companyPopularActivity.kindList[14] = 0
-                }
+                companyPopularActivity.kind = companyPopularActivity.kind?.substring(0,position) + "0" + companyPopularActivity.kind?.substring(position+1)
             }
         })
 

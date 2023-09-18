@@ -103,15 +103,7 @@ class SearchEventAdapter(var events: ArrayList<EventResult>, var con: Context) :
 
             starPanel = itemView.findViewById(R.id.item_search_star_panel)
 
-/*
-            itemView.setOnClickListener {
-              //val intent = Intent(con, DetailActivity::class.java)
-              //con.startActivity(intent)
-            }
- */
         }
-
-
     }
 
     init {
@@ -187,7 +179,6 @@ class SearchEventAdapter(var events: ArrayList<EventResult>, var con: Context) :
             }
 
         }
-
 
         holder.likedBtn.setOnClickListener {
 
