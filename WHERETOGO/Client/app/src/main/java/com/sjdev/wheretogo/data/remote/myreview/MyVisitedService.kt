@@ -1,15 +1,15 @@
 package com.sjdev.wheretogo.data.remote.myreview
 
 import android.util.Log
-import com.sjdev.wheretogo.data.remote.getRetrofit
 import com.sjdev.wheretogo.ui.myReview.MyVisitedSlideActivity
+import com.sjdev.wheretogo.util.ApplicationClass.Companion.retrofit
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 object MyVisitedService {
 
-    val service = getRetrofit().create(MyVisitedRetrofitInterface::class.java)
+    val service = retrofit.create(MyVisitedRetrofitInterface::class.java)
 
     fun getMyVisited(activity: MyVisitedSlideActivity, reviewId: Int){
         service.getMyVisited(reviewId).enqueue(object: Callback<MyVisitedResponse> {
