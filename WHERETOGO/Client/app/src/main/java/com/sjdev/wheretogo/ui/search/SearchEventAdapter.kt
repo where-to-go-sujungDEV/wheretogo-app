@@ -103,15 +103,7 @@ class SearchEventAdapter(var events: ArrayList<EventResult>, var con: Context) :
 
             starPanel = itemView.findViewById(R.id.item_search_star_panel)
 
-/*
-            itemView.setOnClickListener {
-              //val intent = Intent(con, DetailActivity::class.java)
-              //con.startActivity(intent)
-            }
- */
         }
-
-
     }
 
     init {
@@ -173,7 +165,7 @@ class SearchEventAdapter(var events: ArrayList<EventResult>, var con: Context) :
                         holder.visitedBtn.setBackgroundResource(R.drawable.btn_check_unclick)
                         isVisitedBtnSelected = false
                         //VistedTBL에서 삭제
-                        searchService.setDeleteVisitedEvent(this, userIdx, event.eventID)
+                        searchService.setDeleteVisitedEvent(userIdx, event.eventID)
                     }
                 }
             }
@@ -187,7 +179,6 @@ class SearchEventAdapter(var events: ArrayList<EventResult>, var con: Context) :
             }
 
         }
-
 
         holder.likedBtn.setOnClickListener {
 
@@ -211,7 +202,7 @@ class SearchEventAdapter(var events: ArrayList<EventResult>, var con: Context) :
                         holder.likedBtn.setBackgroundResource(R.drawable.btn_like_unclick)
                         isSavedBtnSelected = false
                         //savedTBL에 삭제
-                        searchService.setDeleteSavedEvent(this, userIdx, event.eventID)
+                        searchService.setDeleteSavedEvent(userIdx, event.eventID)
                     }
                 }
             }

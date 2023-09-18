@@ -44,6 +44,12 @@
         <item>종료임박순</item>
     </string-array>
 
+    <string-array name="myreviewSetting">
+        <item>수정</item>
+        <item>삭제</item>
+        <item>공유</item>
+    </string-array>
+
     <!-- 캘린더 month -->
     <!--    <string-array name="custom_months">-->
     <!--        <item>1월</item>-->

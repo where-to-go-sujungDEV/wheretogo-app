@@ -1,6 +1,7 @@
 package com.sjdev.wheretogo.data.remote.search
 
 import android.util.Log
+import com.sjdev.wheretogo.ui.company.CompanyPopularActivity
 import com.sjdev.wheretogo.ui.search.SearchFragment
 import com.sjdev.wheretogo.util.ApplicationClass
 import com.sjdev.wheretogo.util.ApplicationClass.Companion.retrofit
@@ -19,46 +20,50 @@ object EventService {
                   aDCode:Int?,
                   fromD: String?,
                   toD:String?,
-                  k1:Int?,
-                  k2:Int?,
-                  k3:Int?,
-                  k4:Int?,
-                  k5:Int?,
-                  k6:Int?,
-                  k7:Int?,
-                  k8:Int?,
-                  k9:Int?,
-                  k10:Int?,
-                  k11:Int?,
-                  k12:Int?,
-                  k13:Int?,
-                  k14:Int?,
-                  k15:Int?,
+                  kind:String?,
                   free:Int?,
                   align:String?) {
-        eventService.getEvents(search,aCode,aDCode,fromD,toD,k1,k2,k3,k4,k5,k6,k7,k8,k9,k10,k11,k12,k13,k14,k15,free,align)
+        eventService.getEvents(search,aCode,aDCode,fromD,toD,kind,free,align)
             .enqueue(object: Callback<EventResponse> {
             override fun onResponse(call: Call<EventResponse>, response: Response<EventResponse>) {
                 val resp = response.body()!!
-                when(resp.isExist) {
-                    true -> {
-                        when (resp.code) {
-                            200 -> {
-                                fragment.getEventsList(resp.results)
-                            }
-                        }
+                when (resp.code) {
+                    1000 -> {
+                        println(resp.result)
+                        fragment.getEventsList(resp.result)
                     }
-                    false -> {
-                        fragment.noEventMsg()
-                    }
-
                 }
-
             }
             override fun onFailure(call: Call<EventResponse>, t: Throwable) {
                 Log.d("getEvents/FAILURE", t.message.toString())
             }
         })
+    }
+
+    fun getCompanyEvents(activity:CompanyPopularActivity,
+                  search:String?,
+                  aCode:Int?,
+                  aDCode:Int?,
+                  fromD: String?,
+                  toD:String?,
+                  kind:String?,
+                  free:Int?,
+                  align:String?) {
+        eventService.getEvents(search,aCode,aDCode,fromD,toD,kind,free,align)
+            .enqueue(object: Callback<EventResponse> {
+                override fun onResponse(call: Call<EventResponse>, response: Response<EventResponse>) {
+                    val resp = response.body()!!
+                    when (resp.code) {
+                        1000 -> {
+                            print(resp.result)
+                            activity.getEventsList(resp.result)
+                        }
+                    }
+                }
+                override fun onFailure(call: Call<EventResponse>, t: Throwable) {
+                    Log.d("getEvents/FAILURE", t.message.toString())
+                }
+            })
     }
 
 }

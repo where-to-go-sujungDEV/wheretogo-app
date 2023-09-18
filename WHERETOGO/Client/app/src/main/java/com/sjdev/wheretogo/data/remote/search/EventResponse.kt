@@ -4,10 +4,10 @@ import com.google.gson.annotations.SerializedName
 
 
 data class EventResponse(
-        @SerializedName("code") var code : Int,
         @SerializedName("isSuccess") var isSuccess : Boolean,
-        @SerializedName("isExist") var isExist : Boolean,
-        @SerializedName("results") var results : List<EventResult>,
+        @SerializedName("code") var code : Int,
+        @SerializedName("message") var message : String,
+        @SerializedName("result") var result : List<EventResult>,
 )
 
 data class EventResult (
