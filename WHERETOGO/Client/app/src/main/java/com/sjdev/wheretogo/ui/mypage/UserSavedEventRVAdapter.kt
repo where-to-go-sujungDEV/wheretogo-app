@@ -4,9 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
@@ -18,15 +16,18 @@ import com.sjdev.wheretogo.data.remote.mypage.*
 import com.sjdev.wheretogo.databinding.ItemMypageSavedBinding
 import com.sjdev.wheretogo.ui.review.WriteReviewActivity
 import com.sjdev.wheretogo.util.ApplicationClass.Companion.retrofit
+import com.sjdev.wheretogo.util.showDialog
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import kotlin.properties.Delegates
 
 class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventResult>) : RecyclerView.Adapter<UserSavedEventRVAdapter.ViewHolder>() {
     private lateinit var context: Context
     private val service = retrofit.create(MypageRetrofitInterface::class.java)
-    private var isEventVisited=false
-    private var isEventSaved=false
+    private var isEventVisited by Delegates.notNull<Boolean>()
+    private var isEventSaved by Delegates.notNull<Boolean>()
+
     interface OnItemClickListener {
         fun onItemClick(savedEventData: SavedEventResult)
     }
@@ -79,16 +80,17 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
 
 
             initClickListener(binding,savedEvent.eventID,holder)
-
-
         }
     }
 
-    private fun initBtn(binding: ItemMypageSavedBinding){
+    private fun initSaveBtn(binding: ItemMypageSavedBinding){
         if (isEventSaved)
             binding.itemMypageLikeBtn.setBackgroundResource(R.drawable.btn_like_click)
         else
             binding.itemMypageLikeBtn.setBackgroundResource(R.drawable.btn_like_unclick)
+    }
+
+    private fun initVisitBtn(binding: ItemMypageSavedBinding){
         if (isEventVisited)
             binding.itemMypageVisitedBtn.setBackgroundResource(R.drawable.btn_check_click)
         else
@@ -99,29 +101,21 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
     private fun initClickListener(binding: ItemMypageSavedBinding, eventId:Int, holder: ViewHolder){
         //찜하기 버튼 클릭
         binding.itemMypageLikeBtn.setOnClickListener {
+            isEventSaved = !isEventSaved
             if (isEventSaved){
-                isEventSaved=false
+                saveEvent(binding,eventId)
+            } else {
                 deleteSavedEvent(binding,eventId)
-
                 //찜한 이벤트 목록에서 아이템 삭제
                 savedEventList.removeAt(holder.adapterPosition)
                 notifyItemRemoved(holder.adapterPosition)
             }
-            else {
-                isEventSaved=true
-                saveEvent(binding,eventId)
-            }
         }
+        //방문하기 버튼 클릭
         binding.itemMypageVisitedBtn.setOnClickListener {
-            if (isEventVisited){
-                isEventVisited=false
-                deleteVisitedEvent(binding,eventId)
-
-            }
-            else {
-                isEventVisited=true
-                visitEvent(binding,eventId)
-            }
+            isEventVisited = !isEventVisited
+            if (isEventVisited) visitEvent(binding,eventId)
+            else deleteVisitedEvent(binding,eventId)
         }
 
         binding.itemMypageLikedReviewTv.setOnClickListener{ //평가하기 이동
@@ -140,7 +134,8 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
                     1000->{
                         isEventSaved = resp.result.isSaved
                         isEventVisited = resp.result.isVisited
-                        initBtn(binding)
+                        initSaveBtn(binding)
+                        initVisitBtn(binding)
                     }
                 }
             }
@@ -156,7 +151,8 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
                 val resp = responseSet.body()!!
                 when(resp.code){
                     1000-> {
-                        initBtn(binding)
+                        initSaveBtn(binding)
+                        showDialog(context, R.string.like_on)
                     }
 
                     else->{
@@ -166,7 +162,6 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
             }
 
             override fun onFailure(call: Call<SaveEventResponse>, t: Throwable) {
-                Log.d("setSavedEvent/FAILURE", t.message.toString())
             }
         })
     }
@@ -177,13 +172,13 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
                 val resp = response.body()!!
                 when(resp.code){
                     1000->{
-                        initBtn(binding)
+                        initSaveBtn(binding)
+                        showDialog(context, R.string.like_off)
                     }
                 }
             }
 
             override fun onFailure(call: Call<DeleteSavedEventResponse>, t: Throwable) {
-                Log.d("getDeleteSavedEvent/FAILURE", t.message.toString())
             }
         })
     }
@@ -197,7 +192,8 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
                 val resp = responseSet.body()!!
                 when(resp.code){
                     1000-> {
-                        initBtn(binding)
+                        initVisitBtn(binding)
+                        showDialog(context, R.string.visited_on)
                     }
 
                     else->{
@@ -207,7 +203,6 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
             }
 
             override fun onFailure(call: Call<VisitEventResponse>, t: Throwable) {
-                Log.d("setVisitedEvent/FAILURE", t.message.toString())
             }
         })
     }
@@ -219,13 +214,13 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
                 val resp = response.body()!!
                 when(resp.code){
                     1000->{
-                        initBtn(binding)
+                        initVisitBtn(binding)
+                        showDialog(context, R.string.visited_off)
                     }
 
                 }
             }
             override fun onFailure(call: Call<DeleteVisitedEventResponse>, t: Throwable) {
-                Log.d("setDeleteVisitedEvent/FAILURE", t.message.toString())
             }
         })
     }
