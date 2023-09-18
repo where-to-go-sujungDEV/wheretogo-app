@@ -1,19 +1,17 @@
 package com.sjdev.wheretogo.data.remote.myreview
 
 import android.util.Log
-import com.sjdev.wheretogo.data.remote.getRetrofit
-import com.sjdev.wheretogo.data.remote.keyword.KeywordResponse
-import com.sjdev.wheretogo.data.remote.keyword.KeywordRetrofitInterface
-import com.sjdev.wheretogo.ui.keyword.KeywordActivity
+
 import com.sjdev.wheretogo.ui.myReview.MyReviewActivity
 import com.sjdev.wheretogo.ui.myReview.MyVisitedSlideActivity
+import com.sjdev.wheretogo.util.ApplicationClass.Companion.retrofit
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 object MyreviewService {
 
-    val service = getRetrofit().create(MyreviewRetrofitInterface::class.java)
+    val service = retrofit.create(MyreviewRetrofitInterface::class.java)
 
     fun getMyReview(activity: MyReviewActivity, reviewId: Int){
         service.getMyReview(reviewId).enqueue(object: Callback<MyreviewResponse> {

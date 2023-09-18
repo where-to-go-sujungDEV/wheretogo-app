@@ -1,10 +1,5 @@
 package com.sjdev.wheretogo.ui.myReview
 
-import android.os.Bundle
-import com.google.gson.annotations.SerializedName
-import com.sjdev.wheretogo.R
-import com.sjdev.wheretogo.data.remote.keyword.KeywordResult
-import com.sjdev.wheretogo.data.remote.keyword.KeywordService
 import com.sjdev.wheretogo.data.remote.myreview.MyReviewResult
 import com.sjdev.wheretogo.data.remote.myreview.MyreviewService
 import com.sjdev.wheretogo.databinding.ActivityMyreviewBinding
