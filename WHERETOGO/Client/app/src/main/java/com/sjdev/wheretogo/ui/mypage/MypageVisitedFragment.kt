@@ -15,7 +15,6 @@ import com.sjdev.wheretogo.util.ApplicationClass.Companion.retrofit
 
 class MypageVisitedFragment() : BaseFragment<FragmentMypageBannerBinding>(FragmentMypageBannerBinding::inflate){
     private val mypageService = MypageService
-    private val detailBooleanService = retrofit.create(DetailRetrofitInterface::class.java)
     private var userId =0
     override fun initAfterBinding() {
         //방문여부 표시

@@ -4,20 +4,20 @@ import com.google.gson.annotations.SerializedName
 
 //상세정보 조회 응답값
 data class DetailInfoResponse(
-    @SerializedName(value = "code")val code:Int,
     @SerializedName(value = "isSuccess")val isSuccess:Boolean,
-    @SerializedName(value = "result")val result: ArrayList<DetailInfoResult>
+    @SerializedName(value = "code")val code:Int,
+    @SerializedName(value = "result")val result: DetailInfoResult
 )
 
 data class DetailInfoResult(
     @SerializedName(value = "eventID")val eventID:Int,
     @SerializedName(value = "eventName")val eventName: String,
     @SerializedName(value = "startDate")val startDate: String,
-    @SerializedName(value = "savedNum")val savedNum: Int?,
-    @SerializedName(value = "visitedNum")val visitedNum: Int?,
+    @SerializedName(value = "savedNum")val savedNum: Int,
+    @SerializedName(value = "visitedNum")val visitedNum: Int,
     @SerializedName(value = "endDate")val endDate: String,
 
-    @SerializedName(value = "kind")val kind: String?,
+    @SerializedName(value = "kind")val kind: String,
     @SerializedName(value = "pic")val pic: String?,
 
     @SerializedName(value = "place")val place: String?,
