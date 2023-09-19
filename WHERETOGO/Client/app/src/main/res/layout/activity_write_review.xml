@@ -69,7 +69,7 @@
             android:layout_height="wrap_content"
             android:text="행사는 어떠셨나요?"
             android:textStyle="bold"
-            android:textSize="22sp"
+            android:textSize="19sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/w_review_event_iv"
@@ -97,7 +97,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="누구와 다녀온 행사인가요?"
-            android:textSize="19sp"
+            android:textSize="17sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/review_ratingbar"
             android:layout_marginTop="27dp"
@@ -167,7 +167,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/w_review_introduce_title_tv">
             <EditText
-                android:id="@+id/w_review_introduce_tv"
+                android:id="@+id/w_review_content_et"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"

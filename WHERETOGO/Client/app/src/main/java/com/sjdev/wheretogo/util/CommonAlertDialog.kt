@@ -10,3 +10,11 @@ fun showDialog(context: Context,msg: Int){
         }
         .show()
 }
+fun showStringDialog(context: Context,msg: String){
+    AlertDialog.Builder(context)
+        .setMessage(msg)
+        .setPositiveButton("확인") { _, _ ->
+        }
+        .show()
+}
+

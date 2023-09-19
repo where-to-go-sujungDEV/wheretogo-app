@@ -9,6 +9,8 @@ import android.database.Cursor
 import android.graphics.Rect
 import android.net.Uri
 import android.provider.MediaStore
+import android.util.Log
+
 import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -16,6 +18,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
+import com.sjdev.wheretogo.R
 import com.sjdev.wheretogo.data.remote.review.PostReviewResponse
 import com.sjdev.wheretogo.data.remote.review.ReviewInterface
 import com.sjdev.wheretogo.databinding.ActivityWriteReviewBinding
@@ -23,18 +26,25 @@ import com.sjdev.wheretogo.ui.BaseActivity
 import com.sjdev.wheretogo.util.ApplicationClass.Companion.retrofit
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.io.File
+
 
 
 class WriteReviewActivity: BaseActivity<ActivityWriteReviewBinding>(ActivityWriteReviewBinding::inflate) {
     private var imageUri: Uri? = null
+    private var isPrivate : String = "0"
     private var eventId: Int  = 0
+    private var star: String = "1"
+    private var review : String = "eeeee"
+
 
     private val service = retrofit.create(ReviewInterface::class.java)
     override fun initAfterBinding() {
+        eventId = intent.getIntExtra("eventIdx", -1)
+        initData()
         binding.wReviewBackIv.setOnClickListener {
             finish()
         }
@@ -52,26 +62,56 @@ class WriteReviewActivity: BaseActivity<ActivityWriteReviewBinding>(ActivityWrit
     }
 
     private fun writeReview() {
-        val requestFile : RequestBody?
-        if (imageUri!=null){
-            val file = File(getAbsolutePath(imageUri, this))
-            requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
-        } else requestFile = null
+//        val requestFile : RequestBody?
+//        val file = File(getAbsolutePath(imageUri, this))
+
+
+        val starBody : RequestBody = star.toRequestBody("text/plain".toMediaTypeOrNull())
+        val companionIDBody : RequestBody = "1".toRequestBody("text/plain".toMediaTypeOrNull())
+        val reviewBody : RequestBody = review.toRequestBody("text/plain".toMediaTypeOrNull())
+        val isPrivateBody : RequestBody = isPrivate.toRequestBody("text/plain".toMediaTypeOrNull())
+        val map = HashMap<String, RequestBody>()
+        map["star"] = starBody
+        map["companionID"] = companionIDBody
+        map["review"] = reviewBody
+        map["isPrivate"] = isPrivateBody
+
+        sendReview(map)
+
+    }
+
+    private fun initData() {
+        binding.wReviewRadioGroup.setOnCheckedChangeListener { _, checkedId ->
+            when (checkedId) {
+                R.id.w_review_private_rb -> this.isPrivate = "1"
+                R.id.w_review_public_rb -> this.isPrivate = "0"
+            }
+        }
+        binding.reviewRatingbar.setOnRatingChangeListener { ratingBar, rating, fromUser ->
+            star = (rating * 10).toString()
+        }
+
+        review = binding.wReviewContentEt.text.toString()
+        Log.d("writeReview",review)
 
     }
 
 
-    private fun sendReview(body: RequestBody){
 
-       service.sendReview(2713558,body).enqueue(object: Callback<PostReviewResponse>{
+    private fun sendReview(map : HashMap<String, RequestBody>){
+
+       service.sendReview(eventId,map).enqueue(object: Callback<PostReviewResponse>{
            override fun onResponse(call: Call<PostReviewResponse>, response: Response<PostReviewResponse>){
+
                val resp = response.body()!!
+
                when (resp.code){
+
                    1000->{
-                       showToast("성공")
+                       showToast(resp.message)
                    }
                    else ->{
-                       showToast(resp.message)
+                      com.sjdev.wheretogo.util.showStringDialog(this@WriteReviewActivity, resp.message)
                    }
                }
            }

@@ -13,6 +13,7 @@ import com.sjdev.wheretogo.data.remote.detail.DeleteVisitedEventResponse
 import com.sjdev.wheretogo.data.remote.detail.VisitEventResponse
 import com.sjdev.wheretogo.data.remote.mypage.*
 import com.sjdev.wheretogo.databinding.ItemMypageVisitedBinding
+import com.sjdev.wheretogo.ui.detail.DetailActivity
 import com.sjdev.wheretogo.ui.review.WriteReviewActivity
 import com.sjdev.wheretogo.util.ApplicationClass.Companion.retrofit
 import com.sjdev.wheretogo.util.showDialog
@@ -23,9 +24,12 @@ import retrofit2.Response
 class UserVisitedEventRVAdapter(private val visitedEventList: ArrayList<VisitedEventResult>) :
     RecyclerView.Adapter<UserVisitedEventRVAdapter.ViewHolder>() {
     private lateinit var context: Context
+    private var eventId = 0
+
     private val service = retrofit.create(MypageRetrofitInterface::class.java)
     private var isEventVisited = false
     private var isEventSaved = false
+    private val intent = Intent(context, WriteReviewActivity::class.java)
 
     interface OnItemClickListener {
         fun onItemClick(visitedEventData: VisitedEventResult)
@@ -56,17 +60,18 @@ class UserVisitedEventRVAdapter(private val visitedEventList: ArrayList<VisitedE
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(visitedEvent: VisitedEventResult, holder: UserVisitedEventRVAdapter.ViewHolder) {
-            val eventId = visitedEvent.eventID
+            eventId = visitedEvent.eventID
+
+
             getEventStatus(binding, eventId)
             binding.itemMypageVisitedCountTv.text =
                 String.format("방문한 수: %d건", visitedEvent.visitedNum)
-            binding.itemMypageVisitedTitleTv.text = visitedEvent.eventName
-
 
             if (visitedEvent.pic != null) {
                 Glide.with(context).load(visitedEvent.pic)
                     .transform(CenterCrop(), RoundedCorners(40))
                     .into(binding.mypageVisitedEventIv)
+
             } else {
                 binding.mypageVisitedEventIv.setImageResource(R.drawable.default_event_img)
                 binding.mypageVisitedEventIv.clipToOutline = true
@@ -103,7 +108,7 @@ class UserVisitedEventRVAdapter(private val visitedEventList: ArrayList<VisitedE
                 visitEvent(binding,eventId)
             } else {
                 deleteVisitedEvent(binding, eventId)
-                //rv에서 아이템 삭제
+                // rv에서 아이템 삭제
                 visitedEventList.removeAt(holder.adapterPosition)
                 notifyItemRemoved(holder.adapterPosition)
             }
@@ -115,8 +120,9 @@ class UserVisitedEventRVAdapter(private val visitedEventList: ArrayList<VisitedE
             else deleteSavedEvent(binding, eventId)
         }
 
-        binding.itemMypageVisitedReviewTv.setOnClickListener { //평가하기 이동
-            val intent = Intent(context, WriteReviewActivity::class.java)
+        // 리뷰 작성하기
+        binding.itemMypageVisitedReviewTv.setOnClickListener {
+            intent.putExtra("eventIdx", eventId)
             context.startActivity(intent)
         }
     }

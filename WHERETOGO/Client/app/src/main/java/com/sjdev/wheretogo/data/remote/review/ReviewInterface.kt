@@ -29,9 +29,10 @@ interface ReviewInterface {
 //    ) : Call<PostReviewResponse>
 
     @Multipart
-    @POST("visited/review/sv/{eventID}")
+    @PATCH("visited/review/sv/{eventID}")
     fun sendReview(
         @Path("eventID") eventID: Int,
-        @Body body : RequestBody
+//        @Part pic : MultipartBody.Part?,
+        @PartMap data : HashMap<String, RequestBody>
     ) : Call<PostReviewResponse>
 }
