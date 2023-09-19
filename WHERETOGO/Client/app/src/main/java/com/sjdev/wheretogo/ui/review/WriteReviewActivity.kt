@@ -17,7 +17,11 @@ import android.view.inputmethod.InputMethodManager
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.toDrawable
 import androidx.recyclerview.widget.GridLayoutManager
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.sjdev.wheretogo.R
 import com.sjdev.wheretogo.data.remote.review.PostReviewResponse
 import com.sjdev.wheretogo.data.remote.review.ReviewInterface
@@ -34,16 +38,20 @@ import retrofit2.Response
 
 
 class WriteReviewActivity: BaseActivity<ActivityWriteReviewBinding>(ActivityWriteReviewBinding::inflate) {
+    private var eventId: Int  = 0
+    private var eventPic = ""
+    private var eventName = ""
+    private var eventDate = ""
+
     private var imageUri: Uri? = null
     private var isPrivate : String = "0"
-    private var eventId: Int  = 0
     private var star: String = "1"
     private var review : String = "eeeee"
 
 
     private val service = retrofit.create(ReviewInterface::class.java)
     override fun initAfterBinding() {
-        eventId = intent.getIntExtra("eventIdx", -1)
+        initView()
         initData()
         binding.wReviewBackIv.setOnClickListener {
             finish()
@@ -59,6 +67,21 @@ class WriteReviewActivity: BaseActivity<ActivityWriteReviewBinding>(ActivityWrit
             writeReview()
         }
         setAdapter()
+    }
+
+    private fun initView() {
+        eventId = intent.getIntExtra("eventIdx", -1)
+        eventPic = intent.getStringExtra("eventPic")!!
+        eventDate = intent.getStringExtra("eventDate")!!
+        eventName = intent.getStringExtra("eventName")!!
+        binding.wReviewEventNameTv.text = eventName
+        binding.wReviewEventDateTv.text = eventDate
+        if (eventPic == "0")
+            binding.wReviewEventIv.background = R.drawable.default_event_img.toDrawable()
+        else
+            Glide.with(this).load(eventPic)
+                .transform(CenterCrop(), RoundedCorners(40))
+                .into(binding.wReviewEventIv)
     }
 
     private fun writeReview() {

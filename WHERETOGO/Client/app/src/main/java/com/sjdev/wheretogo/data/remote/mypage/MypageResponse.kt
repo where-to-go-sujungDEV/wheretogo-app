@@ -1,6 +1,7 @@
 package com.sjdev.wheretogo.data.remote.mypage
 
 import com.google.gson.annotations.SerializedName
+import java.util.*
 
 /**
  * 이벤트 방문, 찜 여부 조회
@@ -28,7 +29,7 @@ data class SavedEventResult(
     @SerializedName(value = "eventName") val eventName: String,
     @SerializedName(value = "kind") val kind: String,
     @SerializedName(value = "startDate") val startDate: String,
-    @SerializedName(value = "endDate") val endDate: String?,
+    @SerializedName(value = "endDate") val endDate: String,
     @SerializedName(value = "pic") val pic: String?,
     @SerializedName(value = "savedNum") val savedNum: Int,
     @SerializedName(value = "visitedNum") val visitedNum: Int
@@ -43,12 +44,12 @@ data class VisitedEventResponse(
 )
 
 data class VisitedEventResult(
-    @SerializedName(value = "assessment") val assessment: String,
     @SerializedName(value = "eventID") val eventID: Int,
     @SerializedName(value = "eventName") val eventName: String,
     @SerializedName(value = "kind") val kind: String,
     @SerializedName(value = "startDate") val startDate: String,
-    @SerializedName(value = "endDate") val endDate: String?,
+    @SerializedName(value = "endDate") val endDate: String,
+    @SerializedName(value = "star") val star: Int,
     @SerializedName(value = "pic") val pic: String?,
     @SerializedName(value = "visitedNum") val visitedNum: Int
 )
