@@ -73,13 +73,12 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
 
             binding.itemMypageLikeTitleTv.text = savedEvent.eventName
             binding.itemMypageLikeTagTv.text = savedEvent.kind
-            binding.itemMypageLikeStartDateTv.text = String.format("%s~",savedEvent.startDate.slice(IntRange(0,9)))
-            if (savedEvent.endDate!=null)
-                binding.itemMypageLikeEndDateTv.text = savedEvent.endDate.slice(IntRange(0,9))
+            binding.itemMypageLikeDateTv.text = String.format("%s~%s",savedEvent.startDate.slice(IntRange(0,9)),savedEvent.endDate.slice(IntRange(0,9)))
+
             binding.itemMypageLikeCountTv.text = String.format("담은 수: %d건",savedEvent.savedNum)
 
 
-            initClickListener(binding,savedEvent.eventID,holder)
+            initClickListener(binding,savedEvent.eventID,holder, savedEvent)
         }
     }
 
@@ -98,7 +97,7 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
     }
 
 
-    private fun initClickListener(binding: ItemMypageSavedBinding, eventId:Int, holder: ViewHolder){
+    private fun initClickListener(binding: ItemMypageSavedBinding, eventId:Int, holder: ViewHolder, savedEvent: SavedEventResult){
         //찜하기 버튼 클릭
         binding.itemMypageLikeBtn.setOnClickListener {
             isEventSaved = !isEventSaved
@@ -120,6 +119,16 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
 
         binding.itemMypageLikedReviewTv.setOnClickListener{ //평가하기 이동
             val intent = Intent(context, WriteReviewActivity::class.java)
+            intent.putExtra("eventIdx", eventId)
+            intent.putExtra("eventName", savedEvent.eventName)
+
+            if (savedEvent.pic!=null)
+                intent.putExtra("eventPic", savedEvent.pic)
+            else
+                intent.putExtra("eventPic", "0")
+
+            intent.putExtra("eventDate", String.format("%s~%s", savedEvent.startDate.slice(IntRange(0, 9)), savedEvent.endDate.slice(IntRange(0, 9))))
+
             context.startActivity(intent)
         }
     }

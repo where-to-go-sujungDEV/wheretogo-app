@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
@@ -27,11 +28,12 @@ class ApplicationClass : Application() {
     override fun onCreate() {
         super.onCreate()
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-
+        val loggingInterceptor = HttpLoggingInterceptor()
         val client: OkHttpClient = OkHttpClient.Builder()
             .readTimeout(40000, TimeUnit.MILLISECONDS)
             .connectTimeout(40000, TimeUnit.MILLISECONDS)
             .addNetworkInterceptor(XAccessTokenInterceptor()) // JWT 자동 헤더 전송
+//            .addInterceptor(loggingInterceptor)
             .build()
 
         retrofit = Retrofit.Builder()

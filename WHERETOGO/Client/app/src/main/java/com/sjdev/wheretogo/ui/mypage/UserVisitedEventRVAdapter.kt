@@ -13,6 +13,7 @@ import com.sjdev.wheretogo.data.remote.detail.DeleteVisitedEventResponse
 import com.sjdev.wheretogo.data.remote.detail.VisitEventResponse
 import com.sjdev.wheretogo.data.remote.mypage.*
 import com.sjdev.wheretogo.databinding.ItemMypageVisitedBinding
+import com.sjdev.wheretogo.ui.detail.DetailActivity
 import com.sjdev.wheretogo.ui.review.WriteReviewActivity
 import com.sjdev.wheretogo.util.ApplicationClass.Companion.retrofit
 import com.sjdev.wheretogo.util.showDialog
@@ -23,6 +24,8 @@ import retrofit2.Response
 class UserVisitedEventRVAdapter(private val visitedEventList: ArrayList<VisitedEventResult>) :
     RecyclerView.Adapter<UserVisitedEventRVAdapter.ViewHolder>() {
     private lateinit var context: Context
+    private var eventId = 0
+
     private val service = retrofit.create(MypageRetrofitInterface::class.java)
     private var isEventVisited = false
     private var isEventSaved = false
@@ -56,29 +59,28 @@ class UserVisitedEventRVAdapter(private val visitedEventList: ArrayList<VisitedE
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(visitedEvent: VisitedEventResult, holder: UserVisitedEventRVAdapter.ViewHolder) {
-            val eventId = visitedEvent.eventID
+            eventId = visitedEvent.eventID
+
+
             getEventStatus(binding, eventId)
             binding.itemMypageVisitedCountTv.text =
                 String.format("방문한 수: %d건", visitedEvent.visitedNum)
-            binding.itemMypageVisitedTitleTv.text = visitedEvent.eventName
-
 
             if (visitedEvent.pic != null) {
                 Glide.with(context).load(visitedEvent.pic)
                     .transform(CenterCrop(), RoundedCorners(40))
                     .into(binding.mypageVisitedEventIv)
+
             } else {
                 binding.mypageVisitedEventIv.setImageResource(R.drawable.default_event_img)
                 binding.mypageVisitedEventIv.clipToOutline = true
             }
 
             binding.itemMypageVisitedTagTv.text = visitedEvent.kind
-            binding.itemMypageVisitedStartDate.text =
-                String.format("%s~", visitedEvent.startDate.slice(IntRange(0, 9)))
-            if (visitedEvent.endDate != null)
-                binding.itemMypageVisitedEndDate.text = visitedEvent.endDate.slice(IntRange(0, 9))
+            binding.itemMypageVisitedDate.text =
+                String.format("%s~%s", visitedEvent.startDate.slice(IntRange(0, 9)), visitedEvent.endDate.slice(IntRange(0, 9)))
 
-            initClickListener(binding, holder, eventId)
+            initClickListener(binding, holder, eventId, visitedEvent)
         }
     }
 
@@ -96,14 +98,14 @@ class UserVisitedEventRVAdapter(private val visitedEventList: ArrayList<VisitedE
             binding.itemMypageVisitedBtn.setBackgroundResource(R.drawable.btn_check_unclick)
     }
 
-    private fun initClickListener(binding: ItemMypageVisitedBinding, holder: ViewHolder, eventId: Int) {
+    private fun initClickListener(binding: ItemMypageVisitedBinding, holder: ViewHolder, eventId: Int, visitedEvent: VisitedEventResult) {
         binding.itemMypageVisitedBtn.setOnClickListener {
             isEventVisited = !isEventVisited
             if (isEventVisited) {
                 visitEvent(binding,eventId)
             } else {
                 deleteVisitedEvent(binding, eventId)
-                //rv에서 아이템 삭제
+                // rv에서 아이템 삭제
                 visitedEventList.removeAt(holder.adapterPosition)
                 notifyItemRemoved(holder.adapterPosition)
             }
@@ -115,15 +117,25 @@ class UserVisitedEventRVAdapter(private val visitedEventList: ArrayList<VisitedE
             else deleteSavedEvent(binding, eventId)
         }
 
-        binding.itemMypageVisitedReviewTv.setOnClickListener { //평가하기 이동
+        // 리뷰 작성하기
+        binding.itemMypageVisitedReviewTv.setOnClickListener {
             val intent = Intent(context, WriteReviewActivity::class.java)
+            intent.putExtra("eventIdx", eventId)
+            intent.putExtra("eventName", visitedEvent.eventName)
+
+            if (visitedEvent.pic!=null)
+                intent.putExtra("eventPic", visitedEvent.pic)
+            else
+                intent.putExtra("eventPic", "0")
+
+            intent.putExtra("eventDate", String.format("%s~%s", visitedEvent.startDate.slice(IntRange(0, 9)), visitedEvent.endDate.slice(IntRange(0, 9))))
+
             context.startActivity(intent)
         }
     }
 
     private fun getEventStatus(binding: ItemMypageVisitedBinding, eventId: Int) {
-        service.getBtnStatus(eventId).enqueue(object :
-            Callback<EventBtnStatusResponse> {
+        service.getBtnStatus(eventId).enqueue(object : Callback<EventBtnStatusResponse> {
             override fun onResponse(call: Call<EventBtnStatusResponse>, response: Response<EventBtnStatusResponse>) {
                 val resp = response.body()!!
                 when (resp.code) {

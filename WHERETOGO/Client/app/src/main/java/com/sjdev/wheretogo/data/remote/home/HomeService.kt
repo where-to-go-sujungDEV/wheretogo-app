@@ -8,7 +8,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-
+//
 object HomeService{
     private val service = retrofit.create(HomeRetrofitInterface::class.java)
 
@@ -62,6 +62,7 @@ object HomeService{
                 when(resp.code){
                     1000->{
                         Log.d("homeFragment", resp.message)
+                        if (resp.result == null) return
                         fragment.setRecommendEvent(resp.result)
                     }
                     else ->{
