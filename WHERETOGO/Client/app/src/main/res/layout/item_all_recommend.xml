@@ -72,21 +72,21 @@
         android:id="@+id/item_rec_visit_btn"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginTop="3dp"
-        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginEnd="10dp"
         android:visibility="visible"
         tools:src="@drawable/btn_check_unclick"
         app:layout_constraintEnd_toStartOf="@id/item_rec_save_btn"
-        app:layout_constraintTop_toBottomOf="@id/item_recommend_title_tv"/>
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <ImageButton
         android:id="@+id/item_rec_save_btn"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginEnd="10dp"
-        android:layout_marginTop="3dp"
+        android:layout_marginBottom="5dp"
         android:visibility="visible"
         tools:src="@drawable/btn_like_unclick"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/item_recommend_title_tv"/>
+        app:layout_constraintBottom_toBottomOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
