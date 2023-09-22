@@ -72,7 +72,7 @@
         android:layout_height="24dp"
         android:layout_marginTop="3dp"
         android:layout_marginStart="250dp"
-        tools:srcCompat="@drawable/btn_check_unclick"
+        android:src="@drawable/btn_check_unclick"
         android:background="@color/transparent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/item_search_title_tv"/>
@@ -84,7 +84,7 @@
         android:layout_height="24dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="3dp"
-        tools:srcCompat="@drawable/btn_like_unclick"
+        android:src="@drawable/btn_like_unclick"
         android:background="@color/transparent"
         app:layout_constraintStart_toEndOf="@id/item_search_visited_btn"
         app:layout_constraintTop_toBottomOf="@id/item_search_title_tv"/>
