@@ -3,6 +3,7 @@ package com.sjdev.wheretogo.ui.mypage
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -81,6 +82,15 @@ class UserVisitedEventRVAdapter(private val visitedEventList: ArrayList<VisitedE
                 String.format("%s~%s", visitedEvent.startDate.slice(IntRange(0, 9)), visitedEvent.endDate.slice(IntRange(0, 9)))
 
             initClickListener(binding, holder, eventId, visitedEvent)
+
+            //별점 표시
+            when (visitedEvent.star) {
+                -1->{
+                    binding.itemMypageVisitedReviewTv.visibility = View.VISIBLE
+                    binding.myVisitedRatingbar.visibility = View.INVISIBLE
+                }
+                else->binding.myVisitedRatingbar.rating = visitedEvent.star.toFloat();
+            }
         }
     }
 
