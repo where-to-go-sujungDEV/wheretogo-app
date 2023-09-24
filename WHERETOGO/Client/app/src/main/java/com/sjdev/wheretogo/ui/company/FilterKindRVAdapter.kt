@@ -4,46 +4,41 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import androidx.recyclerview.widget.RecyclerView
-import com.sjdev.wheretogo.R
+import com.sjdev.wheretogo.databinding.ItemRecycleFilterBinding
 import java.util.ArrayList
 
 class FilterKindRVAdapter (var kindList: ArrayList<String>, var con: Context, var companyPopularActivity: CompanyPopularActivity) : RecyclerView.Adapter<FilterKindRVAdapter.ViewHolder>(){
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        var filter_tag_btn : Button
-
-        init{
-            filter_tag_btn = itemView.findViewById(R.id.filter_tag_btn)
-        }
-
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val con = parent.context
-        val inflater = con.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val view = inflater.inflate(R.layout.item_recycle_filter, parent, false)
-
+        val binding: ItemRecycleFilterBinding = ItemRecycleFilterBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         companyPopularActivity.kind = "000000000000000"
 
-        return ViewHolder(view)
+        return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val kind : String = kindList[position]
+        holder.bind(holder)
+    }
 
-        holder.filter_tag_btn.text = kind
+    inner class ViewHolder(val binding: ItemRecycleFilterBinding) : RecyclerView.ViewHolder(binding.root){
+        fun bind(holder: com.sjdev.wheretogo.ui.company.FilterKindRVAdapter.ViewHolder){
 
-        holder.filter_tag_btn.setOnClickListener(View.OnClickListener {
-            if(!holder.filter_tag_btn.isSelected) {
-                holder.filter_tag_btn.isSelected=true
-                companyPopularActivity.kind = companyPopularActivity.kind?.substring(0,position) + "1" + companyPopularActivity.kind?.substring(position+1)
-            } else{
-                holder.filter_tag_btn.isSelected =false
-                companyPopularActivity.kind = companyPopularActivity.kind?.substring(0,position) + "0" + companyPopularActivity.kind?.substring(position+1)
-            }
-        })
+            binding.filterTagBtn.text = kindList[position]
 
+            binding.filterTagBtn.setOnClickListener(View.OnClickListener {
+                if(!binding.filterTagBtn.isSelected) {
+                    binding.filterTagBtn.isSelected = true
+
+                    companyPopularActivity.kind = companyPopularActivity.kind?.substring(0,position) + "1" + companyPopularActivity.kind?.substring(position+1)
+
+                } else{
+                    binding.filterTagBtn.isSelected =false
+                    companyPopularActivity.kind = companyPopularActivity.kind?.substring(0,position) + "0" + companyPopularActivity.kind?.substring(position+1)
+                }
+            })
+
+        }
 
     }
 
