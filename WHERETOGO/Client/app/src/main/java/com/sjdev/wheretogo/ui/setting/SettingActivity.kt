@@ -32,21 +32,6 @@ class SettingActivity: BaseActivity<ActivitySettingBinding>(ActivitySettingBindi
             startNextActivity(ChangePwdActivity::class.java)
         }
 
-        binding.settingGetInfo.setOnClickListener{
-            if (binding.settingGetInfo.text == "OFF"){
-                binding.settingGetInfo.text = "ON"
-            }
-            else{
-                binding.settingGetInfo.text ="OFF"
-            }
-        }
-        binding.settingBackIv.setOnClickListener {
-            finish()
-        }
-
-        binding.uploadKeyword.setOnClickListener{
-            startNextActivity(KeywordActivity::class.java)
-        }
         binding.settingAskTv.setOnClickListener { 
             startNextActivity(InquiryActivity::class.java)
         }
