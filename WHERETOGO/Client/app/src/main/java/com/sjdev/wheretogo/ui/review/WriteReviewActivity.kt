@@ -18,7 +18,6 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toDrawable
-import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -47,6 +46,7 @@ class WriteReviewActivity: BaseActivity<ActivityWriteReviewBinding>(ActivityWrit
     private var isPrivate : String = "0"
     private var star: String = "1"
     private var review : String = "eeeee"
+    private var company : String =""
 
 
     private val service = retrofit.create(ReviewInterface::class.java)
@@ -66,7 +66,6 @@ class WriteReviewActivity: BaseActivity<ActivityWriteReviewBinding>(ActivityWrit
         binding.wSendReviewBtn.setOnClickListener {
             writeReview()
         }
-        setAdapter()
     }
 
     private fun initView() {
@@ -88,9 +87,9 @@ class WriteReviewActivity: BaseActivity<ActivityWriteReviewBinding>(ActivityWrit
 //        val requestFile : RequestBody?
 //        val file = File(getAbsolutePath(imageUri, this))
 
-
+        review = binding.wReviewContentEt.text.toString()
         val starBody : RequestBody = star.toRequestBody("text/plain".toMediaTypeOrNull())
-        val companionIDBody : RequestBody = "1".toRequestBody("text/plain".toMediaTypeOrNull())
+        val companionIDBody : RequestBody = company.toRequestBody("text/plain".toMediaTypeOrNull())
         val reviewBody : RequestBody = review.toRequestBody("text/plain".toMediaTypeOrNull())
         val isPrivateBody : RequestBody = isPrivate.toRequestBody("text/plain".toMediaTypeOrNull())
         val map = HashMap<String, RequestBody>()
@@ -104,19 +103,28 @@ class WriteReviewActivity: BaseActivity<ActivityWriteReviewBinding>(ActivityWrit
     }
 
     private fun initData() {
-        binding.wReviewRadioGroup.setOnCheckedChangeListener { _, checkedId ->
+        //동행자 라디오 버튼
+        binding.wReviewCompanyRg.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
-                R.id.w_review_private_rb -> this.isPrivate = "1"
-                R.id.w_review_public_rb -> this.isPrivate = "0"
+                R.id.alone_rb -> company = "1"
+                R.id.family_rb -> company = "2"
+                R.id.friend_rb -> company = "3"
+                R.id.lover_rb -> company = "4"
+                R.id.extra_rb -> company = "7"
+
             }
         }
-        binding.reviewRatingbar.setOnRatingChangeListener { ratingBar, rating, fromUser ->
+        //공개여부 라디오 버튼
+        binding.wReviewPrivateRg.setOnCheckedChangeListener { _, checkedId ->
+            when (checkedId) {
+                R.id.w_review_private_rb -> isPrivate = "1"
+                R.id.w_review_public_rb -> isPrivate = "0"
+            }
+        }
+        //별점
+        binding.reviewRatingbar.setOnRatingChangeListener { _, rating, _ ->
             star = (rating * 10).toString()
         }
-
-        review = binding.wReviewContentEt.text.toString()
-        Log.d("writeReview",review)
-
     }
 
 
@@ -138,7 +146,6 @@ class WriteReviewActivity: BaseActivity<ActivityWriteReviewBinding>(ActivityWrit
                    }
                }
            }
-
            override fun onFailure(call: Call<PostReviewResponse>, t: Throwable){
            }
        })
@@ -149,8 +156,8 @@ class WriteReviewActivity: BaseActivity<ActivityWriteReviewBinding>(ActivityWrit
         pickImageLauncher.launch(gallery)
     }
 
-    // 갤러리 열기
     /*
+    갤러리 열기
     READ_EXTERNAL_STORAGE 권한 요청을 위한 launcher 설정
     권한 허용 시 openGallery 호출
      */
@@ -159,8 +166,9 @@ class WriteReviewActivity: BaseActivity<ActivityWriteReviewBinding>(ActivityWrit
             if (isGranted) openGallery()
         }
 
-    // 가져온 이미지 보여주기
+
     /*
+    가져온 이미지 보여주기
     갤러리에서 선택한 이미지를 받기 위한 ActivityResultLauncher 설정
      */
     private val pickImageLauncher: ActivityResultLauncher<Intent> =
@@ -173,14 +181,6 @@ class WriteReviewActivity: BaseActivity<ActivityWriteReviewBinding>(ActivityWrit
                 }
             }
         }
-
-    private fun setAdapter(){
-        val companyList : ArrayList<String> = arrayListOf("#가족","#연인","#친구","#혼자","#반려동물")
-        var companyCheckList : ArrayList<Int> = arrayListOf(0,0,0,0,0)
-        val adapter = CompanyBtnRVAdapter(companyList, companyCheckList)
-        binding.companyBtnRv.adapter = adapter
-        binding.companyBtnRv.layoutManager = GridLayoutManager(this, 3)
-    }
 
     // 사진의 절대 경로 가져오기
     @SuppressLint("Recycle")
