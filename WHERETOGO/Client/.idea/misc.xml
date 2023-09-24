@@ -196,20 +196,21 @@
         <entry key="app/src/main/res/layout/activity_write_review.xml" value="0.18697916666666667" />
         <entry key="app/src/main/res/layout/custom_rating_dialog.xml" value="0.17447916666666666" />
         <entry key="app/src/main/res/layout/fragment_calendar.xml" value="0.17447916666666666" />
+        <entry key="app/src/main/res/layout/fragment_company_banner.xml" value="0.315625" />
         <entry key="app/src/main/res/layout/fragment_group_banner.xml" value="0.31666666666666665" />
-        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.45" />
         <entry key="app/src/main/res/layout/fragment_home_banner.xml" value="0.13072916666666667" />
         <entry key="app/src/main/res/layout/fragment_mypage.xml" value="0.31666666666666665" />
         <entry key="app/src/main/res/layout/fragment_mypage_banner.xml" value="0.1296875" />
         <entry key="app/src/main/res/layout/fragment_mypage_saved.xml" value="0.15900383141762453" />
-        <entry key="app/src/main/res/layout/fragment_popular_banner.xml" value="0.31666666666666665" />
-        <entry key="app/src/main/res/layout/fragment_recommend_banner.xml" value="0.15262361251261353" />
+        <entry key="app/src/main/res/layout/fragment_popular_banner.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/fragment_recommend_banner.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_search.xml" value="0.1" />
         <entry key="app/src/main/res/layout/item_all_recommend.xml" value="0.335" />
         <entry key="app/src/main/res/layout/item_calendar_popup_dialog.xml" value="0.315625" />
         <entry key="app/src/main/res/layout/item_company_btn.xml" value="0.315625" />
         <entry key="app/src/main/res/layout/item_keyword.xml" value="0.315625" />
-        <entry key="app/src/main/res/layout/item_mypage_saved.xml" value="0.375" />
+        <entry key="app/src/main/res/layout/item_mypage_saved.xml" value="0.1" />
         <entry key="app/src/main/res/layout/item_mypage_visited.xml" value="0.165" />
         <entry key="app/src/main/res/layout/item_myreview.xml" value="0.315625" />
         <entry key="app/src/main/res/layout/item_recycle_event.xml" value="0.335" />
@@ -228,5 +229,12 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.315625" />
+      </ProjectState>
+    </option>
   </component>
 </project>

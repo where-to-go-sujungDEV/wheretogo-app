@@ -69,7 +69,7 @@ class UserVisitedEventRVAdapter(private val visitedEventList: ArrayList<VisitedE
 
             if (visitedEvent.pic != null) {
                 Glide.with(context).load(visitedEvent.pic)
-                    .transform(CenterCrop(), RoundedCorners(40))
+                    .transform(CenterCrop(), RoundedCorners(57))
                     .into(binding.mypageVisitedEventIv)
 
             } else {

@@ -10,6 +10,7 @@
         android:id="@+id/mypage_like_event_iv"
         android:layout_width="326dp"
         android:layout_height="165dp"
+        android:scaleType="fitXY"
         android:src="@drawable/img_mypage_panel"
         android:background="@drawable/event_banner_cover"
         app:layout_constraintTop_toTopOf="parent"
@@ -18,7 +19,6 @@
         android:id="@+id/mypage_like_background_iv"
         android:layout_width="326dp"
         android:layout_height="165dp"
-        android:scaleType="fitXY"
         android:background="@drawable/event_banner_cover"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
