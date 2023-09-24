@@ -132,7 +132,7 @@ class SearchEventAdapter(var events: ArrayList<EventResult>, var con: Context) :
 
         if (event.pic != null) {
             Glide.with(con).load(event.pic)
-                .transform(CenterCrop(), RoundedCorners(40))
+                .transform(CenterCrop(), RoundedCorners(56))
                 .into(holder.eventImage)
         } else {
             holder.eventImage.setImageResource(R.drawable.default_event_img)

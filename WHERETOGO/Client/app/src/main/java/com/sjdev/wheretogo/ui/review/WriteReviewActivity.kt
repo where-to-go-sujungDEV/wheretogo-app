@@ -80,7 +80,7 @@ class WriteReviewActivity: BaseActivity<ActivityWriteReviewBinding>(ActivityWrit
             binding.wReviewEventIv.background = R.drawable.default_event_img.toDrawable()
         else
             Glide.with(this).load(eventPic)
-                .transform(CenterCrop(), RoundedCorners(40))
+                .transform(CenterCrop(), RoundedCorners(57))
                 .into(binding.wReviewEventIv)
     }
 

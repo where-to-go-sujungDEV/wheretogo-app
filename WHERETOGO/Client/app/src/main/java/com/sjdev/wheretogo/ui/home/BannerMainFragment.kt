@@ -15,6 +15,7 @@ class BannerMainFragment(private val item: MainEventResult) : BaseFragment<Fragm
     override fun initAfterBinding() {
         if (item.mainEventID==1){
             binding.bannerImageIv.setImageResource(R.drawable.img_guide_banner)
+            binding.bannerExplainTv.text = "어디가 이용 가이드"
         }
         else {
             Glide.with(this).load(item.prePic)

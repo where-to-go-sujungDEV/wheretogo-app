@@ -10,6 +10,7 @@
         android:id="@+id/mypage_like_event_iv"
         android:layout_width="326dp"
         android:layout_height="165dp"
+        android:scaleType="fitXY"
         android:src="@drawable/img_mypage_panel"
         android:background="@drawable/event_banner_cover"
         app:layout_constraintTop_toTopOf="parent"
@@ -18,7 +19,6 @@
         android:id="@+id/mypage_like_background_iv"
         android:layout_width="326dp"
         android:layout_height="165dp"
-        android:scaleType="fitXY"
         android:background="@drawable/event_banner_cover"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -47,6 +47,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="평가하기"
+        android:visibility="invisible"
         android:textColor="@color/white"
         android:layout_marginEnd="10dp"
         android:layout_marginTop="5dp"
@@ -89,24 +90,24 @@
         />
     <ImageButton
         android:id="@+id/item_mypage_visited_btn"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginTop="3dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginBottom="6dp"
         android:layout_marginStart="250dp"
-        tools:srcCompat="@drawable/btn_check_unclick"
+        tools:src="@drawable/btn_check_unclick"
         android:background="@color/transparent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/item_mypage_like_title_tv"/>
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 
     <ImageButton
         android:id="@+id/item_mypage_like_btn"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="3dp"
-        tools:srcCompat="@drawable/btn_like_unclick"
+        android:layout_marginBottom="6dp"
+        tools:src="@drawable/btn_like_unclick"
         android:background="@color/transparent"
         app:layout_constraintStart_toEndOf="@id/item_mypage_visited_btn"
-        app:layout_constraintTop_toBottomOf="@id/item_mypage_like_title_tv"/>
+        app:layout_constraintBottom_toBottomOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -35,7 +35,7 @@ class BannerPopularFragment(private val item: PopularEventResult) : BaseFragment
 
         if (item.pic!=null){
             Glide.with(this).load(item.pic)
-                .transform(CenterCrop(), RoundedCorners(40))
+                .transform(CenterCrop(), RoundedCorners(57))
                 .into(binding.homePopularIv)
         } else { //기본 이미지
             binding.homePopularIv.setImageResource(R.drawable.default_event_img)

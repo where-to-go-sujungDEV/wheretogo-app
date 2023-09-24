@@ -31,7 +31,7 @@ class BannerRecommendFragment(private val item: RecommendEvents)
 
         if (item.pic!=null){
             Glide.with(this).load(item.pic)
-                .transform(CenterCrop(), RoundedCorners(40))
+                .transform(CenterCrop(), RoundedCorners(57))
                 .into(binding.homeRecommendIv)
         } else {
             binding.homeRecommendIv.setImageResource(R.drawable.default_event_img)

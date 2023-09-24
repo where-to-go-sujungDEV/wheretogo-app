@@ -23,13 +23,24 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <com.willy.ratingbar.BaseRatingBar
-        android:id="@+id/my_visited_ratingbar"
-        android:layout_width="70dp"
+
+    <TextView
+        android:id="@+id/item_mypage_visited_count_tv"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:textSize="13sp"
+        android:textColor="@color/white"
+        android:layout_marginTop="16dp"
         android:layout_marginStart="10dp"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+    <com.willy.ratingbar.BaseRatingBar
+        android:id="@+id/my_visited_ratingbar"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@+id/item_mypage_visited_count_tv"
         app:layout_constraintStart_toStartOf="parent"
         app:srb_drawableEmpty="@drawable/mypage_star_off"
         app:srb_drawableFilled="@drawable/mypage_star_on"
@@ -37,21 +48,11 @@
         app:srb_clickable="false"
         app:srb_minimumStars="1"
         app:srb_starPadding="-20dp"
-        app:srb_numStars="3"
+        app:srb_numStars="5"
         app:srb_rating="1"
         app:srb_starHeight="18dp"
         app:srb_starWidth="18dp"
         app:srb_stepSize="1" />
-    <TextView
-        android:id="@+id/item_mypage_visited_count_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="13sp"
-        android:textColor="@color/white"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="10dp"
-        app:layout_constraintTop_toBottomOf="@id/my_visited_ratingbar"
-        app:layout_constraintStart_toStartOf="parent"/>
     <TextView
         android:id="@+id/item_mypage_visited_tag_tv"
         android:layout_width="wrap_content"
@@ -100,26 +101,26 @@
 
     <ImageButton
         android:id="@+id/item_mypage_visited_btn"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginTop="3dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginBottom="6dp"
         android:layout_marginStart="250dp"
-        tools:srcCompat="@drawable/btn_check_unclick"
+        tools:src="@drawable/btn_check_unclick"
         android:background="@color/transparent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/item_mypage_visited_title_tv"/>
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 
     <ImageButton
         android:id="@+id/item_mypage_like_btn"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="3dp"
-        tools:srcCompat="@drawable/btn_like_unclick"
+        android:layout_marginBottom="6dp"
+        tools:src="@drawable/btn_like_unclick"
         android:background="@color/transparent"
         app:layout_constraintStart_toEndOf="@+id/item_mypage_visited_btn"
-        app:layout_constraintTop_toBottomOf="@id/item_mypage_visited_title_tv"/>
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

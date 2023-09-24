@@ -63,7 +63,7 @@ class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventRe
 
             if (savedEvent.pic!=null){
                 Glide.with(context).load(savedEvent.pic)
-                    .transform(CenterCrop(), RoundedCorners(40))
+                    .transform(CenterCrop(), RoundedCorners(57))
                     .into(binding.mypageLikeEventIv)
             }
             else{
