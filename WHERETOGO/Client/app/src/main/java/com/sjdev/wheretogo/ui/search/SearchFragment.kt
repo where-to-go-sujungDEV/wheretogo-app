@@ -15,10 +15,11 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.sjdev.wheretogo.R
+import com.sjdev.wheretogo.data.remote.search.EventResult
+import com.sjdev.wheretogo.data.remote.search.EventService
 import com.sjdev.wheretogo.data.remote.search.*
 import com.sjdev.wheretogo.databinding.FragmentSearchBinding
 import com.sjdev.wheretogo.ui.detail.DetailActivity
-import java.net.URLEncoder
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -277,7 +278,6 @@ class SearchFragment : Fragment() {
             }
         })
     }
-
 
 
     fun setAdapter() {

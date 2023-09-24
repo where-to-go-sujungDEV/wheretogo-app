@@ -7,45 +7,44 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.recyclerview.widget.RecyclerView
 import com.sjdev.wheretogo.R
+import com.sjdev.wheretogo.data.remote.mypage.SavedEventResult
+import com.sjdev.wheretogo.databinding.ItemCalendarDayBinding
+import com.sjdev.wheretogo.databinding.ItemRecycleFilterBinding
+import com.sjdev.wheretogo.databinding.ItemSearchFilterDialogBinding
+import com.sjdev.wheretogo.ui.mypage.UserSavedEventRVAdapter
 import java.util.ArrayList
 
 class FilterKindRVAdapter(var kindList: ArrayList<String>, var con: Context, var searchFragment: SearchFragment) : RecyclerView.Adapter<FilterKindRVAdapter.ViewHolder>(){
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        var filter_tag_btn : Button
-        init{
-            filter_tag_btn = itemView.findViewById(R.id.filter_tag_btn)
-        }
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val con = parent.context
-        val inflater = con.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val view = inflater.inflate(R.layout.item_recycle_filter, parent, false)
+        val binding: ItemRecycleFilterBinding = ItemRecycleFilterBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 
         searchFragment.kind = "000000000000000"
-
-        return ViewHolder(view)
+        return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val kind : String = kindList[position]
-
-        holder.filter_tag_btn.text = kind
-
-        holder.filter_tag_btn.setOnClickListener(View.OnClickListener {
-            if(!holder.filter_tag_btn.isSelected) {
-                holder.filter_tag_btn.isSelected=true
-
-                searchFragment.kind = searchFragment.kind?.substring(0,position) + "1" + searchFragment.kind?.substring(position+1)
-
-            } else{
-                holder.filter_tag_btn.isSelected =false
-                searchFragment.kind = searchFragment.kind?.substring(0,position) + "0" + searchFragment.kind?.substring(position+1)
-            }
-        })
-
+        holder.bind(holder)
     }
 
+    inner class ViewHolder(val binding: ItemRecycleFilterBinding): RecyclerView.ViewHolder(binding.root){
+        fun bind(holder: FilterKindRVAdapter.ViewHolder){
+
+            binding.filterTagBtn.text = kindList[position]
+
+            binding.filterTagBtn.setOnClickListener(View.OnClickListener {
+                if(!binding.filterTagBtn.isSelected) {
+                    binding.filterTagBtn.isSelected = true
+
+                    searchFragment.kind = searchFragment.kind?.substring(0,position) + "1" + searchFragment.kind?.substring(position+1)
+
+                } else{
+                    binding.filterTagBtn.isSelected =false
+                    searchFragment.kind = searchFragment.kind?.substring(0,position) + "0" + searchFragment.kind?.substring(position+1)
+                }
+            })
+
+        }
+    }
     override fun getItemCount(): Int {
         return kindList.size
     }

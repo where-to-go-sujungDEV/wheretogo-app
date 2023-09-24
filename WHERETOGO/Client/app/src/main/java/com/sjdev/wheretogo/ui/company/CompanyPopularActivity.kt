@@ -8,24 +8,27 @@ import android.graphics.drawable.ColorDrawable
 import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.ImageButton
 import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sjdev.wheretogo.R
+import com.sjdev.wheretogo.data.remote.company.CompanyEventResult
+import com.sjdev.wheretogo.data.remote.company.CompanyService
+import com.sjdev.wheretogo.data.remote.search.EventService
 import com.sjdev.wheretogo.data.remote.search.*
 import com.sjdev.wheretogo.databinding.ActivityCompanyPopularBinding
 import com.sjdev.wheretogo.databinding.ItemSearchFilterDialogBinding
 import com.sjdev.wheretogo.ui.BaseActivity
 import com.sjdev.wheretogo.ui.detail.DetailActivity
-import com.sjdev.wheretogo.ui.search.SearchEventAdapter
 import java.util.*
 
 class CompanyPopularActivity: BaseActivity<ActivityCompanyPopularBinding>(ActivityCompanyPopularBinding::inflate) {
     private var companyId = 0
 
-    private var events = ArrayList<EventResult>()
-    private val textArray = arrayOf("가족과", "연인과", "친구와", "아이와", "#혼자")
+    private var companyEvent = ArrayList<CompanyEventResult>()
+    private val textArray = arrayOf(
+        "#혼자서", "#가족과", "#친구와", "#연인과", "#기타"
+    )
 
     private var cal = Calendar.getInstance()
     private var year = cal[Calendar.YEAR]
@@ -35,42 +38,44 @@ class CompanyPopularActivity: BaseActivity<ActivityCompanyPopularBinding>(Activi
     private lateinit var dialog :Dialog
     private lateinit var bindingSub: ItemSearchFilterDialogBinding
 
-    var kind : String = ""
-    private var free : Int = 0
+    var kind : String? = null
+    private var free : Int? = null
+
+    private var startDate : String? = null
+    private var endDate : String? = null
+    private var aCode : Int? = null
+    private var aDCode : Int? = null
+
+    private var mainAreaNameList = arrayListOf<String>()
+    private var mainAreaList = arrayListOf<AreaResult>()
+    private var subAreaNameList = arrayListOf<String>()
+    private var subAreaList = arrayListOf<SigunguResult>()
 
 
+    private lateinit var filterAdapter : FilterKindRVAdapter
+    private lateinit var companyEventRvAdapter :CompanyEventRvAdapter
 
-    private var startDate : String? = ""
-    private var endDate : String? = ""
-    private var mainAreaCode : Int = 0
-    private var subAreaCode : Int = 0
-
-    var mainAreaNameList = arrayListOf<String>()
-    var mainAreaList = arrayListOf<AreaResult>()
-    var subAreaNameList = arrayListOf<String>()
-    var subAreaList = arrayListOf<SigunguResult>()
-
-
-    lateinit var filterAdapter : FilterKindRVAdapter
-    lateinit var eventAdapter :SearchEventAdapter
-
+    private val companyService = CompanyService
     private val eventService = EventService
     private val areaService = AreaService
 
-    var align: String? = "popular"
+    private var align : String? = "popular"
 
     override fun initAfterBinding() {
         bindingSub = ItemSearchFilterDialogBinding.inflate(layoutInflater)
 
         companyId = intent.getIntExtra("companyId", -1)
         binding.companyTitle.text = String.format("%s 가기 좋은 이벤트", textArray[companyId])
+
+        companyService.getCompanyEvent(this, companyId+1)
+
         clickEvent()
     }
 
     private fun clickEvent(){
 
         binding.companyBackIv.setOnClickListener {
-            finish();
+            finish()
         }
         //필터 클릭
         binding.companyFilterTv.setOnClickListener {
@@ -78,33 +83,31 @@ class CompanyPopularActivity: BaseActivity<ActivityCompanyPopularBinding>(Activi
         }
 
         dialog = Dialog(this, R.style.CustomFullDialog)
-        val filterCancel = findViewById<ImageButton>(R.id.filter_cancelBtn)
-        //필터 닫기
 
+        //필터 닫기
         bindingSub.filterCancelBtn.setOnClickListener {
-            for (i:Int in 0..14)
-                kind = "000000000000000"
+            kind = null
             startDate = null
             endDate = null
-            free = 0
+            free = null
             dialog.dismiss()
         }
     }
 
 
-    fun setEvent() {
-        eventAdapter = SearchEventAdapter(events, this)
-        binding.companyEventRv.adapter = eventAdapter
+    private fun setEvent() {
+        companyEventRvAdapter = CompanyEventRvAdapter(companyEvent, this)
+        binding.companyEventRv.adapter = companyEventRvAdapter
         binding.companyEventRv.layoutManager = LinearLayoutManager(this)
 
-        eventAdapter.setOnItemClickListener(object : SearchEventAdapter.OnItemClickListener{
-            override fun onItemClick(events: EventResult){
+        companyEventRvAdapter.setOnItemClickListener(object : CompanyEventRvAdapter.OnItemClickListener{
+            override fun onItemClick(events: CompanyEventResult){
                 val intent = Intent(this@CompanyPopularActivity, DetailActivity::class.java)
                 intent.putExtra("eventIdx", events.eventID)
                 startActivity(intent)
             }
         })
-        eventAdapter.notifyDataSetChanged()
+//        companyEventRvAdapter.notifyDataSetChanged()
     }
 
     // 필터 다이얼로그 표시
@@ -130,7 +133,7 @@ class CompanyPopularActivity: BaseActivity<ActivityCompanyPopularBinding>(Activi
         dialog.window!!.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
 
         dialog.window!!.setGravity(Gravity.BOTTOM)
-        dialog.setCanceledOnTouchOutside(true);
+        dialog.setCanceledOnTouchOutside(true)
 
 
         setDialogAdapter()
@@ -139,7 +142,7 @@ class CompanyPopularActivity: BaseActivity<ActivityCompanyPopularBinding>(Activi
 
 
     // 필터 다이얼로그 어댑터
-    fun setDialogAdapter() {
+    private fun setDialogAdapter() {
         val gridLayoutManager = GridLayoutManager(this, 4)
         gridLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
         bindingSub.rvFilterKind.layoutManager = gridLayoutManager
@@ -150,12 +153,12 @@ class CompanyPopularActivity: BaseActivity<ActivityCompanyPopularBinding>(Activi
 
 
         /** 기간별 필터 **/
-        var minDate = Calendar.getInstance()
+        val minDate = Calendar.getInstance()
 
         //시작일 설정
-        var filterStartDate = DatePickerDialog(this,
+        val filterStartDate = DatePickerDialog(this,
             { view, year, month, dayOfMonth ->
-                bindingSub.filterStartDate.setText(year.toString() + " / " + (month + 1) + " / " + dayOfMonth.toString())
+                bindingSub.filterStartDate.text = year.toString() + " / " + (month + 1) + " / " + dayOfMonth.toString()
                 startDate =
                     year.toString() + "-" + (month + 1).toString() + "-" + dayOfMonth.toString()
                 minDate.set(year, month + 1, dayOfMonth)
@@ -163,9 +166,9 @@ class CompanyPopularActivity: BaseActivity<ActivityCompanyPopularBinding>(Activi
             year, month, day )
 
         // 종료일 설정
-        var filterEndDate = DatePickerDialog(this,
+        val filterEndDate = DatePickerDialog(this,
            {view, year, month, dayOfMonth ->
-                bindingSub.filterEndDate.setText((year.toString() + " / " + (month + 1) +  " / " + dayOfMonth.toString()))
+                bindingSub.filterEndDate.text = year.toString() + " / " + (month + 1) +  " / " + dayOfMonth.toString()
                 endDate= year.toString() + "-" + (month + 1).toString() +  "-" + dayOfMonth.toString() },
             year, month, day )
 
@@ -183,77 +186,74 @@ class CompanyPopularActivity: BaseActivity<ActivityCompanyPopularBinding>(Activi
         // 시,도 코드 설정
         bindingSub.spinnerDou.onItemSelectedListener =  object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                if (p2 == 0) mainAreaCode=0
+                if (p2 == 0) aCode=0
                 else {
-                    mainAreaCode = mainAreaList[p2-1].aCode
+                    aCode = mainAreaList[p2-1].aCode
                     areaService.getComapnySigungu(this@CompanyPopularActivity, mainAreaList[p2-1].aCode)
                 }
 
             }
-            override fun onNothingSelected(p0: AdapterView<*>?) { mainAreaCode = 0 }
+            override fun onNothingSelected(p0: AdapterView<*>?) { aCode = 0 }
         }
 
         // 시,군,구 코드 설정
         bindingSub.spinnerSi.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                subAreaCode = if(p2==0) 0
+                aDCode = if(p2==0) 0
                 else subAreaList[p2-1].aDCode
             }
-            override fun onNothingSelected(p0: AdapterView<*>?) { subAreaCode = 0 }
+            override fun onNothingSelected(p0: AdapterView<*>?) { aDCode = 0 }
         }
 
 
         /** 필터 설정 초기화 **/
-        bindingSub.resetTv.setOnClickListener(object: View.OnClickListener{
-            override fun onClick(p0: View?) {
-//                dialog.onContentChanged()
-                bindingSub.rvFilterKind.adapter=filterAdapter
-                setAreaSpinnerAdapter()
-                setSigunguSpinnerAdapter()
+        bindingSub.resetTv.setOnClickListener {
+//            dialog.onContentChanged()
+            bindingSub.rvFilterKind.adapter = filterAdapter
+            setAreaSpinnerAdapter()
+            setSigunguSpinnerAdapter()
 
-                bindingSub.filterStartDate.setText("선택안함")
-                bindingSub.filterEndDate.setText("선택안함")
+            bindingSub.filterStartDate.setText("선택안함")
+            bindingSub.filterEndDate.setText("선택안함")
 
-                setFilterReset()
-
-            }
-        })
-
-        /** 필터값 적용 **/
-        bindingSub.setFilter.setOnClickListener {
-            eventService.getCompanyEvents(
-                this@CompanyPopularActivity,
-                null,
-                mainAreaCode,
-                subAreaCode,
-                startDate,
-                endDate,
-                kind,
-                free,
-                align
-            )
-            dialog.dismiss()
+            setFilterReset()
         }
+
+//        /** 필터값 적용 **/
+//        bindingSub.setFilter.setOnClickListener {
+//            eventService.getCompanyEvents(
+//                this@CompanyPopularActivity,
+//                null,
+//                aCode,
+//                aDCode,
+//                startDate,
+//                endDate,
+//                kind,
+//                free,
+//                align
+//            )
+//            dialog.dismiss()
+//        }
     }
 
 
     fun setFilterReset() {
-        kind = ""
-        startDate= ""
-        endDate = ""
-        mainAreaCode = 0
-        subAreaCode  = 0
-        free = 0
+        kind = null
+        startDate= null
+        endDate = null
+        aCode = null
+        aDCode  = null
+        free = null
     }
 
-    fun getEventsList(result: List<EventResult>){
-        events.clear()
-        events.addAll(result)
+    fun getCompanyEventList(results: List<CompanyEventResult>){
+        companyEvent.clear()
+        companyEvent.addAll(results)
         setEvent()
     }
 
     fun getKindList() : ArrayList<String> {
-        var kindList : ArrayList<String> = ArrayList<String>()
+        val kindList : ArrayList<String> = ArrayList<String>()
 
         kindList.add("문화관광축제")
         kindList.add("일반축제")
@@ -295,12 +295,12 @@ class CompanyPopularActivity: BaseActivity<ActivityCompanyPopularBinding>(Activi
     }
 
     fun setAreaSpinnerAdapter(){
-        var adpt = ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, mainAreaNameList)
+        val adpt = ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, mainAreaNameList)
         bindingSub.spinnerDou.adapter = adpt
     }
 
     fun setSigunguSpinnerAdapter(){
-        var adpt = ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, subAreaNameList)
+        val adpt = ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, subAreaNameList)
         bindingSub.spinnerSi.adapter = adpt
     }
 
