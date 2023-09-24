@@ -111,28 +111,33 @@
             app:layout_constraintTop_toBottomOf="@id/review_tag_title_tv">
 
             <RadioButton
+                android:id="@+id/family_rb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
                 android:text="가족"/>
             <RadioButton
+                android:id="@+id/lover_rb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
                 android:text="연인"/>
             <RadioButton
+                android:id="@+id/friend_rb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
                 android:text="친구"/>
             <RadioButton
+                android:id="@+id/alone_rb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="혼자"/>
             <RadioButton
+                android:id="@+id/extra_rb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="반려동물"/>
+                android:text="기타"/>
 
         </RadioGroup>
         <TextView
@@ -164,7 +169,7 @@
             android:layout_marginTop="30dp"
             android:layout_marginStart="20dp"/>
         <RadioGroup
-            android:id="@+id/w_review_radio_group"
+            android:id="@+id/w_review_private_rg"
             android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -211,7 +216,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/w_review_radio_group" />
+            app:layout_constraintTop_toBottomOf="@+id/w_review_private_rg" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

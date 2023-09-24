@@ -86,37 +86,37 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/area1"/>
-    <LinearLayout
-        android:id="@+id/area2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="34dp"
-        android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@id/line2"
-        app:layout_constraintStart_toStartOf="parent">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="알림"
-            android:textSize="16sp"
-            android:textColor="@color/light_gray"/>
-        <TextView
-            android:id="@+id/upload_keyword"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="키워드 등록하기"
-            android:layout_marginTop="17dp"
-            android:textSize="16sp" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="행사 추천 알림 받기"
-            android:layout_marginTop="15dp"
-            android:textSize="16sp" />
+<!--    <LinearLayout-->
+<!--        android:id="@+id/area2"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="20dp"-->
+<!--        android:layout_marginStart="34dp"-->
+<!--        android:orientation="vertical"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/line2"-->
+<!--        app:layout_constraintStart_toStartOf="parent">-->
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="알림"-->
+<!--            android:textSize="16sp"-->
+<!--            android:textColor="@color/light_gray"/>-->
+<!--        <TextView-->
+<!--            android:id="@+id/upload_keyword"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="키워드 등록하기"-->
+<!--            android:layout_marginTop="17dp"-->
+<!--            android:textSize="16sp" />-->
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="행사 추천 알림 받기"-->
+<!--            android:layout_marginTop="15dp"-->
+<!--            android:textSize="16sp" />-->
 
 
-    </LinearLayout>
+<!--    </LinearLayout>-->
     <View
         android:id="@+id/line3"
         android:layout_width="match_parent"
@@ -128,7 +128,7 @@
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/area2"/>
+        app:layout_constraintTop_toBottomOf="@id/area1"/>
     <LinearLayout
         android:id="@+id/area3"
         android:layout_width="wrap_content"
@@ -188,26 +188,26 @@
     </LinearLayout>
 
 
-    <TextView
-        android:id="@+id/setting_get_info"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ON"
-        android:layout_marginTop="17dp"
-        android:textSize="16sp"
-        android:textColor="@color/purple"
-        android:layout_marginEnd="34dp"
-        app:layout_constraintBottom_toBottomOf="@+id/area2"
-        app:layout_constraintEnd_toEndOf="parent"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ON"
-        android:layout_marginTop="135dp"
-        android:textSize="16sp"
-        android:textColor="@color/purple"
-        android:layout_marginEnd="34dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/area3"
-        app:layout_constraintEnd_toEndOf="parent"/>
+<!--    <TextView-->
+<!--        android:id="@+id/setting_get_info"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="ON"-->
+<!--        android:layout_marginTop="17dp"-->
+<!--        android:textSize="16sp"-->
+<!--        android:textColor="@color/purple"-->
+<!--        android:layout_marginEnd="34dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/area2"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"/>-->
+<!--    <TextView-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="ON"-->
+<!--        android:layout_marginTop="135dp"-->
+<!--        android:textSize="16sp"-->
+<!--        android:textColor="@color/purple"-->
+<!--        android:layout_marginEnd="34dp"-->
+<!--        android:visibility="gone"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/area3"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"/>-->
 </androidx.constraintlayout.widget.ConstraintLayout>
