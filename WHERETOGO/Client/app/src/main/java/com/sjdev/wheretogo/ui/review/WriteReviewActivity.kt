@@ -66,7 +66,6 @@ class WriteReviewActivity: BaseActivity<ActivityWriteReviewBinding>(ActivityWrit
         binding.wSendReviewBtn.setOnClickListener {
             writeReview()
         }
-        setAdapter()
     }
 
     private fun initView() {
@@ -173,14 +172,6 @@ class WriteReviewActivity: BaseActivity<ActivityWriteReviewBinding>(ActivityWrit
                 }
             }
         }
-
-    private fun setAdapter(){
-        val companyList : ArrayList<String> = arrayListOf("#가족","#연인","#친구","#혼자","#반려동물")
-        var companyCheckList : ArrayList<Int> = arrayListOf(0,0,0,0,0)
-        val adapter = CompanyBtnRVAdapter(companyList, companyCheckList)
-        binding.companyBtnRv.adapter = adapter
-        binding.companyBtnRv.layoutManager = GridLayoutManager(this, 3)
-    }
 
     // 사진의 절대 경로 가져오기
     @SuppressLint("Recycle")
