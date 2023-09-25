@@ -6,6 +6,6 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 
 interface CalendarRetrofitInterface {
-    @GET("/calendar/{userID}")
-    fun getCalendarDay(@Path("userID") userID:Int): Call<CalendarResponse>
+    @GET("/calendar")
+    fun getCalendarDay(): Call<CalendarResponse>
 }
