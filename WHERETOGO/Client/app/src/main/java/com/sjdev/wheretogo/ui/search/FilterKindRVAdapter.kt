@@ -8,7 +8,6 @@ import android.widget.Button
 import androidx.recyclerview.widget.RecyclerView
 import com.sjdev.wheretogo.R
 import com.sjdev.wheretogo.data.remote.mypage.SavedEventResult
-import com.sjdev.wheretogo.databinding.ItemCalendarDayBinding
 import com.sjdev.wheretogo.databinding.ItemRecycleFilterBinding
 import com.sjdev.wheretogo.databinding.ItemSearchFilterDialogBinding
 import com.sjdev.wheretogo.ui.mypage.UserSavedEventRVAdapter
