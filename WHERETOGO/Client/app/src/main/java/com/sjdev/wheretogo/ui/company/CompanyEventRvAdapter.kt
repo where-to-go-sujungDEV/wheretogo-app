@@ -23,6 +23,7 @@ import com.sjdev.wheretogo.data.remote.search.EventResult
 import com.sjdev.wheretogo.data.remote.search.SearchService
 import com.sjdev.wheretogo.databinding.ItemRecycleEventBinding
 import com.sjdev.wheretogo.ui.login.LoginActivity
+import com.sjdev.wheretogo.ui.mypage.UserVisitedEventRVAdapter
 import com.sjdev.wheretogo.ui.search.SearchEventAdapter
 import com.sjdev.wheretogo.util.ApplicationClass
 import com.sjdev.wheretogo.util.getJwt
@@ -44,11 +45,12 @@ class CompanyEventRvAdapter(var events: ArrayList<CompanyEventResult>, var con: 
     var isSavedBtnSelected: Boolean = false
     var isVisitedBtnSelected: Boolean = false
 
+
     fun setOnItemClickListener(itemClickListener: OnItemClickListener) {
         listener = itemClickListener
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CompanyEventRvAdapter.ViewHolder {
         val con = parent.context
         val binding: ItemRecycleEventBinding =
             ItemRecycleEventBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -71,7 +73,7 @@ class CompanyEventRvAdapter(var events: ArrayList<CompanyEventResult>, var con: 
     inner class ViewHolder(val binding: ItemRecycleEventBinding) :
         RecyclerView.ViewHolder(binding.root){
         fun bind(event: CompanyEventResult, holder: CompanyEventRvAdapter.ViewHolder){
-            getEventStatus(event.eventID, holder)
+            getEventStatus(event.eventID, binding)
             binding.itemSearchTitleTv.text = event.eventName
             binding.itemSearchDateTv.text = String.format(
                 "%s ~ %s",
@@ -103,17 +105,17 @@ class CompanyEventRvAdapter(var events: ArrayList<CompanyEventResult>, var con: 
         binding.itemSearchVisitedBtn.setOnClickListener {
             if (getJwt()==null) showLoginAlert()
             else {
-                if (!isVisitedBtnSelected) {
+                isVisitedBtnSelected=!isVisitedBtnSelected
+
+                if (isVisitedBtnSelected) {
                     Toast.makeText(con,
                         R.string.visited_on, Toast.LENGTH_SHORT).show()
                     binding.itemSearchVisitedBtn.setImageResource(R.drawable.btn_check_click)
-                    isVisitedBtnSelected = true
                     searchService.setVisitedEvent(event.eventID)
                 }
                 else {
                     Toast.makeText(con, R.string.visited_off, Toast.LENGTH_SHORT).show()
                     binding.itemSearchVisitedBtn.setImageResource(R.drawable.btn_check_unclick)
-                    isVisitedBtnSelected = false
                     searchService.setDeleteVisitedEvent(event.eventID)
                 }
             }
@@ -124,7 +126,8 @@ class CompanyEventRvAdapter(var events: ArrayList<CompanyEventResult>, var con: 
         binding.itemSearchLikeBtn.setOnClickListener {
             if (getJwt()==null) showLoginAlert()
             else {
-                if (!isSavedBtnSelected) {
+                isSavedBtnSelected=!isSavedBtnSelected
+                if (isSavedBtnSelected) {
                     Toast.makeText(con, R.string.like_on, Toast.LENGTH_SHORT).show()
                     binding.itemSearchLikeBtn.setImageResource(R.drawable.btn_like_click)
                     isSavedBtnSelected = true
@@ -141,30 +144,31 @@ class CompanyEventRvAdapter(var events: ArrayList<CompanyEventResult>, var con: 
         }
     }
 
-    private fun getEventStatus(eventId: Int, holder: CompanyEventRvAdapter.ViewHolder) {
+    fun setSaveBtn(binding: ItemRecycleEventBinding){
+        if (isSavedBtnSelected)
+            binding.itemSearchLikeBtn.setImageResource(R.drawable.btn_like_click)
+        else
+            binding.itemSearchLikeBtn.setImageResource(R.drawable.btn_like_unclick)
+    }
+    fun setVisitBtn(binding: ItemRecycleEventBinding){
+        if (isVisitedBtnSelected)
+            binding.itemSearchVisitedBtn.setImageResource(R.drawable.btn_check_click)
+        else
+            binding.itemSearchVisitedBtn.setImageResource(R.drawable.btn_check_unclick)
+    }
+
+    private fun getEventStatus(eventId: Int, binding: ItemRecycleEventBinding) {
         eventStatusService.getBtnStatus(eventId).enqueue(object : Callback<EventBtnStatusResponse> {
             override fun onResponse(
-                call: Call<EventBtnStatusResponse>,
-                response: Response<EventBtnStatusResponse>
-            ) {
+                call: Call<EventBtnStatusResponse>, response: Response<EventBtnStatusResponse>) {
                 val resp = response.body()!!
                 when (resp.code) {
                     1000 -> {
-                        if (resp.result.isVisited) {
-                            holder.binding.itemSearchVisitedBtn.setImageResource(R.drawable.btn_check_click)
-                            isVisitedBtnSelected = true
-                        } else {
-                            holder.binding.itemSearchVisitedBtn.setImageResource(R.drawable.btn_check_unclick)
-                            isVisitedBtnSelected = false
-                        }
+                        isVisitedBtnSelected = resp.result.isVisited
+                        isSavedBtnSelected = resp.result.isSaved
 
-                        if (resp.result.isSaved) {
-                            holder.binding.itemSearchLikeBtn.setImageResource(R.drawable.btn_like_click)
-                            isSavedBtnSelected = true
-                        } else {
-                            holder.binding.itemSearchLikeBtn.setImageResource(R.drawable.btn_like_unclick)
-                            isSavedBtnSelected = false
-                        }
+                        setSaveBtn(binding)
+                        setVisitBtn(binding)
                     }
                     else -> {
 

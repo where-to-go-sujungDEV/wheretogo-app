@@ -107,7 +107,7 @@ class CompanyPopularActivity: BaseActivity<ActivityCompanyPopularBinding>(Activi
                 startActivity(intent)
             }
         })
-//        companyEventRvAdapter.notifyDataSetChanged()
+        companyEventRvAdapter.notifyDataSetChanged()
     }
 
     // 필터 다이얼로그 표시
