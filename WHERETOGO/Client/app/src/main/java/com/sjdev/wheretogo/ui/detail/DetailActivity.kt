@@ -203,8 +203,11 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
             binding.detailOverviewDataArea.visibility = View.GONE
         }
 
-        if (result.mapx!=null){
-            showMap(result.mapx.toDouble(), result.mapy!!.toDouble(), result.mlevel!!)
+        if (result.mapx!=null&& result.mapy!=null){
+            if (result.mlevel!=null)
+                showMap(result.mapx.toDouble(), result.mapy.toDouble(),result.mlevel)
+            else
+                showMap(result.mapx.toDouble(), result.mapy.toDouble(),4)
 
         } else {
             binding.detailMapView.visibility = View.GONE

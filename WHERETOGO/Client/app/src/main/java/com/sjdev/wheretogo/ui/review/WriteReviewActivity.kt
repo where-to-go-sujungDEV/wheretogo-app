@@ -27,13 +27,17 @@ import com.sjdev.wheretogo.data.remote.review.ReviewInterface
 import com.sjdev.wheretogo.databinding.ActivityWriteReviewBinding
 import com.sjdev.wheretogo.ui.BaseActivity
 import com.sjdev.wheretogo.util.ApplicationClass.Companion.retrofit
+import com.sjdev.wheretogo.util.showStringDialog
+import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-
+import java.io.File
 
 
 class WriteReviewActivity: BaseActivity<ActivityWriteReviewBinding>(ActivityWriteReviewBinding::inflate) {
@@ -45,8 +49,8 @@ class WriteReviewActivity: BaseActivity<ActivityWriteReviewBinding>(ActivityWrit
     private var imageUri: Uri? = null
     private var isPrivate : String = "0"
     private var star: String = "1"
-    private var review : String = "eeeee"
-    private var company : String =""
+    private var review = ""
+    private var company = ""
 
 
     private val service = retrofit.create(ReviewInterface::class.java)
@@ -84,8 +88,13 @@ class WriteReviewActivity: BaseActivity<ActivityWriteReviewBinding>(ActivityWrit
     }
 
     private fun writeReview() {
-//        val requestFile : RequestBody?
-//        val file = File(getAbsolutePath(imageUri, this))
+        var imageBody = MultipartBody.Part.createFormData("pic", "null")
+        if (imageUri!=null){
+            val file = File(getAbsolutePath(imageUri, this))
+            val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
+            imageBody = MultipartBody.Part.createFormData("pic", file.name, requestFile)
+        }
+
 
         review = binding.wReviewContentEt.text.toString()
         val starBody : RequestBody = star.toRequestBody("text/plain".toMediaTypeOrNull())
@@ -98,7 +107,9 @@ class WriteReviewActivity: BaseActivity<ActivityWriteReviewBinding>(ActivityWrit
         map["review"] = reviewBody
         map["isPrivate"] = isPrivateBody
 
-        sendReview(map)
+
+
+        sendReview(imageBody, map)
 
     }
 
@@ -129,17 +140,16 @@ class WriteReviewActivity: BaseActivity<ActivityWriteReviewBinding>(ActivityWrit
 
 
 
-    private fun sendReview(map : HashMap<String, RequestBody>){
+    private fun sendReview(imageBody:MultipartBody.Part, map : HashMap<String, RequestBody>){
 
-       service.sendReview(eventId,map).enqueue(object: Callback<PostReviewResponse>{
+       service.sendReview(eventId,imageBody,map).enqueue(object: Callback<PostReviewResponse>{
            override fun onResponse(call: Call<PostReviewResponse>, response: Response<PostReviewResponse>){
 
                val resp = response.body()!!
-
                when (resp.code){
 
                    1000->{
-                       showToast(resp.message)
+                       showStringDialog(this@WriteReviewActivity, "리뷰 작성을 완료하였습니다.")
                    }
                    else ->{
                       com.sjdev.wheretogo.util.showStringDialog(this@WriteReviewActivity, resp.message)
@@ -150,6 +160,20 @@ class WriteReviewActivity: BaseActivity<ActivityWriteReviewBinding>(ActivityWrit
            }
        })
     }
+
+    // 사진의 절대 경로 가져오기
+    @SuppressLint("Recycle")
+    private fun getAbsolutePath(path: Uri?, context : Context) : String{
+        val proj: Array<String> = arrayOf(MediaStore.Images.Media.DATA)
+        val c: Cursor? = context.contentResolver.query(path!!, proj, null, null, null)
+        val index = c?.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+        c?.moveToFirst()
+
+        val result = c?.getString(index!!)
+
+        return result!!
+    }
+
 
     private fun openGallery() {
         val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
@@ -181,19 +205,6 @@ class WriteReviewActivity: BaseActivity<ActivityWriteReviewBinding>(ActivityWrit
                 }
             }
         }
-
-    // 사진의 절대 경로 가져오기
-    @SuppressLint("Recycle")
-    private fun getAbsolutePath(path: Uri?, context : Context) : String{
-        val proj: Array<String> = arrayOf(MediaStore.Images.Media.DATA)
-        val c: Cursor? = context.contentResolver.query(path!!, proj, null, null, null)
-        val index = c?.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
-        c?.moveToFirst()
-
-        val result = c?.getString(index!!)
-
-        return result!!
-    }
 
     // 다른 곳 클릭 시 키보드 없애기
     override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
