@@ -89,7 +89,10 @@ class UserVisitedEventRVAdapter(private val visitedEventList: ArrayList<VisitedE
                     binding.itemMypageVisitedReviewTv.visibility = View.VISIBLE
                     binding.myVisitedRatingbar.visibility = View.INVISIBLE
                 }
-                else->binding.myVisitedRatingbar.rating = visitedEvent.star.toFloat();
+                else->{
+                    binding.myVisitedRatingbar.rating = visitedEvent.star.toFloat()
+                    binding.itemMypageVisitedReviewTv.visibility = View.INVISIBLE
+                }
             }
         }
     }
@@ -132,7 +135,7 @@ class UserVisitedEventRVAdapter(private val visitedEventList: ArrayList<VisitedE
             val intent = Intent(context, WriteReviewActivity::class.java)
             intent.putExtra("eventIdx", eventId)
             intent.putExtra("eventName", visitedEvent.eventName)
-
+            // 리뷰로 넘어갈 값
             if (visitedEvent.pic!=null)
                 intent.putExtra("eventPic", visitedEvent.pic)
             else
