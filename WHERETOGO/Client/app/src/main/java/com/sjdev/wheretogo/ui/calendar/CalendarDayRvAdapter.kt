@@ -149,7 +149,7 @@ class CalendarDayRvAdapter(val curMonth:Int, val dayList: MutableList<Date>, pri
         val dialogRvAdapter = DialogRvAdapter(getTodaySavedEvent(savedEvent, today), context)
         val dateTv = dialog.findViewById<TextView>(R.id.thisDate)
 
-        dateTv.text = "${today.month.plus(1).toString()}/${today.day.toString()}"
+        dateTv.text = "${today.month.plus(1).toString()}/${today.date.toString()}"
 
         eventListRv.adapter = dialogRvAdapter
         eventListRv.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
