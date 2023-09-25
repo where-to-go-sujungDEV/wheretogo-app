@@ -68,26 +68,26 @@
 
     <ImageButton
         android:id="@+id/item_search_visited_btn"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginTop="3dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginBottom="6dp"
         android:layout_marginStart="250dp"
         android:src="@drawable/btn_check_unclick"
         android:background="@color/transparent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/item_search_title_tv"/>
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 
     <ImageButton
         android:id="@+id/item_search_like_btn"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="3dp"
+        android:layout_marginBottom="6dp"
         android:src="@drawable/btn_like_unclick"
         android:background="@color/transparent"
         app:layout_constraintStart_toEndOf="@id/item_search_visited_btn"
-        app:layout_constraintTop_toBottomOf="@id/item_search_title_tv"/>
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 
 
