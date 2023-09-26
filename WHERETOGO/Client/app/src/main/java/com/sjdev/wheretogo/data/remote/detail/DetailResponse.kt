@@ -67,5 +67,13 @@ data class SearchBlogResult(
     @SerializedName("contents") var contents : String
 )
 
+data class EventRateResponse(
+    @SerializedName("message") var message : String,
+    @SerializedName(value = "code")val code:Int,
+    @SerializedName(value = "result")val result: Int?
+)
+
+
+
 
 

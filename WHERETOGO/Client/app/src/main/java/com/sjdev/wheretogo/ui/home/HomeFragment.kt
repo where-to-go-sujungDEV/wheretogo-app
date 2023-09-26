@@ -82,9 +82,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         val event2Adapter = HomeBannerVPAdapter(this)
         var sex = ""
 
-        when (result.sex){
-            "w"->sex = "여성"
-            "m"->sex = "남성"
+        sex = when (result.sex){
+            "w"-> "여성"
+            "m"-> "남성"
+            else-> "전체"
         }
 
         binding.homeExplain1Tv.text = String.format("%d대 %s",result.age*10,sex)

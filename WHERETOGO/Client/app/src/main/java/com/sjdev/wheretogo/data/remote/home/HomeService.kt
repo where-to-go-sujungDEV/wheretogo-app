@@ -57,12 +57,11 @@ object HomeService{
 
         service.getRecommendEvent().enqueue(object: Callback<RecommendEventResponse> {
             override fun onResponse(call: Call<RecommendEventResponse>, response: Response<RecommendEventResponse>) {
-                val resp = response.body()!!
+                val resp = response.body() ?: return
                 if (resp.result==null) return
                 when(resp.code){
                     1000->{
                         Log.d("homeFragment", resp.message)
-                        if (resp.result == null) return
                         fragment.setRecommendEvent(resp.result)
                     }
                     else ->{

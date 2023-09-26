@@ -36,7 +36,6 @@ class BlogDetailActivity : BaseActivity<ActivityBlogDetailBinding>(ActivityBlogD
             Callback<SearchBlogResponse> {
             override fun onResponse(call: Call<SearchBlogResponse>, response: Response<SearchBlogResponse>){
                 val resp = response.body()!!
-                showToast(resp.documents.toString())
                 setSearchBlog(resp.documents)
             }
 
