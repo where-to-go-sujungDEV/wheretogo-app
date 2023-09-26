@@ -1,6 +1,7 @@
 package com.sjdev.wheretogo.ui.home
 
 import android.content.Intent
+import android.util.Log
 import android.view.ViewGroup
 import android.view.ViewGroup.*
 
@@ -11,8 +12,10 @@ import com.sjdev.wheretogo.databinding.FragmentHomeBinding
 import com.sjdev.wheretogo.ui.recommend.RecommendActivity
 
 import com.google.android.material.tabs.TabLayoutMediator
+import com.sjdev.wheretogo.util.getAge
 import com.sjdev.wheretogo.util.getJwt
 import com.sjdev.wheretogo.util.getNickname
+import com.sjdev.wheretogo.util.getSex
 
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
@@ -80,15 +83,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     // 홈 유저 추천 이벤트
     fun setRecommendEvent(result: RecommendEventResult){
         val event2Adapter = HomeBannerVPAdapter(this)
-        var sex = ""
-        var age = ""
-        if (result.age==null) age = "전체"
-        sex = when (result.sex){
-            "w"-> "여성"
-            "m"-> "남성"
-            else-> "전체"
-        }
-        binding.homeExplain1Tv.text = String.format("%d대 %s",result.age*10,sex)
+        val sex:String
+        sex = if (getSex()=="w") "여성" else "남성"
+        binding.homeExplain1Tv.text = String.format("%d대 %s", getAge()!!*10, sex)
 
         for (item in result.recommendEvents!!){
             event2Adapter.addFragment(BannerRecommendFragment(item))

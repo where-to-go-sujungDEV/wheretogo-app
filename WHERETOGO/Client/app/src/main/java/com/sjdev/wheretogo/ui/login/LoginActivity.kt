@@ -9,10 +9,8 @@ import com.sjdev.wheretogo.data.remote.auth.LoginResponse
 import com.sjdev.wheretogo.databinding.ActivityLoginBinding
 import com.sjdev.wheretogo.ui.BaseActivity
 import com.sjdev.wheretogo.ui.signup.SignUpActivity
+import com.sjdev.wheretogo.util.*
 import com.sjdev.wheretogo.util.ApplicationClass.Companion.retrofit
-import com.sjdev.wheretogo.util.getJwt
-import com.sjdev.wheretogo.util.saveEmail
-import com.sjdev.wheretogo.util.saveJwt
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -40,6 +38,8 @@ class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::in
                 when(resp.code){
                     1000->{
                         saveJwt(resp.result!!.jwt)
+                        saveAge(resp.result.age)
+                        saveSex(resp.result.sex)
                         Log.d("jwt",getJwt()!!)
                         showToast("로그인 성공")
                         finish()
