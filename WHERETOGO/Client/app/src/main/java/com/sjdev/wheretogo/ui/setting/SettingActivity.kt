@@ -7,7 +7,6 @@ import com.sjdev.wheretogo.data.remote.auth.DeleteUserResponse
 import com.sjdev.wheretogo.data.remote.auth.GetNameResponse
 import com.sjdev.wheretogo.databinding.ActivitySettingBinding
 import com.sjdev.wheretogo.ui.BaseActivity
-import com.sjdev.wheretogo.ui.keyword.KeywordActivity
 import com.sjdev.wheretogo.util.ApplicationClass.Companion.retrofit
 import com.sjdev.wheretogo.util.removeJwt
 import com.sjdev.wheretogo.util.saveNickname
