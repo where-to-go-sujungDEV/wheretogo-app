@@ -29,6 +29,8 @@ import com.sjdev.wheretogo.ui.login.LoginActivity
 import com.sjdev.wheretogo.ui.mypage.UserSavedEventRVAdapter
 import com.sjdev.wheretogo.util.ApplicationClass.Companion.retrofit
 import com.sjdev.wheretogo.util.getJwt
+import com.sjdev.wheretogo.util.showDialog
+import com.sjdev.wheretogo.util.showStringDialog
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -108,14 +110,13 @@ class SearchEventAdapter(var events: ArrayList<EventResult>, var con: Context) :
             if (getJwt()==null) showLoginAlert()
             else {
                 if (!isVisitedBtnSelected) {
-                    Toast.makeText(con,
-                        R.string.visited_on, Toast.LENGTH_SHORT).show()
+                    showDialog(con, R.string.visited_on)
                     binding.itemSearchVisitedBtn.setImageResource(R.drawable.btn_check_click)
                     isVisitedBtnSelected = true
                     searchService.setVisitedEvent(event.eventID)
                 }
                 else {
-                    Toast.makeText(con, R.string.visited_off, Toast.LENGTH_SHORT).show()
+                    showDialog(con, R.string.visited_off)
                     binding.itemSearchVisitedBtn.setImageResource(R.drawable.btn_check_unclick)
                     isVisitedBtnSelected = false
                     searchService.setDeleteVisitedEvent(event.eventID)
@@ -129,13 +130,13 @@ class SearchEventAdapter(var events: ArrayList<EventResult>, var con: Context) :
             if (getJwt()==null) showLoginAlert()
             else {
                 if (!isSavedBtnSelected) {
-                    Toast.makeText(con, R.string.like_on, Toast.LENGTH_SHORT).show()
+                    showDialog(con, R.string.like_on)
                     binding.itemSearchLikeBtn.setImageResource(R.drawable.btn_like_click)
                     isSavedBtnSelected = true
                     searchService.setSavedEvent(event.eventID)
                 }
                 else {
-                    Toast.makeText(con, R.string.like_off, Toast.LENGTH_SHORT).show()
+                    showDialog(con, R.string.visited_off)
                     binding.itemSearchLikeBtn.setImageResource(R.drawable.btn_like_unclick)
                     isSavedBtnSelected = false
                     searchService.setDeleteSavedEvent(event.eventID)

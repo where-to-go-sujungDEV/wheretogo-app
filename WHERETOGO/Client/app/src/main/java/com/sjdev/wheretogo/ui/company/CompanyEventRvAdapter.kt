@@ -4,13 +4,7 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
@@ -19,14 +13,12 @@ import com.sjdev.wheretogo.R
 import com.sjdev.wheretogo.data.remote.company.CompanyEventResult
 import com.sjdev.wheretogo.data.remote.mypage.EventBtnStatusResponse
 import com.sjdev.wheretogo.data.remote.mypage.MypageRetrofitInterface
-import com.sjdev.wheretogo.data.remote.search.EventResult
 import com.sjdev.wheretogo.data.remote.search.SearchService
 import com.sjdev.wheretogo.databinding.ItemRecycleEventBinding
 import com.sjdev.wheretogo.ui.login.LoginActivity
-import com.sjdev.wheretogo.ui.mypage.UserVisitedEventRVAdapter
-import com.sjdev.wheretogo.ui.search.SearchEventAdapter
 import com.sjdev.wheretogo.util.ApplicationClass
 import com.sjdev.wheretogo.util.getJwt
+import com.sjdev.wheretogo.util.showDialog
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -108,13 +100,12 @@ class CompanyEventRvAdapter(var events: ArrayList<CompanyEventResult>, var con: 
                 isVisitedBtnSelected=!isVisitedBtnSelected
 
                 if (isVisitedBtnSelected) {
-                    Toast.makeText(con,
-                        R.string.visited_on, Toast.LENGTH_SHORT).show()
+                    showDialog(con, R.string.visited_on)
                     binding.itemSearchVisitedBtn.setImageResource(R.drawable.btn_check_click)
                     searchService.setVisitedEvent(event.eventID)
                 }
                 else {
-                    Toast.makeText(con, R.string.visited_off, Toast.LENGTH_SHORT).show()
+                    showDialog(con, R.string.visited_off)
                     binding.itemSearchVisitedBtn.setImageResource(R.drawable.btn_check_unclick)
                     searchService.setDeleteVisitedEvent(event.eventID)
                 }
@@ -128,13 +119,13 @@ class CompanyEventRvAdapter(var events: ArrayList<CompanyEventResult>, var con: 
             else {
                 isSavedBtnSelected=!isSavedBtnSelected
                 if (isSavedBtnSelected) {
-                    Toast.makeText(con, R.string.like_on, Toast.LENGTH_SHORT).show()
+                    showDialog(con, R.string.like_on)
                     binding.itemSearchLikeBtn.setImageResource(R.drawable.btn_like_click)
                     isSavedBtnSelected = true
                     searchService.setSavedEvent(event.eventID)
                 }
                 else {
-                    Toast.makeText(con, R.string.like_off, Toast.LENGTH_SHORT).show()
+                    showDialog(con, R.string.like_off)
                     binding.itemSearchLikeBtn.setImageResource(R.drawable.btn_like_unclick)
                     isSavedBtnSelected = false
                     searchService.setDeleteSavedEvent(event.eventID)
