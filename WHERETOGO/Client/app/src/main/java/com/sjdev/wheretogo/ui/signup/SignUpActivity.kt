@@ -18,6 +18,7 @@ import com.sjdev.wheretogo.databinding.ActivitySignupBinding
 import com.sjdev.wheretogo.ui.BaseActivity
 import com.sjdev.wheretogo.util.ApplicationClass
 import com.sjdev.wheretogo.util.ApplicationClass.Companion.retrofit
+import com.sjdev.wheretogo.util.showStringDialog
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -81,7 +82,7 @@ class SignUpActivity: BaseActivity<ActivitySignupBinding>(ActivitySignupBinding:
                         finish()
                     }
                     else ->{
-                        showSignupResult(resp.message)
+                        showStringDialog(this@SignUpActivity ,resp.message)
                     }
                 }
             }
@@ -108,22 +109,18 @@ class SignUpActivity: BaseActivity<ActivitySignupBinding>(ActivitySignupBinding:
             error="비밀번호 확인을 입력해주세요"
         } else if (binding.signUpPwdEt.text.toString() != binding.signUpPwdCheckEt.text.toString()) {
             error="비밀번호가 일치하지 않습니다."
-        } else {
+        } else if (!binding.checkAgeCb.isChecked){
+            error = "만 14세 이상만 가입할 수 있습니다."
+        }
+        else {
             signUp(getSignUpInfo()) //api호출
         }
 
         if (error!=""){
-            showSignupResult(error)
+            com.sjdev.wheretogo.util.showStringDialog(this@SignUpActivity, error)
         }
     }
 
-    private fun showSignupResult(msg: String){
-        AlertDialog.Builder(this)
-            .setMessage(msg)
-            .setPositiveButton("확인") { _, _ ->
-            }
-            .show()
-    }
 
     private fun getSignUpInfo() : SignUpInfo {
         val sex : String
