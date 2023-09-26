@@ -219,9 +219,10 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
                 Log.d("detail/SUCCESS",resp.code.toString())
                 when(resp.code){
                     1000->{
-                        var rating = resp.result?.times(0.1.toFloat())
+                        val rating = resp.result?.times(0.1.toFloat())
                         if (rating==null) {
                             binding.detailReviewScore.text = "평점이 등록되지 않았습니다."
+                            binding.detailReviewAverageRb.rating = 0.0F
                         } else {
                             binding.detailReviewAverageRb.rating = rating
                             binding.detailReviewScore.text = String.format("평점: %s점",rating)
@@ -268,7 +269,7 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
                     1000->{
                         initBtn()
                         binding.detailEventSavedCount.text = String.format("찜한 유저 수: %s명",++savedNum)
-                        showToast(resp.message)
+                        com.sjdev.wheretogo.util.showDialog(this@DetailActivity, R.string.like_on)
                     }
                 }
             }
@@ -289,7 +290,7 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
                     1000->{
                         initBtn()
                         binding.detailEventSavedCount.text = String.format("찜한 유저 수: %s명",--savedNum)
-                        showToast(resp.message)
+                        com.sjdev.wheretogo.util.showDialog(this@DetailActivity, R.string.like_off)
                     }
                 }
             }
@@ -306,7 +307,7 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
                     1000->{
                         initBtn()
                         binding.detailEventVisitedCount.text=String.format("방문 유저 수: %s명",++visitedNum)
-                        showToast("my> 방문한 이벤트에 담았어요!")
+                        com.sjdev.wheretogo.util.showDialog(this@DetailActivity, R.string.visited_on)
                     }
                     else ->{
                         Log.d("detail/visit",resp.message)
@@ -330,7 +331,7 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
                     1000->{
                         binding.detailEventVisitedCount.text=String.format("방문 유저 수: %s명",--visitedNum)
                         initBtn()
-                        showToast("my> 방문한 이벤트에서 취소했어요!")
+                        com.sjdev.wheretogo.util.showDialog(this@DetailActivity, R.string.visited_off)
                     }
                     else->{
                         showToast(resp.message)

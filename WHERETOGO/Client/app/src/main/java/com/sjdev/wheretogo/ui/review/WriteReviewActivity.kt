@@ -144,15 +144,13 @@ class WriteReviewActivity: BaseActivity<ActivityWriteReviewBinding>(ActivityWrit
 
        service.sendReview(eventId,imageBody,map).enqueue(object: Callback<PostReviewResponse>{
            override fun onResponse(call: Call<PostReviewResponse>, response: Response<PostReviewResponse>){
-
                val resp = response.body()!!
                when (resp.code){
-
                    1000->{
                        showStringDialog(this@WriteReviewActivity, "리뷰 작성을 완료하였습니다.")
                    }
                    else ->{
-                      com.sjdev.wheretogo.util.showStringDialog(this@WriteReviewActivity, resp.message)
+                       showStringDialog(this@WriteReviewActivity, resp.message)
                    }
                }
            }

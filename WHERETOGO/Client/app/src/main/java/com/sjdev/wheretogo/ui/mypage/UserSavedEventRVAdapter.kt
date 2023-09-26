@@ -25,8 +25,8 @@ import kotlin.properties.Delegates
 class UserSavedEventRVAdapter(private val savedEventList: ArrayList<SavedEventResult>) : RecyclerView.Adapter<UserSavedEventRVAdapter.ViewHolder>() {
     private lateinit var context: Context
     private val service = retrofit.create(MypageRetrofitInterface::class.java)
-    private var isEventVisited by Delegates.notNull<Boolean>()
-    private var isEventSaved by Delegates.notNull<Boolean>()
+    private var isEventVisited =false
+    private var isEventSaved =false
 
     interface OnItemClickListener {
         fun onItemClick(savedEventData: SavedEventResult)

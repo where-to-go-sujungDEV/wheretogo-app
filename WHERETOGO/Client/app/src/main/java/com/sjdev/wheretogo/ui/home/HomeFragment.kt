@@ -81,13 +81,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     fun setRecommendEvent(result: RecommendEventResult){
         val event2Adapter = HomeBannerVPAdapter(this)
         var sex = ""
-
+        var age = ""
+        if (result.age==null) age = "전체"
         sex = when (result.sex){
             "w"-> "여성"
             "m"-> "남성"
             else-> "전체"
         }
-
         binding.homeExplain1Tv.text = String.format("%d대 %s",result.age*10,sex)
 
         for (item in result.recommendEvents!!){

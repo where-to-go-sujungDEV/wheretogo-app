@@ -61,7 +61,7 @@ class UserVisitedEventRVAdapter(private val visitedEventList: ArrayList<VisitedE
 
         fun bind(visitedEvent: VisitedEventResult, holder: UserVisitedEventRVAdapter.ViewHolder) {
             eventId = visitedEvent.eventID
-
+            binding.itemMypageVisitedTitleTv.text = visitedEvent.eventName
 
             getEventStatus(binding, eventId)
             binding.itemMypageVisitedCountTv.text =
