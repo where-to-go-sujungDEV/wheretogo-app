@@ -47,10 +47,9 @@
         <item>종료임박순</item>
     </string-array>
 
-    <string-array name="myreviewSetting">
-        <item>수정</item>
+    <!--내가 쓴 리뷰-->
+    <string-array name="reviewSettings">
         <item>삭제</item>
-        <item>공유</item>
     </string-array>
 
     <!-- 캘린더 week -->

@@ -2,6 +2,7 @@ package com.sjdev.wheretogo.ui.review
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -13,6 +14,7 @@ import android.util.Log
 
 import android.view.MotionEvent
 import android.view.View
+import android.view.View.OnClickListener
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -26,6 +28,7 @@ import com.sjdev.wheretogo.data.remote.review.PostReviewResponse
 import com.sjdev.wheretogo.data.remote.review.ReviewInterface
 import com.sjdev.wheretogo.databinding.ActivityWriteReviewBinding
 import com.sjdev.wheretogo.ui.BaseActivity
+import com.sjdev.wheretogo.ui.myReview.MyReviewActivity
 import com.sjdev.wheretogo.util.ApplicationClass.Companion.retrofit
 import com.sjdev.wheretogo.util.showStringDialog
 import okhttp3.MediaType
@@ -147,7 +150,11 @@ class WriteReviewActivity: BaseActivity<ActivityWriteReviewBinding>(ActivityWrit
                val resp = response.body()!!
                when (resp.code){
                    1000->{
-                       showStringDialog(this@WriteReviewActivity, "리뷰 작성을 완료하였습니다.")
+                       AlertDialog.Builder(this@WriteReviewActivity)
+                           .setMessage("리뷰 작성을 완료하였습니다.")
+                           .setPositiveButton("확인") { _, _ -> finish() }
+                           .setCancelable(false)
+                           .show()
                    }
                    else ->{
                        showStringDialog(this@WriteReviewActivity, resp.message)

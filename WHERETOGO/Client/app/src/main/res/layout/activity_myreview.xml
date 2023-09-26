@@ -42,20 +42,183 @@
         android:layout_height="0.1dp"
         android:background="#DEE0E2"/>
     <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+
+        android:layout_weight="0.3"/>
+
+    <LinearLayout
+        android:id="@+id/header_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="10"
-        android:background="#DEE0E2">
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/myreview_rv"
+        android:orientation="horizontal"
+
+        android:gravity="center_vertical"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/myreveiw_event_name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:autoSizeMaxTextSize="50sp"
+            android:autoSizeMinTextSize="15sp"
+            android:autoSizeTextType="uniform"
+            android:text="eventName"
+            android:textStyle="bold"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/myreview_settings_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:src="@drawable/ic_threedots"
+                android:background="@color/transparent"/>
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="0.15"/>
+
+    <LinearLayout
+        android:id="@+id/image_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:layout_weight="12"
+        android:background="#BCB8C1">
+
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/myreview_viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+
+        <View
+            android:id="@+id/view3"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_weight="0" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/Tap_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:layout_weight="0.7">
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/myreview_tab_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="9dp"
+            app:tabBackground="@drawable/home_tab_selector"
+            app:tabIndicatorHeight="0dp"
+            app:tabPaddingStart="5dp"
+            android:background="@color/transparent"
+            android:layout_gravity="center"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#DEE0E2"
+        android:layout_gravity="bottom" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="0.15"/>
+
+    <LinearLayout
+        android:id="@+id/info_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:layout_weight="0.5">
+
+        <TextView
+            android:id="@+id/myreview_date_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+
+            android:autoSizeMaxTextSize="50sp"
+            android:autoSizeMinTextSize="12dp"
+            android:autoSizeTextType="uniform"
+
+            android:text="날짜"
+            android:textColor="@color/gray"/>
+
+        <View
+            android:id="@+id/view4"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            />
+
+        <RatingBar
+            android:id="@+id/myreview_ratingbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginRight="15dp"
+            android:isIndicator="true"
+            android:rating="0"
+            style="?android:attr/ratingBarStyleSmall"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:layout_weight="0.3"/>
+
+
+    <LinearLayout
+        android:id="@+id/content_layout"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        >
+
+        <TextView
+            android:id="@+id/myreview_content_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:listitem="@layout/item_myreview"
-            android:paddingBottom="15dp"
-            android:clipToPadding="false"
-            android:scrollbars="none"
-            />
+
+            android:autoSizeMaxTextSize="30sp"
+            android:autoSizeMinTextSize="12sp"
+            android:autoSizeTextType="uniform"
+
+            android:text="content" />
 
     </LinearLayout>
 </LinearLayout>
