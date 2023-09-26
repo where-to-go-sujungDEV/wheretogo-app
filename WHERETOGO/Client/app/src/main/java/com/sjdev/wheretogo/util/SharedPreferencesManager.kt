@@ -44,3 +44,19 @@ fun removeEmail(){
     editor.remove("email")
     editor.apply()
 }
+
+fun saveAge(age:Int){
+    val editor = mSharedPreferences.edit()
+    editor.putInt("age", age)
+    editor.apply()
+}
+
+fun saveSex(sex:String){
+    val editor = mSharedPreferences.edit()
+    editor.putString("sex", sex)
+    editor.apply()
+}
+
+fun getAge():Int?=mSharedPreferences.getInt("age",0)
+
+fun getSex() : String? = mSharedPreferences.getString("sex",null)

@@ -210,7 +210,7 @@
         <entry key="app/src/main/res/layout/item_calendar_popup_dialog.xml" value="0.315625" />
         <entry key="app/src/main/res/layout/item_company_btn.xml" value="0.315625" />
         <entry key="app/src/main/res/layout/item_keyword.xml" value="0.315625" />
-        <entry key="app/src/main/res/layout/item_mypage_saved.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/item_mypage_saved.xml" value="0.335" />
         <entry key="app/src/main/res/layout/item_mypage_visited.xml" value="0.165" />
         <entry key="app/src/main/res/layout/item_myreview.xml" value="0.315625" />
         <entry key="app/src/main/res/layout/item_recycle_event.xml" value="0.335" />

@@ -13,7 +13,7 @@ object MypageService {
     private val service = retrofit.create(MypageRetrofitInterface::class.java)
     fun getSavedEvent(fragment: MypageSavedFragment){
 
-        service.getSavedEvent().enqueue(object: Callback<SavedEventResponse> {
+        service.getSavedEvent().clone().enqueue(object: Callback<SavedEventResponse> {
             override fun onResponse(call: Call<SavedEventResponse>, response: Response<SavedEventResponse>) {
                 val resp = response.body()!!
                 Log.d("getSaved/SUCCESS",resp.code.toString())
@@ -35,13 +35,14 @@ object MypageService {
 
     fun getVisitedEvent(fragment: MypageVisitedFragment){
 
-        service.getVisitedEvent().enqueue(object: Callback<VisitedEventResponse> {
+        service.getVisitedEvent().clone().enqueue(object: Callback<VisitedEventResponse> {
             override fun onResponse(call: Call<VisitedEventResponse>, response: Response<VisitedEventResponse>) {
                 val resp = response.body()!!
                 Log.d("RecentRead/SUCCESS",resp.code.toString())
                 when(resp.code){
                     1000->{
-                        fragment.setVisitedEvent(resp.result!!)
+                        if (resp.result!=null)
+                            fragment.setVisitedEvent(resp.result)
                     }
                     else ->{
                         fragment.setVisitedEventNone("로그인을 해주세요")
