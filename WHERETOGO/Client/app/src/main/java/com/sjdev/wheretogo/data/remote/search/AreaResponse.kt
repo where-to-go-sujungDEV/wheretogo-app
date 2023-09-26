@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 data class AreaResponse(
     @SerializedName("code") var code : Int,
     @SerializedName("isSuccess") var isSuccess : Boolean,
-    @SerializedName("results") var results : List<AreaResult>,
+    @SerializedName("result") var result : List<AreaResult>,
 )
 
 
@@ -18,7 +18,7 @@ data class AreaResult(
 data class SigunguResponse(
     @SerializedName("code") var code : Int,
     @SerializedName("isSuccess") var isSuccess : Boolean,
-    @SerializedName("results") var results : List<SigunguResult>,
+    @SerializedName("result") var result : List<SigunguResult>,
 )
 
 
