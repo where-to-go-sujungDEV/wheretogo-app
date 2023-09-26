@@ -3,7 +3,6 @@ package com.sjdev.wheretogo.data.remote.myreview
 import android.util.Log
 
 import com.sjdev.wheretogo.ui.myReview.MyReviewActivity
-import com.sjdev.wheretogo.ui.myReview.MyVisitedSlideActivity
 import com.sjdev.wheretogo.util.ApplicationClass.Companion.retrofit
 import retrofit2.Call
 import retrofit2.Callback
@@ -13,49 +12,27 @@ object MyreviewService {
 
     val service = retrofit.create(MyreviewRetrofitInterface::class.java)
 
-    fun getMyReview(activity: MyReviewActivity, reviewId: Int){
-        service.getMyReview(reviewId).enqueue(object: Callback<MyreviewResponse> {
+    fun deleteReview(eventId: Int) {
+        service.deleteReview(eventId).enqueue(object : Callback<DeleteReviewResponse> {
             override fun onResponse(
-                call: Call<MyreviewResponse>,
-                response: Response<MyreviewResponse>
+                call: Call<DeleteReviewResponse>,
+                response: Response<DeleteReviewResponse>
             ) {
                 val resp = response.body()!!
-                when(val code = resp.code){
-                    200->{
-                        activity.getMyReviewList(resp.results)
+                when (val code = resp.code) {
+                    1000 -> {
+                        Log.d("deleteReveiw/SUCCESS", resp.message)
                     }
-                    else ->{}
+                    else -> {}
 
                 }
             }
 
-            override fun onFailure(call: Call<MyreviewResponse>, t: Throwable) {
-                Log.d("getMyreview/FAILURE", t.message.toString())
+            override fun onFailure(call: Call<DeleteReviewResponse>, t: Throwable) {
+                Log.d("deleteReveiw/FAILURE", t.message.toString())
             }
 
         })
     }
 
-    fun getMyReviewForVisited(activity: MyVisitedSlideActivity, reviewId: Int){
-        service.getMyReview(reviewId).enqueue(object: Callback<MyreviewResponse> {
-            override fun onResponse(
-                call: Call<MyreviewResponse>,
-                response: Response<MyreviewResponse>
-            ) {
-                val resp = response.body()!!
-                when(val code = resp.code){
-                    200->{
-                        activity.getMyReviewList(resp.results)
-                    }
-                    else ->{}
-
-                }
-            }
-
-            override fun onFailure(call: Call<MyreviewResponse>, t: Throwable) {
-                Log.d("getMyreview/FAILURE", t.message.toString())
-            }
-
-        })
-    }
 }

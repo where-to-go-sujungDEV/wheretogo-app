@@ -51,7 +51,8 @@ data class VisitedEventResult(
     @SerializedName(value = "endDate") val endDate: String,
     @SerializedName(value = "star") val star: Int,
     @SerializedName(value = "pic") val pic: String?,
-    @SerializedName(value = "visitedNum") val visitedNum: Int
+    @SerializedName(value = "visitedNum") val visitedNum: Int,
+    @SerializedName(value = "visitedID") val visitedID: Int,
 )
 
 /**
