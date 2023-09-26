@@ -105,7 +105,7 @@ class MyReviewActivity : BaseActivity<ActivityMyreviewBinding>(ActivityMyreviewB
     private fun setDialog(dialog: Dialog){
         dialog.window?.setLayout(
             ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT
+            ViewGroup.LayoutParams.MATCH_PARENT
         )
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
