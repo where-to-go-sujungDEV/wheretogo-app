@@ -14,6 +14,10 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.flexbox.FlexDirection
+import com.google.android.flexbox.FlexWrap
+import com.google.android.flexbox.FlexboxLayoutManager
+import com.google.android.flexbox.JustifyContent
 import com.sjdev.wheretogo.R
 import com.sjdev.wheretogo.data.remote.search.EventResult
 import com.sjdev.wheretogo.data.remote.search.EventService
@@ -184,22 +188,27 @@ class SearchFragment : Fragment() {
 
 
     // 필터 다이얼로그 어댑터
-    fun setDialogAdapter() {
-        val gridLayoutManager = GridLayoutManager(context, 4)
-        gridLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
-        rv_filter_kind.layoutManager = gridLayoutManager
+    private fun setDialogAdapter() {
+//        val gridLayoutManager = GridLayoutManager(context, 4)
+//        gridLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
+//        rv_filter_kind.layoutManager = LinearLayoutManager(context, Horizon)
 
-        filterKindRVAdapter = FilterKindRVAdapter(getKindList(), requireContext(), this)
-        rv_filter_kind.adapter = filterKindRVAdapter
+        FlexboxLayoutManager(context).apply {
+            flexWrap = FlexWrap.WRAP
+            flexDirection = FlexDirection.ROW
+            justifyContent = JustifyContent.FLEX_START
+        }.let{
+            rv_filter_kind.layoutManager=it
+            rv_filter_kind.adapter = FilterKindRVAdapter(getKindList(), requireContext(), this)
+        }
+
+
 
         /** 필터 취소 버튼 **/
-        filter_cancelBtn.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(p0: View?) {
-                setFilterReset()
-
-                dialog.dismiss()
-            }
-        })
+        filter_cancelBtn.setOnClickListener {
+            setFilterReset()
+            dialog.dismiss()
+        }
 
 
         /** 기간별 필터 **/
