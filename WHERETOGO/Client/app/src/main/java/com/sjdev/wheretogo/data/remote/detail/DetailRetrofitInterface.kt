@@ -4,9 +4,11 @@ import retrofit2.Call
 import retrofit2.http.*
 
 interface DetailRetrofitInterface {
-    @GET("/event/{userIdx}")
-    fun getUserStat(@Path("userIdx") userIdx: Int): Call<DetailInfoResponse>
+    @GET("/event/{eventIdx}")
+    fun getDetailInfo(@Path("eventIdx") eventIdx: Int): Call<DetailInfoResponse>
 
+    @GET("/visited/event/star/{eventIdx}/0")
+    fun getEventRate(@Path("eventIdx") eventIdx: Int): Call<EventRateResponse>
 
     @GET("/v2/search/blog")
     fun getSearchBlog(@Header("Authorization") Authorization:String,
