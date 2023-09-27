@@ -4,14 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
-
     android:orientation="vertical"
+    android:layout_gravity="bottom"
+
     android:background="@drawable/calendar_popup_corner"
 
-    android:elevation="10dp"
-    android:layout_marginTop="20dp"
-    android:layout_gravity="bottom"
->
+    android:layout_marginTop="10dp"
+    android:paddingBottom="10dp"
+
+    android:elevation="10dp">
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,8 +24,6 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_weight="1" />
-
-
     </LinearLayout>
 
     <LinearLayout
@@ -54,8 +54,8 @@
             android:layout_marginTop="10dp"
 
             android:textSize="10pt" />
-
     </LinearLayout>
+
 
 
 </LinearLayout>

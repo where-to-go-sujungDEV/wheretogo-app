@@ -4,11 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_gravity="bottom"
 
-    android:orientation="vertical"
     android:background="@drawable/calendar_popup_corner"
+
     android:layout_marginTop="10dp"
+    android:paddingBottom="20dp"
+
     android:elevation="10dp"
     >
 
@@ -30,23 +33,6 @@
         android:id="@+id/thisDate"
         android:text="default"
         />
-
-<!--        <View-->
-<!--            android:id="@+id/view6"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:layout_weight="1"-->
-<!--            />-->
-
-<!--        <ImageButton-->
-<!--            android:id="@+id/imageButton"-->
-<!--            android:layout_width="30dp"-->
-<!--            android:layout_height="30dp"-->
-<!--            app:srcCompat="@android:drawable/ic_menu_close_clear_cancel"-->
-<!--            android:layout_marginTop="30dp"-->
-<!--            android:layout_marginRight="10dp"-->
-<!--            />-->
-
 
 
     </LinearLayout>
@@ -71,7 +57,6 @@
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:layout_marginBottom="20dp"/>
-
 
 
 </LinearLayout>
