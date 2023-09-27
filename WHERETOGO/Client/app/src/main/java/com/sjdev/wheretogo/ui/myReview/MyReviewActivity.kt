@@ -128,6 +128,8 @@ class MyReviewActivity : BaseActivity<ActivityMyreviewBinding>(ActivityMyreviewB
 
     private fun dialogInitClickListener(dialog: Dialog){
         val deleteTv = dialog.findViewById<TextView>(R.id.setting1_tv)
+        val showDetailTv = dialog.findViewById<TextView>(R.id.setting2_tv)
+
         deleteTv.setOnClickListener{
             var msgBuilder: AlertDialog.Builder = AlertDialog.Builder(this@MyReviewActivity)
                 .setTitle("리뷰 삭제")
@@ -140,6 +142,13 @@ class MyReviewActivity : BaseActivity<ActivityMyreviewBinding>(ActivityMyreviewB
             var msgDlg: AlertDialog = msgBuilder.create()
             msgDlg.show()
         }
+
+        showDetailTv.setOnClickListener{
+            val intent = Intent(this@MyReviewActivity, DetailActivity::class.java)
+            intent.putExtra("eventIdx", myReview.eventID)
+            startActivity(intent)
+        }
+
     }
 
     private fun getImages(): ArrayList<String?> {
