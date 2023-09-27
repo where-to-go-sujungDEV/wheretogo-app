@@ -28,6 +28,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         if (getJwt()==null){
             binding.homeLl2.visibility = GONE
         }else{
+            val sex:String = if (getSex()=="w") "여성" else "남성"
+            if (getAge()==null) saveAge(1)
+            binding.homeExplain1Tv.text = String.format("%d대 %s", getAge()!!*10, sex)
             homeService.getRecommendEvent(this)
         }
         homeService.getPopularEvent(this)
@@ -80,9 +83,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     // 홈 유저 추천 이벤트
     fun setRecommendEvent(result: RecommendEventResult){
         val event2Adapter = HomeBannerVPAdapter(this)
-        val sex:String = if (getSex()=="w") "여성" else "남성"
-        if (getAge()==null) saveAge(1)
-        binding.homeExplain1Tv.text = String.format("%d대 %s", getAge()!!*10, sex)
 
         for (item in result.recommendEvents!!){
             event2Adapter.addFragment(BannerRecommendFragment(item))

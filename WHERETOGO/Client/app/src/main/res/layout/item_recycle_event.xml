@@ -65,31 +65,24 @@
         app:layout_constraintTop_toBottomOf="@id/item_search_title_tv"
         app:layout_constraintStart_toStartOf="parent"
         />
-
+    <ImageButton
+        android:id="@+id/item_search_like_btn"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="6dp"
+        tools:src="@drawable/btn_like_unclick"
+        android:background="@color/transparent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
     <ImageButton
         android:id="@+id/item_search_visited_btn"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginBottom="6dp"
-        android:layout_marginStart="250dp"
+        android:layout_marginEnd="13dp"
         tools:src="@drawable/btn_check_unclick"
         android:background="@color/transparent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/item_search_like_btn"
         app:layout_constraintBottom_toBottomOf="parent"/>
-
-
-    <ImageButton
-        android:id="@+id/item_search_like_btn"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="3dp"
-        android:layout_marginBottom="6dp"
-        tools:src="@drawable/btn_like_unclick"
-        android:background="@color/transparent"
-        app:layout_constraintStart_toEndOf="@id/item_search_visited_btn"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
-
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>
