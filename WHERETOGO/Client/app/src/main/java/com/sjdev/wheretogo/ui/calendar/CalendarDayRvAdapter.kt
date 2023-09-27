@@ -39,7 +39,6 @@ class CalendarDayRvAdapter(val curMonth:Int, val dayList: MutableList<Date>, pri
         holder.binding.calendarDay.setOnClickListener {
             showDialog(today)
         }
-
         holder.bind(holder, today)
     }
 
@@ -116,7 +115,7 @@ class CalendarDayRvAdapter(val curMonth:Int, val dayList: MutableList<Date>, pri
     }
 
     private fun showDialog(today: Date) {
-        var dialog= Dialog(context, R.style.CustomFullDialog)
+        val dialog= Dialog(context)
 
         setDialog(dialog)
         setEventInfoInDialog(dialog, today)
@@ -125,22 +124,20 @@ class CalendarDayRvAdapter(val curMonth:Int, val dayList: MutableList<Date>, pri
     }
 
     private fun setDialog(dialog: Dialog){
+        dialog.setContentView(R.layout.item_calendar_popup_dialog)
+
+        dialog.setCancelable(true)
+        dialog.setCanceledOnTouchOutside(true)
+
         dialog.window?.setLayout(
             ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.MATCH_PARENT
+            ViewGroup.LayoutParams.WRAP_CONTENT
         )
-
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE )
-        dialog.setCancelable(false)
-        dialog.setContentView(R.layout.item_calendar_popup_dialog)
 
         dialog.window!!.attributes.windowAnimations= R.style.dialog_animation
 
-        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog.window!!.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
-
         dialog.window!!.setGravity(Gravity.BOTTOM)
-        dialog.setCanceledOnTouchOutside(true);
+        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
     }
 
     private fun setEventInfoInDialog(dialog: Dialog, today: Date){
