@@ -182,7 +182,7 @@
         <entry key="app/src/main/res/layout/activity_company_popular.xml" value="0.3111587982832618" />
         <entry key="app/src/main/res/layout/activity_detail.xml" value="0.5" />
         <entry key="app/src/main/res/layout/activity_group_popular.xml" value="0.31666666666666665" />
-        <entry key="app/src/main/res/layout/activity_guide.xml" value="0.1515625" />
+        <entry key="app/src/main/res/layout/activity_guide.xml" value="0.375" />
         <entry key="app/src/main/res/layout/activity_inquiry.xml" value="0.23072916666666668" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.31666666666666665" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.315625" />
@@ -198,10 +198,12 @@
         <entry key="app/src/main/res/layout/activity_visited_review.xml" value="0.31666666666666665" />
         <entry key="app/src/main/res/layout/activity_write_review.xml" value="0.18697916666666667" />
         <entry key="app/src/main/res/layout/custom_rating_dialog.xml" value="0.17447916666666666" />
+        <entry key="app/src/main/res/layout/fragment_banner_guide.xml" value="0.309375" />
         <entry key="app/src/main/res/layout/fragment_calendar.xml" value="0.17447916666666666" />
-        <entry key="app/src/main/res/layout/fragment_company_banner.xml" value="0.315625" />
+        <entry key="app/src/main/res/layout/fragment_company_banner.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_group_banner.xml" value="0.31666666666666665" />
-        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.45" />
+        <entry key="app/src/main/res/layout/fragment_guide_banner.xml" value="0.15364583333333334" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_home_banner.xml" value="0.13072916666666667" />
         <entry key="app/src/main/res/layout/fragment_mypage.xml" value="0.31666666666666665" />
         <entry key="app/src/main/res/layout/fragment_mypage_banner.xml" value="0.1296875" />
@@ -213,15 +215,16 @@
         <entry key="app/src/main/res/layout/item_calendar_popup_dialog.xml" value="0.315625" />
         <entry key="app/src/main/res/layout/item_company_btn.xml" value="0.315625" />
         <entry key="app/src/main/res/layout/item_keyword.xml" value="0.315625" />
-        <entry key="app/src/main/res/layout/item_mypage_saved.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/item_mypage_saved.xml" value="0.1" />
         <entry key="app/src/main/res/layout/item_mypage_visited.xml" value="0.165" />
         <entry key="app/src/main/res/layout/item_myreview.xml" value="0.315625" />
-        <entry key="app/src/main/res/layout/item_recycle_event.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/item_recycle_event.xml" value="0.1" />
         <entry key="app/src/main/res/layout/item_recycle_filter.xml" value="0.3151041666666667" />
         <entry key="app/src/main/res/layout/item_recycle_popup_dialog.xml" value="0.3151041666666667" />
         <entry key="app/src/main/res/layout/item_search_blog.xml" value="0.1296875" />
         <entry key="app/src/main/res/layout/item_search_filter_dialog.xml" value="0.3151041666666667" />
         <entry key="app/src/main/res/layout/item_show_review.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/item_visited_slide_iv.xml" value="0.15364583333333334" />
         <entry key="app/src/main/res/layout/w_review_btn_rv.xml" value="0.16875" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1205" />
       </map>
