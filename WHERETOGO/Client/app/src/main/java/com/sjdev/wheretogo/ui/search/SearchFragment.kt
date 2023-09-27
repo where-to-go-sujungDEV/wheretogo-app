@@ -136,25 +136,24 @@ class SearchFragment: BaseFragment<FragmentSearchBinding>(FragmentSearchBinding:
     private fun showDialog() {
         setFilterReset()
 
-        dialog = Dialog(requireContext(), R.style.CustomFullDialog)
+        dialog = Dialog(requireContext())
+
+        dialog.setCanceledOnTouchOutside(true)
+        dialog.setCancelable(false)
+
+        dialog.setContentView(R.layout.item_search_filter_dialog)
 
         dialog.window?.setLayout(
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
+
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setCancelable(false)
-        dialog.setContentView(R.layout.item_search_filter_dialog)
-
         dialog.window!!.attributes.windowAnimations=R.style.dialog_animation
 
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog.window!!.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
-
         dialog.window!!.setGravity(Gravity.BOTTOM)
-        dialog.setCanceledOnTouchOutside(true)
+
 
 
         // 필터 다이얼로그 버튼 어댑터
