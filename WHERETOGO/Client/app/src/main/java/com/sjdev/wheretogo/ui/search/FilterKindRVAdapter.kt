@@ -17,7 +17,7 @@ class FilterKindRVAdapter(var kindList: ArrayList<String>, var con: Context, var
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding: ItemRecycleFilterBinding = ItemRecycleFilterBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 
-        searchFragment.kind = "000000000000000"
+        searchFragment.kind = null
         return ViewHolder(binding)
     }
 
@@ -30,7 +30,9 @@ class FilterKindRVAdapter(var kindList: ArrayList<String>, var con: Context, var
 
             binding.filterTagBtn.text = kindList[position]
 
-            binding.filterTagBtn.setOnClickListener(View.OnClickListener {
+            binding.filterTagBtn.setOnClickListener {
+                if (searchFragment.kind == null) searchFragment.kind="000000000000000"
+
                 if(!binding.filterTagBtn.isSelected) {
                     binding.filterTagBtn.isSelected = true
 
@@ -40,7 +42,7 @@ class FilterKindRVAdapter(var kindList: ArrayList<String>, var con: Context, var
                     binding.filterTagBtn.isSelected =false
                     searchFragment.kind = searchFragment.kind?.substring(0,position) + "0" + searchFragment.kind?.substring(position+1)
                 }
-            })
+            }
 
         }
     }
