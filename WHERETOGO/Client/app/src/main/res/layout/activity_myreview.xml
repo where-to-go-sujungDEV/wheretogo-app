@@ -106,11 +106,34 @@
         android:layout_weight="12"
         android:background="#BCB8C1">
 
-
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/myreview_viewpager"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent">
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/myreview_viewpager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+            <TextView
+                android:id="@+id/no_image_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:text="리뷰에 등록된 이미지가 없습니다."
+                android:textSize="14sp"
+                android:visibility="invisible"/>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
         <View

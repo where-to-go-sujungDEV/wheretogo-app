@@ -46,7 +46,17 @@ class MyReviewActivity : BaseActivity<ActivityMyreviewBinding>(ActivityMyreviewB
     }
 
     private fun initLayout(){
-        val viewpagerAdapter = MyReviewImageAdapter(getImages())
+        val imageArray = getImages()
+        if (imageArray.size == 0) {
+            binding.noImageTv.visibility=View.VISIBLE
+        }
+        else {
+            val viewpagerAdapter = MyReviewImageAdapter(imageArray)
+            binding.myreviewViewpager.adapter = viewpagerAdapter
+            binding.myreviewViewpager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+//            setIndicator()
+        }
+
         binding.myreveiwEventNameTv.text=myReview.eventName
 
         val simpledateformat = SimpleDateFormat("yyyy-MM-dd")
@@ -57,9 +67,7 @@ class MyReviewActivity : BaseActivity<ActivityMyreviewBinding>(ActivityMyreviewB
         binding.myreviewContentTv.text=myReview.review
         binding.myreviewRatingbar.rating = myReview.star*0.1.toFloat()
 
-        binding.myreviewViewpager.adapter = viewpagerAdapter
-        binding.myreviewViewpager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
-        setIndicator()
+
     }
 
     private fun initClickListener(){
@@ -94,7 +102,7 @@ class MyReviewActivity : BaseActivity<ActivityMyreviewBinding>(ActivityMyreviewB
     }
 
     private fun showDialog() {
-        var dialog= Dialog(this, R.style.CustomFullDialog)
+        var dialog= Dialog(this)
 
         setDialog(dialog)
         dialogInitClickListener(dialog)
@@ -103,21 +111,19 @@ class MyReviewActivity : BaseActivity<ActivityMyreviewBinding>(ActivityMyreviewB
     }
 
     private fun setDialog(dialog: Dialog){
+        dialog.setContentView(R.layout.item_myreview_settings_dialog)
+        dialog.setCancelable(false)
+        dialog.setCanceledOnTouchOutside(true)
+
         dialog.window?.setLayout(
             ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.MATCH_PARENT
+            ViewGroup.LayoutParams.WRAP_CONTENT
         )
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setCancelable(false)
-        dialog.setContentView(R.layout.item_myreview_settings_dialog)
 
-        dialog.window!!.attributes.windowAnimations= R.style.dialog_animation
+        dialog.window!!.attributes.windowAnimations=R.style.dialog_animation
 
-        dialog.window!!.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
-
+        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.window!!.setGravity(Gravity.BOTTOM)
-        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog.setCanceledOnTouchOutside(true);
     }
 
     private fun dialogInitClickListener(dialog: Dialog){

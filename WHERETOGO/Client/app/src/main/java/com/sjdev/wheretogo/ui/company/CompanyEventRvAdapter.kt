@@ -3,6 +3,7 @@ package com.sjdev.wheretogo.ui.company
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -11,8 +12,12 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.sjdev.wheretogo.R
 import com.sjdev.wheretogo.data.remote.company.CompanyEventResult
+import com.sjdev.wheretogo.data.remote.detail.DeleteVisitedEventResponse
+import com.sjdev.wheretogo.data.remote.detail.VisitEventResponse
+import com.sjdev.wheretogo.data.remote.mypage.DeleteSavedEventResponse
 import com.sjdev.wheretogo.data.remote.mypage.EventBtnStatusResponse
 import com.sjdev.wheretogo.data.remote.mypage.MypageRetrofitInterface
+import com.sjdev.wheretogo.data.remote.mypage.SaveEventResponse
 import com.sjdev.wheretogo.data.remote.search.SearchService
 import com.sjdev.wheretogo.databinding.ItemRecycleEventBinding
 import com.sjdev.wheretogo.ui.login.LoginActivity
@@ -31,7 +36,7 @@ class CompanyEventRvAdapter(var events: ArrayList<CompanyEventResult>, var con: 
     var TAG = "SearchEventListner"
     lateinit var listener: OnItemClickListener
 
-    private val searchService = SearchService
+    private val service = ApplicationClass.retrofit.create(MypageRetrofitInterface::class.java)
     private val eventStatusService = ApplicationClass.retrofit.create(MypageRetrofitInterface::class.java)
 
     var isSavedBtnSelected: Boolean = false
@@ -88,6 +93,19 @@ class CompanyEventRvAdapter(var events: ArrayList<CompanyEventResult>, var con: 
         }
     }
 
+    fun initSaveBtn(binding: ItemRecycleEventBinding){
+        if (isSavedBtnSelected)
+            binding.itemSearchLikeBtn.setBackgroundResource(R.drawable.btn_like_click)
+        else
+            binding.itemSearchLikeBtn.setBackgroundResource(R.drawable.btn_like_unclick)
+    }
+    fun initVisitBtn(binding: ItemRecycleEventBinding){
+        if (isVisitedBtnSelected)
+            binding.itemSearchVisitedBtn.setBackgroundResource(R.drawable.btn_check_click)
+        else
+            binding.itemSearchVisitedBtn.setBackgroundResource(R.drawable.btn_check_unclick)
+    }
+
     private fun initClickListener(
         binding: ItemRecycleEventBinding,
         event: CompanyEventResult,
@@ -97,56 +115,30 @@ class CompanyEventRvAdapter(var events: ArrayList<CompanyEventResult>, var con: 
         binding.itemSearchVisitedBtn.setOnClickListener {
             if (getJwt()==null) showLoginAlert()
             else {
-                isVisitedBtnSelected=!isVisitedBtnSelected
-
+                isVisitedBtnSelected = !isVisitedBtnSelected
                 if (isVisitedBtnSelected) {
-                    showDialog(con, R.string.visited_on)
-                    binding.itemSearchVisitedBtn.setImageResource(R.drawable.btn_check_click)
-                    searchService.setVisitedEvent(event.eventID)
+                    visitEvent(binding,event.eventID)
                 }
                 else {
-                    showDialog(con, R.string.visited_off)
-                    binding.itemSearchVisitedBtn.setImageResource(R.drawable.btn_check_unclick)
-                    searchService.setDeleteVisitedEvent(event.eventID)
+                    deleteVisitedEvent(binding,event.eventID)
                 }
             }
-
         }
 
         /** like Button OnClickListener **/
         binding.itemSearchLikeBtn.setOnClickListener {
             if (getJwt()==null) showLoginAlert()
             else {
-                isSavedBtnSelected=!isSavedBtnSelected
-                if (isSavedBtnSelected) {
-                    showDialog(con, R.string.like_on)
-                    binding.itemSearchLikeBtn.setImageResource(R.drawable.btn_like_click)
-                    isSavedBtnSelected = true
-                    searchService.setSavedEvent(event.eventID)
-                }
-                else {
-                    showDialog(con, R.string.like_off)
-                    binding.itemSearchLikeBtn.setImageResource(R.drawable.btn_like_unclick)
-                    isSavedBtnSelected = false
-                    searchService.setDeleteSavedEvent(event.eventID)
-                }
+                isSavedBtnSelected = !isSavedBtnSelected
+                if (isSavedBtnSelected)
+                    saveEvent(binding, event.eventID)
+                else
+                    deleteSavedEvent(binding,event.eventID)
             }
-
         }
     }
 
-    fun setSaveBtn(binding: ItemRecycleEventBinding){
-        if (isSavedBtnSelected)
-            binding.itemSearchLikeBtn.setImageResource(R.drawable.btn_like_click)
-        else
-            binding.itemSearchLikeBtn.setImageResource(R.drawable.btn_like_unclick)
-    }
-    fun setVisitBtn(binding: ItemRecycleEventBinding){
-        if (isVisitedBtnSelected)
-            binding.itemSearchVisitedBtn.setImageResource(R.drawable.btn_check_click)
-        else
-            binding.itemSearchVisitedBtn.setImageResource(R.drawable.btn_check_unclick)
-    }
+
 
     private fun getEventStatus(eventId: Int, binding: ItemRecycleEventBinding) {
         eventStatusService.getBtnStatus(eventId).enqueue(object : Callback<EventBtnStatusResponse> {
@@ -158,16 +150,88 @@ class CompanyEventRvAdapter(var events: ArrayList<CompanyEventResult>, var con: 
                         isVisitedBtnSelected = resp.result.isVisited
                         isSavedBtnSelected = resp.result.isSaved
 
-                        setSaveBtn(binding)
-                        setVisitBtn(binding)
+                        initSaveBtn(binding)
+                        initVisitBtn(binding)
                     }
-                    else -> {
-
-                    }
+                    else -> {}
                 }
             }
 
             override fun onFailure(call: Call<EventBtnStatusResponse>, t: Throwable) {
+            }
+        })
+    }
+
+    private fun saveEvent(binding: ItemRecycleEventBinding, eventID: Int){
+        service.saveEvent(eventID).enqueue(object: Callback<SaveEventResponse>{
+            override fun onResponse(call: Call<SaveEventResponse>, responseSet: Response<SaveEventResponse>) {
+                val resp = responseSet.body()!!
+                when(resp.code){
+                    1000-> {
+                        initSaveBtn(binding)
+                        showDialog(con, R.string.like_on)
+                    }
+                    else->{
+                        Log.d("setSavedEvent/ERROR", resp.message)
+                    }
+                }
+            }
+            override fun onFailure(call: Call<SaveEventResponse>, t: Throwable) {
+            }
+        })
+    }
+
+    private fun deleteSavedEvent(binding: ItemRecycleEventBinding,eventId:Int){
+        service.deleteSavedEvent(eventId).enqueue(object: Callback<DeleteSavedEventResponse> {
+            override fun onResponse(call: Call<DeleteSavedEventResponse>, response: Response<DeleteSavedEventResponse>) {
+                val resp = response.body()!!
+                when(resp.code){
+                    1000->{
+                        initSaveBtn(binding)
+                        showDialog(con, R.string.like_off)
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<DeleteSavedEventResponse>, t: Throwable) {
+            }
+        })
+    }
+
+    private fun visitEvent(binding: ItemRecycleEventBinding, eventId:Int){
+        service.visitEvent(eventId).enqueue(object: Callback<VisitEventResponse>{
+            override fun onResponse(call: Call<VisitEventResponse>, responseSet: Response<VisitEventResponse>) {
+                val resp = responseSet.body()!!
+                when(resp.code){
+                    1000-> {
+                        initVisitBtn(binding)
+                        showDialog(con, R.string.visited_on)
+                    }
+
+                    else->{
+                        Log.d("setVisitedEvent/ERROR", resp.message)
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<VisitEventResponse>, t: Throwable) {
+            }
+        })
+    }
+
+    private fun deleteVisitedEvent(binding: ItemRecycleEventBinding, eventId:Int){
+        service.deleteVisitedEvent(eventId).enqueue(object: Callback<DeleteVisitedEventResponse> {
+            override fun onResponse(call: Call<DeleteVisitedEventResponse>, response: Response<DeleteVisitedEventResponse>) {
+                val resp = response.body()!!
+                when(resp.code){
+                    1000->{
+                        initVisitBtn(binding)
+                        showDialog(con, R.string.visited_off)
+                    }
+
+                }
+            }
+            override fun onFailure(call: Call<DeleteVisitedEventResponse>, t: Throwable) {
             }
         })
     }

@@ -4,20 +4,23 @@ import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
 import android.app.Dialog
 import android.content.Context
+import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.Rect
 import android.graphics.drawable.ColorDrawable
-import android.os.Bundle
+import android.hardware.input.InputManager
 import android.view.*
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
-import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
+import com.sjdev.wheretogo.BaseFragment
 import com.sjdev.wheretogo.R
 import com.sjdev.wheretogo.data.remote.search.EventResult
 import com.sjdev.wheretogo.data.remote.search.EventService
@@ -28,17 +31,14 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class SearchFragment : Fragment() {
+class SearchFragment: BaseFragment<FragmentSearchBinding>(FragmentSearchBinding::inflate) {
     val TAG = "SearchFragment"
 
-    lateinit var binding: FragmentSearchBinding
     lateinit var dialog :Dialog
 
     private var events = ArrayList<EventResult>()
-    lateinit var searchEventAdapter: SearchEventAdapter
-    lateinit var filterKindRVAdapter : FilterKindRVAdapter
 
-    lateinit var rv_event: RecyclerView
+    lateinit var filterKindRVAdapter : FilterKindRVAdapter
     lateinit var rv_filter_kind :RecyclerView
 
     var c = Calendar.getInstance()
@@ -60,11 +60,6 @@ class SearchFragment : Fragment() {
     lateinit var spinnerArea : Spinner
     lateinit var spinnerSigungu : Spinner
 
-
-    lateinit var search_bar: SearchView
-    lateinit var sortSpinner : Spinner
-    lateinit var filter : TextView
-
     var search: String? = null
     var aCode : Int? = null
     var aDCode : Int? = null
@@ -78,31 +73,30 @@ class SearchFragment : Fragment() {
     private val eventService = EventService
     private val areaService = AreaService
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-
-        binding = FragmentSearchBinding.inflate(inflater, container, false)
-
-        rv_event = binding.root.findViewById(R.id.rv_event)
-
-        search_bar = binding.root.findViewById(R.id.search_bar)
-        search_bar.setOnQueryTextListener(searchViewTextListener)
-        sortSpinner=binding.root.findViewById(R.id.sortSpinner)
-
-        filter = binding.root.findViewById(R.id.filter)
-
+    override fun initAfterBinding() {
         // DB에서 이벤트 받아오기
         eventService.getEvents(this,search,aCode,aDCode,fromD,toD,kind,free,align)
 
+        setSortSpinner()
+        initEventListener()
+        setAdapter()
+
+        binding.root.setOnClickListener { hideKeyboard() }
+    }
+
+    private fun hideKeyboard() {
+        if(activity != null && requireActivity().currentFocus!=null){
+            val inputManager: InputMethodManager = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputManager.hideSoftInputFromWindow(requireActivity().currentFocus?.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
+        }
+    }
+    private fun setSortSpinner(){
         // 정렬 기준 스피너 정의
         val sortBy = resources.getStringArray((R.array.sortBy))
         val sortAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item,sortBy)
 
-        sortSpinner.adapter= sortAdapter
-        sortSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        binding.sortSpinner.adapter= sortAdapter
+        binding.sortSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 when (p2){
                     0-> { align = "popular" }
@@ -114,34 +108,28 @@ class SearchFragment : Fragment() {
             override fun onNothingSelected(p0: AdapterView<*>?) {
             }
         }
-
-        filter.setOnClickListener(View.OnClickListener {
-            showDialog()
-            setDialogAdapter()
-        })
-
-        return binding.root
     }
 
+    private fun initEventListener(){
+        binding.filter.setOnClickListener{
+            showDialog()
+            setDialogAdapter()
+        }
 
-    // 이벤트 검색어 입력 시
-    var searchViewTextListener: SearchView.OnQueryTextListener = object : SearchView.OnQueryTextListener {
+        // 검색어 입력 이벤트
+        val searchViewTextListener: SearchView.OnQueryTextListener = object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(s: String): Boolean {
-                if(s == null) {
-                    setFilterReset()
-                    eventService.getEvents(this@SearchFragment,search,aCode,aDCode,fromD,toD,kind,free,align)
-                }
-                else {
-                    search = s
-                    eventService.getEvents(this@SearchFragment,search,aCode,aDCode,fromD,toD,kind,free,align)
-                }
+                if(s == "") { setFilterReset() }
+                else { search = s }
+                eventService.getEvents(this@SearchFragment,search,aCode,aDCode,fromD,toD,kind,free,align)
                 return false
             }
-
             override fun onQueryTextChange(s: String): Boolean {
                 return false
             }
         }
+        binding.searchBar.setOnQueryTextListener(searchViewTextListener)
+    }
 
 
     // 필터 다이얼로그 표시
@@ -166,7 +154,7 @@ class SearchFragment : Fragment() {
         dialog.window!!.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
 
         dialog.window!!.setGravity(Gravity.BOTTOM)
-        dialog.setCanceledOnTouchOutside(true);
+        dialog.setCanceledOnTouchOutside(true)
 
 
         // 필터 다이얼로그 버튼 어댑터
@@ -189,10 +177,6 @@ class SearchFragment : Fragment() {
 
     // 필터 다이얼로그 어댑터
     private fun setDialogAdapter() {
-//        val gridLayoutManager = GridLayoutManager(context, 4)
-//        gridLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
-//        rv_filter_kind.layoutManager = LinearLayoutManager(context, Horizon)
-
         FlexboxLayoutManager(context).apply {
             flexWrap = FlexWrap.WRAP
             flexDirection = FlexDirection.ROW
@@ -202,39 +186,34 @@ class SearchFragment : Fragment() {
             rv_filter_kind.adapter = FilterKindRVAdapter(getKindList(), requireContext(), this)
         }
 
-
-
         /** 필터 취소 버튼 **/
         filter_cancelBtn.setOnClickListener {
             setFilterReset()
             dialog.dismiss()
         }
 
-
         /** 기간별 필터 **/
-        var minDate = Calendar.getInstance()
+        val minDate = Calendar.getInstance()
 
         //시작일 설정
-        var filterStartDate = DatePickerDialog(requireContext(),
-            OnDateSetListener {view, year, month, dayOfMonth ->
-                filter_startDate.setText(year.toString() + " / " + (month + 1) +  " / " + dayOfMonth.toString())
+        val filterStartDate = DatePickerDialog(requireContext(),
+            {_, year, month, dayOfMonth ->
+                filter_startDate.text = year.toString() + " / " + (month + 1) +  " / " + dayOfMonth.toString()
                 fromD = year.toString() + "-" + (month + 1).toString() +  "-" + dayOfMonth.toString()
                 minDate.set(year,month+1,dayOfMonth) },
             mYear, mMonth, mDay )
 
         // 종료일 설정
-        var filterEndDate = DatePickerDialog(requireContext(),
-            OnDateSetListener {view, year, month, dayOfMonth ->
-                filter_endDate.setText((year.toString() + " / " + (month + 1) +  " / " + dayOfMonth.toString()))
+        val filterEndDate = DatePickerDialog(requireContext(),
+            {_, year, month, dayOfMonth ->
+                filter_endDate.text = (year.toString() + " / " + (month + 1) +  " / " + dayOfMonth.toString())
                 toD = year.toString() + "-" + (month + 1).toString() +  "-" + dayOfMonth.toString() },
             mYear, mMonth, mDay )
-
 
         filter_startDate.setOnClickListener { filterStartDate.show() }
         filter_endDate.setOnClickListener {
             filterEndDate.datePicker.minDate = minDate.time.time
             filterEndDate.show() }
-
 
 
         /** 지역별 필터 **/
@@ -243,7 +222,7 @@ class SearchFragment : Fragment() {
         // 시,도 코드 설정
         spinnerArea.onItemSelectedListener =  object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                if (p2 == 0) aCode=0
+                if (p2 == 0) aCode=null
                 else {
                     aCode = areaArr[p2-1].aCode
                     areaService.getSigungu(this@SearchFragment, areaArr[p2-1].aCode)
@@ -256,7 +235,7 @@ class SearchFragment : Fragment() {
         // 시,군,구 코드 설정
         spinnerSigungu.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                aDCode = if(p2==0) 0
+                aDCode = if(p2==0) null
                 else sigunguArr[p2-1].aDCode
             }
             override fun onNothingSelected(p0: AdapterView<*>?) { aDCode = 0 }
@@ -264,35 +243,30 @@ class SearchFragment : Fragment() {
 
 
         /** 필터 설정 초기화 **/
-        resetBtn.setOnClickListener(object: View.OnClickListener{
-            override fun onClick(p0: View?) {
-//                dialog.onContentChanged()
-                rv_filter_kind.adapter=filterKindRVAdapter
-                setAreaSpinnerAdapter()
-                setSigunguSpinnerAdapter()
+        resetBtn.setOnClickListener{
+            setAdapter()
+//            rv_filter_kind.adapter = FilterKindRVAdapter(getKindList(), requireContext(), this)
+            setAreaSpinnerAdapter()
+            setSigunguSpinnerAdapter()
 
-                filter_startDate.setText("선택안함")
-                filter_endDate.setText("선택안함")
+            filter_startDate.text = "선택안함"
+            filter_endDate.text = "선택안함"
 
-                setFilterReset()
-//                eventService.getEvents(this@SearchFragment,search,aCode,aDCode,fromD,toD,k1,k2,k3,k4,k5,k6,k7,k8,k9,k10,k11,k12,k13,k14,k15,free,align)
-            }
-        })
+            setFilterReset()
+        }
 
         /** 필터값 적용 **/
-        filterSetBtn.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(p0: View?) {
-                eventService.getEvents(this@SearchFragment,search,aCode,aDCode,fromD,toD,kind,free,align)
-                dialog.dismiss()
-            }
-        })
+        filterSetBtn.setOnClickListener {
+            println("$search $aCode $aDCode $fromD $toD $kind $free $align")
+            eventService.getEvents(this@SearchFragment,search,aCode,aDCode,fromD,toD,kind,free,align)
+            dialog.dismiss()
+        }
     }
 
-
-    fun setAdapter() {
-        searchEventAdapter = SearchEventAdapter(events, this.requireContext())
-        rv_event.adapter = searchEventAdapter
-        rv_event.layoutManager = LinearLayoutManager(requireContext())
+    private fun setAdapter() {
+        val searchEventAdapter = SearchEventAdapter(events, this.requireContext())
+        binding.rvEvent.adapter = searchEventAdapter
+        binding.rvEvent.layoutManager = LinearLayoutManager(requireContext())
 
         searchEventAdapter.setOnItemClickListener(object : SearchEventAdapter.OnItemClickListener{
             override fun onItemClick(events: EventResult){
@@ -301,21 +275,20 @@ class SearchFragment : Fragment() {
                 startActivity(intent)
             }
         })
-        searchEventAdapter.notifyDataSetChanged()
     }
 
-    fun setAreaSpinnerAdapter(){
+    private fun setAreaSpinnerAdapter(){
         var adpt = ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_dropdown_item, areaNameArr)
         spinnerArea.adapter = adpt
     }
 
-    fun setSigunguSpinnerAdapter(){
+    private fun setSigunguSpinnerAdapter(){
         var adpt = ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_dropdown_item, sigunguNameArr)
         spinnerSigungu.adapter = adpt
     }
 
 
-    fun getKindList() : ArrayList<String> {
+    private fun getKindList() : ArrayList<String> {
         var kindList : ArrayList<String> = ArrayList<String>()
 
         kindList.add("문화관광축제")
