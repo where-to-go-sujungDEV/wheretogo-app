@@ -1,6 +1,8 @@
 package com.sjdev.wheretogo.ui.mypage
 
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
@@ -117,10 +119,20 @@ class UserVisitedEventRVAdapter(private val visitedEventList: ArrayList<VisitedE
             if (isEventVisited) {
                 visitEvent(binding,eventId)
             } else {
-                deleteVisitedEvent(binding, eventId)
-                // rv에서 아이템 삭제
-                visitedEventList.removeAt(holder.adapterPosition)
-                notifyItemRemoved(holder.adapterPosition)
+                if(visitedEvent.star!=-1) {
+                    AlertDialog.Builder(context)
+                        .setMessage("작성된 리뷰가 삭제됩니다. 방문을 취소하시겠습니까?")
+                        .setPositiveButton("예", DialogInterface.OnClickListener{ _, _ ->
+                            deleteVisitedEvent(binding, eventId)
+                            // rv에서 아이템 삭제
+                            visitedEventList.removeAt(holder.adapterPosition)
+                            notifyItemRemoved(holder.adapterPosition)
+                        })
+                        .setNegativeButton("아니오",DialogInterface.OnClickListener{_, _ ->
+                        })
+                        .show()
+                }
+
             }
         }
 
