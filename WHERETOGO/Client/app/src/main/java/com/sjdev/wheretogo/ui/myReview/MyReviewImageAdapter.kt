@@ -5,8 +5,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.sjdev.wheretogo.data.remote.myreview.ReviewDetailResult
-import com.sjdev.wheretogo.databinding.ItemMyreviewBinding
 import com.sjdev.wheretogo.databinding.ItemMyreviewIvBinding
 
 class MyReviewImageAdapter(private val imageList: ArrayList<String?>): RecyclerView.Adapter<MyReviewImageAdapter.ViewHolder>(){
