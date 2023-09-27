@@ -19,20 +19,6 @@
         android:usesCleartextTraffic="true">
 
         <activity
-            android:name="com.sjdev.wheretogo.ui.keyword.KeywordRemoveActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name="com.sjdev.wheretogo.ui.keyword.KeywordAddActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
             android:name="com.sjdev.wheretogo.ui.splash.SplashActivity"
             android:exported="true">
             <intent-filter>
