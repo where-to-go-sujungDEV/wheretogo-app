@@ -66,7 +66,7 @@
 
                 android:textSize="10pt"
                 android:textStyle="bold"
-                android:text="종류별" />
+                android:text="행사 종류" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_filter_kind"
@@ -96,7 +96,7 @@
 
                 android:textSize="10pt"
                 android:textStyle="bold"
-                android:text="기간별" />
+                android:text="방문 예정일" />
 
 
             <LinearLayout
@@ -156,7 +156,7 @@
 
                 android:textSize="10pt"
                 android:textStyle="bold"
-                android:text="지역별" />
+                android:text="행사 지역" />
 
 
 
