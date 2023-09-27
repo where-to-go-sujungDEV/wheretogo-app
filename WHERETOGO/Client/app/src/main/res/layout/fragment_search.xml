@@ -53,9 +53,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
 
-            android:layout_marginRight="10dp"
+            android:layout_marginHorizontal="20dp"
             android:layout_marginBottom="10dp"
             android:orientation="horizontal">
 
@@ -78,6 +77,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
+                android:layout_marginRight="10dp"
                 android:text="필터"
                 android:textColor="@color/black" />
         </LinearLayout>
