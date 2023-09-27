@@ -57,6 +57,6 @@ fun saveSex(sex:String){
     editor.apply()
 }
 
-fun getAge():Int?=mSharedPreferences.getInt("age",0)
+fun getAge():Int?=mSharedPreferences.getInt("age",1)
 
 fun getSex() : String? = mSharedPreferences.getString("sex",null)

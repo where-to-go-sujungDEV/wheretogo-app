@@ -12,10 +12,7 @@ import com.sjdev.wheretogo.databinding.FragmentHomeBinding
 import com.sjdev.wheretogo.ui.recommend.RecommendActivity
 
 import com.google.android.material.tabs.TabLayoutMediator
-import com.sjdev.wheretogo.util.getAge
-import com.sjdev.wheretogo.util.getJwt
-import com.sjdev.wheretogo.util.getNickname
-import com.sjdev.wheretogo.util.getSex
+import com.sjdev.wheretogo.util.*
 
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
@@ -83,8 +80,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     // 홈 유저 추천 이벤트
     fun setRecommendEvent(result: RecommendEventResult){
         val event2Adapter = HomeBannerVPAdapter(this)
-        val sex:String
-        sex = if (getSex()=="w") "여성" else "남성"
+        val sex:String = if (getSex()=="w") "여성" else "남성"
+        if (getAge()==null) saveAge(1)
         binding.homeExplain1Tv.text = String.format("%d대 %s", getAge()!!*10, sex)
 
         for (item in result.recommendEvents!!){

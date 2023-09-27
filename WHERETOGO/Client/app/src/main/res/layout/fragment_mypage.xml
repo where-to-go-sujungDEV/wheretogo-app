@@ -29,10 +29,10 @@
         app:layout_constraintStart_toEndOf="@id/mypage_profile_iv"/>
     <ImageView
         android:id="@+id/mypage_setting_iv"
-        android:layout_width="15dp"
-        android:layout_height="17dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:src="@drawable/mypage_more_btn"
+        android:src="@drawable/ic_arrow_left"
         app:layout_constraintTop_toTopOf="@id/mypage_nickname_tv"
         app:layout_constraintBottom_toBottomOf="@id/mypage_nickname_tv"
         app:layout_constraintStart_toEndOf="@id/mypage_nickname_tv"/>

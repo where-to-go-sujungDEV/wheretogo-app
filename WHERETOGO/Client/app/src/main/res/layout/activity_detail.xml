@@ -13,11 +13,11 @@
 
         <ImageView
             android:id="@+id/detail_back_btn"
-            android:layout_width="20dp"
-            android:layout_height="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
-            android:src="@drawable/img_guide_back"
+            android:src="@drawable/ic_arrow_right"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
         <TextView
@@ -25,12 +25,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="15dp"
             android:text="상세정보"
             android:textSize="19sp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@id/detail_back_btn"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="@+id/detail_back_btn"
+            app:layout_constraintBottom_toBottomOf="@+id/detail_back_btn"/>
         <View
             android:id="@+id/detail_line"
             android:layout_width="wrap_content"
@@ -140,6 +140,7 @@
                 android:orientation="vertical">
                 <TextView
                     android:layout_width="wrap_content"
+                    android:textSize="15sp"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/pd_semibold"
                     app:layout_constraintTop_toBottomOf="@id/detail_event_title"
@@ -149,6 +150,7 @@
                     android:id="@+id/detail_date_data_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textSize="15sp"
                     android:layout_marginTop="6dp"
                     app:layout_constraintTop_toBottomOf="@id/detail_event_title"
                     app:layout_constraintStart_toStartOf="parent"
@@ -164,6 +166,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/pd_semibold"
+                    android:textSize="15.6sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/detail_event_start_date"
                     android:text="시간"/>
@@ -172,6 +175,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
+                    android:textSize="15.6sp"
                     app:layout_constraintTop_toBottomOf="@id/detail_event_start_date"
                     app:layout_constraintStart_toStartOf="parent"
                     android:text=""/>
@@ -185,11 +189,13 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="15.6sp"
                     android:fontFamily="@font/pd_semibold"
                     android:text="장소"/>
                 <TextView
                     android:id="@+id/detail_place_data_tv"
                     android:layout_width="wrap_content"
+                    android:textSize="15.6sp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:text="서울"/>
@@ -204,6 +210,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="15.6sp"
                     android:fontFamily="@font/pd_semibold"
                     android:text="비용" />
 
@@ -211,6 +218,7 @@
                     android:id="@+id/detail_cost_data_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textSize="15.6sp"
                     android:layout_marginTop="10dp"
                     android:text=""/>
             </LinearLayout>
@@ -223,12 +231,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="15.6sp"
                     android:fontFamily="@font/pd_semibold"
                     android:text="연령제한"/>
                 <TextView
                     android:id="@+id/detail_age_data_tv"
                     android:layout_width="300dp"
                     android:layout_marginTop="8dp"
+                    android:textSize="15.6sp"
                     android:layout_height="wrap_content"
 
                     android:text="프로그램별 상이"/>
@@ -242,11 +252,13 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="15.6sp"
                     android:fontFamily="@font/pd_semibold"
                     android:text="예매 사이트"/>
                 <TextView
                     android:id="@+id/detail_bookUrl_data_tv"
                     android:layout_marginTop="8dp"
+                    android:textSize="15.6sp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text=""/>
@@ -260,11 +272,13 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="15.6sp"
                     android:fontFamily="@font/pd_semibold"
                     android:text="전화번호"/>
                 <TextView
                     android:id="@+id/detail_tel_data_tv"
                     android:layout_width="wrap_content"
+                    android:textSize="15.6sp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
                     android:text=""/>
@@ -278,6 +292,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="15.6sp"
                     android:fontFamily="@font/pd_semibold"
                     android:text="상세정보  "/>
             </LinearLayout>
@@ -291,6 +306,7 @@
                 <TextView
                     android:id="@+id/detail_overview_data_tv"
                     android:layout_width="wrap_content"
+                    android:textSize="15.6sp"
                     android:layout_height="wrap_content"
                     android:lineSpacingExtra="3.15dp"
                     android:text=""/>
@@ -305,11 +321,13 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="15sp"
                     android:fontFamily="@font/pd_semibold"
                     android:text="홈페이지"/>
                 <TextView
                     android:id="@+id/detail_homepage_data_tv"
                     android:layout_width="wrap_content"
+                    android:textSize="15sp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:text=""/>
@@ -323,6 +341,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="15sp"
                     android:fontFamily="@font/pd_semibold"
                     android:text="지도"/>
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -341,14 +360,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/pd_semibold"
+                    android:textSize="15sp"
                     app:layout_constraintTop_toBottomOf="@id/detail_linear_layout"
                     app:layout_constraintStart_toStartOf="parent"
                     android:layout_marginTop="20dp"
                     android:text="후기"/>
                 <TextView
-                    android:id="@+id/detail_review_rating_title"
+                    android:id="@+id/detail_review_score"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:textSize="15sp"
                     android:text="평점"
                     app:layout_constraintTop_toBottomOf="@+id/detail_review_title_tv"
                     app:layout_constraintStart_toStartOf="@+id/detail_review_title_tv"/>
@@ -357,7 +379,7 @@
                     android:layout_width="220dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    app:layout_constraintTop_toBottomOf="@id/detail_review_rating_title"
+                    app:layout_constraintTop_toBottomOf="@+id/detail_review_score"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:srb_drawableEmpty="@drawable/mypage_star_off"
@@ -372,15 +394,15 @@
                     app:srb_starHeight="35dp"
                     app:srb_starWidth="35dp"
                     app:srb_stepSize="0.1" />
-                <TextView
-                    android:id="@+id/detail_review_score"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintStart_toEndOf="@id/detail_review_average_rb"
-                    app:layout_constraintBottom_toBottomOf="@id/detail_review_average_rb"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="25dp"
-                    android:textSize="16sp" />
+<!--                <TextView-->
+<!--                    android:id="@+id/detail_review_score"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    app:layout_constraintStart_toEndOf="@id/detail_review_average_rb"-->
+<!--                    app:layout_constraintBottom_toBottomOf="@id/detail_review_average_rb"-->
+<!--                    android:layout_marginStart="20dp"-->
+<!--                    android:layout_marginTop="25dp"-->
+<!--                    android:textSize="16sp" />-->
 <!--                <TextView-->
 <!--                    android:id="@+id/detail_company_title"-->
 <!--                    android:layout_width="wrap_content"-->
@@ -434,6 +456,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
             app:layout_constraintStart_toStartOf="parent"
+            android:textSize="15sp"
             app:layout_constraintTop_toBottomOf="@+id/detail_linear_layout"
             android:text="블로그 후기"/>
         <androidx.recyclerview.widget.RecyclerView
@@ -454,6 +477,7 @@
             android:layout_height="50dp"
             android:text="블로그 후기 더보기"
             android:layout_marginTop="20dp"
+            android:textSize="15sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/detail_blog_rv"/>

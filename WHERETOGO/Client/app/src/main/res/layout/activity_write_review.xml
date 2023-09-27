@@ -200,6 +200,8 @@
                 android:id="@+id/w_review_content_et"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:hint="후기를 작성해주세요."
+                android:background="@null"
                 android:layout_margin="10dp"
                 android:textSize="17sp"/>
         </FrameLayout>

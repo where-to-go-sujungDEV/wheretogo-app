@@ -15,11 +15,11 @@
 
     <ImageView
         android:id="@+id/blog_back_btn"
-        android:layout_width="20dp"
-        android:layout_height="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
-        android:src="@drawable/img_guide_back"
+        android:src="@drawable/ic_arrow_right"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
     <TextView
@@ -27,12 +27,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="15dp"
         android:text="블로그 후기"
         android:textSize="19sp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@id/blog_back_btn"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="@+id/blog_back_btn"
+        app:layout_constraintTop_toTopOf="@+id/blog_back_btn"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/all_blog_rv"

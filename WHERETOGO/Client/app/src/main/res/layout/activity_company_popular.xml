@@ -23,12 +23,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="19dp"
             android:text="가족과 동행하기 좋은 이벤트"
             android:textSize="19sp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@id/company_back_iv"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="@+id/company_back_iv"
+            app:layout_constraintBottom_toBottomOf="@+id/company_back_iv"/>
         <View
             android:id="@+id/company_line1"
             android:layout_width="match_parent"
