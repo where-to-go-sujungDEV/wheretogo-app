@@ -47,12 +47,13 @@
         app:srb_isIndicator="false"
         app:srb_clickable="false"
         app:srb_minimumStars="1"
+        app:srb_scrollable="false"
         app:srb_starPadding="-20dp"
         app:srb_numStars="5"
         app:srb_rating="1"
         app:srb_starHeight="18dp"
         app:srb_starWidth="18dp"
-        app:srb_stepSize="1" />
+        app:srb_stepSize="0.5" />
     <TextView
         android:id="@+id/item_mypage_visited_tag_tv"
         android:layout_width="wrap_content"

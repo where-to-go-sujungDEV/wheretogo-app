@@ -38,11 +38,13 @@
             app:layout_constraintTop_toBottomOf="@id/w_review_title"/>
         <TextView
             android:id="@+id/w_review_event_name_tv"
-            android:layout_width="wrap_content"
+            android:layout_width="180dp"
             android:layout_height="wrap_content"
             android:text="행사명"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:textStyle="bold"
-            android:textSize="18sp"
+            android:textSize="17sp"
             app:layout_constraintStart_toEndOf="@id/w_review_event_iv"
             app:layout_constraintTop_toTopOf="@id/w_review_event_iv"
             android:layout_marginStart="15dp"
@@ -90,7 +92,7 @@
             app:srb_scrollable="true"
             app:srb_starHeight="35dp"
             app:srb_starWidth="35dp"
-            app:srb_stepSize="1" />
+            app:srb_stepSize="0.5" />
         <TextView
             android:id="@+id/review_tag_title_tv"
             android:layout_width="wrap_content"
