@@ -72,8 +72,9 @@ class WriteReviewActivity: BaseActivity<ActivityWriteReviewBinding>(ActivityWrit
         eventName = intent.getStringExtra("eventName")!!
         binding.wReviewEventNameTv.text = eventName
         binding.wReviewEventDateTv.text = eventDate
-        if (eventPic == "0")
-            binding.wReviewEventIv.background = R.drawable.default_event_img.toDrawable()
+        if (eventPic == "0"){
+            binding.wReviewEventIv.setImageResource(R.drawable.default_event_img)
+        }
         else
             Glide.with(this).load(eventPic)
                 .transform(CenterCrop(), RoundedCorners(57))
@@ -99,8 +100,6 @@ class WriteReviewActivity: BaseActivity<ActivityWriteReviewBinding>(ActivityWrit
         map["companionID"] = companionIDBody
         map["review"] = reviewBody
         map["isPrivate"] = isPrivateBody
-
-        com.sjdev.wheretogo.util.showStringDialog(this,imageBody.body.toString())
 
         sendReview(imageBody, map)
 

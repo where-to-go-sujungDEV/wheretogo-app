@@ -92,7 +92,7 @@ class UserVisitedEventRVAdapter(private val visitedEventList: ArrayList<VisitedE
                     binding.myVisitedRatingbar.visibility = View.INVISIBLE
                 }
                 else->{
-                    binding.myVisitedRatingbar.rating = visitedEvent.star.toFloat()
+                    binding.myVisitedRatingbar.rating = (visitedEvent.star*0.1).toFloat()
                     binding.itemMypageVisitedReviewTv.visibility = View.INVISIBLE
                 }
             }
