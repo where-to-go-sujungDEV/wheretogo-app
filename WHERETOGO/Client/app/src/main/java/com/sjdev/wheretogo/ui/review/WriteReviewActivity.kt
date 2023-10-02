@@ -1,24 +1,19 @@
 package com.sjdev.wheretogo.ui.review
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.database.Cursor
 import android.graphics.Rect
 import android.net.Uri
 import android.provider.MediaStore
 import android.util.Log
-
 import android.view.MotionEvent
 import android.view.View
-import android.view.View.OnClickListener
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toDrawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
@@ -28,10 +23,8 @@ import com.sjdev.wheretogo.data.remote.review.PostReviewResponse
 import com.sjdev.wheretogo.data.remote.review.ReviewInterface
 import com.sjdev.wheretogo.databinding.ActivityWriteReviewBinding
 import com.sjdev.wheretogo.ui.BaseActivity
-import com.sjdev.wheretogo.ui.myReview.MyReviewActivity
 import com.sjdev.wheretogo.util.ApplicationClass.Companion.retrofit
 import com.sjdev.wheretogo.util.showStringDialog
-import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -51,24 +44,21 @@ class WriteReviewActivity: BaseActivity<ActivityWriteReviewBinding>(ActivityWrit
 
     private var imageUri: Uri? = null
     private var isPrivate : String = "0"
-    private var star: String = "1"
+    private var star: String = "10"
     private var review = ""
     private var company = ""
 
 
     private val service = retrofit.create(ReviewInterface::class.java)
     override fun initAfterBinding() {
+        Log.d("ddwriteReview","initAfterBinding")
         initView()
         initData()
         binding.wReviewBackIv.setOnClickListener {
             finish()
         }
         binding.wReviewEventUserIv.setOnClickListener {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                openGallery()
-            } else {
-                requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
-            }
+            openGallery()
         }
         binding.wSendReviewBtn.setOnClickListener {
             writeReview()
@@ -110,7 +100,7 @@ class WriteReviewActivity: BaseActivity<ActivityWriteReviewBinding>(ActivityWrit
         map["review"] = reviewBody
         map["isPrivate"] = isPrivateBody
 
-
+        com.sjdev.wheretogo.util.showStringDialog(this,imageBody.body.toString())
 
         sendReview(imageBody, map)
 
@@ -169,6 +159,7 @@ class WriteReviewActivity: BaseActivity<ActivityWriteReviewBinding>(ActivityWrit
     // 사진의 절대 경로 가져오기
     @SuppressLint("Recycle")
     private fun getAbsolutePath(path: Uri?, context : Context) : String{
+        Log.d("testImage","getAbsolutePath")
         val proj: Array<String> = arrayOf(MediaStore.Images.Media.DATA)
         val c: Cursor? = context.contentResolver.query(path!!, proj, null, null, null)
         val index = c?.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
@@ -181,20 +172,10 @@ class WriteReviewActivity: BaseActivity<ActivityWriteReviewBinding>(ActivityWrit
 
 
     private fun openGallery() {
+        Log.d("testImage","open")
         val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
         pickImageLauncher.launch(gallery)
     }
-
-    /*
-    갤러리 열기
-    READ_EXTERNAL_STORAGE 권한 요청을 위한 launcher 설정
-    권한 허용 시 openGallery 호출
-     */
-    private val requestPermissionLauncher: ActivityResultLauncher<String> =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
-            if (isGranted) openGallery()
-        }
-
 
     /*
     가져온 이미지 보여주기

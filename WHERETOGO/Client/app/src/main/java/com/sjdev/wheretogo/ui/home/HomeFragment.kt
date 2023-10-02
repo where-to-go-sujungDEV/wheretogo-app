@@ -12,30 +12,60 @@ import com.sjdev.wheretogo.databinding.FragmentHomeBinding
 import com.sjdev.wheretogo.ui.recommend.RecommendActivity
 
 import com.google.android.material.tabs.TabLayoutMediator
+import com.sjdev.wheretogo.data.remote.detail.DetailRetrofitInterface
 import com.sjdev.wheretogo.util.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
 
-    private val homeService = HomeService
+    private val service = ApplicationClass.retrofit.create(HomeRetrofitInterface::class.java)
 
     override fun initAfterBinding() {
         binding.homeUserNameTv.text = getNickname()
         binding.homeRecommendMoreTv.setOnClickListener {
             startActivity(Intent(context, RecommendActivity::class.java))
         }
-        homeService.getMainEvent(this)
-        if (getJwt()==null){
-            binding.homeLl2.visibility = GONE
-        }else{
-            val sex:String = if (getSex()=="w") "여성" else "남성"
-            if (getAge()==null) saveAge(1)
-            binding.homeExplain1Tv.text = String.format("%d대 %s", getAge()!!*10, sex)
-            homeService.getRecommendEvent(this)
-        }
-        homeService.getPopularEvent(this)
-
+        getMainEvent()
+        getPopularEvent()
         setCompanyEvent()
+        if (isAdded){
+            if (getJwt()==null){
+                binding.homeLl2.visibility = GONE
+            }else{
+                val sex:String = if (getSex()=="w") "여성" else "남성"
+                if (getAge()==null) saveAge(1)
+                binding.homeExplain1Tv.text = String.format("%d대 %s", getAge()!!*10, sex)
+                getRecommendEvent()
+            }
+        }
+    }
+
+    private fun getRecommendEvent(){
+
+        service.getRecommendEvent().clone().enqueue(object:
+            Callback<RecommendEventResponse> {
+            override fun onResponse(call: Call<RecommendEventResponse>, response: Response<RecommendEventResponse>) {
+                val resp = response.body()
+                when(resp!!.code){
+                    1000->{
+                        Log.d("homeFragment", resp.message)
+                        if (resp.result!=null){
+                            if (isAdded)
+                                setRecommendEvent(resp.result)
+                        }
+                    }
+                    else ->{
+                        Log.d("homeFragment",resp.message)
+                    }
+                }
+            }
+            override fun onFailure(call: Call<RecommendEventResponse>, t: Throwable) {
+                Log.d("Recommend/FAILURE", t.message.toString())
+            }
+        })
     }
 
     // 홈 최상단 배너 인디케이터
@@ -100,6 +130,47 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
         binding.homeEvent3Vp.adapter = event3Adapter
         binding.homeEvent3Vp.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+    }
+
+    private fun getMainEvent(){
+        service.getMainEvent().enqueue(object: Callback<MainEventResponse> {
+            override fun onResponse(call: Call<MainEventResponse>, response: Response<MainEventResponse>) {
+                val resp = response.body()!!
+                Log.d("HomeNotice/SUCCESS",resp.code.toString())
+                when(resp.code){
+                    1000->{
+                        setMainEvent(resp.result)
+                        Log.d("HomeNotice/SUCCESS",resp.result.toString())
+                    }
+                    else ->{
+
+                    }
+                }
+            }
+            override fun onFailure(call: Call<MainEventResponse>, t: Throwable) {
+                Log.d("HomeNotice/FAILURE", t.message.toString())
+            }
+        })
+    }
+
+    private fun getPopularEvent(){
+        service.getPopularEvent().enqueue(object: Callback<PopularEventResponse> {
+            override fun onResponse(call: Call<PopularEventResponse>, response: Response<PopularEventResponse>) {
+                val resp = response.body()!!
+                when(resp.code){
+                    1000->{
+                        Log.d("homeFra/popular",resp.result.toString())
+                        setPopularEvent(resp.result)
+                    }
+                    else ->{
+
+                    }
+                }
+            }
+            override fun onFailure(call: Call<PopularEventResponse>, t: Throwable) {
+                Log.d("HomeNotice/FAILURE", t.message.toString())
+            }
+        })
     }
 
 }
