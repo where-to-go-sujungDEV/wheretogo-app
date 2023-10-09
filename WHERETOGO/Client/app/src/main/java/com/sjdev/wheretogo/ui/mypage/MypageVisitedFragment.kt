@@ -17,10 +17,7 @@ import com.sjdev.wheretogo.util.ApplicationClass.Companion.retrofit
 class MypageVisitedFragment() :
     BaseFragment<FragmentMypageBannerBinding>(FragmentMypageBannerBinding::inflate) {
     private val mypageService = MypageService
-    private var userId = 0
     override fun initAfterBinding() {
-        //방문여부 표시
-        userId = getIdx()
         mypageService.getVisitedEvent(this)
     }
 
@@ -68,18 +65,10 @@ class MypageVisitedFragment() :
         })
     }
 
-    fun setVisitedEventNone(msg: String) {
+    fun setVisitedEventNone() {
         binding.mypageExplainTv.text = "내가 다녀온 행사들이에요."
-        binding.mypageBannerNoneTv.text = msg
         binding.mypageBannerNoneTv.visibility = View.VISIBLE
         binding.mypageLikeRv.visibility = View.INVISIBLE
-    }
-
-
-    //유저 인덱스 가져옴
-    private fun getIdx(): Int {
-        val spf = activity?.getSharedPreferences("userInfo", AppCompatActivity.MODE_PRIVATE)
-        return spf!!.getInt("userIdx", -1)
     }
 
 }

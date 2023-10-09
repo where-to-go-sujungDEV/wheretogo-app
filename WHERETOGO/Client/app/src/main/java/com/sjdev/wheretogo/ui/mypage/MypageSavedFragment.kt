@@ -10,11 +10,14 @@ import com.sjdev.wheretogo.data.remote.mypage.MypageService
 import com.sjdev.wheretogo.data.remote.mypage.SavedEventResult
 import com.sjdev.wheretogo.databinding.FragmentMypageBannerBinding
 import com.sjdev.wheretogo.ui.detail.DetailActivity
+import com.sjdev.wheretogo.util.getJwt
 
 class MypageSavedFragment() : BaseFragment<FragmentMypageBannerBinding>(FragmentMypageBannerBinding::inflate) {
     private val mypageService = MypageService
     override fun initAfterBinding() {
         mypageService.getSavedEvent(this)
+        if (getJwt()==null)
+            binding.mypageBannerNoneTv.visibility = View.VISIBLE
     }
 
     override fun onStart() {
@@ -37,6 +40,8 @@ class MypageSavedFragment() : BaseFragment<FragmentMypageBannerBinding>(Fragment
             LinearLayoutManager.VERTICAL,false)
 
         binding.mypageExplainTv.text = "내가 찜한 행사들이에요."
+        if (getJwt()==null)
+            binding.mypageBannerNoneTv.visibility = View.VISIBLE
 
         adapter.setMyItemClickListener(object : UserSavedEventRVAdapter.OnItemClickListener {
             override fun onItemClick(savedEventData: SavedEventResult) {
@@ -46,9 +51,8 @@ class MypageSavedFragment() : BaseFragment<FragmentMypageBannerBinding>(Fragment
             }
         })
     }
-    fun setSavedEventNone(msg:String){
+    fun setSavedEventNone(){
         binding.mypageExplainTv.text = "내가 찜한 행사들이에요."
-        binding.mypageBannerNoneTv.text = msg
         binding.mypageBannerNoneTv.visibility= View.VISIBLE
         binding.mypageLikeRv.visibility=View.INVISIBLE
     }

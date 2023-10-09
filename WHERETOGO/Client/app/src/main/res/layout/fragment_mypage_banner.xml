@@ -37,6 +37,7 @@
             android:layout_marginTop="200dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            android:text="로그인을 해주세요."
             app:layout_constraintEnd_toEndOf="parent"/>
 
 
