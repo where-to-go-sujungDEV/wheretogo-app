@@ -56,6 +56,11 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
         //showBarChart()
     }
 
+    override fun onResume() {
+        super.onResume()
+        getBtnStatus()
+    }
+
     private fun initClickListener(){
 
         binding.detailEventLikeBtn.setOnClickListener {

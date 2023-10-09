@@ -14,12 +14,13 @@ import com.sjdev.wheretogo.ui.myReview.MyReviewActivity
 import com.sjdev.wheretogo.util.ApplicationClass
 import com.sjdev.wheretogo.util.ApplicationClass.Companion.retrofit
 
-class MypageVisitedFragment() : BaseFragment<FragmentMypageBannerBinding>(FragmentMypageBannerBinding::inflate){
+class MypageVisitedFragment() :
+    BaseFragment<FragmentMypageBannerBinding>(FragmentMypageBannerBinding::inflate) {
     private val mypageService = MypageService
-    private var userId =0
+    private var userId = 0
     override fun initAfterBinding() {
         //방문여부 표시
-        userId=getIdx()
+        userId = getIdx()
         mypageService.getVisitedEvent(this)
     }
 
@@ -28,30 +29,36 @@ class MypageVisitedFragment() : BaseFragment<FragmentMypageBannerBinding>(Fragme
         mypageService.getVisitedEvent(this)
     }
 
-    override fun onResume(){
+    override fun onResume() {
         super.onResume()
         mypageService.getVisitedEvent(this)
     }
 
-    fun setVisitedEvent(visitedEventList: ArrayList<VisitedEventResult>){
+    fun setVisitedEvent(visitedEventList: ArrayList<VisitedEventResult>) {
         val adapter = UserVisitedEventRVAdapter(visitedEventList)
         binding.mypageLikeRv.visibility = View.VISIBLE
-        binding.mypageBannerNoneTv.visibility=View.INVISIBLE
+        binding.mypageBannerNoneTv.visibility = View.INVISIBLE
         //리사이클러뷰에 어댑터 연결
         binding.mypageLikeRv.adapter = adapter
-        binding.mypageLikeRv.layoutManager = LinearLayoutManager(context,
-            LinearLayoutManager.VERTICAL,false)
+        binding.mypageLikeRv.layoutManager = LinearLayoutManager(
+            context,
+            LinearLayoutManager.VERTICAL, false
+        )
 
         binding.mypageExplainTv.text = "내가 다녀온 행사들이에요."
 
+        /**
+         * 이벤트 배너
+         * 후기 미작성 -> 행사 상세정보로 이동
+         * 후기 작성 -> 후기로 이동
+         */
         adapter.setMyItemClickListener(object : UserVisitedEventRVAdapter.OnItemClickListener {
             override fun onItemClick(visitedEventData: VisitedEventResult) {
-                if (visitedEventData.star == -1){
+                if (visitedEventData.star == -1) {
                     val intent = Intent(context, DetailActivity::class.java)
                     intent.putExtra("eventIdx", visitedEventData.eventID)
                     startActivity(intent)
-                }
-                else{
+                } else {
                     val intent = Intent(context, MyReviewActivity::class.java)
                     intent.putExtra("reviewIdx", visitedEventData.visitedID)
                     startActivity(intent)
@@ -61,10 +68,10 @@ class MypageVisitedFragment() : BaseFragment<FragmentMypageBannerBinding>(Fragme
         })
     }
 
-    fun setVisitedEventNone(msg:String){
+    fun setVisitedEventNone(msg: String) {
         binding.mypageExplainTv.text = "내가 다녀온 행사들이에요."
         binding.mypageBannerNoneTv.text = msg
-        binding.mypageBannerNoneTv.visibility=View.VISIBLE
+        binding.mypageBannerNoneTv.visibility = View.VISIBLE
         binding.mypageLikeRv.visibility = View.INVISIBLE
     }
 
@@ -72,7 +79,7 @@ class MypageVisitedFragment() : BaseFragment<FragmentMypageBannerBinding>(Fragme
     //유저 인덱스 가져옴
     private fun getIdx(): Int {
         val spf = activity?.getSharedPreferences("userInfo", AppCompatActivity.MODE_PRIVATE)
-        return spf!!.getInt("userIdx",-1)
+        return spf!!.getInt("userIdx", -1)
     }
 
 }

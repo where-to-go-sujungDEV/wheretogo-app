@@ -60,6 +60,7 @@
         android:layout_height="8dp"
         android:layout_marginTop="35dp"
         app:tabBackground="@drawable/mypage_tab_selector"
+        android:contentDescription="maypage_tablayout"
         app:tabIndicatorHeight="0dp"
         android:background="@color/transparent"
         app:layout_constraintTop_toBottomOf="@id/mypage_email_tv"
