@@ -1,5 +1,6 @@
 package com.sjdev.wheretogo.ui.home
 
+import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.view.ViewGroup
@@ -12,7 +13,6 @@ import com.sjdev.wheretogo.databinding.FragmentHomeBinding
 import com.sjdev.wheretogo.ui.recommend.RecommendActivity
 
 import com.google.android.material.tabs.TabLayoutMediator
-import com.sjdev.wheretogo.data.remote.detail.DetailRetrofitInterface
 import com.sjdev.wheretogo.util.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -22,11 +22,15 @@ import retrofit2.Response
 class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
 
     private val service = ApplicationClass.retrofit.create(HomeRetrofitInterface::class.java)
-
+    private lateinit var mContext : Context
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        mContext = context
+    }
     override fun initAfterBinding() {
         binding.homeUserNameTv.text = getNickname()
         binding.homeRecommendMoreTv.setOnClickListener {
-            startActivity(Intent(context, RecommendActivity::class.java))
+            startActivity(Intent(mContext, RecommendActivity::class.java))
         }
         getMainEvent()
         getPopularEvent()
