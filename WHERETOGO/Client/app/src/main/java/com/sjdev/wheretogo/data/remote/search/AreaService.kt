@@ -34,7 +34,7 @@ object AreaService {
             override fun onResponse(call: Call<SigunguResponse>, response: Response<SigunguResponse>) {
                 val resp = response.body()!!
                 when(resp.code){
-                    200-> {
+                    1000-> {
                         fragment.getSigunguList(resp.result)
                     }
                 }
