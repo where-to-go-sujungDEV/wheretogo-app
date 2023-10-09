@@ -1,5 +1,6 @@
 package com.sjdev.wheretogo.ui.splash
 
+import android.app.Application
 import android.content.Intent
 import android.os.Handler
 import android.os.Looper
@@ -16,7 +17,10 @@ class SplashActivity: BaseActivity<ActivitySplashBinding>(ActivitySplashBinding:
 //            autoLogin()
         }, 1000)
     }
-
+    override fun onPause() {
+        super.onPause()
+        finish()
+    }
     private fun autoLogin() {
 //        AuthService.autoLogin(this)
     }

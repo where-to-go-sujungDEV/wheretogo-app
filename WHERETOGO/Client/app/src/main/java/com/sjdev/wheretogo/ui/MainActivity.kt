@@ -1,10 +1,12 @@
 package com.sjdev.wheretogo.ui
 
 
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.util.Base64
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -28,15 +30,6 @@ class MainActivity: BaseActivity<ActivityMainBinding>(ActivityMainBinding::infla
         setTheme(R.style.Theme_WHERETOGO)
 
         getHashKey()
-    }
-
-    fun controlBottomNavVisibility(){
-        if (binding.mainBottomNavigation.visibility == View.VISIBLE){
-            binding.mainBottomNavigation.visibility = View.GONE
-        }
-        else {
-            binding.mainBottomNavigation.visibility = View.VISIBLE
-        }
     }
 
     private fun getHashKey() {
