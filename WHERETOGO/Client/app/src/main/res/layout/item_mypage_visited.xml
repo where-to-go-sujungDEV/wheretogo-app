@@ -36,7 +36,7 @@
         app:layout_constraintStart_toStartOf="parent"/>
     <com.willy.ratingbar.BaseRatingBar
         android:id="@+id/my_visited_ratingbar"
-        android:layout_width="100dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
         android:layout_marginTop="10dp"
