@@ -3,6 +3,7 @@ package com.sjdev.wheretogo.ui.detail
 import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
+import android.os.Bundle
 import android.text.Html
 import android.text.method.LinkMovementMethod
 import android.util.Log
@@ -10,6 +11,12 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.github.mikephil.charting.data.BarData
+import com.naver.maps.geometry.LatLng
+import com.naver.maps.map.CameraPosition
+import com.naver.maps.map.MapView
+import com.naver.maps.map.NaverMap
+import com.naver.maps.map.OnMapReadyCallback
+import com.naver.maps.map.overlay.Marker
 import com.sjdev.wheretogo.BuildConfig
 import com.sjdev.wheretogo.R
 import com.sjdev.wheretogo.data.remote.detail.*
@@ -20,22 +27,23 @@ import com.sjdev.wheretogo.data.remote.mypage.SaveEventResponse
 import com.sjdev.wheretogo.databinding.ActivityDetailBinding
 import com.sjdev.wheretogo.ui.BaseActivity
 import com.sjdev.wheretogo.ui.login.LoginActivity
+import com.sjdev.wheretogo.ui.review.ShowReviewActivity
 import com.sjdev.wheretogo.util.ApplicationClass.Companion.kakaoRetrofit
 import com.sjdev.wheretogo.util.ApplicationClass.Companion.retrofit
 import com.sjdev.wheretogo.util.getJwt
-import net.daum.mf.map.api.MapPOIItem
-import net.daum.mf.map.api.MapPoint
-import net.daum.mf.map.api.MapView
+
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 
-class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding::inflate){
+class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding::inflate),
+    OnMapReadyCallback {
 
     private var eventIdx=0
     var isEventSaved: Boolean = false
     var isEventVisited: Boolean = false
+
     private var visitedNum=0
     private var savedNum=0
     private val detailService = retrofit.create(DetailRetrofitInterface::class.java)
@@ -43,6 +51,14 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
     private val kakaoWebService = kakaoRetrofit.create(DetailRetrofitInterface::class.java)
     lateinit var barData : BarData
 
+    private lateinit var mapView: MapView
+    private var lat=0.0
+    private var long=0.0
+    private var level=0
+    private val marker = Marker()
+    companion object{
+        lateinit var naverMap: NaverMap
+    }
 
     override fun initAfterBinding() {
         eventIdx = intent.getIntExtra("eventIdx", -1)
@@ -53,13 +69,10 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
         getBtnStatus()
         initBtn()
         getEventRate()
+        mapView = binding.mapView
         //showBarChart()
     }
 
-    override fun onResume() {
-        super.onResume()
-        getBtnStatus()
-    }
 
     private fun initClickListener(){
 
@@ -84,10 +97,6 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
         binding.detailBackBtn.setOnClickListener {
             finish()
         }
-        //리뷰 모두보기
-//        binding.detailReviewMoreBtn.setOnClickListener {
-//            startNextActivity(ShowReviewActivity::class.java)
-//        }
     }
 
     private fun initBtn(){
@@ -197,14 +206,14 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
             binding.detailOverviewDataArea.visibility = View.GONE
         }
 
-        if (result.mapx!=null&& result.mapy!=null){
-            if (result.mlevel!=null)
-                showMap(result.mapx.toDouble(), result.mapy.toDouble(),result.mlevel)
-            else
-                showMap(result.mapx.toDouble(), result.mapy.toDouble(),4)
-
-        } else {
-            binding.detailMapView.visibility = View.GONE
+        if (result.mapx!=null){
+            long = result.mapx.toDouble()
+            lat = result.mapy!!.toDouble()
+            level = result.mlevel!!
+            mapView.getMapAsync(this)
+        }
+        else {
+            binding.mapView.visibility = View.GONE
         }
 
         getSearchBlog(result.eventName)
@@ -348,25 +357,6 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
         })
     }
 
-    // 카카오 지도 띄우기
-    private fun showMap(lat : Double, long: Double, level:Int) {
-        val mapView = MapView(this)
-        binding.detailMapView.addView(mapView)
-
-        //위치 설정
-        val mapPoint = MapPoint.mapPointWithGeoCoord(long, lat) //위치 설정
-        mapView.setMapCenterPoint(mapPoint, true) //중심점 설정
-        mapView.setZoomLevel(level,true) //확대 레벨 설정 (작을 수록 확대)
-
-        //마커 생성
-        val marker = MapPOIItem()
-        marker.itemName = "위치"
-        marker.mapPoint = MapPoint.mapPointWithGeoCoord(long, lat)
-        marker.markerType = MapPOIItem.MarkerType.BluePin
-
-        mapView.addPOIItem(marker)
-    }
-
     // 블로그 후기 조회
     private fun getSearchBlog(text: String){
         val restAPI = BuildConfig.KAKAO_REST_API
@@ -407,6 +397,56 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
             .setPositiveButton("예") { _, _ -> startNextActivity(LoginActivity::class.java) }
             .setNegativeButton("아니오") { _, _ -> }
             .show()
+    }
+
+    override fun onMapReady(naverMap: NaverMap) {
+        DetailActivity.naverMap = naverMap
+
+        val camPos = CameraPosition(
+            LatLng(lat, long),
+            level.toDouble()
+        )
+        DetailActivity.naverMap.cameraPosition = camPos
+
+        //마커 찍기
+        marker.position = LatLng(lat, long)
+        marker.map = naverMap
+    }
+
+    override fun onStart() {
+        super.onStart()
+        mapView.onStart()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mapView.onResume()
+        getBtnStatus()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        mapView.onPause()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        mapView.onSaveInstanceState(outState)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        mapView.onStop()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mapView.onDestroy()
+    }
+
+    override fun onLowMemory() {
+        super.onLowMemory()
+        mapView.onLowMemory()
     }
 
     // 도표
