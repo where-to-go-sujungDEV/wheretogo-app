@@ -29,6 +29,10 @@ class LoginActivity: BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::in
         binding.loginSignInBtn.setOnClickListener {
             startNextActivity(SignUpActivity::class.java)
         }
+        binding.loginBackIv.setOnClickListener {
+            finish()
+        }
+
     }
     private fun login (loginInfo:LoginInfo){
         service.login(loginInfo).enqueue(object: Callback<LoginResponse> {
