@@ -13,4 +13,8 @@ interface DetailRetrofitInterface {
     @GET("/v2/search/blog")
     fun getSearchBlog(@Header("Authorization") Authorization:String,
                       @Query("query") query:String, @Query("size") size: Int): Call<SearchBlogResponse>
+
+    @GET("visited/event/companion-rate/{eventID}")
+    fun getGraphInfo(@Path("eventID") eventIdx: Int): Call<GraphInfoResponse>
+
 }
