@@ -55,7 +55,7 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
     private val detailService = retrofit.create(DetailRetrofitInterface::class.java)
     private val myPageService = retrofit.create(MypageRetrofitInterface::class.java)
     private val kakaoWebService = kakaoRetrofit.create(DetailRetrofitInterface::class.java)
-    lateinit var barData : BarData
+    private lateinit var barData : BarData
 
     private lateinit var mapView: MapView
     private var lat=0.0
@@ -397,65 +397,6 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
         })
     }
 
-    private fun showLoginAlert() {
-        AlertDialog.Builder(this)
-            .setMessage("해당 기능을 사용하려면 로그인이 필요합니다.\n로그인 페이지로 이동하시겠습니까?")
-            .setPositiveButton("예") { _, _ -> startNextActivity(LoginActivity::class.java) }
-            .setNegativeButton("아니오") { _, _ -> }
-            .show()
-    }
-
-    override fun onMapReady(naverMap: NaverMap) {
-        DetailActivity.naverMap = naverMap
-
-        val camPos = CameraPosition(
-            LatLng(lat, long),
-            level.toDouble()
-        )
-        DetailActivity.naverMap.cameraPosition = camPos
-
-        //마커 찍기
-        marker.position = LatLng(lat, long)
-        marker.map = naverMap
-    }
-
-    override fun onStart() {
-        super.onStart()
-        mapView.onStart()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        mapView.onResume()
-        getBtnStatus()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        mapView.onPause()
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        mapView.onSaveInstanceState(outState)
-    }
-
-    override fun onStop() {
-        super.onStop()
-        mapView.onStop()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        mapView.onDestroy()
-    }
-
-    override fun onLowMemory() {
-        super.onLowMemory()
-        mapView.onLowMemory()
-    }
-
-
     private fun getGraphInfo(){
         detailService.getGraphInfo(eventIdx).enqueue(object: Callback<GraphInfoResponse> {
             override fun onResponse(call: Call<GraphInfoResponse>, response: Response<GraphInfoResponse>) {
@@ -464,9 +405,6 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
                     1000->{
                         showBarChart(resp.result)
                     }
-                    else ->{
-                    }
-
                 }
             }
             override fun onFailure(call: Call<GraphInfoResponse>, t: Throwable) {
@@ -535,5 +473,63 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
                 axisMaximum = 2f
             }
         }
+    }
+
+    override fun onMapReady(naverMap: NaverMap) {
+        DetailActivity.naverMap = naverMap
+
+        val camPos = CameraPosition(
+            LatLng(lat, long),
+            level.toDouble()
+        )
+        DetailActivity.naverMap.cameraPosition = camPos
+
+        //마커 찍기
+        marker.position = LatLng(lat, long)
+        marker.map = naverMap
+    }
+
+    override fun onStart() {
+        super.onStart()
+        mapView.onStart()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mapView.onResume()
+        getBtnStatus()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        mapView.onPause()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        mapView.onSaveInstanceState(outState)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        mapView.onStop()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mapView.onDestroy()
+    }
+
+    override fun onLowMemory() {
+        super.onLowMemory()
+        mapView.onLowMemory()
+    }
+
+    private fun showLoginAlert() {
+        AlertDialog.Builder(this)
+            .setMessage("해당 기능을 사용하려면 로그인이 필요합니다.\n로그인 페이지로 이동하시겠습니까?")
+            .setPositiveButton("예") { _, _ -> startNextActivity(LoginActivity::class.java) }
+            .setNegativeButton("아니오") { _, _ -> }
+            .show()
     }
 }
