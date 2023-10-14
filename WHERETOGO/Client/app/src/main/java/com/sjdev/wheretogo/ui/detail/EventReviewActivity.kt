@@ -1,5 +1,6 @@
 package com.sjdev.wheretogo.ui.detail
 
+import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sjdev.wheretogo.data.remote.review.EventReviewResponse
@@ -29,7 +30,13 @@ class EventReviewActivity : BaseActivity<ActivityEventReviewBinding>(ActivityEve
             Callback<EventReviewResponse> {
             override fun onResponse(call: Call<EventReviewResponse>, response: Response<EventReviewResponse>){
                 val resp = response.body()!!
+                if (resp.result.isEmpty()){
+                    binding.allReviewRv.visibility = View.INVISIBLE
+                    binding.reviewNotExistTv.visibility = View.VISIBLE
+                    return
+                }
                 setEventReviews(resp.result)
+                Log.d("eventReview",resp.result.toString())
             }
 
             override fun onFailure(call: Call<EventReviewResponse>, t: Throwable){
@@ -38,7 +45,7 @@ class EventReviewActivity : BaseActivity<ActivityEventReviewBinding>(ActivityEve
     }
 
     private fun setEventReviews(reviewResults: ArrayList<EventReviewResult>){
-        val adapter = ReviewDetailRVAdapter(reviewResults)
+        val adapter = EventReviewRVAdapter(reviewResults)
 
 //        리사이클러뷰에 어댑터 연결
         binding.apply {

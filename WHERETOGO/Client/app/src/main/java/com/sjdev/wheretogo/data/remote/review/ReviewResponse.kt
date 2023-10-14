@@ -19,7 +19,7 @@ data class EventReviewResponse(
 )
 
 data class EventReviewResult(
-    @SerializedName("pic1") var pic1: String,
+    @SerializedName("pic1") var pic1: String?,
     @SerializedName("review") var review: String,
     @SerializedName("createdAt") var createdAt: String,
     @SerializedName("companionID") var companionID: Int,
