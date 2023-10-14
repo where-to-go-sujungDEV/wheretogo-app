@@ -12,3 +12,16 @@ data class PostReviewResponse(
 data class PostReviewResult(
     @SerializedName(value = "visitedID")val visitedID : Int,
 )
+
+data class EventReviewResponse(
+    @SerializedName(value = "isSuccess")val isSuccess : Boolean,
+    @SerializedName(value = "result") val result: ArrayList<EventReviewResult>
+)
+
+data class EventReviewResult(
+    @SerializedName("pic1") var pic1: String,
+    @SerializedName("review") var review: String,
+    @SerializedName("createdAt") var createdAt: String,
+    @SerializedName("companionID") var companionID: Int,
+    @SerializedName("star") var star: Int
+)

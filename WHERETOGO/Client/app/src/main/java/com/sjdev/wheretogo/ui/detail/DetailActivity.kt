@@ -37,7 +37,6 @@ import com.sjdev.wheretogo.ui.login.LoginActivity
 import com.sjdev.wheretogo.util.ApplicationClass.Companion.kakaoRetrofit
 import com.sjdev.wheretogo.util.ApplicationClass.Companion.retrofit
 import com.sjdev.wheretogo.util.getJwt
-
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -68,7 +67,7 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
 
     override fun initAfterBinding() {
         eventIdx = intent.getIntExtra("eventIdx", -1)
-        Log.d("eventId", eventIdx.toString())
+        Log.d("getEventId", eventIdx.toString())
         initClickListener()
 
         getGraphInfo()
@@ -98,6 +97,12 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
                 if (isEventVisited) visitEvent()
                 else deleteVisitedEvent()
             }
+        }
+
+        binding.detailReviewMoreBtn.setOnClickListener {
+            val intent = Intent(this,EventReviewActivity::class.java)
+            intent.putExtra("eventIdx",eventIdx)
+            startActivity(intent)
         }
 
         binding.detailBackBtn.setOnClickListener {
@@ -379,7 +384,7 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
     }
 
     // 블로그 후기 바인딩
-   private fun setSearchBlog(searchBlogList: ArrayList<SearchBlogResult>){
+   private fun setSearchBlog(searchBlogList: ArrayList<ReviewResult>){
         val adapter = SearchBlogRVAdapter(searchBlogList)
         //리사이클러뷰에 어댑터 연결
         binding.apply {
@@ -390,7 +395,7 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
         }
 
         adapter.setMyItemClickListener(object : SearchBlogRVAdapter.OnItemClickListener {
-            override fun onItemClick(searchBlogData: SearchBlogResult) {
+            override fun onItemClick(searchBlogData: ReviewResult) {
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(searchBlogData.url))
                 startActivity(intent)
             }

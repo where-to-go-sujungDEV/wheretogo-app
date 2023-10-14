@@ -7,10 +7,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.sjdev.wheretogo.BuildConfig
 import com.sjdev.wheretogo.data.remote.detail.DetailRetrofitInterface
 import com.sjdev.wheretogo.data.remote.detail.SearchBlogResponse
-import com.sjdev.wheretogo.data.remote.detail.SearchBlogResult
+import com.sjdev.wheretogo.data.remote.detail.ReviewResult
 import com.sjdev.wheretogo.databinding.ActivityBlogDetailBinding
 import com.sjdev.wheretogo.ui.BaseActivity
-import com.sjdev.wheretogo.util.ApplicationClass
 import com.sjdev.wheretogo.util.ApplicationClass.Companion.kakaoRetrofit
 import retrofit2.Call
 import retrofit2.Callback
@@ -44,7 +43,7 @@ class BlogDetailActivity : BaseActivity<ActivityBlogDetailBinding>(ActivityBlogD
         })
     }
 
-    private fun setSearchBlog(searchBlogList: ArrayList<SearchBlogResult>){
+    private fun setSearchBlog(searchBlogList: ArrayList<ReviewResult>){
         val adapter = SearchBlogRVAdapter(searchBlogList)
 
 //        리사이클러뷰에 어댑터 연결
@@ -56,7 +55,7 @@ class BlogDetailActivity : BaseActivity<ActivityBlogDetailBinding>(ActivityBlogD
         }
 
         adapter.setMyItemClickListener(object : SearchBlogRVAdapter.OnItemClickListener {
-            override fun onItemClick(searchBlogData: SearchBlogResult) {
+            override fun onItemClick(searchBlogData: ReviewResult) {
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(searchBlogData.url))
                 startActivity(intent)
             }

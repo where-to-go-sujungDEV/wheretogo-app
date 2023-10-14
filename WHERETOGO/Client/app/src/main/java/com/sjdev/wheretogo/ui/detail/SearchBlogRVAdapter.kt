@@ -5,14 +5,14 @@ import android.text.Html
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.sjdev.wheretogo.data.remote.detail.SearchBlogResult
+import com.sjdev.wheretogo.data.remote.detail.ReviewResult
 import com.sjdev.wheretogo.databinding.ItemSearchBlogBinding
 
-class SearchBlogRVAdapter(private val searchBlogList: ArrayList<SearchBlogResult>) :RecyclerView.Adapter<SearchBlogRVAdapter.ViewHolder>() {
+class SearchBlogRVAdapter(private val searchBlogList: ArrayList<ReviewResult>) :RecyclerView.Adapter<SearchBlogRVAdapter.ViewHolder>() {
     private lateinit var context: Context
 
     interface OnItemClickListener {
-        fun onItemClick(searchBlogData: SearchBlogResult)
+        fun onItemClick(searchBlogData: ReviewResult)
     }
     private lateinit var mItemClickListener: OnItemClickListener
 
@@ -41,7 +41,7 @@ class SearchBlogRVAdapter(private val searchBlogList: ArrayList<SearchBlogResult
 
     inner class ViewHolder(val binding: ItemSearchBlogBinding): RecyclerView.ViewHolder(binding.root){
 
-        fun bind(searchBlogData: SearchBlogResult){
+        fun bind(searchBlogData: ReviewResult){
             val date = searchBlogData.datetime.substring(0 until 10)
             binding.apply {
                 itemBlogTitle.text = Html.fromHtml(searchBlogData.title)
@@ -53,6 +53,3 @@ class SearchBlogRVAdapter(private val searchBlogList: ArrayList<SearchBlogResult
     }
 
 }
-
-
-

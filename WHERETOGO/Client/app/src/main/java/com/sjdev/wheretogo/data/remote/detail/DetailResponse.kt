@@ -57,10 +57,10 @@ data class DeleteVisitedEventResponse(
 )
 
 data class SearchBlogResponse(
-    @SerializedName(value = "documents") val documents: ArrayList<SearchBlogResult>
+    @SerializedName(value = "documents") val documents: ArrayList<ReviewResult>
 )
 
-data class SearchBlogResult(
+data class ReviewResult(
     @SerializedName("title") var title: String,
     @SerializedName("url") var url: String,
     @SerializedName("datetime") var datetime: String,

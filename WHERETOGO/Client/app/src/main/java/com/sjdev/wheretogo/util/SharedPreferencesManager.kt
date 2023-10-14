@@ -1,7 +1,5 @@
 package com.sjdev.wheretogo.util
 
-import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
 import com.sjdev.wheretogo.util.ApplicationClass.Companion.X_ACCESS_TOKEN
 import com.sjdev.wheretogo.util.ApplicationClass.Companion.mSharedPreferences
 
@@ -60,3 +58,4 @@ fun saveSex(sex:String){
 fun getAge():Int?=mSharedPreferences.getInt("age",1)
 
 fun getSex() : String? = mSharedPreferences.getString("sex",null)
+
