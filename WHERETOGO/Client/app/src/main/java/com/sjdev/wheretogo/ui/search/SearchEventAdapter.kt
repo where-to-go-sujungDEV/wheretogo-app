@@ -114,10 +114,9 @@ class SearchEventAdapter(var events: ArrayList<EventResult>, var con: Context) :
         event: EventResult,
         holder: SearchEventAdapter.ViewHolder){
 
-        /** visited Button OnClickListener **/
-        binding.itemSearchVisitedBtn.setOnClickListener {
-            if (getJwt()==null) showLoginAlert()
-            else {
+        if (getJwt()!=null) {
+            /** visited Button OnClickListener **/
+            binding.itemSearchVisitedBtn.setOnClickListener {
                 isVisitedBtnSelected = !isVisitedBtnSelected
                 if (isVisitedBtnSelected) {
                     visitEvent(binding,event.eventID)
@@ -126,12 +125,9 @@ class SearchEventAdapter(var events: ArrayList<EventResult>, var con: Context) :
                     deleteVisitedEvent(binding,event.eventID)
                 }
             }
-        }
 
-        /** like Button OnClickListener **/
-        binding.itemSearchLikeBtn.setOnClickListener {
-            if (getJwt()==null) showLoginAlert()
-            else {
+            /** like Button OnClickListener **/
+            binding.itemSearchLikeBtn.setOnClickListener {
                 isSavedBtnSelected = !isSavedBtnSelected
                 if (isSavedBtnSelected)
                     saveEvent(binding, event.eventID)
@@ -139,6 +135,7 @@ class SearchEventAdapter(var events: ArrayList<EventResult>, var con: Context) :
                     deleteSavedEvent(binding,event.eventID)
             }
         }
+
     }
 
     private fun getEventStatus(eventId: Int, binding: ItemRecycleEventBinding) {

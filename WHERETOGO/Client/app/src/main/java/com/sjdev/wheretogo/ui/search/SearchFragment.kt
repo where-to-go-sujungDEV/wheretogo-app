@@ -88,7 +88,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
         initEventListener()
         setAdapter()
 
-        binding.root.setOnClickListener { hideKeyboard() }
+        binding.root.setOnClickListener { hideKeyboard()}
     }
 
     private fun hideKeyboard() {
@@ -100,6 +100,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
                 InputMethodManager.HIDE_NOT_ALWAYS
             )
         }
+        binding.searchBar.clearFocus()
     }
 
     private fun setSortSpinner() {
@@ -168,6 +169,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
                         free,
                         align
                     )
+                    binding.searchBar.clearFocus()
                     return false
                 }
 
@@ -310,6 +312,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
 //            rv_filter_kind.adapter = FilterKindRVAdapter(getKindList(), requireContext(), this)
             setAreaSpinnerAdapter()
             setSigunguSpinnerAdapter()
+            sigunguLinearLayout.visibility=View.GONE
 
             filter_startDate.text = "선택안함"
             filter_endDate.text = "선택안함"
@@ -393,6 +396,10 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
     fun getEventsList(result: List<EventResult>) {
         events.clear()
         events.addAll(result)
+
+        if(events.size==0) binding.noEventTv.visibility=View.VISIBLE
+        else binding.noEventTv.visibility=View.GONE
+
         setAdapter()
     }
 
