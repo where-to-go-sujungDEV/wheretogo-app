@@ -9,7 +9,7 @@
         android:id="@+id/guide_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/guide33"
+        android:src="@drawable/guide11"
         android:layout_marginStart="40dp"
         android:layout_marginEnd="40dp"
         android:layout_marginTop="160dp"
