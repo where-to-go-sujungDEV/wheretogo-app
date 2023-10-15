@@ -57,9 +57,7 @@
         <activity
             android:name="com.sjdev.wheretogo.ui.setting.InquiryActivity"
             android:exported="true" />
-        <activity
-            android:name="com.sjdev.wheretogo.ui.keyword.KeywordActivity"
-            android:exported="true" />
+
         <activity
             android:name="com.sjdev.wheretogo.ui.detail.BlogDetailActivity"
             android:exported="true" />
@@ -95,7 +93,6 @@
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
             android:value="sjghwbhs3t" />
-        <meta-data android:name="com.kakao.sdk.AppKey" android:value="${KAKAO_NATIVE_KEY}"/>
     </application>
 
 </manifest>
