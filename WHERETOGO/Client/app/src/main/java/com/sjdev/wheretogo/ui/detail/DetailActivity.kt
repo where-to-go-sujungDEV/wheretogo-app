@@ -209,7 +209,9 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
         if (result.mapx!=null){
             long = result.mapx.toDouble()
             lat = result.mapy!!.toDouble()
-            level = result.mlevel!!
+            if (result.mlevel==null)
+                level = 4
+            else result.mlevel
             mapView.getMapAsync(this)
         }
         else {
