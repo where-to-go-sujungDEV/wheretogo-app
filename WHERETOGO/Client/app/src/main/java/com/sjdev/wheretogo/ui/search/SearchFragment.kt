@@ -58,6 +58,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
     var sigunguNameArr = arrayListOf<String>()
     var sigunguArr = arrayListOf<SigunguResult>()
 
+    lateinit var sigunguLinearLayout: LinearLayout
     lateinit var spinnerArea: Spinner
     lateinit var spinnerSigungu: Spinner
 
@@ -212,6 +213,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
 
         resetBtn = dialog.findViewById(R.id.reset_tv)
 
+        sigunguLinearLayout = dialog.findViewById(R.id.sigungu_ll)
         spinnerArea = dialog.findViewById(R.id.spinner_dou)
         spinnerSigungu = dialog.findViewById(R.id.spinner_si)
 
@@ -279,6 +281,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
                 else {
                     aCode = areaArr[p2 - 1].aCode
                     areaService.getSigungu(this@SearchFragment, areaArr[p2 - 1].aCode)
+                    sigunguLinearLayout.visibility=View.VISIBLE
                 }
 
             }
