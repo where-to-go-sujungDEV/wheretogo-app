@@ -241,10 +241,10 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
         detailService.getEventRate(eventIdx).enqueue(object: Callback<EventRateResponse> {
             override fun onResponse(call: Call<EventRateResponse>, response: Response<EventRateResponse>) {
                 val resp = response.body()!!
-                Log.d("detail/SUCCESS",resp.code.toString())
                 when(resp.code){
                     1000->{
                         val rating = resp.result?.times(0.1.toFloat())
+                        showToast(rating.toString())
                         if (rating==null) {
                             binding.detailReviewScore.text = "평점이 등록되지 않았습니다."
                             binding.detailReviewAverageRb.rating = 0.0F

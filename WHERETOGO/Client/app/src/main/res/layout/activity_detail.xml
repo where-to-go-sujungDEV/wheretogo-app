@@ -439,7 +439,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_gravity="center_horizontal"
-                    android:text="리뷰 더보기" />
+                    android:text="사용자 리뷰 확인하기" />
 
             </LinearLayout>
         </LinearLayout>

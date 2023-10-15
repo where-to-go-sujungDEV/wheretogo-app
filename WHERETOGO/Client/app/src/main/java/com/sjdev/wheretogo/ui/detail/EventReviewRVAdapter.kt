@@ -25,7 +25,7 @@ class EventReviewRVAdapter(private val reviewResults: ArrayList<EventReviewResul
 
     inner class ViewHolder(val binding: ItemReviewBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(reviewData: EventReviewResult){
-            val lst = arrayOf("#혼자서", "#가족과", "#친구와", "#연인과", "#기타")
+            val lst = arrayOf("","#혼자서", "#가족과", "#친구와", "#연인과","","", "#기타")
             if (reviewData.pic1!=null)
                 Glide.with(context).load(reviewData.pic1).into(binding.itemReviewIv)
             else
