@@ -83,11 +83,12 @@
 
             <ImageButton
                 android:id="@+id/myreview_settings_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:layout_gravity="right"
                 android:src="@drawable/ic_threedots"
-                android:background="@color/transparent"/>
+                android:background="@color/transparent"
+                tools:ignore="SpeakableTextPresentCheck"/>
 
 
         </LinearLayout>
