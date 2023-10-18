@@ -423,9 +423,9 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
     private fun showBarChart(result: ArrayList<GraphInfoResult>) {
         // 값 추가
         val values = mutableListOf<BarEntry>()
-        val type = arrayOf("혼자서", "가족과", "친구와", "연인과", "기타" )
+        val type = arrayOf("기타", "연인과", "친구와", "가족과", "혼자서" )
          for (i in 0 ..4) {
-             values.add(BarEntry(i.toFloat(), result[i].com_visit_rate*100))
+             values.add(BarEntry(i.toFloat(), result[4-i].com_visit_rate*100))
          }
 
         val set = BarDataSet(values, "방문 비율")         // 차트 데이터 리스트 삽입
