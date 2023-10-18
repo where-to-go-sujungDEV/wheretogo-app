@@ -57,9 +57,7 @@
         <activity
             android:name="com.sjdev.wheretogo.ui.setting.InquiryActivity"
             android:exported="true" />
-<!--        <activity-->
-<!--            android:name="com.sjdev.wheretogo.ui.keyword.KeywordActivity"-->
-<!--            android:exported="true" />-->
+
         <activity android:name="com.sjdev.wheretogo.ui.detail.EventReviewActivity"
             android:exported="true"/>
         <activity

@@ -392,7 +392,7 @@
                     app:srb_clickable="false"
                     app:srb_minimumStars="1"
                     app:srb_numStars="5"
-                    app:srb_rating="1"
+                    app:srb_rating="3.7"
                     app:srb_scrollable="false"
                     app:srb_starHeight="35dp"
                     app:srb_starWidth="35dp"

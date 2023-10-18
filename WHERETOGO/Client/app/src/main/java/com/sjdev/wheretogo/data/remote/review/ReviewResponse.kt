@@ -23,5 +23,6 @@ data class EventReviewResult(
     @SerializedName("review") var review: String,
     @SerializedName("createdAt") var createdAt: String,
     @SerializedName("companionID") var companionID: Int,
-    @SerializedName("star") var star: Int
+    @SerializedName("star") var star: Int,
+    @SerializedName("nickName") var nickName: String
 )

@@ -35,6 +35,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         getMainEvent()
         getPopularEvent()
         setCompanyEvent()
+
         if (isAdded){
             if (getJwt()==null){
                 binding.homeLl2.visibility = GONE
@@ -89,7 +90,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     }
 
     // 홈 최상단 배너 통신
-    fun setMainEvent(result: ArrayList<MainEventResult>){
+    private fun setMainEvent(result: ArrayList<MainEventResult>){
         val bannerAdapter = HomeBannerVPAdapter(this)
 
         for (item in result){
@@ -103,7 +104,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     }
 
     // 홈 인기 이벤트
-    fun setPopularEvent(result: ArrayList<PopularEventResult>){
+    private fun setPopularEvent(result: ArrayList<PopularEventResult>){
         val event1Adapter = HomeBannerVPAdapter(this)
 
         for (item in result){
@@ -115,7 +116,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     }
 
     // 홈 유저 추천 이벤트
-    fun setRecommendEvent(result: RecommendEventResult){
+    private fun setRecommendEvent(result: RecommendEventResult){
         val event2Adapter = HomeBannerVPAdapter(this)
 
         for (item in result.recommendEvents!!){
@@ -176,5 +177,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             }
         })
     }
+
 
 }

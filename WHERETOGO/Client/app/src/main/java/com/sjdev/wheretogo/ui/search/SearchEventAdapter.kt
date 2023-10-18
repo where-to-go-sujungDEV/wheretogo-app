@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -71,6 +72,14 @@ class SearchEventAdapter(var events: ArrayList<EventResult>, var con: Context) :
     inner class ViewHolder(val binding: ItemRecycleEventBinding) :
         RecyclerView.ViewHolder(binding.root){
         fun bind(event: EventResult, holder: SearchEventAdapter.ViewHolder){
+            if (getJwt()==null){
+                binding.itemSearchLikeBtn.visibility= View.GONE
+                binding.itemSearchVisitedBtn.visibility= View.GONE
+            } else{
+                binding.itemSearchLikeBtn.visibility= View.VISIBLE
+                binding.itemSearchVisitedBtn.visibility= View.VISIBLE
+            }
+
             getEventStatus(event.eventID, binding)
             binding.itemSearchTitleTv.text = event.eventName
             binding.itemSearchDateTv.text = String.format(
@@ -114,10 +123,9 @@ class SearchEventAdapter(var events: ArrayList<EventResult>, var con: Context) :
         event: EventResult,
         holder: SearchEventAdapter.ViewHolder){
 
-        /** visited Button OnClickListener **/
-        binding.itemSearchVisitedBtn.setOnClickListener {
-            if (getJwt()==null) showLoginAlert()
-            else {
+        if (getJwt()!=null) {
+            /** visited Button OnClickListener **/
+            binding.itemSearchVisitedBtn.setOnClickListener {
                 isVisitedBtnSelected = !isVisitedBtnSelected
                 if (isVisitedBtnSelected) {
                     visitEvent(binding,event.eventID)
@@ -126,12 +134,9 @@ class SearchEventAdapter(var events: ArrayList<EventResult>, var con: Context) :
                     deleteVisitedEvent(binding,event.eventID)
                 }
             }
-        }
 
-        /** like Button OnClickListener **/
-        binding.itemSearchLikeBtn.setOnClickListener {
-            if (getJwt()==null) showLoginAlert()
-            else {
+            /** like Button OnClickListener **/
+            binding.itemSearchLikeBtn.setOnClickListener {
                 isSavedBtnSelected = !isSavedBtnSelected
                 if (isSavedBtnSelected)
                     saveEvent(binding, event.eventID)
@@ -139,6 +144,7 @@ class SearchEventAdapter(var events: ArrayList<EventResult>, var con: Context) :
                     deleteSavedEvent(binding,event.eventID)
             }
         }
+
     }
 
     private fun getEventStatus(eventId: Int, binding: ItemRecycleEventBinding) {

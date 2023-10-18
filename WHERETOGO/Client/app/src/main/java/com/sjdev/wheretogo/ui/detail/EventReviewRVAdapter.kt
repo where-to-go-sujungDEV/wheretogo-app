@@ -33,7 +33,7 @@ class EventReviewRVAdapter(private val reviewResults: ArrayList<EventReviewResul
             binding.itemReviewCompanyTv.text = lst[reviewData.companionID]
             binding.itemReviewContentTv.text = reviewData.review
             binding.itemReviewDate.text = reviewData.createdAt.slice(IntRange(0,9))
-
+            binding.itemReviewNickname.text = String.format("닉네임: " + reviewData.nickName)
             binding.itemReviewRatingbar.rating = (reviewData.star * 0.1).toFloat()
         }
     }

@@ -62,7 +62,7 @@
             <Spinner
                 android:id="@+id/sortSpinner"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
 
                 ></Spinner>
 
@@ -83,10 +83,20 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/event_ll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/no_event_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="해당하는 이벤트가 없습니다."
+                android:textColor="@color/gray"
+                android:visibility="gone"
+                android:layout_gravity="center_horizontal"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_event"
@@ -98,7 +108,9 @@
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/item_recycle_event" />
 
+
         </LinearLayout>
+
     </LinearLayout>
 
 </LinearLayout>
