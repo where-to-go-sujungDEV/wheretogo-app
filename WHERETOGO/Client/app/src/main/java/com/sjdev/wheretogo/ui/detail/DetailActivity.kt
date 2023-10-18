@@ -246,7 +246,6 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
                 when(resp.code){
                     1000->{
                         val rating = resp.result?.times(0.1.toFloat())
-                        showToast(rating.toString())
                         if (rating==null) {
                             binding.detailReviewScore.text = "평점이 등록되지 않았습니다."
                             binding.detailReviewAverageRb.rating = 0.0F
@@ -419,18 +418,15 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
         })
     }
 
-     //도표
+
+    //도표
     private fun showBarChart(result: ArrayList<GraphInfoResult>) {
         // 값 추가
         val values = mutableListOf<BarEntry>()
-        val type = java.util.ArrayList<String>()
-
-         for (i in 0 until result.size){
-             type.add(result[i].companion_Name)
+        val type = arrayOf("혼자서", "가족과", "친구와", "연인과", "기타" )
+         for (i in 0 ..4) {
              values.add(BarEntry(i.toFloat(), result[i].com_visit_rate*100))
          }
-
-        Log.d("detailRate",result.toString())
 
         val set = BarDataSet(values, "방문 비율")         // 차트 데이터 리스트 삽입
             .apply {
@@ -454,9 +450,9 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
             setTouchEnabled(false) // 터치 금지
             setDrawBarShadow(true) // 그래프 그림자
             description.isEnabled = false;
-
             legend.isEnabled = false // 범례 비활성화
-            extraRightOffset = 10f // 수치값 잘리지 않도록 오른쪽에 공간 부여
+            extraLeftOffset = 5f
+            extraRightOffset = 40f // 수치값 잘리지 않도록 오른쪽에 공간 부여
 
             xAxis.run { // x 축
                 isEnabled = true // x축 값 표시
@@ -465,6 +461,7 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
                 position = XAxis.XAxisPosition.BOTTOM // 라벨 위치
                 setDrawGridLines(false) // 격자구조
                 setDrawAxisLine(false)
+                setLabelCount(values.size, false);
 
             }
 
@@ -472,12 +469,11 @@ class DetailActivity: BaseActivity<ActivityDetailBinding>(ActivityDetailBinding:
                 isEnabled = false
                 axisMinimum = 0f // this replaces setStartAtZero(true)
                 axisMaximum = 100f
-
             }
             axisRight.run { //오른쪽 y축
                 isEnabled = false // y축 오른쪽 값 표시
                 axisMinimum = 0f
-                axisMaximum = 2f
+                axisMaximum = 100f
             }
         }
     }
